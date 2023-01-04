@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.sharedOne.mapper.report.ReportMapper">
+
+    <select id="selectOrders" resultType="com.example.sharedOne.domain.OrderDto">
+        SELECT * FROM order_header h left join order_item i on h.order_code=i.order_code
+
+
+<!--            <if test="#{order_code}!=null or #{order_code}.equals('')">where</if>-->
+<!--        <if test="order_code!=null or order_code.equals('')">where</if>-->
+        <where>
+            <trim prefixOverrides="OR">
+                <if test="type == 'all' or type == 'order_code'">
+                    OR h.order_code LIKE #{order_code}
+                </if>
+
+                <if test="type == 'all' or type == 'buyer_code'">
+                    OR h.buyer_code LIKE #{buyer_code}
+                </if>
+
+            </trim>
+        </where>
+
+
+
+    </select>
+
+<select id="searchOrderCode" resultType="String">
+    select order_code from order_header where order_code like #{order_code_part}#
+</select>
+
+
+
+
+
+
+<!--    <select id="list" resultType="com.study.domain.board.BoardDto">-->
+<!--        SELECT-->
+<!--        b.id,-->
+<!--        b.title,-->
+<!--        b.writer,-->
+<!--        b.inserted,-->
+<!--        COUNT(DISTINCT r.id) countReply,-->
+<!--        COUNT(DISTINCT f.id) countFile,-->
+<!--        COUNT(DISTINCT l.memberId) countLike-->
+<!--        FROM Board b LEFT JOIN Reply r ON b.id = r.boardId-->
+<!--        LEFT JOIN File f ON b.id = f.boardId-->
+<!--        LEFT JOIN BoardLike l ON b.id = l.boardId-->
+<!--        WHERE-->
+
+<!--        <trim prefixOverrides="OR">-->
+<!--            <if test="type == 'all' or type == 'title'">-->
+<!--                OR b.title LIKE #{keyword}-->
+<!--            </if>-->
+
+<!--            <if test="type == 'all' or type == 'content'">-->
+<!--                OR b.content LIKE #{keyword}-->
+<!--            </if>-->
+
+<!--            <if test="type == 'all' or type == 'writer'">-->
+<!--                OR b.writer LIKE #{keyword}-->
+<!--            </if>-->
+<!--        </trim>-->
+<!--        GROUP BY b.id-->
+<!--        ORDER BY b.id DESC-->
+<!--        LIMIT #{offset}, #{records}-->
+<!--    </select>-->
+</mapper>
