@@ -36,6 +36,7 @@
             <th>컬럼2</th>
             <th>컬럼3</th>
           </tr>
+          
           </thead>
         </table>
       </div>
