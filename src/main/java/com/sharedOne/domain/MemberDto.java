@@ -1,7 +1,9 @@
 package com.sharedOne.domain;
 
-import java.time.LocalDate;
+import lombok.Data;
 
+import java.time.LocalDate;
+@Data
 public class MemberDto {
     private String name;
     private String user_id;
