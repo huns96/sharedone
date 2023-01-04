@@ -1,9 +1,9 @@
-package com.example.sharedOne.config;
+package com.sharedOne.config;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Configuration;
 @Configuration
-@MapperScan("com.example.sharedOne.mapper")
+@MapperScan("com.sharedOne.mapper")
 public class CustomConfig {
 
 }

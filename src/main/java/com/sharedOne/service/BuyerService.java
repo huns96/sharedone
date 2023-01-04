@@ -1,7 +1,7 @@
-package com.example.sharedOne.service;
+package com.sharedOne.service;
 
-import com.example.sharedOne.domain.BuyerDto;
-import com.example.sharedOne.mapper.BuyerMapper;
+import com.sharedOne.domain.BuyerDto;
+import com.sharedOne.mapper.BuyerMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
