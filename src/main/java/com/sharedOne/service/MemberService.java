@@ -15,4 +15,10 @@ public class MemberService {
     public List<MemberDto> memberList() {
         return memberMapper.memberList();
     }
+
+    public void insertMember(String user_id, String password, String name, String phone, String adduser) {
+        System.out.println("서비스 : " + user_id);
+        System.out.println("서비스 : " + name);
+        memberMapper.insertMember(user_id, password, name, phone, adduser);
+    }
 }

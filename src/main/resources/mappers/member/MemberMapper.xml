@@ -5,7 +5,12 @@
 
 <mapper namespace="com.sharedOne.mapper.MemberMapper">
     <select id="memberList" resultType="com.sharedOne.domain.MemberDto">
-        SELECT * FROM member
+        SELECT m.user_id, phone, name, adddate, auth FROM member m JOIN authority au ON m.user_id = au.user_id
     </select>
+    
+    <insert id="insertMember">
+        INSERT INTO member (user_id, password, name, phone, adduser)
+        VALUES (#{user_id}, #{password}, #{name}, #{phone}, #{adduser})
+    </insert>
 
 </mapper>

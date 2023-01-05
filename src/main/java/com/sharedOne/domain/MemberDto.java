@@ -14,5 +14,6 @@ public class MemberDto {
     private LocalDate adddate;
     private String upduser;
     private LocalDate upddate;
+    private String auth;
 
 }

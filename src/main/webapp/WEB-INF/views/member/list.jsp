@@ -39,6 +39,14 @@
       margin-left: 50px;
     }
 
+    .search{
+      text-align: right;
+    }
+    .searchBtn{
+      background-color: white;
+      border-color: white;
+    }
+
 
   </style>
 </head>
@@ -47,6 +55,18 @@
     <div><my:sidebar></my:sidebar></div>
     <div>
       <h1 class="tit">회원 목록</h1>
+      <div class="search">
+        <select name="" id="">
+          <option value="">전체</option>
+          <option value="">이름</option>
+          <option value="">아이디</option>
+          <option value="">연락처</option>
+          <option value="">등록일</option>
+          <option value="">권한</option>
+        </select>
+        <input type="text" name="q">
+        <button class="searchBtn">검색</button>
+      </div>
       <table class="table" style="width: 1200px; margin-left: 50px;">
         <thead>
           <tr>
@@ -59,14 +79,17 @@
           </tr>
         </thead>
         <tbody>
-      <c:forEach items="${memberList}" var="mem">
+      <c:forEach items="${memberList}" var="mem" varStatus="sts">
             <tr>
               <td>${mem.name}</td>
               <td>${mem.user_id}</td>
               <td>${mem.phone}</td>
               <td>${mem.adddate}</td>
-              <td>관리자</td>
-              <td><button class="getAuthoBtn" data-bs-toggle="modal" data-bs-target="#getAuthoModal">권한부여</button> <button class="modifyBtn">수정</button> <button class="deleteBtn">삭제</button></td>
+              <td>${mem.auth}</td>
+              <td>
+                <button onclick="updateAutho(item)" class="getAuthoBtn" data-bs-toggle="modal" data-bs-target="#getAuthoModal">권한부여</button>
+                <button class="modifyBtn" data-bs-toggle="modal" data-bs-target="#modifyModal">수정</button>
+                <button class="deleteBtn" data-bs-toggle="modal" data-bs-target="#deleteModal">삭제</button></td>
             </tr>
       </c:forEach>
         </tbody>
@@ -84,6 +107,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
+          <form action="/shared/member/addMember" method="post" id="memberInsertForm">
           회원명&nbsp;&nbsp;&nbsp; <input type="text" name="name"> <br>
           <br>
           아이디&nbsp;&nbsp;&nbsp; <input type="text" name="user_id">
@@ -92,11 +116,13 @@
           비밀번호 <input type="text" name="password"> <br>
           <br>
           연락처&nbsp;&nbsp;&nbsp; <input type="text" name="phone">
-
+            <br>
+          작성자 <input type="text" name="adduser">
+          </form>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-          <button type="button" class="btn btn-primary">등록</button>
+          <button type="button" class="btn btn-primary memberInsertBtn">등록</button>
         </div>
       </div>
     </div>
@@ -111,8 +137,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          아이디&nbsp;&nbsp;&nbsp; <input type="text" name="user_id">
-          <button>검색</button> <br>
+          아이디 : <br>
           회원명 : <br>
           회원권한 : <br>
           권한 <select name="" id="">
@@ -131,6 +156,58 @@
     </div>
   </div>
 
+  <!-- 수정 Modal -->
+  <div class="modal fade" id="modifyModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">회원 정보 <수정></수정></h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          아이디&nbsp;:&nbsp;<input readonly type="text" name="user_id" value="userID"> <br>
+          <br>
+          회원명 : <input type="text" name="name"> <br>
+          <br>
+          연락처 : <input type="text" name="phone"> <br>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+          <button type="button" class="btn btn-primary">수정</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
+  <!-- 삭제 Modal -->
+  <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">회원 삭제</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          회원 정보를 삭제하시겠습니까?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+          <button type="button" class="btn btn-primary">삭제</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    document.querySelector(".memberInsertBtn").addEventListener("click", function () {
+      const memInsertForm = document.forms.memberInsertForm;
+      memInsertForm.submit();
+    });
+
+    function updateAutho(item) {
+      this.memberList = item;
+      console.log(item);
+    }
+
+  </script>
 </body>
 </html>
