@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.sharedOne.mapper.OrderMapper">
+    <select id="selectBuyers" resultType="com.example.sharedOne.domain.OrderDto">
+        SELECT * FROM order
+    </select>
+
+    <insert id="insertOrder">
+        INSERT INTO order_header (
+            order_code, buyer_code, order_date, status, memo, addUser
+        ) VALUES (
+            #{orderCode}, #{buyerCode}, #{orderDate}, #{status}, #{memo}, #{adduser}
+        )
+    </insert>
+
+    <select id="listOrder" resultType="com.example.sharedOne.domain.OrderDto">
+        SELECT
+            o.order_code, o.buyer_code, b.name as buyer_name, o.order_date, o.status, o.memo,
+            o.adduser, o.adddate, o.upduser, o.upddate
+        FROM order_header o LEFT JOIN buyer b ON o.buyer_code = b.buyer_code
+    </select>
+
+</mapper>
