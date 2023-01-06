@@ -1,6 +1,7 @@
 package com.example.sharedOne.service;
 
 import com.example.sharedOne.domain.OrderDto;
+import com.example.sharedOne.domain.OrderItemDto;
 import com.example.sharedOne.mapper.OrderMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ public class OrderService {
     private OrderMapper orderMapper;
 
 
-    public int register(OrderDto orderDto) {
+    public int registerOrder(OrderDto orderDto) {
         String orderCode = generateOrderCode(orderDto);
         orderDto.setOrder_code(orderCode); // 주문번호 채번
 
@@ -55,9 +56,13 @@ public class OrderService {
         return cnt;
     }
 
-    public List<OrderDto> listOrder() {
+    public List<OrderDto> getOrderList() {
 
         return orderMapper.listOrder();
 
+    }
+
+    public List<OrderItemDto> getItemList(String orderCode) {
+        return orderMapper.listItem(orderCode);
     }
 }

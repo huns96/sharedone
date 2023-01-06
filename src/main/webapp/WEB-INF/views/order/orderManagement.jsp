@@ -20,20 +20,10 @@
             margin: 5px;
             border-radius: 5px;
         }
-        .left {
-            float: left;
-            width: 65%;
-        }
-        .right {
-            float: right;
-            width: 30%;
-        }
         .top {
-            /*float: top;*/
             height: 40%;
         }
         .bottom {
-            /*float: bottom;*/
             height: 40%;
         }
         h4 {
@@ -41,6 +31,8 @@
             margin-left: 20px;
         }
     </style>
+    <%--<script type="text/javascript" src="order.js" ></script>--%>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 </head>
 <body>
     <div class="container-md">
@@ -67,12 +59,13 @@
                 </div>
             </div>
         </div>
+
         <div class="row">
             <div class="col">
-                <div id="order" class="contents top">
-                    <div id="order-list" class="page-background left">
+                <div id="orders" class="contents top">
+                    <div id="order-list" class="page-background">
                         <h4>주문 목록</h4>
-                        <table class="table table-hover">
+                        <table class="table table-hover" id="order-table">
                             <thead>
                             <tr>
                                 <th>#</th>
@@ -80,7 +73,8 @@
                                 <th>거래처명</th>
                                 <th>주문일자</th>
                                 <th>납품요청일자</th>
-                                <th>상태변경일</th>
+                                <th>승인일자</th>
+                                <th>반려일자</th>
                                 <th>상태</th>
                                 <th>등록자</th>
                                 <th>수정자</th>
@@ -94,6 +88,7 @@
                                     <td>${order.order_code}</td>
                                     <td>${order.buyer_name}</td>
                                     <td>${order.order_date}</td>
+                                    <td>${order.request_date}</td>
                                     <td>${order.approval_date}</td>
                                     <td>${order.return_date}</td>
                                     <td>${order.status}</td>
@@ -105,26 +100,88 @@
                             </tbody>
                         </table>
                     </div>
-
-                    <div id="order-info" class="page-background right">
-                        <h4>주문 내역</h4>
-                        <form action=""></form>
-                    </div>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col">
-                <div id="item" class="contents bottom">
-                    <div id="item-list" class="page-background left">
-                        <h4>상품 목록</h4>
-                    </div>
-                    <div id="item-info" class="page-background right">
-                        <h4>상품 내역</h4>
+                <div id="items" class="contents bottom">
+                    <div id="item-list" class="page-background">
+                        <h4>주문 상품 목록</h4>
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>상품번호</th>
+                                <th>상품명</th>
+                                <th>수량</th>
+                                <th>단가</th>
+                                <th>총금액</th>
+                                <th>기존단가</th>
+                                <th>등록자</th>
+                                <th>수정자</th>
+                                <th>주문코드</th>
+                                <th>바이어명</th>
+                                <th>주문수정</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <c:forEach items="${itemList}" var="item">
+                                <tr id="item"+>
+                                    <td>${status.count}</td>
+                                    <td>${item.product_code}</td>
+                                    <td>${item.product_name}</td>
+                                    <td>${item.quantity}</td>
+                                    <td>${item.price}</td>
+                                    <td>${item.total_price}</td>
+                                    <td>${item.old_price}</td>
+                                    <td>${item.adduser}</td>
+                                    <td>${item.upduser}</td>
+                                    <td>${item.order_code}</td>
+                                    <td>${item.buyer_name}</td>
+                                    <td>수정 버튼</td>
+                                </tr>
+                            </c:forEach>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <script type="text/javascript">
+        $(function() {
+           $('#order-table tr').dblclick(function() {
+               let tr = $(this);
+               let td = tr.children();
+               let orderCode = td.eq(1).text();
+               console.log(orderCode);
+
+               $.ajax({
+                   url: "/order/itemList", // 클라이언트가 HTTP 요청을 보낼 서버의 URL 주소
+                   data: { orderCode: orderCode },  // HTTP 요청과 함께 서버로 보낼 데이터
+                   method: "GET",   // HTTP 요청 메소드(GET, POST 등)
+                   dataType: "json" // 서버에서 보내줄 데이터의 타입
+               })
+                   // HTTP 요청이 성공하면 요청한 데이터가 done() 메소드로 전달됨.
+                   .done(function(json) {
+                       console.log(json);
+                       /*$("<h1>").text(json.title).appendTo("body");
+                       $("<div class=\"content\">").html(json.html).appendTo("body");*/
+                   })
+                   // HTTP 요청이 실패하면 오류와 상태에 관한 정보가 fail() 메소드로 전달됨.
+                   .fail(function(xhr, status, errorThrown) {
+                       /*$("#text").html("오류가 발생했다.<br>")
+                           .append("오류명: " + errorThrown + "<br>")
+                           .append("상태: " + status);*/
+                   })
+                   //
+                   .always(function(xhr, status) {
+                      /* $("#text").html("요청이 완료되었습니다!");*/
+                   });
+           });
+        });
+
+    </script>
 </body>
 </html>
