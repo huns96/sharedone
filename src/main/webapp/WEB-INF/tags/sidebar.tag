@@ -1,4 +1,5 @@
 <%@ tag language="java" pageEncoding="UTF-8"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>>
 <style>
     *{
         font-family: ;
@@ -55,6 +56,9 @@
     }
 
 </style>
+<%-- authorize tag --%>
+<%-- spring security expressions --%>
+<sec:authorize access=""></sec:authorize>
 
 <div class="wrap">
     
@@ -74,6 +78,8 @@
             <li><a href="">오더 관리</a></li>
         </ul>
     <div class="menu dropdwon"><a href="">오더 현황</a></div>
+    <a href="">로그인</a>
+    <a href="">로그아웃</a>
 </div>
 
 <script>

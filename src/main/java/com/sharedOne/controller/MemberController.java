@@ -36,6 +36,7 @@ public class MemberController {
     }
 
     @PostMapping("addMember")
+    @Transi
     public String addMember(
             @RequestParam String user_id,
             @RequestParam String password,
@@ -46,6 +47,8 @@ public class MemberController {
         System.out.println("name: " + name);
         System.out.println("adduser: " + adduser);
         memberService.insertMember(user_id, password, name, phone, adduser);
+
+        memberService.insertAutho(user_id);
         return "redirect:/member/list";
     }
 }

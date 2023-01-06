@@ -107,7 +107,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form action="/shared/member/addMember" method="post" id="memberInsertForm">
+          <form action="/member/addMember" method="post" id="memberInsertForm">
           회원명&nbsp;&nbsp;&nbsp; <input type="text" name="name"> <br>
           <br>
           아이디&nbsp;&nbsp;&nbsp; <input type="text" name="user_id">

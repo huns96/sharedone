@@ -12,5 +12,10 @@
         INSERT INTO member (user_id, password, name, phone, adduser)
         VALUES (#{user_id}, #{password}, #{name}, #{phone}, #{adduser})
     </insert>
+    
+    <insert id="insertAutho">
+        INSERT INTO authority (user_id, auth)
+        VALUES (#{user_id}, "팀원")
+    </insert>
 
 </mapper>

@@ -8,4 +8,6 @@ import java.util.List;
 public interface MemberMapper {
     List<MemberDto> memberList();
     int insertMember(String user_id, String password, String name, String phone, String adduser);
+
+    int insertAutho(String user_id);
 }
