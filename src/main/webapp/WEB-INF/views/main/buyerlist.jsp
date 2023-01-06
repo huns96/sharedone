@@ -12,6 +12,5 @@
 </head>
 <body>
     <h1>바이어목록</h1>
-
 </body>
 </html>

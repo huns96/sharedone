@@ -6,7 +6,7 @@ import java.sql.Timestamp;
 
 @Data
 public class BuyerDto {
-    private int buyer_code;
+    private String buyer_code;
     private String name;
     private String address;
     private String country;

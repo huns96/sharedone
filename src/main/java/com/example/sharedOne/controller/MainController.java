@@ -8,6 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("main")
 public class MainController {
@@ -22,8 +24,10 @@ public class MainController {
 
     @GetMapping ("buyerlist")
     public void buyers(Model model){
-        BuyerDto buyerlist = buyerService.getBuyers();
+        List<BuyerDto> buyerlist = buyerService.getBuyers();
         model.addAttribute("buyers", buyerlist);
+
+        System.out.print("========"+buyerlist);
     }
 
 }
