@@ -1,12 +1,13 @@
 package com.example.sharedOne.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.sql.Timestamp;
 
 @Data
 public class BuyerDto {
-    private int buyer_code;
+    private String buyer_code;
     private String name;
     private String address;
     private String country;
@@ -15,8 +16,10 @@ public class BuyerDto {
 
     private String delyn;
     private String adduser;
+
     private Timestamp adddate;
     private String upduser;
+
     private Timestamp upddate;
 
 

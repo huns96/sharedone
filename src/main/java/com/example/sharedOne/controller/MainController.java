@@ -20,10 +20,10 @@ public class MainController {
 
     }
 
-    @GetMapping ("buyerlist")
-    public void buyers(Model model){
-        BuyerDto buyerlist = buyerService.getBuyers();
-        model.addAttribute("buyers", buyerlist);
-    }
+//    @GetMapping ("buyerlist")
+//    public void buyers(Model model){
+//        BuyerDto buyerlist = buyerService.getBuyers();
+//        model.addAttribute("buyers", buyerlist);
+//    }
 
 }

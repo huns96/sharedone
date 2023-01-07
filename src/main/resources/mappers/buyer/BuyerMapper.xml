@@ -8,4 +8,9 @@
         SELECT * FROM buyer
     </select>
 
+    <insert id="insertBuyer">
+        INSERT INTO buyer(buyer_code, name, address, country, license, contact, adduser)
+        VALUES (#{buyer_code},#{name},#{address}, #{country}, #{license}, #{contact}, #{adduser})
+    </insert>
+
 </mapper>
