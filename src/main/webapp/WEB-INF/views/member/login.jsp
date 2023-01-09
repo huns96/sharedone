@@ -14,7 +14,7 @@
 </head>
 <body>
 <div style="display: flex; height: 100%;">
-  <div><my:sidebar></my:sidebar></div>
+  <div><my:Sidebar></my:Sidebar></div>
 
 
 <div class="container-md" style="margin-top: 200px;">

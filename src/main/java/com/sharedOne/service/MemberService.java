@@ -22,9 +22,19 @@ public class MemberService {
     }
 
     public void insertAutho(String user_id) {
-
         memberMapper.insertAutho(user_id);
     }
 
 
+    public void deleteMember(String userId) {
+        memberMapper.deleteMember(userId);
+    }
+
+    public void setAutho(String user_id, String auth) {
+        memberMapper.setAutho(user_id, auth);
+    }
+
+    public void modifyMember(String user_id, String name, String phone) {
+        memberMapper.modifyMember(user_id, name, phone);
+    }
 }

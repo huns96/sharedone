@@ -4,7 +4,7 @@
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
 <html>
 <head>
-    <my:sidebar></my:sidebar>
+    <my:sideba111r></my:sideba111r>
     <title>바이어목록</title>
 </head>
 <body>

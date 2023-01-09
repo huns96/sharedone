@@ -31,7 +31,7 @@ public class MemberController {
     }
 
     @GetMapping("list")
-    public void list(Model model){
+    public void list(Model model, String user_id){
     List<MemberDto> memberList = memberService.memberList();
     model.addAttribute("memberList", memberList);
     }
@@ -41,6 +41,25 @@ public class MemberController {
     public String addMember(MemberDto memberDto, String user_id){
         memberService.insertMember(memberDto);
         memberService.insertAutho(user_id);
+        return "redirect:/member/list";
+    }
+
+    @PostMapping("deleteMember")
+    @Transactional
+    public String deleteMember(String user_id){
+        memberService.deleteMember(user_id);
+        return "redirect:/member/list";
+    }
+
+    @PostMapping("setAutho")
+    public String setAutho(String user_id, String auth){
+        memberService.setAutho(user_id, auth);
+        return "redirect:/member/list";
+    }
+
+    @PostMapping("modifyMember")
+    public String modifyMember(String user_id, String name, String phone){
+        memberService.modifyMember(user_id, name, phone);
         return "redirect:/member/list";
     }
 }

@@ -12,4 +12,10 @@ public interface MemberMapper {
     int insertAutho(String user_id);
 
     MemberDto selectById(String user_id);
+
+    int deleteMember(String userId);
+
+    int setAutho(String user_id, String auth);
+
+    int modifyMember(String user_id, String name, String phone);
 }

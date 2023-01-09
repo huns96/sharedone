@@ -22,7 +22,7 @@
 </head>
 <body>
     <div style="display: flex; height: 100%">
-        <div><my:sidebar></my:sidebar></div>
+        <div><my:sideba111r></my:sideba111r></div>
         <div style="margin-left: 10px; width: 1200px">
             <div class="container-md" style="margin-top: 100px; margin-left: 150px;">
                 <div class="row">
