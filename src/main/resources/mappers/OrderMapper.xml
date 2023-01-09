@@ -23,7 +23,7 @@
         FROM order_header o LEFT JOIN buyer b ON o.buyer_code = b.buyer_code
     </select>
 
-    <select id="listItem" resultType="com.example.sharedOne.domain.OrderItemDto">
+    <select id="listItem" resultMap="itemMap">
         SELECT
             i.order_code, i.product_code, p.name as 'product_name',
             i.quantity, i.price, pri.price as 'old_price', (i.quantity * i.price) as 'total_price',
@@ -34,7 +34,23 @@
             LEFT JOIN buyer b ON b.buyer_code = o.buyer_code
             LEFT JOIN product p ON p.product_code = i.product_code
             LEFT JOIN price pri ON pri.product_code = i.product_code and pri.buyer_code = o.buyer_code
-        WHERE i.order_code = #{orderCode}
+        WHERE i.order_code = 2201041101
     </select>
+
+    <resultMap type="com.example.sharedOne.domain.OrderItemDto" id="itemMap">
+        <result column="order_code" property="order_code" />
+        <result column="product_code" property="product_code" />
+        <result column="product_name" property="product_name" />
+        <result column="quantity" property="quantity" />
+        <result column="price" property="price" />
+        <result column="old_price" property="old_price" />
+        <result column="total_price" property="total_price" />
+        <result column="buyer_code" property="buyer_code" />
+        <result column="buyer_name" property="buyer_name" />
+        <result column="adduser" property="adduser" />
+        <result column="adddate" property="adddate" />
+        <result column="upduser" property="upduser" />
+        <result column="upddate" property="upddate" />
+    </resultMap>
 
 </mapper>

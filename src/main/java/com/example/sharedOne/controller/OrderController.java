@@ -31,6 +31,7 @@ public class OrderController {
 
     /* 주문 등록 */
     @PostMapping("register")
+    @ResponseBody
     public void register(OrderDto orderDto, RedirectAttributes rttr) {
         log.info("register orderDto ==========> {}", orderDto);
         int cnt = orderService.registerOrder(orderDto);
@@ -42,14 +43,7 @@ public class OrderController {
     }
 
     /* 주문 상품 리스트 조회 */
-    /*@GetMapping("itemList")
-    public void itemList(String orderCode, Model model) {
-        log.info("itemList orderCode ========> {}", orderCode);
-        List<OrderItemDto> itemList = orderService.getItemList(orderCode);
-        model.addAttribute("itemList", itemList);
-        log.info("itemList ========> {}", itemList);
-    }*/
-    @GetMapping("itemList")
+    @RequestMapping("itemList")
     @ResponseBody
     public List<OrderItemDto> itemList(@RequestBody String orderCode) {
         List<OrderItemDto> itemList = orderService.getItemList(orderCode);
