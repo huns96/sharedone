@@ -13,14 +13,18 @@ public class MemberService {
 
 
     public List<MemberDto> memberList() {
+
         return memberMapper.memberList();
     }
 
-    public void insertMember(String user_id, String password, String name, String phone, String adduser) {
-        memberMapper.insertMember(user_id, password, name, phone, adduser);
+    public void insertMember(MemberDto memberDto) {
+        memberMapper.insertMember(memberDto);
     }
 
     public void insertAutho(String user_id) {
+
         memberMapper.insertAutho(user_id);
     }
+
+
 }

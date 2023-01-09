@@ -1,5 +1,6 @@
 <%@ tag language="java" pageEncoding="UTF-8"%>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <style>
     *{
         font-family: ;
@@ -58,7 +59,7 @@
 </style>
 <%-- authorize tag --%>
 <%-- spring security expressions --%>
-<sec:authorize access=""></sec:authorize>
+<sec:authorize access="isAuthenticated()" var="login"></sec:authorize>
 
 <div class="wrap">
     
@@ -67,7 +68,7 @@
     </div>
     <div class="menu dropdwon"><a href="">마스터</a></div>
         <ul class="dropdwon-list">
-            <li><a href="">회원</a></li>
+            <li><a href="/member/list">회원</a></li>
             <li><a href="">제품</a></li>
             <li><a href="">바이어</a></li>
             <li><a href="">판매가</a></li>
@@ -78,8 +79,12 @@
             <li><a href="">오더 관리</a></li>
         </ul>
     <div class="menu dropdwon"><a href="">오더 현황</a></div>
-    <a href="">로그인</a>
-    <a href="">로그아웃</a>
+    <c:if test="${not login}">
+    <a href="/member/login">로그인</a>
+    </c:if>
+    <c:if test="${login}">
+    <a href="/member/logout">로그아웃</a>
+    </c:if>
 </div>
 
 <script>

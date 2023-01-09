@@ -18,4 +18,13 @@
         VALUES (#{user_id}, "팀원")
     </insert>
 
+    <select id="selectById" resultType="com.sharedOne.domain.MemberDto">
+        SELECT
+            user_id, password
+        FROM
+            member
+        WHERE
+            user_id = #{user_id}
+    </select>
+
 </mapper>

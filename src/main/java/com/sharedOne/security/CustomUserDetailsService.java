@@ -1,5 +1,7 @@
 package com.sharedOne.security;
 
+import com.sharedOne.domain.MemberDto;
+import com.sharedOne.mapper.MemberMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,10 +16,17 @@ import java.util.List;
 public class CustomUserDetailsService  implements UserDetailsService {
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private MemberMapper mapper;
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        String encodedPw = passwordEncoder.encode(username + "pw");
-        User user = new User(username, encodedPw, List.of());
+        MemberDto member = mapper.selectById(username);
+        if (member == null) {
+            return null;
+        }
+        String encodedPw = passwordEncoder.encode(member.getPassword());
+        User user = new User(member.getUser_id(), encodedPw, List.of());
         return user;
     }
 }
