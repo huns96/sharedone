@@ -113,7 +113,7 @@
 <%--                서치바 기호에 맞게--%>
 
                 주문 코드 :
-                <form action="result">
+                <form action="">
                     <input id="orderCodeInput" type="text" name="order_code">
                     <%--                <button id="searchOrderCodeButton"  onclick="searchOrderCode()">검색</button>--%>
                     <button type="button" class="btn btn-light" data-bs-toggle="modal"

@@ -1,11 +1,11 @@
-package com.example.sharedOne.domain;
+package com.example.sharedOne.domain.report;
 
 import lombok.Data;
 
 import java.sql.Timestamp;
 
 @Data
-public class OrderDto {
+public class OrderHeaderDto {
     //-------order_header--------
     private String order_code;
     private  String buyer_code;
@@ -18,10 +18,10 @@ public class OrderDto {
     private String adddate;
 
     //-------order_item--------
-    private String product_code;
-    private  int quantity;
-    private String currency;
-    private int price;
+//    private String product_code;
+//    private  int quantity;
+//    private String currency;
+//    private int price;
 
 
 }
