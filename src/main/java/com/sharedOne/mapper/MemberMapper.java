@@ -13,9 +13,11 @@ public interface MemberMapper {
 
     MemberDto selectById(String user_id);
 
-    int deleteMember(String userId);
+    int deleteMember(String user_id, String upduser);
 
     int setAutho(String user_id, String auth);
 
-    int modifyMember(String user_id, String name, String phone);
+    int modifyMember(String user_id, String name, String phone, String upduser);
+
+    MemberDto selectUserInfo(String user_id);
 }

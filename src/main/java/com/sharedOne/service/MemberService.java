@@ -13,7 +13,6 @@ public class MemberService {
 
 
     public List<MemberDto> memberList() {
-
         return memberMapper.memberList();
     }
 
@@ -26,15 +25,19 @@ public class MemberService {
     }
 
 
-    public void deleteMember(String userId) {
-        memberMapper.deleteMember(userId);
+    public void deleteMember(String user_id, String upduser) {
+        memberMapper.deleteMember(user_id, upduser);
     }
 
     public void setAutho(String user_id, String auth) {
         memberMapper.setAutho(user_id, auth);
     }
 
-    public void modifyMember(String user_id, String name, String phone) {
-        memberMapper.modifyMember(user_id, name, phone);
+    public void modifyMember(String user_id, String name, String phone, String upduser) {
+        memberMapper.modifyMember(user_id, name, phone, upduser);
+    }
+
+    public MemberDto selectUserInfo(String user_id) {
+        return memberMapper.selectUserInfo(user_id);
     }
 }

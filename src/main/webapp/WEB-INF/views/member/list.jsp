@@ -12,29 +12,39 @@
     .tit{
       margin-left: 50px;
       margin-top: 50px;
+
     }
     .getAuthoBtn{
-      background-color: white;
-      border-color: orange;
-      border-radius: 8px;
+      background-color: #5e5e5e;
+      border-style: none;
+      border-radius: 5px;
+      color: white;
     }
     .modifyBtn{
-      background-color: white;
-      border-color: green;
-      border-radius: 8px;
+      background-color: #f39c12;
+      border-style: none;
+      border-radius: 5px;
+      color: white;
+      width: 50px;
+      height: 25px;
+      text-align: center;
     }
     .deleteBtn{
-      background-color: white;
-      border-color: red;
-      border-radius: 8px;
+      background-color: #ff3e51;
+      border-style: none;
+      border-radius: 5px;
+      color: white;
+      width: 50px;
+      height: 25px;
     }
 
     .addMemberbtn{
       background-color: green;
-      border-color: green;
-      border-radius: 8px;
+      border-style: none;
+      border-radius: 5px;
       color: white;
       margin-left: 50px;
+      height: 30px;
     }
 
     .dupliCheckBtn{
@@ -56,13 +66,13 @@
 </head>
 <body>
   <div class="container-fluid">
-    <div class= "row flex-nowrap">
+    <div class= "row" style="display: flex">
       <my:Sidebar></my:Sidebar>
 
-      <div>
+      <div style="width: 1000px">
         <h1 class="tit">회원 목록</h1>
         <div class="search">
-          <select name="" id="">
+          <select name="q" id="">
             <option value="">전체</option>
             <option value="">이름</option>
             <option value="">아이디</option>
@@ -132,14 +142,16 @@
           <button type="button" class="btn btn-primary memberInsertBtn">등록</button>
         </div>
       </div>
+    </div>
+  </div>
 
 
   <!-- 권한 부여 Modal -->
-  <div class="modal fade" id="getAuthoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade" id="getAuthoModal" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">권한 부여</h1>
+          <h1 class="modal-title fs-5" id="exampleModalLabel2">권한 부여</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">

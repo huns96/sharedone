@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.Member;
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -46,8 +49,9 @@ public class MemberController {
 
     @PostMapping("deleteMember")
     @Transactional
-    public String deleteMember(String user_id){
-        memberService.deleteMember(user_id);
+    public String deleteMember(String user_id, Principal principal){
+        String upduser = principal.getName();
+        memberService.deleteMember(user_id, upduser);
         return "redirect:/member/list";
     }
 
@@ -58,8 +62,18 @@ public class MemberController {
     }
 
     @PostMapping("modifyMember")
-    public String modifyMember(String user_id, String name, String phone){
-        memberService.modifyMember(user_id, name, phone);
+    public String modifyMember(String user_id, String name, String phone, Principal principal){
+        String upduser = principal.getName();
+        memberService.modifyMember(user_id, name, phone, upduser);
         return "redirect:/member/list";
+    }
+
+    @GetMapping("myPage")
+    public void myPage(Model model, Principal principal){
+
+        System.out.println(principal.getName());
+        String user_id = principal.getName();
+        MemberDto member = memberService.selectUserInfo(user_id);
+        model.addAttribute("userInfo", member);
     }
 }

@@ -23,7 +23,7 @@ public class CustomConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.formLogin().loginPage("/member/login").defaultSuccessUrl("/member/list", true);
+        httpSecurity.formLogin().loginPage("/member/login").defaultSuccessUrl("/member/login", true);
         httpSecurity.logout().logoutUrl("/member/logout").logoutSuccessUrl("/member/login");
         httpSecurity.csrf().disable();
         return httpSecurity.build();

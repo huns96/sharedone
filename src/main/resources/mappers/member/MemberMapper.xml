@@ -34,8 +34,10 @@
     <update id="deleteMember">
         UPDATE
             member
-        SET delyn = 'Y'
-        WHERE user_id = #{user_id}
+        SET
+            delyn = 'Y', upddate = now(), upduser = #{upduser}
+        WHERE
+            user_id = #{user_id}
     </update>
 
     <update id="setAutho">
@@ -51,9 +53,18 @@
         UPDATE
             member
         SET
-            name = #{name}, phone = #{phone}
+            name = #{name}, phone = #{phone}, upduser = #{upduser}, upddate = now()
         WHERE
             user_id = #{user_id}
     </update>
+
+    <select id="selectUserInfo" resultType="com.sharedOne.domain.MemberDto">
+        SELECT
+            m.user_id, name, phone, auth
+        FROM
+            member m JOIN authority a ON a.user_id = m.user_id
+        WHERE
+            m.user_id = #{user_id}
+    </select>
 
 </mapper>
