@@ -106,11 +106,11 @@
     <div class="row flex-nowrap">
         <my:sideBar2></my:sideBar2>
         <div class="col py-3">
-            <h3><a href="result">Report</a></h3><br>
-
+            <h3><a href="result">Report</a></h3>
+            <p></p>
 
             <div class="p-3 mt-3 mb-3" style="background-color: white;">
-<%--                서치바 기호에 맞게--%>
+                <%--                서치바 기호에 맞게--%>
 
                 주문 코드 :
                 <form action="work">
@@ -183,9 +183,9 @@
                     합계조건 :
                     <input type="radio" name="sumCondition"  checked value="i.num" /> 선택안함
                     <input type="radio" name="sumCondition" value="month" /> 월별
-                    <input type="radio" name="sumCondition"  value="buyer" /> 바이어별
-                    <input type="radio" name="sumCondition" value="manager" /> 담당자별
-                    <input type="radio" name="sumCondition"  value="status" /> 승인여부별
+                    <input type="radio" name="sumCondition"  value="h.buyer_code" /> 바이어별
+                    <input type="radio" name="sumCondition" value="h.adduser" /> 담당자별
+                    <input type="radio" name="sumCondition"  value="h.status" /> 승인여부별
                     <input type="radio" name="sumCondition" value="category" /> 카테고리별
 
 
@@ -220,375 +220,375 @@
 
 
 
-            <table style="text-align: center" id="ordersTable" class="table table-bordered border border-5">
-                <thead class="table-dark">
-                <tr>
-                    <th></th>
-                    <th id="order_code">&nbsp;주문 코드</th>
-                    <th id="buyer_code">바이어 코드</th>
-                    <th>요청일</th>
-                    <th id="status">승인여부</th>
-                    <th id="approval_date" style="display: none">승인일</th>
-                    <th id="return_date" style="display: none">반려일</th>
-                    <th id="memo" style="display: none">메모</th>
-                    <th id="adduser">작성자</th>
-                    <th id="adddate">작성일</th>
-                    <th id="product_code">제품 코드</th>
-                    <th id="quantity">수량</th>
-                    <th id="currency">통화</th>
-                    <th id="price">가격</th>
+                    <table style="text-align: center" id="ordersTable" class="table table-bordered border border-5">
+                        <thead class="table-dark">
+                        <tr>
+                            <th></th>
+                            <th id="order_code">&nbsp;주문 코드</th>
+                            <th id="buyer_code">바이어 코드</th>
+                            <th>요청일</th>
+                            <th id="status">승인여부</th>
+                            <th id="approval_date" style="display: none">승인일</th>
+                            <th id="return_date" style="display: none">반려일</th>
+                            <th id="memo" style="display: none">메모</th>
+                            <th id="adduser">작성자</th>
+                            <th id="adddate">작성일</th>
+                            <th id="product_code">제품 코드</th>
+                            <th id="quantity">수량</th>
+                            <th id="currency">통화</th>
+                            <th id="price">가격</th>
 
-                </tr>
-                </thead>
-                <tbody>
-                <c:forEach items="${orders}" var="order" varStatus="status">
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <c:forEach items="${orders}" var="order" varStatus="status">
 
-                    <tr>
-                        <td>${status.index+1}</td>
-                        <td>&nbsp;&nbsp;${order.order_code}</td>
-                        <td>${order.buyer_code}</td>
-                        <td>${order.order_date}</td>
-                        <td>${order.status}</td>
-                        <td style="display: none"></td>
-                        <td style="display: none"></td>
-                        <td style="display: none">${order.memo}</td>
-                        <td>${order.adduser}</td>
-                        <td>${order.adddate}</td>
-                        <td>${order.product_code}</td>
-                        <td>${order.quantity}</td>
-                        <td>${order.currency}</td>
-                        <td class="row_value"><fmt:formatNumber value="${order.price}" pattern="#,###"/></td>
+                            <tr>
+                                <td>${status.index+1}</td>
+                                <td>&nbsp;&nbsp;${order.order_code}</td>
+                                <td>${order.buyer_code}</td>
+                                <td>${order.order_date}</td>
+                                <td>${order.status}</td>
+                                <td style="display: none"></td>
+                                <td style="display: none"></td>
+                                <td style="display: none">${order.memo}</td>
+                                <td>${order.adduser}</td>
+                                <td>${order.adddate}</td>
+                                <td>${order.product_code}</td>
+                                <td>${order.quantity}</td>
+                                <td>${order.currency}</td>
+                                <td class="row_value"><fmt:formatNumber value="${order.price}" pattern="#,###"/></td>
 
-                    </tr>
-                </c:forEach>
-                </tbody>
-
-
-                <%--                    calcSum--%>
-               <tfoot class="my_table tfoot">
-                <tr>
-                    <td>합계</td>
-                    <td>&nbsp;&nbsp;${order.order_code}</td>
-                    <td>${order.buyer_code}</td>
-                    <td>${order.order_date}</td>
-                    <td>${order.status}</td>
-                    <td style="display: none"></td>
-                    <td style="display: none"></td>
-                    <td style="display: none">${order.memo}</td>
-                    <td>${order.adduser}</td>
-                    <td>${order.adddate}</td>
-                    <td>${order.product_code}</td>
-                    <td>${sums.sumQuantity}</td>
-                    <td>${order.currency}</td>
-                    <%--                        <td class="row_sum"></td>--%>
-                    <td class="row_value"><fmt:formatNumber value="${sums.sumPrice}" pattern="#,###"/></td>
-                </tr>
-               </tfoot>
-
-            </table>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
 
 
-        </div>
-    </div>
+                        <%--                    calcSum--%>
+                        <tfoot class="my_table tfoot">
+                        <tr>
+                            <td>합계</td>
+                            <td>&nbsp;&nbsp;${order.order_code}</td>
+                            <td>${order.buyer_code}</td>
+                            <td>${order.order_date}</td>
+                            <td>${order.status}</td>
+                            <td style="display: none"></td>
+                            <td style="display: none"></td>
+                            <td style="display: none">${order.memo}</td>
+                            <td>${order.adduser}</td>
+                            <td>${order.adddate}</td>
+                            <td>${order.product_code}</td>
+                            <td>${sums.sumQuantity}</td>
+                            <td>${order.currency}</td>
+                            <%--                        <td class="row_sum"></td>--%>
+                            <td class="row_value"><fmt:formatNumber value="${sums.sumPrice}" pattern="#,###"/></td>
+                        </tr>
+                        </tfoot>
 
-    <!-- .row>.col -->
-    <div class="row">
-        <div class="col">
-            <nav class="mt-3" aria-label="Page navigation example">
-                <ul class="pagination justify-content-center">
+                    </table>
 
-                    <%-- 맨앞 버튼은 1페이지가 아니면 존재함 --%>
-                    <c:if test="${pageInfo.currentPageNumber ne 1 }">
-                        <c:url value="/report/result" var="listLink">
-                            <c:param name="page" value="1"/>
-                            <c:param name="q" value="${param.q }"/>
-                            <c:param name="t" value="${param.t }"/>
-                        </c:url>
-                        <!-- li.page-item>a.page-link{맨앞버튼} -->
-                        <li class="page-item">
-                            <a href="${listLink }" class="page-link">
-                                <i class="fa-solid fa-angles-left"></i>
-                            </a>
-                        </li>
-                    </c:if>
 
-                    <c:if test="${pageInfo.hasPrevButton }">
-                        <c:url value="/report/result" var="listLink">
-                            <c:param name="page" value="${pageInfo.jumpPrevPageNumber }"></c:param>
-                            <c:param name="q" value="${param.q }"/>
-                            <c:param name="t" value="${param.t }"/>
-                        </c:url>
-                        <li class="page-item">
-                            <a href="${listLink }" class="page-link">
-                                <i class="fa-solid fa-angle-left"></i>
-                            </a>
-                        </li>
-                    </c:if>
+                </div>
+            </div>
 
-                    <c:forEach begin="${pageInfo.leftPageNumber }" end="${pageInfo.rightPageNumber }" var="pageNumber">
-                        <c:url value="/report/result" var="listLink">
-                            <c:param name="page" value="${pageNumber }"/>
-                            <c:param name="q" value="${param.q }"/>
-                            <c:param name="t" value="${param.t }"/>
-                        </c:url>
-                        <li class="page-item
+            <!-- .row>.col -->
+            <div class="row">
+                <div class="col">
+                    <nav class="mt-3" aria-label="Page navigation example">
+                        <ul class="pagination justify-content-center">
+
+                            <%-- 맨앞 버튼은 1페이지가 아니면 존재함 --%>
+                            <c:if test="${pageInfo.currentPageNumber ne 1 }">
+                                <c:url value="/report/result" var="listLink">
+                                    <c:param name="page" value="1"/>
+                                    <c:param name="q" value="${param.q }"/>
+                                    <c:param name="t" value="${param.t }"/>
+                                </c:url>
+                                <!-- li.page-item>a.page-link{맨앞버튼} -->
+                                <li class="page-item">
+                                    <a href="${listLink }" class="page-link">
+                                        <i class="fa-solid fa-angles-left"></i>
+                                    </a>
+                                </li>
+                            </c:if>
+
+                            <c:if test="${pageInfo.hasPrevButton }">
+                                <c:url value="/report/result" var="listLink">
+                                    <c:param name="page" value="${pageInfo.jumpPrevPageNumber }"></c:param>
+                                    <c:param name="q" value="${param.q }"/>
+                                    <c:param name="t" value="${param.t }"/>
+                                </c:url>
+                                <li class="page-item">
+                                    <a href="${listLink }" class="page-link">
+                                        <i class="fa-solid fa-angle-left"></i>
+                                    </a>
+                                </li>
+                            </c:if>
+
+                            <c:forEach begin="${pageInfo.leftPageNumber }" end="${pageInfo.rightPageNumber }" var="pageNumber">
+                                <c:url value="/report/result" var="listLink">
+                                    <c:param name="page" value="${pageNumber }"/>
+                                    <c:param name="q" value="${param.q }"/>
+                                    <c:param name="t" value="${param.t }"/>
+                                </c:url>
+                                <li class="page-item
 
 					    	<%-- 현재페이지에 active 클래스 추가 --%>
 					    	${pageInfo.currentPageNumber eq pageNumber ? 'active' : '' }
 
 					    "><a class="page-link" href="${listLink }">${pageNumber }</a></li>
-                    </c:forEach>
+                            </c:forEach>
 
-                    <c:if test="${pageInfo.hasNextButton }">
-                        <c:url value="/report/result" var="listLink">
-                            <c:param name="page" value="${pageInfo.jumpNextPageNumber }"></c:param>
-                            <c:param name="q" value="${param.q }"/>
-                            <c:param name="t" value="${param.t }"/>
-                        </c:url>
-                        <li class="page-item">
-                            <a href="${listLink }" class="page-link">
-                                <i class="fa-solid fa-angle-right"></i>
-                            </a>
-                        </li>
-                    </c:if>
+                            <c:if test="${pageInfo.hasNextButton }">
+                                <c:url value="/report/result" var="listLink">
+                                    <c:param name="page" value="${pageInfo.jumpNextPageNumber }"></c:param>
+                                    <c:param name="q" value="${param.q }"/>
+                                    <c:param name="t" value="${param.t }"/>
+                                </c:url>
+                                <li class="page-item">
+                                    <a href="${listLink }" class="page-link">
+                                        <i class="fa-solid fa-angle-right"></i>
+                                    </a>
+                                </li>
+                            </c:if>
 
 
-                    <c:if test="${pageInfo.currentPageNumber ne pageInfo.lastPageNumber }">
-                        <c:url value="/report/result" var="listLink">
-                            <c:param value="${pageInfo.lastPageNumber }" name="page"/>
-                            <c:param name="q" value="${param.q }"/>
-                            <c:param name="t" value="${param.t }"/>
-                        </c:url>
-                        <!-- li.page-item>a.page-link{맨뒤버튼} -->
-                        <li class="page-item">
-                            <a href="${listLink }" class="page-link">
-                                <i class="fa-solid fa-angles-right"></i>
-                            </a>
-                        </li>
-                    </c:if>
-                </ul>
-            </nav>
+                            <c:if test="${pageInfo.currentPageNumber ne pageInfo.lastPageNumber }">
+                                <c:url value="/report/result" var="listLink">
+                                    <c:param value="${pageInfo.lastPageNumber }" name="page"/>
+                                    <c:param name="q" value="${param.q }"/>
+                                    <c:param name="t" value="${param.t }"/>
+                                </c:url>
+                                <!-- li.page-item>a.page-link{맨뒤버튼} -->
+                                <li class="page-item">
+                                    <a href="${listLink }" class="page-link">
+                                        <i class="fa-solid fa-angles-right"></i>
+                                    </a>
+                                </li>
+                            </c:if>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
-<%--<table id="testTable">--%>
-<%--    <tbody>--%>
-<%--    <tr>--%>
-<%--        <td>1</td>--%>
-<%--    </tr>--%>
-<%--    <tr>--%>
-<%--        <td>1</td>--%>
-<%--    </tr>--%>
-<%--    </tbody>--%>
-<%--</table>--%>
+        <%--<table id="testTable">--%>
+        <%--    <tbody>--%>
+        <%--    <tr>--%>
+        <%--        <td>1</td>--%>
+        <%--    </tr>--%>
+        <%--    <tr>--%>
+        <%--        <td>1</td>--%>
+        <%--    </tr>--%>
+        <%--    </tbody>--%>
+        <%--</table>--%>
 
 
-<%--<c:set var="orderByUrl" value="홍길동" />--%>
+        <%--<c:set var="orderByUrl" value="홍길동" />--%>
 
 
-<%--------------------------------------------------------------------------%>
+        <%--------------------------------------------------------------------------%>
 
 
-<script>
-    // $(document).ready(function() {
-    //     $("input[type='checkbox']").click(function() {
-    //          let v1 =parseInt($(this).each(getCheckboxValue())) ;
-    //         console.log($(this).id.val())
-    //
-    //         $('td:nth-child('+v1+'),th:nth-child('+v1+')').toggle();
-    //     });
-    // });
-    //
-    //
+        <script>
+            // $(document).ready(function() {
+            //     $("input[type='checkbox']").click(function() {
+            //          let v1 =parseInt($(this).each(getCheckboxValue())) ;
+            //         console.log($(this).id.val())
+            //
+            //         $('td:nth-child('+v1+'),th:nth-child('+v1+')').toggle();
+            //     });
+            // });
+            //
+            //
 
 
-    //
-    // $(document).ready(function () {
-    //     $(".row_sum").each(function () {
-    //         var $this = $(this);
-    //         var sum_value = 0;
-    //         $(".row_value",$(this).closest('tr')).each(function (e) {
-    //             sum_value+=parseInt($(e).text());
-    //         })
-    //         $this.text(sum_value);
-    //     })
-    // })
+            //
+            // $(document).ready(function () {
+            //     $(".row_sum").each(function () {
+            //         var $this = $(this);
+            //         var sum_value = 0;
+            //         $(".row_value",$(this).closest('tr')).each(function (e) {
+            //             sum_value+=parseInt($(e).text());
+            //         })
+            //         $this.text(sum_value);
+            //     })
+            // })
 
-    // $(document).ready(
-    //     function calcSum() {
-    //     // table element 찾기
-    //     const table = document.getElementById('testTable');
-    //     console.log(table)
-    //     // 합계 계산
-    //     let sumPrice = 0;
-    //     for(let i = 0; i < table.rows.length; i++)  {
-    //         sumPrice += parseInt(table.rows[i].cells[0].innerHTML);
-    //     }
-    //     document.querySelector('.row_sum').innerHTML=sumPrice.toString();
-    //         console.log(sumPrice)}
-    // )
+            // $(document).ready(
+            //     function calcSum() {
+            //     // table element 찾기
+            //     const table = document.getElementById('testTable');
+            //     console.log(table)
+            //     // 합계 계산
+            //     let sumPrice = 0;
+            //     for(let i = 0; i < table.rows.length; i++)  {
+            //         sumPrice += parseInt(table.rows[i].cells[0].innerHTML);
+            //     }
+            //     document.querySelector('.row_sum').innerHTML=sumPrice.toString();
+            //         console.log(sumPrice)}
+            // )
 
 
-    $(document).ready(function () {
-        $('#1').change(function () {
-            $('td:nth-child(' + this.id + '),th:nth-child(' + this.id + ')').toggle();
-        })
-        $('#2').change(function () {
-            $('td:nth-child(' + this.id + '),th:nth-child(' + this.id + ')').toggle();
-        })
-        $('#3').change(function () {
-            $('td:nth-child(' + this.id + '),th:nth-child(' + this.id + ')').toggle();
-        })
-        $('#4').change(function () {
-            $('td:nth-child(' + this.id + '),th:nth-child(' + this.id + ')').toggle();
-        })
-        $('#5').change(function () {
-            $('td:nth-child(' + this.id + '),th:nth-child(' + this.id + ')').toggle();
-        })
-        $('#6').change(function () {
-            $('td:nth-child(' + this.id + '),th:nth-child(' + this.id + ')').toggle();
-        })
-        $('#7').change(function () {
-            $('td:nth-child(' + this.id + '),th:nth-child(' + this.id + ')').toggle();
-        })
-        $('#8').change(function () {
-            $('td:nth-child(' + this.id + '),th:nth-child(' + this.id + ')').toggle();
-        })
-        $('#9').change(function () {
-            $('td:nth-child(' + this.id + '),th:nth-child(' + this.id + ')').toggle();
-        })
-        $('#10').change(function () {
-            $('td:nth-child(' + this.id + '),th:nth-child(' + this.id + ')').toggle();
-        })
-        $('#11').change(function () {
-            $('td:nth-child(' + this.id + '),th:nth-child(' + this.id + ')').toggle();
-        })
-        $('#12').change(function () {
-            $('td:nth-child(' + this.id + '),th:nth-child(' + this.id + ')').toggle();
-        })
-        $('#13').change(function () {
-            $('td:nth-child(' + this.id + '),th:nth-child(' + this.id + ')').toggle();
-        })
-        $('#14').change(function () {
-            $('td:nth-child(' + this.id + '),th:nth-child(' + this.id + ')').toggle();
-        })
-    })
+            $(document).ready(function () {
+                $('#1').change(function () {
+                    $('td:nth-child(' + this.id + '),th:nth-child(' + this.id + ')').toggle();
+                })
+                $('#2').change(function () {
+                    $('td:nth-child(' + this.id + '),th:nth-child(' + this.id + ')').toggle();
+                })
+                $('#3').change(function () {
+                    $('td:nth-child(' + this.id + '),th:nth-child(' + this.id + ')').toggle();
+                })
+                $('#4').change(function () {
+                    $('td:nth-child(' + this.id + '),th:nth-child(' + this.id + ')').toggle();
+                })
+                $('#5').change(function () {
+                    $('td:nth-child(' + this.id + '),th:nth-child(' + this.id + ')').toggle();
+                })
+                $('#6').change(function () {
+                    $('td:nth-child(' + this.id + '),th:nth-child(' + this.id + ')').toggle();
+                })
+                $('#7').change(function () {
+                    $('td:nth-child(' + this.id + '),th:nth-child(' + this.id + ')').toggle();
+                })
+                $('#8').change(function () {
+                    $('td:nth-child(' + this.id + '),th:nth-child(' + this.id + ')').toggle();
+                })
+                $('#9').change(function () {
+                    $('td:nth-child(' + this.id + '),th:nth-child(' + this.id + ')').toggle();
+                })
+                $('#10').change(function () {
+                    $('td:nth-child(' + this.id + '),th:nth-child(' + this.id + ')').toggle();
+                })
+                $('#11').change(function () {
+                    $('td:nth-child(' + this.id + '),th:nth-child(' + this.id + ')').toggle();
+                })
+                $('#12').change(function () {
+                    $('td:nth-child(' + this.id + '),th:nth-child(' + this.id + ')').toggle();
+                })
+                $('#13').change(function () {
+                    $('td:nth-child(' + this.id + '),th:nth-child(' + this.id + ')').toggle();
+                })
+                $('#14').change(function () {
+                    $('td:nth-child(' + this.id + '),th:nth-child(' + this.id + ')').toggle();
+                })
+            })
 
 
 
-    $(document).ready(function () {
-        $('#ordersTable th').each(function (column) {
-            $(this).click(function () {
-                if ($(this).is('.asc')) {
-                    $(this).removeClass('asc');
-                    $(this).addClass('desc');
-                    sortdir = -1;
+            $(document).ready(function () {
+                $('#ordersTable th').each(function (column) {
+                    $(this).click(function () {
+                        if ($(this).is('.asc')) {
+                            $(this).removeClass('asc');
+                            $(this).addClass('desc');
+                            sortdir = -1;
 
-                } else {
-                    $(this).addClass('asc');
-                    $(this).removeClass('desc');
-                    sortdir = 1;
-                }
+                        } else {
+                            $(this).addClass('asc');
+                            $(this).removeClass('desc');
+                            sortdir = 1;
+                        }
 
-                $(this).siblings().removeClass('asc');
-                $(this).siblings().removeClass('desc');
+                        $(this).siblings().removeClass('asc');
+                        $(this).siblings().removeClass('desc');
 
-                var rec = $('#ordersTable').find('tbody>tr').get();
-                console.log(rec)
-                console.log()
-                rec.sort(function (a, b) {
-                    var val1 = $(a).children('td').eq(column).text().toUpperCase();
-                    var val2 = $(b).children('td').eq(column).text().toUpperCase();
-                    return (val1 < val2) ? -sortdir : (val1 > val2) ? sortdir : 0;
-                });
+                        var rec = $('#ordersTable').find('tbody>tr').get();
+                        console.log(rec)
+                        console.log()
+                        rec.sort(function (a, b) {
+                            var val1 = $(a).children('td').eq(column).text().toUpperCase();
+                            var val2 = $(b).children('td').eq(column).text().toUpperCase();
+                            return (val1 < val2) ? -sortdir : (val1 > val2) ? sortdir : 0;
+                        });
 
-                $.each(rec, function (index, row) {
-                    $('#ordersTable tbody ').append(row);
+                        $.each(rec, function (index, row) {
+                            $('#ordersTable tbody ').append(row);
+                        });
+                    });
                 });
             });
-        });
-    });
 
 
-    function searchOrderCode() {
-        console.log("jsp 서치오더코드")
-        // const boardId = document.querySelector("#boardId").value;
-        const partOfOrderCode = document.querySelector("#inputOrderCode").value;
-        console.log(partOfOrderCode)
+            function searchOrderCode() {
+                console.log("jsp 서치오더코드")
+                // const boardId = document.querySelector("#boardId").value;
+                const partOfOrderCode = document.querySelector("#inputOrderCode").value;
+                console.log(partOfOrderCode)
 
-        // console.log(data) 인풋데이터 받아짐
-        fetch("${pageContext.request.contextPath}/report/search/order_code", {
-            method: "post",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(partOfOrderCode)
-        })
-            .then(res => res.json())
-            .then(
-                function (변수2) {
-                    console.log(변수2);
-                    for (const i of 변수2) {
-                        console.log(i)
-                        const orderCodesData = `<input type="checkbox" name="order_code" value="\${i}">`
-                        console.log(orderCodesData)
-                        document.querySelector("#orderCodes").innerHTML = orderCodesData;
-                    }
+                // console.log(data) 인풋데이터 받아짐
+                fetch("${pageContext.request.contextPath}/report/search/order_code", {
+                    method: "post",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(partOfOrderCode)
                 })
-    }
+                    .then(res => res.json())
+                    .then(
+                        function (변수2) {
+                            console.log(변수2);
+                            for (const i of 변수2) {
+                                console.log(i)
+                                const orderCodesData = `<input type="checkbox" name="order_code" value="\${i}">`
+                                console.log(orderCodesData)
+                                document.querySelector("#orderCodes").innerHTML = orderCodesData;
+                            }
+                        })
+            }
 
 
-    // $("input[type='checkbox']").click(function() {
-    //     var index = $(this).attr('name').substr(2);
-    //     $('table tr').each(function() {
-    //         $('td:eq(' + index + ')',this).toggle();
-    //     });
-    // });
+            // $("input[type='checkbox']").click(function() {
+            //     var index = $(this).attr('name').substr(2);
+            //     $('table tr').each(function() {
+            //         $('td:eq(' + index + ')',this).toggle();
+            //     });
+            // });
 
-    <%--$('th').click(function(){--%>
-    <%--    const orderByClick=$(this).attr("id");--%>
-    <%--     alert(orderByClick);--%>
-    <%--     document.querySelector('#orderByUrlParam').innerHTML=`<c:param name="orderBy"  value="\${orderByClick}" />`;--%>
-    <%--    // const orderBy= new URLSearchParams(orderByClick).toString();--%>
+            <%--$('th').click(function(){--%>
+            <%--    const orderByClick=$(this).attr("id");--%>
+            <%--     alert(orderByClick);--%>
+            <%--     document.querySelector('#orderByUrlParam').innerHTML=`<c:param name="orderBy"  value="\${orderByClick}" />`;--%>
+            <%--    // const orderBy= new URLSearchParams(orderByClick).toString();--%>
 
-    <%--    &lt;%&ndash;$.get(${orderByUrl});&ndash;%&gt;--%>
-    <%--    $('#orderByUrl').submit();--%>
-    <%--});--%>
-
-
-    // document.querySelector('#order_code_check').addEventListener()
-    // function myFunction() {
-    //     var checkedList = document.querySelector(addEventListener(getCheckboxValue()))
-    //     var element = document.getElementById("checkedList");
-    //     element.classList.add("hidden_col");
-    // }
+            <%--    &lt;%&ndash;$.get(${orderByUrl});&ndash;%&gt;--%>
+            <%--    $('#orderByUrl').submit();--%>
+            <%--});--%>
 
 
-    // CheckBox 검사
-
-    // function getNumber(Event){
-    //     let result = '';
-    //     if(Event.target.checked)  {
-    //         result = Event.target.value;
-    //         console.log(result)
-    //         $('td:nth-child('+result+'),th:nth-child('+result+')').toggle();
-    //     }}
+            // document.querySelector('#order_code_check').addEventListener()
+            // function myFunction() {
+            //     var checkedList = document.querySelector(addEventListener(getCheckboxValue()))
+            //     var element = document.getElementById("checkedList");
+            //     element.classList.add("hidden_col");
+            // }
 
 
-    // $("input[type=checkbox]").click(getCheckboxValue(event));
-    //
-    //
-    //  $("input[type='checkbox']").click().$('td:nth-child('+this.val()+'),th:nth-child('+this.val()+')').toggle();
+            // CheckBox 검사
+
+            // function getNumber(Event){
+            //     let result = '';
+            //     if(Event.target.checked)  {
+            //         result = Event.target.value;
+            //         console.log(result)
+            //         $('td:nth-child('+result+'),th:nth-child('+result+')').toggle();
+            //     }}
 
 
-    // $(window).load(function(){
-    //     // 실행할 내용
-    // });
-</script>
+            // $("input[type=checkbox]").click(getCheckboxValue(event));
+            //
+            //
+            //  $("input[type='checkbox']").click().$('td:nth-child('+this.val()+'),th:nth-child('+this.val()+')').toggle();
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
-        crossorigin="anonymous"></script>
+
+            // $(window).load(function(){
+            //     // 실행할 내용
+            // });
+        </script>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+                crossorigin="anonymous"></script>
 </body>
 </html>
 

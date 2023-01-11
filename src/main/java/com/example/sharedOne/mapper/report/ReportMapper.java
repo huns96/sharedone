@@ -1,6 +1,7 @@
 package com.example.sharedOne.mapper.report;
 
 import com.example.sharedOne.domain.report.OrderDto;
+import com.example.sharedOne.domain.report.OrderGroupDto;
 import com.example.sharedOne.domain.report.OrderItemDto;
 import com.example.sharedOne.domain.report.SumDto;
 import org.apache.ibatis.annotations.Mapper;
@@ -25,6 +26,9 @@ public interface ReportMapper {
     SumDto getSums(String order_code, String buyer_code, String status,
                          String adduser, String from_add_date, String to_add_date,
                          String product_code, String sumCondition);
+
+    List<OrderGroupDto> selectOrderGroups(String order_code, String buyer_code, String status, String adduser,
+                                         String from_add_date, String to_add_date, String product_code, String sumCondition);
 }
 
 

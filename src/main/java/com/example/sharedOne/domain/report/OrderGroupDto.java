@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class OrderGroupDto {
-    private String sumCondition;
+    private String groupName;
     private int sumQuantity;
     private int sumPrice;
 

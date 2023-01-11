@@ -69,8 +69,8 @@
 
 
 
-    <select id="selectGroup" resultType="com.example.sharedOne.domain.report.OrderGroupDto">
-        SELECT #{sumCondition} sumCondition,sum(i.quantity) sumQuantity,sum(i.price) sumPrice
+    <select id="selectOrderGroups" resultType="com.example.sharedOne.domain.report.OrderGroupDto">
+        SELECT ${sumCondition} groupName,sum(i.quantity) sumQuantity,sum(i.price) sumPrice
         FROM order_header h left join order_item i on h.order_code=i.order_code
         <where>
             <!--<trim prefix="WHERE" prefixOverrides="and">-->
@@ -95,7 +95,7 @@
                 </if>
             </trim>
         </where>
-        GROUP BY #{sumCondition}
+        GROUP BY ${sumCondition}
         ORDER BY h.adddate DESC
     </select>
 

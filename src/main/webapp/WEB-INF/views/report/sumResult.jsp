@@ -183,9 +183,9 @@
                     합계조건 :
                     <input type="radio" name="sumCondition"  checked value="i.num" /> 선택안함
                     <input type="radio" name="sumCondition" value="month" /> 월별
-                    <input type="radio" name="sumCondition"  value="buyer" /> 바이어별
-                    <input type="radio" name="sumCondition" value="manager" /> 담당자별
-                    <input type="radio" name="sumCondition"  value="status" /> 승인여부별
+                    <input type="radio" name="sumCondition"  value="h.buyer_code" /> 바이어별
+                    <input type="radio" name="sumCondition" value="h.adduser" /> 담당자별
+                    <input type="radio" name="sumCondition"  value="h.status" /> 승인여부별
                     <input type="radio" name="sumCondition" value="category" /> 카테고리별
 
 
@@ -224,40 +224,41 @@
                         <thead class="table-dark">
                         <tr>
                             <th></th>
-                            <th id="order_code">&nbsp;주문 코드</th>
-                            <th id="buyer_code">바이어 코드</th>
-                            <th>요청일</th>
-                            <th id="status">승인여부</th>
-                            <th id="approval_date" style="display: none">승인일</th>
-                            <th id="return_date" style="display: none">반려일</th>
-                            <th id="memo" style="display: none">메모</th>
-                            <th id="adduser">작성자</th>
-                            <th id="adddate">작성일</th>
-                            <th id="product_code">제품 코드</th>
-                            <th id="quantity">수량</th>
-                            <th id="currency">통화</th>
-                            <th id="price">가격</th>
+                            <th id="order_code">&nbsp;${groupName}</th>
+                            <th id="buyer_code">제품 수량</th>
+                            <th>가격</th>
+<%--                            <th id="status">승인여부</th>--%>
+<%--                            <th id="approval_date" style="display: none">승인일</th>--%>
+<%--                            <th id="return_date" style="display: none">반려일</th>--%>
+<%--                            <th id="memo" style="display: none">메모</th>--%>
+<%--                            <th id="adduser">작성자</th>--%>
+<%--                            <th id="adddate">작성일</th>--%>
+<%--                            <th id="product_code">제품 코드</th>--%>
+<%--                            <th id="quantity">수량</th>--%>
+<%--                            <th id="currency">통화</th>--%>
+<%--                            <th id="price">가격</th>--%>
 
                         </tr>
                         </thead>
                         <tbody>
-                        <c:forEach items="${orders}" var="order" varStatus="status">
-
+                        <c:forEach items="${orderGroups}" var="orderGroup" varStatus="status">
                             <tr>
                                 <td>${status.index+1}</td>
-                                <td>&nbsp;&nbsp;${order.order_code}</td>
-                                <td>${order.buyer_code}</td>
-                                <td>${order.order_date}</td>
-                                <td>${order.status}</td>
-                                <td style="display: none"></td>
-                                <td style="display: none"></td>
-                                <td style="display: none">${order.memo}</td>
-                                <td>${order.adduser}</td>
-                                <td>${order.adddate}</td>
-                                <td>${order.product_code}</td>
-                                <td>${order.quantity}</td>
-                                <td>${order.currency}</td>
-                                <td class="row_value"><fmt:formatNumber value="${order.price}" pattern="#,###"/></td>
+                                <td>&nbsp;&nbsp;${orderGroup.groupName}</td>
+                                <td>${orderGroup.sumQuantity}</td>
+                                <td>${orderGroup.sumPrice}</td>
+
+                                    <%------------------------------------%>
+<%--                                <td>${order.status}</td>--%>
+<%--                                <td style="display: none"></td>--%>
+<%--                                <td style="display: none"></td>--%>
+<%--                                <td style="display: none">${order.memo}</td>--%>
+<%--                                <td>${order.adduser}</td>--%>
+<%--                                <td>${order.adddate}</td>--%>
+<%--                                <td>${order.product_code}</td>--%>
+<%--                                <td>${order.quantity}</td>--%>
+<%--                                <td>${order.currency}</td>--%>
+<%--                                <td class="row_value"><fmt:formatNumber value="${order.price}" pattern="#,###"/></td>--%>
 
                             </tr>
                         </c:forEach>
@@ -268,18 +269,18 @@
                         <tfoot class="my_table tfoot">
                         <tr>
                             <td>합계</td>
-                            <td>&nbsp;&nbsp;${order.order_code}</td>
-                            <td>${order.buyer_code}</td>
-                            <td>${order.order_date}</td>
-                            <td>${order.status}</td>
-                            <td style="display: none"></td>
-                            <td style="display: none"></td>
-                            <td style="display: none">${order.memo}</td>
-                            <td>${order.adduser}</td>
-                            <td>${order.adddate}</td>
-                            <td>${order.product_code}</td>
+<%--                            <td>&nbsp;&nbsp;${order.order_code}</td>--%>
+<%--                            <td>${order.buyer_code}</td>--%>
+<%--                            <td>${order.order_date}</td>--%>
+<%--                            <td>${order.status}</td>--%>
+<%--                            <td style="display: none"></td>--%>
+<%--                            <td style="display: none"></td>--%>
+<%--                            <td style="display: none">${order.memo}</td>--%>
+<%--                            <td>${order.adduser}</td>--%>
+<%--                            <td>${order.adddate}</td>--%>
+<%--                            <td>${order.product_code}</td>--%>
                             <td>${sums.sumQuantity}</td>
-                            <td>${order.currency}</td>
+<%--                            <td>${order.currency}</td>--%>
                             <%--                        <td class="row_sum"></td>--%>
                             <td class="row_value"><fmt:formatNumber value="${sums.sumPrice}" pattern="#,###"/></td>
                         </tr>

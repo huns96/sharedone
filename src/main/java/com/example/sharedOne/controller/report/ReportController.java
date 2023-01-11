@@ -1,6 +1,7 @@
 package com.example.sharedOne.controller.report;
 
 import com.example.sharedOne.domain.report.OrderDto;
+import com.example.sharedOne.domain.report.OrderGroupDto;
 import com.example.sharedOne.domain.report.OrderItemDto;
 import com.example.sharedOne.domain.report.SumDto;
 import com.example.sharedOne.service.ReportService;
@@ -39,12 +40,23 @@ public class ReportController {
         if (!sumCondition.equals("i.num") & (sumCondition!=null) & !sumCondition.equals("")){
 //        if (!sumCondition.equals("i.num") ){
             System.out.println(sumCondition+"섬레졀트 작업시작");
+            if(sumCondition.equals("h.buyer_code")){
+                model.addAttribute("groupName","바이어코드");
+            }
+            if(sumCondition.equals("h.adduser")){
+                model.addAttribute("groupName","유저명");
+            }
+            if(sumCondition.equals("h.status")){
+                model.addAttribute("groupName","승인여부");
+            }
 
 
-
-
-
-
+            List<OrderGroupDto> orderGroups = reportService.getOrderGroups(order_code,buyer_code,status,adduser,
+                    from_add_date,to_add_date, product_code,sumCondition);
+            System.out.println("오더그룹스"+orderGroups);
+            // 왜 한 그룹으로 나오지..? > 이유는 모르겠지만 자동으로 고쳐짐;
+            orderGroups.forEach(orderGroupDto -> System.out.println("찾으려고 적음"+orderGroupDto));
+            model.addAttribute("orderGroups",orderGroups);
             return "/report/sumResult";
         }
 
@@ -62,10 +74,10 @@ public class ReportController {
 
         SumDto sums=reportService.getSums(order_code,buyer_code,status,adduser,
                 from_add_date,to_add_date, product_code,sumCondition);
-//         int sumOfQuantity=;
-//         int sumPrice=;
+
         System.out.println("갯수 : "+orders.size());
-        System.out.println(sums+"토탈");
+        System.out.println(sums+"sums");
+        System.out.println(orders);
         model.addAttribute("orders",orders );
         model.addAttribute("sums",sums);
 

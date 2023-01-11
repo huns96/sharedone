@@ -1,6 +1,7 @@
 package com.example.sharedOne.service;
 
 import com.example.sharedOne.domain.report.OrderDto;
+import com.example.sharedOne.domain.report.OrderGroupDto;
 import com.example.sharedOne.domain.report.OrderItemDto;
 import com.example.sharedOne.domain.report.SumDto;
 import com.example.sharedOne.mapper.report.ReportMapper;
@@ -55,6 +56,13 @@ public class ReportService {
     public SumDto getSums(String order_code, String buyer_code, String status, String adduser,
                                 String from_add_date, String to_add_date, String product_code, String sumCondition) {
         return reportMapper.getSums(order_code,buyer_code,status,adduser,
+                from_add_date,to_add_date, product_code,sumCondition);
+    }
+
+    public List<OrderGroupDto> getOrderGroups(String order_code, String buyer_code, String status,
+                                              String adduser, String from_add_date, String to_add_date,
+                                              String product_code, String sumCondition) {
+        return reportMapper.selectOrderGroups(order_code,buyer_code,status,adduser,
                 from_add_date,to_add_date, product_code,sumCondition);
     }
 }
