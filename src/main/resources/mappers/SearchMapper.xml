@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.sharedOne.mapper.SearchMapper">
+    <select id="getBuyerList" resultType="com.example.sharedOne.domain.BuyerDto">
+        SELECT
+            b.buyer_code, b.name, b.address
+        FROM buyer b
+        <!--WHERE b.delyn = 'N"-->
+    </select>
+
+</mapper>

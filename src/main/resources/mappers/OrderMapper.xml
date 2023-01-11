@@ -4,10 +4,6 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.sharedOne.mapper.OrderMapper">
-    <select id="selectBuyers" resultType="com.example.sharedOne.domain.OrderDto">
-        SELECT * FROM order
-    </select>
-
     <insert id="insertOrder">
         INSERT INTO order_header (
             order_code, buyer_code, order_date, status, memo, addUser

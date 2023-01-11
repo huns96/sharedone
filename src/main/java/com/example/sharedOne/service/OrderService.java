@@ -18,7 +18,7 @@ public class OrderService {
     @Autowired
     private OrderMapper orderMapper;
 
-
+    /* 주문 등록 */
     public int registerOrder(OrderDto orderDto) {
         String orderCode = generateOrderCode(orderDto);
         orderDto.setOrder_code(orderCode); // 주문번호 채번
@@ -36,7 +36,8 @@ public class OrderService {
         return cnt;
         
     }
-
+    
+    /* 주문 번호 생성 */
     public String generateOrderCode(OrderDto orderDto) {
         String orderCode = "";
         String date = LocalDate.now().format(DateTimeFormatter.ofPattern("yyMMdd"));
@@ -47,21 +48,26 @@ public class OrderService {
         //log.info("주문번호 ==============> {} = {} + {} + {}", orderCode, date, code, random);
         return orderCode;
     }
-
+    
+    /* 주문 상품 추가 */
     public int addItems() {
         log.info("========== 상품등록 시작 ===========");
         int cnt = 0;//orderMapper.insertOrder(orderDto);
 
+
+
+
+
         log.info("========== {}개 상품등록 성공 ===========", cnt);
         return cnt;
     }
-
+    
+    /* 주문 목록 조회 */
     public List<OrderDto> getOrderList() {
-
         return orderMapper.listOrder();
-
     }
-
+    
+    /* 주문 상품 목록 조회 */
     public List<OrderItemDto> getItemList(String orderCode) {
         return orderMapper.listItem(orderCode);
     }

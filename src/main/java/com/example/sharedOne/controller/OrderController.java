@@ -20,16 +20,22 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
-    /* 주문 관리 화면 */
+    /* 주문 관리 - 메인 */
     @GetMapping("orderManagement")
-    public void main(Model model) {
-        /* 오더 리스트 조회 */
+    public void management(Model model) {
+        /* 주문 리스트 조회 */
         List<OrderDto> list = orderService.getOrderList();
         model.addAttribute("orderList", list);
-        log.info("orderList ========> {}", list);
+        //log.info("orderList ========> {}", list);
     }
 
-    /* 주문 등록 */
+
+    /* 주문 등록 - 팝업 */
+    @GetMapping("orderRegister")
+    public void register(Model model) {
+
+    }
+
     @PostMapping("register")
     @ResponseBody
     public void register(OrderDto orderDto, RedirectAttributes rttr) {
@@ -42,12 +48,13 @@ public class OrderController {
         }
     }
 
+
     /* 주문 상품 리스트 조회 */
     @RequestMapping("itemList")
     @ResponseBody
     public List<OrderItemDto> itemList(@RequestBody String orderCode) {
         List<OrderItemDto> itemList = orderService.getItemList(orderCode);
-        log.info("itemList ========> {}", itemList);
+        //log.info("itemList ========> {}", itemList);
         return itemList;
     }
 
