@@ -6,9 +6,9 @@
 <mapper namespace="com.example.sharedOne.mapper.OrderMapper">
     <insert id="insertOrder">
         INSERT INTO order_header (
-            order_code, buyer_code, order_date, status, memo, addUser
+            order_code, buyer_code, order_date, request_date, status, memo, addUser
         ) VALUES (
-            #{orderCode}, #{buyerCode}, #{orderDate}, #{status}, #{memo}, #{adduser}
+            #{order_code}, #{buyer_code}, #{order_date}, #{request_date}, #{status}, #{memo}, #{adduser}
         )
     </insert>
 

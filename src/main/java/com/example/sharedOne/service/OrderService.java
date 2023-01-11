@@ -22,8 +22,9 @@ public class OrderService {
     public int registerOrder(OrderDto orderDto) {
         String orderCode = generateOrderCode(orderDto);
         orderDto.setOrder_code(orderCode); // 주문번호 채번
-
         log.info("========== {}번 주문 등록 시작 ===========", orderCode);
+        orderDto.setAdduser("user1"); //[TODO] user 임의로 넣음.. >> 로그인 정보 추가 해야함
+
         // order_header 정보 저장
         int cnt = orderMapper.insertOrder(orderDto);
         
