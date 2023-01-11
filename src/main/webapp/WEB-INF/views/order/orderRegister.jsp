@@ -204,8 +204,13 @@
             let popupOption = 'status=no, height=' + popupHeight  + ', width=' + popupWidth  + ', left='+ popupX + ', top='+ popupY;
             window.open(url,"",popupOption);
         }
+        // 바이어 정보 추가
+        window.setBuyerInfo = function (buyerCode, buyerName) {
+            $('#newBuyerCode').val(buyerCode);
+            $('#newBuyerName').val(buyerName);
+        }
 
-        /* 바이어 검색 팝업창 */
+        /* 상품 검색 팝업창 */
         function itemPopup() {
             let url = "/search/buyerPopup";
             let popupWidth = 600;
