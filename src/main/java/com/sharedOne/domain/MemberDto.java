@@ -3,6 +3,8 @@ package com.sharedOne.domain;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.List;
+
 @Data
 public class MemberDto {
     private String name;
@@ -14,6 +16,6 @@ public class MemberDto {
     private LocalDate adddate;
     private String upduser;
     private LocalDate upddate;
-    private String auth;
+    private List<String> auth;
 
 }

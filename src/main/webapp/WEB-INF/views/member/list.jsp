@@ -161,6 +161,7 @@
                 <th>회원명</th>
                 <th>아이디</th>
                 <th>연락처</th>
+                <th>권한</th>
               </tr>
             </thead>
             <tbody>
@@ -168,6 +169,7 @@
                 <td><span id="copyName"></span></td>
                 <td><span id="copyId"></span></td>
                 <td><span id="copyPhone"></span></td>
+                <td><span id="copyAutho"></span></td>
               </tr>
             </tbody>
           </table>

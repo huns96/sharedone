@@ -9,11 +9,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.HttpServletRequest;
-import java.lang.reflect.Member;
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -24,24 +23,24 @@ public class MemberController {
     private MemberService memberService;
 
     @GetMapping("signup")
-    public void signup(){
+    public void signup() {
 
     }
 
     @GetMapping("login")
-    public void login(){
+    public void login() {
 
     }
 
     @GetMapping("list")
-    public void list(Model model, String user_id){
-    List<MemberDto> memberList = memberService.memberList();
-    model.addAttribute("memberList", memberList);
+    public void list(Model model) {
+        List<MemberDto> memberList = memberService.memberList();
+        model.addAttribute("memberList", memberList);
     }
 
     @PostMapping("addMember")
     @Transactional
-    public String addMember(MemberDto memberDto, String user_id){
+    public String addMember(MemberDto memberDto, String user_id) {
         memberService.insertMember(memberDto);
         memberService.insertAutho(user_id);
         return "redirect:/member/list";
@@ -49,31 +48,37 @@ public class MemberController {
 
     @PostMapping("deleteMember")
     @Transactional
-    public String deleteMember(String user_id, Principal principal){
+    public String deleteMember(String user_id, Principal principal) {
         String upduser = principal.getName();
         memberService.deleteMember(user_id, upduser);
         return "redirect:/member/list";
     }
 
     @PostMapping("setAutho")
-    public String setAutho(String user_id, String auth){
+    public String setAutho(String user_id, String auth) {
         memberService.setAutho(user_id, auth);
         return "redirect:/member/list";
     }
 
     @PostMapping("modifyMember")
-    public String modifyMember(String user_id, String name, String phone, Principal principal){
+    public String modifyMember(String user_id, String name, String phone, Principal principal) {
         String upduser = principal.getName();
         memberService.modifyMember(user_id, name, phone, upduser);
         return "redirect:/member/list";
     }
 
     @GetMapping("myPage")
-    public void myPage(Model model, Principal principal){
+    public void myPage(Model model, Principal principal) {
 
         System.out.println(principal.getName());
         String user_id = principal.getName();
         MemberDto member = memberService.selectUserInfo(user_id);
         model.addAttribute("userInfo", member);
+    }
+
+    @PostMapping("deleteAutho")
+    public String deleteAutho(MemberDto memberDto) {
+        memberService.deleteAutho(memberDto);
+        return "redirect:/member/list";
     }
 }

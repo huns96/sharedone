@@ -4,13 +4,24 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.sharedOne.mapper.MemberMapper">
-    <select id="memberList" resultType="com.sharedOne.domain.MemberDto">
+
+    <select id="memberList" resultMap="memberList">
         SELECT
             m.user_id, phone, name, adddate, auth
         FROM
             member m JOIN authority au ON m.user_id = au.user_id
         WHERE delyn = 'N'
     </select>
+
+    <resultMap id="memberList" type="com.sharedOne.domain.MemberDto">
+        <id column="user_id" property="user_id"></id>
+        <result column="phone" property="phone"></result>
+        <result column="name" property="name"></result>
+        <result column="adddate" property="adddate"></result>
+        <collection property="auth" ofType="string">
+            <result column="auth" property="auth"></result>
+        </collection>
+    </resultMap>
     
     <insert id="insertMember">
         INSERT INTO member (user_id, password, name, phone, adduser)
@@ -22,14 +33,22 @@
         VALUES (#{user_id}, "팀원")
     </insert>
 
-    <select id="selectById" resultType="com.sharedOne.domain.MemberDto">
+    <select id="selectById" resultMap="memberMap">
         SELECT
-            user_id, password
+            m.user_id, password, auth
         FROM
-            member
+            member m JOIN authority a ON m.user_id = a.user_id
         WHERE
-            user_id = #{user_id}
+            m.user_id = #{user_id}
     </select>
+
+    <resultMap id="memberMap" type="com.sharedOne.domain.MemberDto">
+        <id column="user_id" property="user_id"></id>
+        <result column="password" property="password"></result>
+        <collection property="auth" ofType="string">
+            <result column="auth" property="auth"></result>
+        </collection>
+    </resultMap>
 
     <update id="deleteMember">
         UPDATE
@@ -40,14 +59,12 @@
             user_id = #{user_id}
     </update>
 
-    <update id="setAutho">
-        UPDATE
-            authority
-        SET
-            auth = #{auth}
-        WHERE
-            user_id = #{user_id}
-    </update>
+    <insert id="setAutho">
+        INSERT INTO
+            authority (user_id, auth)
+        VALUES
+            (#{user_id}, #{auth})
+    </insert>
 
     <update id="modifyMember">
         UPDATE
@@ -66,5 +83,7 @@
         WHERE
             m.user_id = #{user_id}
     </select>
+
+
 
 </mapper>

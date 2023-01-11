@@ -21,6 +21,7 @@ public class MemberService {
     }
 
     public void insertAutho(String user_id) {
+
         memberMapper.insertAutho(user_id);
     }
 
@@ -30,7 +31,11 @@ public class MemberService {
     }
 
     public void setAutho(String user_id, String auth) {
-        memberMapper.setAutho(user_id, auth);
+        List<String> authList = memberMapper.selectUserInfo(user_id).getAuth();
+        MemberDto memberDto= memberMapper.selectUserInfo(user_id);
+
+        System.out.println("냥냥펀치"+ memberDto );
+        /*memberMapper.setAutho(user_id, auth);*/
     }
 
     public void modifyMember(String user_id, String name, String phone, String upduser) {
@@ -38,6 +43,10 @@ public class MemberService {
     }
 
     public MemberDto selectUserInfo(String user_id) {
+
         return memberMapper.selectUserInfo(user_id);
+    }
+
+    public void deleteAutho(MemberDto memberDto) {
     }
 }
