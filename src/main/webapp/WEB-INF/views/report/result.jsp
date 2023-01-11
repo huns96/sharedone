@@ -106,14 +106,14 @@
     <div class="row flex-nowrap">
         <my:sideBar2></my:sideBar2>
         <div class="col py-3">
-            <h3><a href="main">Report</a></h3><br>
+            <h3><a href="result">Report</a></h3><br>
 
 
             <div class="p-3 mt-3 mb-3" style="background-color: white;">
 <%--                서치바 기호에 맞게--%>
 
                 주문 코드 :
-                <form action="">
+                <form action="work">
                     <input id="orderCodeInput" type="text" name="order_code">
                     <%--                <button id="searchOrderCodeButton"  onclick="searchOrderCode()">검색</button>--%>
                     <button type="button" class="btn btn-light" data-bs-toggle="modal"

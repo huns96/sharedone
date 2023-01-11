@@ -19,11 +19,14 @@ public class ReportController {
     @Autowired
     private ReportService reportService;
 
-    @GetMapping("main")
-    public  void reportMain(){}
+    @GetMapping("result")
+    public  void reportMain(){
 
-    @GetMapping ("result")
-    public void reportMain(Model model,
+//        return "forward:/report/result";
+    }
+
+    @GetMapping ("work")
+    public String reportMain(Model model,
                            @RequestParam(required = false) String order_code,
                            @RequestParam(required = false) String buyer_code,
                            @RequestParam(required = false) String status,
@@ -33,7 +36,23 @@ public class ReportController {
                            @RequestParam(required= false) String product_code,
                            @RequestParam(required= false, defaultValue = "i.num") String sumCondition
     ){
-        System.out.println("리포트메인"+"order_code:"+sumCondition);
+        if (!sumCondition.equals("i.num") & (sumCondition!=null) & !sumCondition.equals("")){
+//        if (!sumCondition.equals("i.num") ){
+            System.out.println(sumCondition+"섬레졀트 작업시작");
+
+
+
+
+
+
+            return "/report/sumResult";
+        }
+
+
+
+        //---------------------------------------------------------------------
+
+        System.out.println("레졀트 작업시작"+"order_code:"+sumCondition);
         if(order_code==null&buyer_code==null&adduser==null&from_add_date==null&to_add_date==null){
             status=" ";
         }
@@ -50,8 +69,55 @@ public class ReportController {
         model.addAttribute("orders",orders );
         model.addAttribute("sums",sums);
 
-//        return "redirect:/report/result";
+        return "/report/result";
     }
+
+
+
+
+
+//    @GetMapping ("sumResult")
+//    public String sumResult(Model model,
+//                             @RequestParam(required = false) String order_code,
+//                             @RequestParam(required = false) String buyer_code,
+//                             @RequestParam(required = false) String status,
+//                             @RequestParam(required = false) String adduser,
+//                             @RequestParam(required = false) String from_add_date,
+//                             @RequestParam(required = false) String  to_add_date,
+//                             @RequestParam(required= false) String product_code,
+//                             @RequestParam(required= false) String sumCondition
+//    ){
+//        System.out.println("섬레졀트");
+////        if (!(!sumCondition.equals("i.num") & (sumCondition!=null) & !sumCondition.equals(""))){
+//        if (sumCondition.equals("i.num") ){
+//
+//            System.out.println(sumCondition+"섬레졀트");
+//            return "/report/result";
+//        }
+//
+//        System.out.println("리포트메인"+"order_code:"+sumCondition);
+//        if(order_code==null&buyer_code==null&adduser==null&from_add_date==null&to_add_date==null){
+//            status=" ";
+//        }
+//
+//        List<OrderDto> orders = reportService.getOrders(order_code,buyer_code,status,adduser,
+//                from_add_date,to_add_date, product_code);
+//
+//        SumDto sums=reportService.getSums(order_code,buyer_code,status,adduser,
+//                from_add_date,to_add_date, product_code,sumCondition);
+////         int sumOfQuantity=;
+////         int sumPrice=;
+//        System.out.println("갯수 : "+orders.size());
+//        System.out.println(sums+"토탈");
+//        model.addAttribute("orders",orders );
+//        model.addAttribute("sums",sums);
+//
+//        return null;
+//    }
+
+
+
+
 
     @GetMapping("graph")
     public void apiTest(){
@@ -139,3 +205,7 @@ public class ReportController {
     }
 
 }
+
+
+
+//월별
