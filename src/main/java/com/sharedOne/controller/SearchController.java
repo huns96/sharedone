@@ -1,9 +1,8 @@
-package com.example.sharedOne.controller;
+package com.sharedOne.controller;
 
-import com.example.sharedOne.domain.BuyerDto;
-import com.example.sharedOne.domain.OrderDto;
-import com.example.sharedOne.domain.OrderItemDto;
-import com.example.sharedOne.service.SearchService;
+import com.sharedOne.domain.BuyerDto;
+import com.sharedOne.domain.OrderItemDto;
+import com.sharedOne.service.SearchService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

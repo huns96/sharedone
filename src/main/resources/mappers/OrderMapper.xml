@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.example.sharedOne.mapper.OrderMapper">
+<mapper namespace="com.sharedOne.mapper.OrderMapper">
     <insert id="insertOrder">
         INSERT INTO order_header (
             order_code, buyer_code, order_date, request_date, status, memo, addUser
@@ -20,7 +20,7 @@
         )
     </insert>
 
-    <select id="listOrder" resultType="com.example.sharedOne.domain.OrderDto">
+    <select id="listOrder" resultType="com.sharedOne.domain.OrderDto">
         SELECT
             o.order_code, o.buyer_code, b.name as buyer_name, o.order_date, o.status, o.memo,
             o.adduser, o.adddate, o.upduser, o.upddate
@@ -41,7 +41,7 @@
         WHERE i.order_code = #{order_code}
     </select>
 
-    <resultMap type="com.example.sharedOne.domain.OrderItemDto" id="itemMap">
+    <resultMap type="com.sharedOne.domain.OrderItemDto" id="itemMap">
         <result column="order_code" property="order_code" />
         <result column="product_code" property="product_code" />
         <result column="product_name" property="product_name" />

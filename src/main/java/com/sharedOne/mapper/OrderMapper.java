@@ -1,7 +1,7 @@
-package com.example.sharedOne.mapper;
+package com.sharedOne.mapper;
 
-import com.example.sharedOne.domain.OrderDto;
-import com.example.sharedOne.domain.OrderItemDto;
+import com.sharedOne.domain.OrderDto;
+import com.sharedOne.domain.OrderItemDto;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

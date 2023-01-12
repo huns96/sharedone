@@ -1,4 +1,4 @@
-package com.example.sharedOne.domain;
+package com.sharedOne.domain;
 
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;

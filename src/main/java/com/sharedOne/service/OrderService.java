@@ -1,8 +1,8 @@
-package com.example.sharedOne.service;
+package com.sharedOne.service;
 
-import com.example.sharedOne.domain.OrderDto;
-import com.example.sharedOne.domain.OrderItemDto;
-import com.example.sharedOne.mapper.OrderMapper;
+import com.sharedOne.domain.OrderDto;
+import com.sharedOne.domain.OrderItemDto;
+import com.sharedOne.mapper.OrderMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
