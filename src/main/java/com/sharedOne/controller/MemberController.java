@@ -23,7 +23,7 @@ import java.util.List;
 public class MemberController {
 
     @Autowired
-    private MemberService memberService;
+    private MemberService memberService; 
 
     @GetMapping("signup")
     public void signup() {
