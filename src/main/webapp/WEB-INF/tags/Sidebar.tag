@@ -41,13 +41,13 @@
                     <span class="ms d-none d-sm-inline" style="color: red; font-size: 20px;">마스터</span> </a>
             </li>
             <li class="w-100">
-                <a href="#" class="nav-link"> <span class="d-none d-sm-inline" style="align-items: center; color: aliceblue;">제품</span></a>
+                <a href="/product/list" class="nav-link"> <span class="d-none d-sm-inline" style="align-items: center; color: aliceblue;">제품</span></a>
             </li>
             <li class="w-100">
-                <a href="#" class="nav-link"> <span class="d-none d-sm-inline" style="align-items: center; color: aliceblue;">바이어</span></a>
+                <a href="/buyer/list" class="nav-link"> <span class="d-none d-sm-inline" style="align-items: center; color: aliceblue;">바이어</span></a>
             </li>
             <li class="w-100">
-                <a href="#" class="nav-link"> <span class="d-none d-sm-inline" style="align-items: center; color: aliceblue;">판매단가</span></a>
+                <a href="/price/priceList" class="nav-link"> <span class="d-none d-sm-inline" style="align-items: center; color: aliceblue;">판매단가</span></a>
             </li>
             <li class="w-100">
                 <a href="/member/list" class="nav-link"> <span class="d-none d-sm-inline" style="align-items: center; color: aliceblue;">멤버</span></a>
@@ -61,7 +61,7 @@
                 <a href="/order/orderManagement" class="nav-link"> <span class="d-none d-sm-inline name" style="align-items: center; color: aliceblue;">주문관리</span></a>
             </li>
             <li class="w-100">
-                <a href="#" class="nav-link"> <span class="d-none d-sm-inline name" style="align-items: center; color: aliceblue;">주문승인</span></a>
+                <a href="/order/approval" class="nav-link"> <span class="d-none d-sm-inline name" style="align-items: center; color: aliceblue;">주문승인</span></a>
             </li>
 
             <li>
