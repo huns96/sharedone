@@ -94,6 +94,7 @@
 </div>
 
 <script>
+  const ctx = "${pageContext.request.contextPath}";
 
   var lang_kor = {
     "decimal" : "",
@@ -164,12 +165,23 @@
   $('#userList tbody').on('click','tr',function(){
     $(this).toggleClass('selected');
   })
-
+  var checkedList = [];
   $('#buttonDelete').click(function(){
     for(var i=0;i<table.rows('.selected').data().toArray().length;i++){
+      checkedList.push(table.rows('.selected').data()[i].code);
       console.log(table.rows('.selected').data()[i].code);
     }
+    alert(checkedList);
+    executeDelete(checkedList);
+    checkedList='';
   })
+
+  function executeDelete(checkedList){
+    $.post(ctx+'/product/delete',"checkedList="+checkedList.join(','), function () {
+              location.reload();
+            }
+    )
+  }
 
   $('#buttonRelease').click(function(){
     $('#userList tbody').removeClass('selected');

@@ -1,7 +1,7 @@
-package com.example.sharedOne.service;
+package com.sharedOne.service;
 
-import com.example.sharedOne.domain.CategoryDto;
-import com.example.sharedOne.mapper.CategoryMapper;
+import com.sharedOne.domain.CategoryDto;
+import com.sharedOne.mapper.CategoryMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,5 +15,9 @@ public class CategoryService {
 
     public List<CategoryDto> getListById(int main_id) {
         return categoryMapper.selectById(main_id);
+    }
+
+    public List<CategoryDto> getListByIdSub(int middle_id) {
+        return categoryMapper.selectByIdSub(middle_id);
     }
 }
