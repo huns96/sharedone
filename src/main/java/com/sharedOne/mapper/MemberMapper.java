@@ -22,4 +22,6 @@ public interface MemberMapper {
     MemberDto selectUserInfo(String user_id);
 
     String authCheck(String user_id, String auth);
+
+    int deleteAutho(String user_id, String auth);
 }

@@ -74,8 +74,8 @@
     </style>
 </head>
 <body>
-<div class="container-fluid">
-    <div class="row" style="display: flex">
+<div class="container-fluid" style="padding: 0">
+    <div style="display: flex">
         <my:Sidebar></my:Sidebar>
 
         <div style="width: 1000px">
@@ -144,7 +144,7 @@
                     회원명:&nbsp;&nbsp;&nbsp; <input type="text" name="name"> <br>
                     <br>
                     아이디:&nbsp;&nbsp;&nbsp; <input type="text" name="user_id">
-                    <button class="dupliCheckBtn">아이디중복확인</button>
+                    <button type="button" class="dupliCheckBtn">아이디중복확인</button>
                     <br>
                     <br>
                     비밀번호: <input type="text" name="password"> <br>
@@ -191,20 +191,19 @@
                     </tbody>
                 </table>
                 부여할 권한
-                <form action="/member/setAutho" method="post" id="setAuthoForm">
+                <form method="post" id="setAuthoForm">
                     <select name="auth">
                         <option value="팀원">팀원</option>
                         <option value="팀장">팀장</option>
                         <option value="관리자">관리자</option>
                         <input id="userIdInput" type="hidden" name="user_id" value="">
                     </select>
-                </form>
-                <br>
-
-            </div>
-            <div class="modal-footer">
+                    <br>
+                    <br>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-                <button id="authoChangeBtn" type="button" class="btn btn-primary">권한부여</button>
+                <input id="authoChangeBtn" type="submit" class="btn btn-primary" value="권한추가" formaction="/member/setAutho"></input>
+                <input id="authoDeleteBtn" type="submit" class="btn btn-danger" value="권한삭제" formaction="/member/deleteAutho"></input>
+                </form>
             </div>
         </div>
     </div>
@@ -277,8 +276,6 @@
 
     $('#authoChangeBtn').click(function () {
         $('#userIdInput').val($('#copyId').text());
-        //alert( $('#userIdInput').val());
-        $('#setAuthoForm').submit();
     })
 
     const result = '${result}';
@@ -290,7 +287,18 @@
         alert("알 수 없는 에러")
     };
 
+    $('#authoDeleteBtn').click(function () {
+        $('#userIdInput').val($('#copyId').text());
+    })
 
+    const deleteResult = '${deleteResult}';
+    if (deleteResult == "success") {
+        alert("권한이 삭제되었습니다.")
+    } else if(deleteResult == "not exist") {
+        alert("존재하지 않는 권한입니다")
+    } else if(deleteResult == "error") {
+        alert("알 수 없는 에러")
+    };
 
     function modi(id, name, phone) {
         $('#modiId').val(id);

@@ -18,8 +18,8 @@
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 <body>
-<div class="container-fluid">
-    <div class="row" style="display: flex;">
+<div class="container-fluid" style="padding: 0">
+    <div style="display: flex;">
         <my:Sidebar></my:Sidebar>
         <sec:authorize access="isAuthenticated()" var="login"></sec:authorize>
         <c:if test="${not login}">
