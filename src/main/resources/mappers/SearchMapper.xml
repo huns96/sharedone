@@ -11,4 +11,27 @@
         <!--WHERE b.delyn = 'N"-->
     </select>
 
+   <!-- <select id="getItemList" resultType="com.example.sharedOne.domain.OrderItemDto">
+        SELECT
+            b.buyer_code, b.name, b.address
+        FROM order_item o
+        &lt;!&ndash;WHERE b.delyn = 'N"&ndash;&gt;
+    </select>-->
+   <select id="getItemList" resultMap="itemMap">
+        SELECT
+            p.product_code, p.name as 'product_name', p.category_id, pri.currency, pri.price as 'old_price', pri.buyer_code
+        FROM product p
+        LEFT JOIN price pri ON pri.product_code = p.product_code
+        WHERE pri.buyer_code = #{buyer_code};
+    </select>
+
+    <resultMap type="com.example.sharedOne.domain.OrderItemDto" id="itemMap">
+        <result column="product_code" property="product_code" />
+        <result column="product_name" property="product_name" />
+        <result column="category_id" property="category_id" />
+        <result column="currency" property="currency" />
+        <result column="old_price" property="old_price" />
+        <result column="buyer_code" property="buyer_code" />
+    </resultMap>
+
 </mapper>

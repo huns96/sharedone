@@ -69,7 +69,8 @@ public class OrderService {
     }
     
     /* 주문 상품 목록 조회 */
-    public List<OrderItemDto> getItemList(String orderCode) {
-        return orderMapper.listItem(orderCode);
+    public List<OrderItemDto> getItemList(String order_code) {
+        log.info("itemList orderCode ========> {}", order_code);
+        return orderMapper.listItem(order_code);
     }
 }

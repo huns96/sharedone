@@ -8,7 +8,7 @@
     <title>오더 관리</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="resources/css/plugin/datepicker/bootstrap-datepicker.css">
+<%--    <link rel="stylesheet" href="resources/css/plugin/datepicker/bootstrap-datepicker.css">--%>
     <style>
         body { background-color: #e0e0e0; }
         .page-background {
@@ -265,12 +265,16 @@
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.ko.min.js" integrity="sha512-L4qpL1ZotXZLLe8Oo0ZyHrj/SweV7CieswUODAAPN/tnqN3PA1P+4qPu5vIryNor6HQ5o22NujIcAZIfyVXwbQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<%--<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.ko.min.js" integrity="sha512-L4qpL1ZotXZLLe8Oo0ZyHrj/SweV7CieswUODAAPN/tnqN3PA1P+4qPu5vIryNor6HQ5o22NujIcAZIfyVXwbQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>--%>
 <script type="text/javascript">
     $(function () {
         /* 주문 상품 조회 */
         $('#order-table tr').dblclick(function() {
-            itemListByOrderCode();
+            let tr = $(this);
+            let td = tr.children();
+            let orderCode = td.eq(1).text();
+            console.log("==============> " + orderCode);
+            itemListByOrderCode(orderCode);
         });
 
         /* 주문 등록 팝업창 */
@@ -290,13 +294,10 @@
     });
 
     /* 주문번호별 상품 조회 */
-    function itemListByOrderCode() {
+    function itemListByOrderCode(orderCode) {
         let tbody = $('#itemList-table tbody');
         tbody.empty(); //초기화
         tbody.append("");
-        let tr = $(this);
-        let td = tr.children();
-        let orderCode = td.eq(1).text();
 
         setTimeout(function () {
             $.ajax({

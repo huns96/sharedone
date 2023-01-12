@@ -2,13 +2,13 @@ package com.example.sharedOne.controller;
 
 import com.example.sharedOne.domain.BuyerDto;
 import com.example.sharedOne.domain.OrderDto;
+import com.example.sharedOne.domain.OrderItemDto;
 import com.example.sharedOne.service.SearchService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,8 +29,11 @@ public class SearchController {
     }
 
     /* 상품 검색 */
-    @GetMapping("itemPopup")
-    public void getItemInfo(Model model) {
+    @GetMapping("productPopup")
+    public void getProductInfo(@RequestParam String buyer_code, Model model) {
+        List<OrderItemDto> list = searchService.getItemList(buyer_code);
+        model.addAttribute("itemList", list);
+        log.info("itemList ========> {}", list);
 
     }
 

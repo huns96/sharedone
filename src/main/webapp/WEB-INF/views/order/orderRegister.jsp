@@ -73,7 +73,7 @@
                 <label for="newProductCode" class="form-label">상품코드</label>
                 <div class="input-group">
                     <input id="newProductCode" type="text" class="form-control" name="product_code" readonly/>
-                    <button id="productPopup" class="btn btn-outline-secondary" type="button">검색</button>
+                    <button id="productPopupButton" class="btn btn-outline-secondary" type="button">검색</button>
                 </div>
             </div>
             <div class="col-md-6 mb-3">
@@ -115,7 +115,7 @@
     </form>
     <footer style="float: right; justify-content: flex-end;">
         <button type="button" id="newOrderSubmitButton" class="btn btn-danger" data-bs-dismiss="modal">주문등록</button>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+        <button type="button" class="btn btn-secondary" onclick="window.close();">취소</button>
     </footer>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
@@ -138,7 +138,7 @@
             //$('#newRequestDate')
 
             /* 상품 검색 팝업창 */
-            $('#itemPopupButton').click(function() {
+            $('#productPopupButton').click(function() {
                 itemPopup();
             });
 
@@ -180,13 +180,20 @@
 
         /* 상품 검색 팝업창 */
         function itemPopup() {
-            let url = "/search/buyerPopup";
+            let url = "/search/productPopup?buyer_code=" + $('#newBuyerCode').val();
             let popupWidth = 600;
             let popupHeight = 500;
             let popupX = (window.screen.width / 2) - (popupWidth / 2);
             let popupY= (window.screen.height / 2) - (popupHeight / 2);
             let popupOption = 'status=no, height=' + popupHeight  + ', width=' + popupWidth  + ', left='+ popupX + ', top='+ popupY;
             window.open(url,"",popupOption);
+        }
+        // 상품 정보 추가
+        window.setItemInfo = function (itemCode, itemName, category, price) {
+            $('#newProductCode').val(itemCode);
+            $('#newProductName').val(itemName);
+           // $('#newCategory').val(category);
+            $('#newPrice').val(price);
         }
 
         /* 주문 상품 추가 */

@@ -12,5 +12,5 @@ public interface OrderMapper {
 
     List<OrderDto> listOrder();
 
-    List<OrderItemDto> listItem(String orderCode);
+    List<OrderItemDto> listItem(String order_code);
 }

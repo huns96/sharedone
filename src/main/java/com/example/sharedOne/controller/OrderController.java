@@ -26,7 +26,7 @@ public class OrderController {
         /* 주문 리스트 조회 */
         List<OrderDto> list = orderService.getOrderList();
         model.addAttribute("orderList", list);
-        //log.info("orderList ========> {}", list);
+        log.info("orderList ========> {}", list);
     }
 
 
@@ -52,9 +52,9 @@ public class OrderController {
     /* 주문 상품 리스트 조회 */
     @RequestMapping("itemList")
     @ResponseBody
-    public List<OrderItemDto> itemList(@RequestBody String orderCode) {
-        List<OrderItemDto> itemList = orderService.getItemList(orderCode);
-        //log.info("itemList ========> {}", itemList);
+    public List<OrderItemDto> itemList(@RequestBody String order_code) {
+        List<OrderItemDto> itemList = orderService.getItemList(order_code);
+        log.info("itemList ========> {}", itemList);
         return itemList;
     }
 
