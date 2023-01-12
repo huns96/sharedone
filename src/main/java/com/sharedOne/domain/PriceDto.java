@@ -1,13 +1,15 @@
-package com.example.sharedOne.domain;
+package com.sharedOne.domain;
 
 import lombok.Data;
+import org.springframework.dao.DataAccessException;
 
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 
 @Data
-public class PriceDto {
+public class PriceDto  {
+
     private int num;
     private String buyer_code;
     private String buyer_name;
@@ -24,7 +26,6 @@ public class PriceDto {
     private Date adddate;
     private String upduser;
     private Date upddate;
-
 
 
 

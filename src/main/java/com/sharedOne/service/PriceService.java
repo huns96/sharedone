@@ -1,9 +1,10 @@
-package com.example.sharedOne.service;
+package com.sharedOne.service;
 
-import com.example.sharedOne.domain.BuyerDto;
-import com.example.sharedOne.domain.PageInfo;
-import com.example.sharedOne.domain.PriceDto;
-import com.example.sharedOne.mapper.PriceMapper;
+import com.sharedOne.domain.BuyerDto;
+import com.sharedOne.domain.PageInfo;
+import com.sharedOne.domain.PriceDto;
+import com.sharedOne.domain.ProductDto;
+import com.sharedOne.mapper.PriceMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -54,7 +55,43 @@ public class PriceService {
     }
 
 
+    public PriceDto get(int num) {
+        PriceDto priceDto= mapper.findPriceByNum(num);
+
+
+        return priceDto;
+    }
+
+    public void remove(PriceDto priceDto) {
+        mapper.remove(priceDto);
+    }
+
+
+    public int dateCheck(PriceDto price) {
+            return mapper.dateCheck(price);
+    }
+
     public List<BuyerDto> searchBuyer(String type, String keyword) {
         return mapper.listBuyer(type, "%" + keyword + "%");
+    }
+
+    public List<ProductDto> searchProduct(String type, String keyword) {
+        return mapper.listProduct(type, "%" + keyword + "%");
+    }
+
+    public List<BuyerDto> codeSearchBuyer(String keyword) {
+        return mapper.codeSearchBuyer("%" + keyword + "%");
+    }
+
+    public List<BuyerDto> nameSearchBuyer(String keyword) {
+        return mapper.nameSearchBuyer("%" + keyword + "%");
+    }
+
+    public List<ProductDto> codeSearchProduct(String keyword) {
+        return mapper.codeSearchProduct("%" + keyword + "%");
+    }
+
+    public List<ProductDto> nameSearchProduct(String keyword) {
+        return mapper.nameSearchProduct("%" + keyword + "%");
     }
 }

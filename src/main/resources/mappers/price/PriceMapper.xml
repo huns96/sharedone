@@ -3,23 +3,85 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.example.sharedOne.mapper.PriceMapper">
+<mapper namespace="com.sharedOne.mapper.PriceMapper">
 
-    <select id="listBuyer" resultType="com.example.sharedOne.domain.BuyerDto">
+    <select id="nameSearchProduct" resultType="com.sharedOne.domain.ProductDto">
         SELECT
-            buyer_code
-            buyer_name
+            product_code,
+            name
+        FROM product
+        WHERE
+            name LIKE #{keyword}
+    </select>
+
+    <select id="codeSearchProduct" resultType="com.sharedOne.domain.ProductDto">
+        SELECT
+            product_code,
+            name
+        FROM product
+        WHERE
+            product_code LIKE #{keyword}
+    </select>
+
+    <select id="nameSearchBuyer" resultType="com.sharedOne.domain.BuyerDto">
+        SELECT
+            buyer_code,
+            name
         FROM buyer
         WHERE
-        <trim prefixOverrides="OR">
+            name LIKE #{keyword}
+    </select>
+
+
+    <select id="codeSearchBuyer" resultType="com.sharedOne.domain.BuyerDto">
+        SELECT
+            buyer_code,
+            name
+        FROM buyer
+        WHERE
+            buyer_code LIKE #{keyword}
+    </select>
+
+    <select id="listBuyer" resultType="com.sharedOne.domain.BuyerDto">
+        SELECT
+            buyer_code,
+            name
+        FROM buyer
+<!--        <if test="type != null">
+        WHERE
             <if test="type == 'buyer_code'">
-                OR buyer_code LIKE #{keyword}
+                buyer_code LIKE #{keyword}
+            </if>
+            <if test="type == 'name'">
+                name LIKE #{keyword}
+            </if>
+        </if>-->
+    </select>
+
+    <select id="listProduct" resultType="com.sharedOne.domain.ProductDto">
+        SELECT
+            product_code,
+            name
+        FROM product
+   <!--     WHERE
+        <trim prefixOverrides="OR">
+            <if test="type == 'product_code'">
+                OR product_code LIKE #{keyword}
             </if>
             <if test="type == 'name'">
                 OR name LIKE #{keyword}
             </if>
-        </trim>
+        </trim>-->
     </select>
+
+    <update id="remove">
+        UPDATE price
+        SET
+        delyn = "Y",
+        upduser = "user"
+        WHERE
+        num = #{num};
+    </update>
 
     <update id="update">
         UPDATE price
@@ -30,11 +92,12 @@
             start_date = #{start_date},
             end_date = #{end_date},
             currency = #{currency},
+            upduser = "user"
         WHERE
-            num = #{num}
+            num = #{num};
     </update>
 
-    <select id="selectPrice" resultType="com.example.sharedOne.domain.PriceDto">
+    <select id="selectPrice" resultType="com.sharedOne.domain.PriceDto">
         SELECT * FROM price
     </select>
 
@@ -42,9 +105,10 @@
     <select id="countAll" resultType="int">
         SELECT COUNT(*)
         FROM price
+        WHERE delyn="N";
     </select>
 
-    <select id="listPrice" resultType="com.example.sharedOne.domain.PriceDto">
+    <select id="findPriceByNum" resultType="com.sharedOne.domain.PriceDto">
         SELECT
         price.num,
         price.buyer_code,
@@ -62,14 +126,44 @@
         product.name product_name
         FROM price LEFT JOIN buyer ON price.buyer_code = buyer.buyer_code
         LEFT JOIN product ON price.product_code = product.product_code
+        WHERE price.num = #{num};
+    </select>
+
+
+    <select id="listPrice" resultType="com.sharedOne.domain.PriceDto">
+        SELECT
+        price.num,
+        price.buyer_code,
+        price.product_code,
+        price.price,
+        price.currency,
+        price.start_date,
+        price.end_date,
+        price.delyn,
+        price.adduser,
+        price.adddate,
+        price.upduser,
+        price.upddate,
+        buyer.name buyer_name,
+        product.name product_name
+        FROM price LEFT JOIN buyer ON price.buyer_code = buyer.buyer_code
+        LEFT JOIN product ON price.product_code = product.product_code
+        WHERE price.delyn="N"
         LIMIT #{offset}, #{records};
     </select>
 
     <insert id="insert">
         INSERT INTO price (buyer_code, product_code, price, start_date, end_date, currency, adduser)
-        VALUES (#{buyer_code}, #{product_code}, #{price}, #{start_date}, #{end_date}, #{currency}, #{adduser})
+        VALUES (#{buyer_code}, #{product_code}, #{price}, #{start_date} , #{end_date}, #{currency}, #{adduser})
     </insert>
 
 
+    <select id="dateCheck" resultType="int">
+        SELECT COUNT(*)
+        FROM price
+        WHERE buyer_code = #{buyer_code} AND product_code = #{product_code}
+                                        AND ((#{start_date} BETWEEN start_date AND end_date)
+                                            OR (#{end_date} BETWEEN start_date AND end_date));
+    </select>
 
 </mapper>
