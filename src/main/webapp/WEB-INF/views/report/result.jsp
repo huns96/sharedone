@@ -21,26 +21,28 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <!-- CSS only -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 
 
     <style>
-        body{
+        body {
             background-color: lightgray;
         }
 
-        tr > .table-head{
+        tr > .table-head {
             text-align: center;
-            background-color:lightgray;
+            background-color: lightgray;
         }
 
-        tbody .row-head{
-            text-align:center;
-        }
-
-        tr > .td-body{
+        tbody .row-head {
             text-align: center;
         }
+
+        tr > .td-body {
+            text-align: center;
+        }
+
         /*body { background-color: #e0e0e0; }*/
         /*.page-background {*/
         /*    background-color: white;*/
@@ -181,12 +183,12 @@
 
                     <br><br>
                     합계조건 :
-                    <input type="radio" name="sumCondition"  checked value="i.num" /> 선택안함
-                    <input type="radio" name="sumCondition" value="month(h.request_date)" /> 월별
-                    <input type="radio" name="sumCondition"  value="h.buyer_code" /> 바이어별
-                    <input type="radio" name="sumCondition" value="h.adduser" /> 담당자별
-                    <input type="radio" name="sumCondition"  value="h.status" /> 승인여부별
-<%--                    <input type="radio" name="sumCondition" value="category" /> 카테고리별--%>
+                    <input type="radio" name="sumCondition" checked value="i.num"/> 선택안함
+                    <input type="radio" name="sumCondition" value="month(h.request_date)"/> 월별
+                    <input type="radio" name="sumCondition" value="h.buyer_code"/> 바이어별
+                    <input type="radio" name="sumCondition" value="h.adduser"/> 담당자별
+                    <input type="radio" name="sumCondition" value="h.status"/> 승인여부별
+                    <%--                    <input type="radio" name="sumCondition" value="category" /> 카테고리별--%>
 
 
                     <br><br><br>
@@ -216,14 +218,22 @@
                 <div class="row p-2 justify-content-between">
 
 
-
-
-
-                    <p>&nbsp;&nbsp;&nbsp;총 ${orderCount}건 </p>
+                    <p>&nbsp;&nbsp;&nbsp;총 ${orderCount}건
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        요청일: ${from_request_date}~${to_request_date} &nbsp;&nbsp;/ &nbsp;&nbsp;
+                        작성일:${from_add_date}~${to_add_date}</p>
                     <table style="text-align: center" id="ordersTable" class="table table-bordered border border-5">
                         <thead class="table-dark">
                         <tr>
-<%--                            <th></th>--%>
+                            <%--                            <th></th>--%>
                             <th id="order_code">&nbsp;주문 코드</th>
                             <th id="buyer_code">바이어 코드</th>
                             <th>요청일</th>
@@ -243,7 +253,7 @@
                         <tbody>
                         <c:forEach items="${orders}" var="order" varStatus="status">
                             <tr>
-                              <%--<td>${status.index+1}</td>--%>
+                                    <%--<td>${status.index+1}</td>--%>
                                 <td>&nbsp;&nbsp;${order.order_code}</td>
                                 <td>${order.buyer_code}</td>
                                 <td>${order.request_date}</td>
@@ -267,7 +277,7 @@
                         <tfoot class="my_table tfoot">
                         <tr>
                             <td>합계</td>
-<%--                            <td>&nbsp;&nbsp;${order.order_code}</td>--%>
+                            <%--                            <td>&nbsp;&nbsp;${order.order_code}</td>--%>
                             <td>${order.buyer_code}</td>
                             <td>${order.request_date}</td>
                             <td>${order.status}</td>
@@ -324,7 +334,8 @@
                                 </li>
                             </c:if>
 
-                            <c:forEach begin="${pageInfo.leftPageNumber }" end="${pageInfo.rightPageNumber }" var="pageNumber">
+                            <c:forEach begin="${pageInfo.leftPageNumber }" end="${pageInfo.rightPageNumber }"
+                                       var="pageNumber">
                                 <c:url value="/report/result" var="listLink">
                                     <c:param name="page" value="${pageNumber }"/>
                                     <c:param name="q" value="${param.q }"/>
@@ -472,7 +483,6 @@
                     $('td:nth-child(' + this.id + '),th:nth-child(' + this.id + ')').toggle();
                 })
             })
-
 
 
             $(document).ready(function () {

@@ -1,11 +1,10 @@
-package com.example.sharedOne.controller.report;
+package com.sharedOne.controller.report;
 
-import com.example.sharedOne.domain.report.OrderDto;
-import com.example.sharedOne.domain.report.OrderGroupDto;
-import com.example.sharedOne.domain.report.OrderItemDto;
-import com.example.sharedOne.domain.report.SumDto;
-import com.example.sharedOne.service.ReportService;
-import jdk.jfr.Frequency;
+import com.sharedOne.domain.report.OrderDto;
+import com.sharedOne.domain.report.OrderGroupDto;
+import com.sharedOne.domain.report.OrderItemDto;
+import com.sharedOne.domain.report.SumDto;
+import com.sharedOne.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,11 +38,18 @@ public class ReportController {
                              @RequestParam(required = false) String product_code,
                              @RequestParam(required = false, defaultValue = "i.num") String sumCondition
     ) {
-        System.out.println("요청일"+from_request_date+" ~ "+to_request_date);
-        System.out.println("작성일"+from_add_date+" ~ "+to_add_date);
-
         if (!sumCondition.equals("i.num") & (sumCondition != null) & !sumCondition.equals("")) {
 //        if (!sumCondition.equals("i.num") ){
+            if((((from_request_date.equals("")&from_request_date!=null)&!(to_request_date.equals("")&to_request_date!=null))
+                    |((to_request_date.equals("")&to_request_date!=null)&!(from_request_date.equals("")&from_request_date!=null)))
+            |(((from_add_date.equals("")&from_add_date!=null)&!(to_add_date.equals("")&to_add_date!=null))
+                    |((to_add_date.equals("")&to_add_date!=null)&!(from_add_date.equals("")&from_add_date!=null)))
+            ){
+                model.addAttribute("message","날짜를 입력해주세요");
+            System.out.println("에러");
+                return "/report/sumResult";}
+
+
             System.out.println(sumCondition + "섬레졀트 작업시작");
             if (sumCondition.equals(("month(h.request_date)"))) {
                 model.addAttribute("groupName", "월");
@@ -64,8 +70,20 @@ public class ReportController {
             System.out.println("오더그룹스" + orderGroups);
             // 왜 한 그룹으로 나오지..? > 이유는 모르겠지만 자동으로 고쳐짐;
             orderGroups.forEach(orderGroupDto -> System.out.println("찾으려고 적음" + orderGroupDto));
+
+            SumDto sums = reportService.getSums(order_code, buyer_code, status, adduser,
+                    from_request_date,to_request_date,
+                    from_add_date, to_add_date, product_code, sumCondition);
+
             model.addAttribute("orderGroups", orderGroups);
+            model.addAttribute("sums", sums);
             model.addAttribute("orderGroupCount",orderGroups.size());
+            model.addAttribute("from_add_date",from_add_date);
+//            if(!from_add_date.equals("")&from_add_date!=null){
+            model.addAttribute("to_add_date",to_add_date);
+//            }
+            model.addAttribute("from_request_date",from_request_date);
+            model.addAttribute("to_request_date",to_request_date);
             return "/report/sumResult";
         }
 
@@ -91,6 +109,12 @@ public class ReportController {
         model.addAttribute("orders", orders);
         model.addAttribute("sums", sums);
         model.addAttribute("orderCount",orders.size());
+        model.addAttribute("from_add_date",from_add_date);
+//            if(!from_add_date.equals("")&from_add_date!=null){
+        model.addAttribute("to_add_date",to_add_date);
+//            }
+        model.addAttribute("from_request_date",from_request_date);
+        model.addAttribute("to_request_date",to_request_date);
 
         return "/report/result";
     }
@@ -148,6 +172,3 @@ public class ReportController {
     }
 
 }
-
-
-//월별

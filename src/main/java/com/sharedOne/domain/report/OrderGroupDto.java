@@ -1,4 +1,4 @@
-package com.example.sharedOne.domain.report;
+package com.sharedOne.domain.report;
 
 import lombok.Data;
 

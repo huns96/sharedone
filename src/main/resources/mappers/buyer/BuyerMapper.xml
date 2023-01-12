@@ -3,8 +3,8 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.example.sharedOne.mapper.BuyerMapper">
-    <select id="selectBuyers" resultType="com.example.sharedOne.domain.BuyerDto">
+<mapper namespace="com.sharedOne.mapper.BuyerMapper">
+    <select id="selectBuyers" resultType="com.sharedOne.domain.BuyerDto">
         SELECT * FROM buyer
     </select>
 

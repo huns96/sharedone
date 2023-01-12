@@ -21,26 +21,28 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <!-- CSS only -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 
 
     <style>
-        body{
+        body {
             background-color: lightgray;
         }
 
-        tr > .table-head{
+        tr > .table-head {
             text-align: center;
-            background-color:lightgray;
+            background-color: lightgray;
         }
 
-        tbody .row-head{
-            text-align:center;
-        }
-
-        tr > .td-body{
+        tbody .row-head {
             text-align: center;
         }
+
+        tr > .td-body {
+            text-align: center;
+        }
+
         /*body { background-color: #e0e0e0; }*/
         /*.page-background {*/
         /*    background-color: white;*/
@@ -100,7 +102,7 @@
         <my:sideBar2></my:sideBar2>
         <div class="col py-3">
             <h3><a href="result">Report</a></h3>
-            <p>합계리포트</p>
+            <p>합계리포트</p>   ${message}message
 
             <div class="p-3 mt-3 mb-3" style="background-color: white;">
                 <%--                서치바 기호에 맞게--%>
@@ -174,30 +176,30 @@
 
                     <br><br>
                     합계조건 :
-                    <input type="radio" name="sumCondition"  checked value="i.num" /> 선택안함
-                    <input type="radio" name="sumCondition" value="month(h.request_date)" /> 월별
-                    <input type="radio" name="sumCondition"  value="h.buyer_code" /> 바이어별
-                    <input type="radio" name="sumCondition" value="h.adduser" /> 담당자별
-                    <input type="radio" name="sumCondition"  value="h.status" /> 승인여부별
-<%--                    <input type="radio" name="sumCondition" value="category" /> 카테고리별--%>
+                    <input type="radio" name="sumCondition" checked value="i.num"/> 선택안함
+                    <input type="radio" name="sumCondition" value="month(h.request_date)"/> 월별
+                    <input type="radio" name="sumCondition" value="h.buyer_code"/> 바이어별
+                    <input type="radio" name="sumCondition" value="h.adduser"/> 담당자별
+                    <input type="radio" name="sumCondition" value="h.status"/> 승인여부별
+                    <%--                    <input type="radio" name="sumCondition" value="category" /> 카테고리별--%>
 
 
                     <br><br><br>
 
-<%--                    조회 항목 선택 :--%>
-<%--                    <input type="checkbox" name="" value="1" id="2" checked>주문코드--%>
-<%--                    <input type="checkbox" name="" value="2" id="3" checked>바이어코드--%>
-<%--                    <input type="checkbox" name="" value="3" id="4" checked>요청일--%>
-<%--                    <input type="checkbox" name="" value="4" id="5" checked>승인여부--%>
-<%--                    <input type="checkbox" name="" value="" id="6">승인일--%>
-<%--                    <input type="checkbox" name="" value="" id="7">반려일--%>
-<%--                    <input type="checkbox" name="" value="" id="8">메모--%>
-<%--                    <input type="checkbox" name="" value="" id="9" checked>작성자--%>
-<%--                    <input type="checkbox" name="" value="" id="10" checked>작성일--%>
-<%--                    <input type="checkbox" name="" value="" id="11" checked>제품코드--%>
-<%--                    <input type="checkbox" name="" value="" id="12" checked>수량--%>
-<%--                    <input type="checkbox" name="" value="" id="13" checked>통화--%>
-<%--                    <input type="checkbox" name="" value="" id="14" checked>가격--%>
+                    <%--                    조회 항목 선택 :--%>
+                    <%--                    <input type="checkbox" name="" value="1" id="2" checked>주문코드--%>
+                    <%--                    <input type="checkbox" name="" value="2" id="3" checked>바이어코드--%>
+                    <%--                    <input type="checkbox" name="" value="3" id="4" checked>요청일--%>
+                    <%--                    <input type="checkbox" name="" value="4" id="5" checked>승인여부--%>
+                    <%--                    <input type="checkbox" name="" value="" id="6">승인일--%>
+                    <%--                    <input type="checkbox" name="" value="" id="7">반려일--%>
+                    <%--                    <input type="checkbox" name="" value="" id="8">메모--%>
+                    <%--                    <input type="checkbox" name="" value="" id="9" checked>작성자--%>
+                    <%--                    <input type="checkbox" name="" value="" id="10" checked>작성일--%>
+                    <%--                    <input type="checkbox" name="" value="" id="11" checked>제품코드--%>
+                    <%--                    <input type="checkbox" name="" value="" id="12" checked>수량--%>
+                    <%--                    <input type="checkbox" name="" value="" id="13" checked>통화--%>
+                    <%--                    <input type="checkbox" name="" value="" id="14" checked>가격--%>
 
 
                 </form>
@@ -209,27 +211,36 @@
                 <div class="row p-2 justify-content-between">
 
 
+                    <p>&nbsp;&nbsp;&nbsp;총 ${orderGroupCount}건
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
-
-
-                    <p>&nbsp;&nbsp;&nbsp;총 ${orderGroupCount}건 </p>
+                        요청일: ${from_request_date}~${to_request_date} &nbsp;&nbsp;/ &nbsp;&nbsp;
+                        작성일:${from_add_date}~${to_add_date}</p>
                     <table style="text-align: center" id="ordersTable" class="table table-bordered border border-5">
                         <thead class="table-dark">
                         <tr>
-<%--                            <th></th>--%>
+                            <%--                            <th></th>--%>
                             <th id="order_code">&nbsp;${groupName}</th>
                             <th id="buyer_code">제품 수량 합계</th>
                             <th>가격 합계</th>
-<%--                            <th id="status">승인여부</th>--%>
-<%--                            <th id="approval_date" style="display: none">승인일</th>--%>
-<%--                            <th id="return_date" style="display: none">반려일</th>--%>
-<%--                            <th id="memo" style="display: none">메모</th>--%>
-<%--                            <th id="adduser">작성자</th>--%>
-<%--                            <th id="adddate">작성일</th>--%>
-<%--                            <th id="product_code">제품 코드</th>--%>
-<%--                            <th id="quantity">수량</th>--%>
-<%--                            <th id="currency">통화</th>--%>
-<%--                            <th id="price">가격</th>--%>
+                            <%--                            <th id="status">승인여부</th>--%>
+                            <%--                            <th id="approval_date" style="display: none">승인일</th>--%>
+                            <%--                            <th id="return_date" style="display: none">반려일</th>--%>
+                            <%--                            <th id="memo" style="display: none">메모</th>--%>
+                            <%--                            <th id="adduser">작성자</th>--%>
+                            <%--                            <th id="adddate">작성일</th>--%>
+                            <%--                            <th id="product_code">제품 코드</th>--%>
+                            <%--                            <th id="quantity">수량</th>--%>
+                            <%--                            <th id="currency">통화</th>--%>
+                            <%--                            <th id="price">가격</th>--%>
 
                         </tr>
                         </thead>
@@ -237,23 +248,25 @@
 
                         <c:forEach items="${orderGroups}" var="orderGroup" varStatus="status">
                             <tr>
-<%--                                <td>${status.index+1}</td>--%>
-                                <td id="groupNameButton"><a href="javascript:doDisplay();"> &nbsp;&nbsp;${orderGroup.groupName}</a></td>
+                                    <%--                                <td>${status.index+1}</td>--%>
+                                <td id="groupNameButton"><a href="javascript:doDisplay();">
+                                    &nbsp;&nbsp;${orderGroup.groupName}</a></td>
                                 <td>${orderGroup.sumQuantity}</td>
-<%--                                <td>${orderGroup.sumPrice}</td>--%>
-                                <td class="row_value"><fmt:formatNumber value="${orderGroup.sumPrice}" pattern="#,###"/></td>
+                                    <%--                                <td>${orderGroup.sumPrice}</td>--%>
+                                <td class="row_value"><fmt:formatNumber value="${orderGroup.sumPrice}"
+                                                                        pattern="#,###"/></td>
 
                                     <%------------------------------------%>
-<%--                                <td>${order.status}</td>--%>
-<%--                                <td style="display: none"></td>--%>
-<%--                                <td style="display: none"></td>--%>
-<%--                                <td style="display: none">${order.memo}</td>--%>
-<%--                                <td>${order.adduser}</td>--%>
-<%--                                <td>${order.adddate}</td>--%>
-<%--                                <td>${order.product_code}</td>--%>
-<%--                                <td>${order.quantity}</td>--%>
-<%--                                <td>${order.currency}</td>--%>
-<%--                                <td class="row_value"><fmt:formatNumber value="${order.price}" pattern="#,###"/></td>--%>
+                                    <%--                                <td>${order.status}</td>--%>
+                                    <%--                                <td style="display: none"></td>--%>
+                                    <%--                                <td style="display: none"></td>--%>
+                                    <%--                                <td style="display: none">${order.memo}</td>--%>
+                                    <%--                                <td>${order.adduser}</td>--%>
+                                    <%--                                <td>${order.adddate}</td>--%>
+                                    <%--                                <td>${order.product_code}</td>--%>
+                                    <%--                                <td>${order.quantity}</td>--%>
+                                    <%--                                <td>${order.currency}</td>--%>
+                                    <%--                                <td class="row_value"><fmt:formatNumber value="${order.price}" pattern="#,###"/></td>--%>
 
                             </tr>
                         </c:forEach>
@@ -264,44 +277,44 @@
                         <tfoot class="my_table tfoot">
                         <tr>
                             <td>합계</td>
-<%--                            <td>&nbsp;&nbsp;${order.order_code}</td>--%>
-<%--                            <td>${order.buyer_code}</td>--%>
-<%--                            <td>${order.order_date}</td>--%>
-<%--                            <td>${order.status}</td>--%>
-<%--                            <td style="display: none"></td>--%>
-<%--                            <td style="display: none"></td>--%>
-<%--                            <td style="display: none">${order.memo}</td>--%>
-<%--                            <td>${order.adduser}</td>--%>
-<%--                            <td>${order.adddate}</td>--%>
-<%--                            <td>${order.product_code}</td>--%>
+                            <%--                            <td>&nbsp;&nbsp;${order.order_code}</td>--%>
+                            <%--                            <td>${order.buyer_code}</td>--%>
+                            <%--                            <td>${order.order_date}</td>--%>
+                            <%--                            <td>${order.status}</td>--%>
+                            <%--                            <td style="display: none"></td>--%>
+                            <%--                            <td style="display: none"></td>--%>
+                            <%--                            <td style="display: none">${order.memo}</td>--%>
+                            <%--                            <td>${order.adduser}</td>--%>
+                            <%--                            <td>${order.adddate}</td>--%>
+                            <%--                            <td>${order.product_code}</td>--%>
                             <td>${sums.sumQuantity}</td>
-<%--                            <td>${order.currency}</td>--%>
+                            <%--                            <td>${order.currency}</td>--%>
                             <%--                        <td class="row_sum"></td>--%>
                             <td class="row_value"><fmt:formatNumber value="${sums.sumPrice}" pattern="#,###"/></td>
                         </tr>
                         </tfoot>
 
                     </table>
-<%--                                  <p id="ordersInGroup" style="display: none">아이템라인별--%>
-<%--                                      아이템라인별 <br>--%>
-<%--                                      아이템라인별 <br>--%>
-<%--                                      아이템라인별 <br>--%>
-<%--                                      아이템라인별 <br>--%>
-<%--                                      아이템라인별 <br>--%>
-<%--                                      아이템라인별 <br>--%>
-<%--                                      아이템라인별 <br>--%>
-<%--                                      아이템라인별 <br>--%>
-<%--                                      아이템라인별 <br>--%>
-<%--                                      아이템라인별 <br>--%>
-<%--                                      아이템라인별 <br>--%>
-<%--                                      아이템라인별 <br>--%>
-<%--                                      아이템라인별 <br>--%>
-<%--                                      아이템라인별 <br>--%>
-<%--                                      아이템라인별 <br>--%>
-<%--                                      아이템라인별 <br>--%>
+                    <%--                                  <p id="ordersInGroup" style="display: none">아이템라인별--%>
+                    <%--                                      아이템라인별 <br>--%>
+                    <%--                                      아이템라인별 <br>--%>
+                    <%--                                      아이템라인별 <br>--%>
+                    <%--                                      아이템라인별 <br>--%>
+                    <%--                                      아이템라인별 <br>--%>
+                    <%--                                      아이템라인별 <br>--%>
+                    <%--                                      아이템라인별 <br>--%>
+                    <%--                                      아이템라인별 <br>--%>
+                    <%--                                      아이템라인별 <br>--%>
+                    <%--                                      아이템라인별 <br>--%>
+                    <%--                                      아이템라인별 <br>--%>
+                    <%--                                      아이템라인별 <br>--%>
+                    <%--                                      아이템라인별 <br>--%>
+                    <%--                                      아이템라인별 <br>--%>
+                    <%--                                      아이템라인별 <br>--%>
+                    <%--                                      아이템라인별 <br>--%>
 
 
-<%--                                  </p>--%>
+                    <%--                                  </p>--%>
 
                 </div>
             </div>
@@ -340,7 +353,8 @@
                                 </li>
                             </c:if>
 
-                            <c:forEach begin="${pageInfo.leftPageNumber }" end="${pageInfo.rightPageNumber }" var="pageNumber">
+                            <c:forEach begin="${pageInfo.leftPageNumber }" end="${pageInfo.rightPageNumber }"
+                                       var="pageNumber">
                                 <c:url value="/report/result" var="listLink">
                                     <c:param name="page" value="${pageNumber }"/>
                                     <c:param name="q" value="${param.q }"/>
@@ -407,16 +421,16 @@
         <script>
 
 
+            var bDisplay = true;
 
-                var bDisplay = true;
-                function doDisplay(){
+            function doDisplay() {
                 var con = document.getElementById("ordersInGroup");
-                if(con.style.display=='none'){
-                con.style.display = 'block';
-            }else{
-                con.style.display = 'none';
-            }}
-
+                if (con.style.display == 'none') {
+                    con.style.display = 'block';
+                } else {
+                    con.style.display = 'none';
+                }
+            }
 
 
             //     document.getElementById('groupNameButton').click(function (){
@@ -508,7 +522,6 @@
                     $('td:nth-child(' + this.id + '),th:nth-child(' + this.id + ')').toggle();
                 })
             })
-
 
 
             $(document).ready(function () {

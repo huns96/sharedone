@@ -1,4 +1,4 @@
-package com.example.sharedOne;
+package com.sharedOne;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
