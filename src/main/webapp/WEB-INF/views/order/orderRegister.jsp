@@ -23,11 +23,11 @@
         <div class="row">
             <div class="col-md-6 mb-3">
                 <label for="newOrderCode" class="form-label">주문 코드</label>
-                <input id="newOrderCode" type="text" class="form-control" name="order_code" readonly/>
+                <input id="newOrderCode" type="text" class="form-control orderInfo" name="order_code" readonly/>
             </div>
             <div class="col-md-6 mb-3">
                 <label for="newStatus" class="form-label">상태</label>
-                <input id="newStatus" type="text"  class="form-control" name="status" value="작성중" readonly />
+                <input id="newStatus" type="text"  class="form-control orderInfo" name="status" value="작성중" readonly />
                 <%--<select class="form-select">
                     <option selected value="작성중">작성중</option>
                     <option value="승인요청">승인요청</option>
@@ -42,29 +42,29 @@
             <div class="col-md-6 mb-3">
                 <label for="newBuyerCode" class="form-label">바이어코드</label>
                 <div class="input-group">
-                    <input id="newBuyerCode" type="text" class="form-control" name="buyer_code" placeholder="바이어코드를 검색해주세요." readonly/>
+                    <input id="newBuyerCode" type="text" class="form-control orderInfo" name="buyer_code" placeholder="바이어코드를 검색해주세요." readonly/>
                     <a id="buyerPopupButton" class="btn btn-outline-secondary">검색</a>
                 </div>
             </div>
             <div class="col-md-6 mb-3">
                 <label for="newBuyerName" class="form-label">바이어명</label>
-                <input id="newBuyerName" type="text" class="form-control" name="buyer_name" readonly/>
+                <input id="newBuyerName" type="text" class="form-control orderInfo" name="buyer_name" readonly/>
             </div>
         </div>
         <div class="row">
             <div class="col-md-6 mb-3">
                 <label for="newRequestDate" class="form-label">납품요청일</label>
-                <input id="newRequestDate" type="date" class="form-control" name="request_date" />
+                <input id="newRequestDate" type="date" class="form-control orderInfo" name="request_date" />
             </div>
             <div class="col-md-6 mb-3">
                 <label for="newOrderDate" class="form-label">주문일</label>
-                <input id="newOrderDate" type="date" class="form-control" name="order_date" readonly/>
+                <input id="newOrderDate" type="date" class="form-control orderInfo" name="order_date" readonly/>
             </div>
         </div>
         <div class="row">
             <div class="col mb-3">
                 <label for="newMemo" class="form-label">주문메모</label>
-                <textarea rows="3" id="newMemo" class="form-control" name="memo"></textarea>
+                <textarea rows="3" id="newMemo" class="form-control orderInfo" name="memo"></textarea>
             </div>
         </div>
         <hr>
@@ -92,8 +92,8 @@
             </div>
             <div class="col-md-4 mb-3">
                 <label class="form-label"></label>
-                <button id="resetItemButton" class="btn btn-danger">초기화</button>
-                <button id="addNewItemButton" class="btn btn-danger">상품등록</button>
+                <button type="button" id="resetItemButton" class="btn btn-danger">초기화</button>
+                <button type="button" id="addNewItemButton" class="btn btn-danger">상품추가</button>
             </div>
         </div>
         <div class="row">
@@ -114,14 +114,14 @@
         </div>
     </form>
     <footer style="float: right; justify-content: flex-end;">
-        <button type="button" id="newOrderSubmitButton" class="btn btn-danger" data-bs-dismiss="modal">주문등록</button>
+        <button type="button" id="newOrderSubmitButton" class="btn btn-danger">주문등록</button>
         <button type="button" class="btn btn-secondary" onclick="window.close();">취소</button>
     </footer>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 <%--    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.ko.min.js" integrity="sha512-L4qpL1ZotXZLLe8Oo0ZyHrj/SweV7CieswUODAAPN/tnqN3PA1P+4qPu5vIryNor6HQ5o22NujIcAZIfyVXwbQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>--%>
     <script type="text/javascript">
-        let orderItemList = {}; //주문 등록 모달창의 상품(표) 리스트
+        let orderItemList = []; //주문 등록 모달창의 상품(표) 리스트
 
         $(function() {
             /* 바이어 검색 팝업창 */
@@ -149,10 +149,10 @@
 
             /* 상품 초기화 버튼 */
             $('#resetItemButton').click(function() {
-                $('#newProductCode').value = "";
-                $('#newProductName').value = "";
-                $('#newQuantity').value = "";
-                $('#newPrice').value = "";
+                $('#newProductCode').val("");
+                $('#newProductName').val("");
+                $('#newQuantity').val("");
+                $('#newPrice').val("");
                 console.log("reset 이후 orderItemList ===> " + orderItemList);
             });
 
@@ -198,42 +198,76 @@
 
         /* 주문 상품 추가 */
         function addOrderItem() {
-            let productCode = $('#newProductCode').value;
-            let productName = $('#newProductName').value;
-            let quantity = $('#newQuantity').value;
-            let price = $('#newPrice').value;
+            let productCode = $('#newProductCode').val();
+            let productName = $('#newProductName').val();
+            let quantity = $('#newQuantity').val();
+            let price = $('#newPrice').val();
+            let totalPrice = quantity * price;
             //let orderCode = $('#newOrderCode').value;
             //let buyerCode = $('#newBuyerCode').value;
 
             // 필수정보 입력 검증 - productCode, name, quantity, price
 
-            let itemList = [productName, productName, quantity, price];
+            const itemList = [productCode, productName, quantity, price, totalPrice];
+            orderItemList.push(itemList);
 
-            orderItemList.add(itemList);
-            console.log("orderItemList ========> "+orderItemList);
-
-            itemListInModal(orderItemList);
-
+            itemListInPopup(itemList, orderItemList);
         }
 
         /* 모달창 - 주문상품 리스트 조회 */
-        function itemListInModal(orderItemList) {
-            // 표에 리스트 보여주기
+        function itemListInPopup(itemList, orderItemList) {
+            let tbody = $('#newItem-table tbody');
+            tbody.append("");
+            tbody.append(
+                "<tr>"
+                + "<td>" + orderItemList.length + "</td>"
+                + "<td>" + itemList[0] + "</td>"
+                + "<td>" + itemList[1] + "</td>"
+                + "<td>" + itemList[2] + "</td>"
+                + "<td>" + itemList[3] + "</td>"
+                + "<td>" + itemList[4] + "</td>"
+                + "<td>X</td>"
+                + "</tr>"
+            );
         }
 
 
         /* 새 주문 등록 */
         function addNewOrder() {
-            let queryString = $("form[id=newOrderForm]").serialize() ;
+            let queryString = $(".orderInfo").serialize();
+            //queryString += "&itemList=" + orderItemList;
             console.log(queryString);
             $.ajax({
                 type: 'POST',
                 url: '/order/register',
                 data: queryString,
-                success: function (result) {
-                    console.log(result);
+                success: function (data) {
+                    console.log(data);
+                    console.log("orderItemList =====> "+orderItemList);
+                    var objParams = {
+                        "items" : orderItemList,
+                        "orderCode" : data
+                    };
+
+                    $.ajax({
+                        type: 'POST',
+                        url: '/order/registerItem',
+                        data: objParams,
+                        dataType : 'json',
+                        traditional: true,
+                        success: function (result) {
+                            console.log(result);
+
+
+                        }
+                    });
                 }
             });
+
+            setTimeout(function () {
+                opener.parent.location.reload();
+                window.close();
+            }, 1000);
         }
 
     </script>

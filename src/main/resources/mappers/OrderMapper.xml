@@ -12,6 +12,14 @@
         )
     </insert>
 
+    <insert id="insertOrderItem">
+        INSERT INTO order_item (
+            order_code, product_code, quantity, currency, price, addUser
+        ) VALUES (
+            #{order_code}, #{product_code}, #{quantity}, '원', #{price}, #{adduser}
+        )
+    </insert>
+
     <select id="listOrder" resultType="com.example.sharedOne.domain.OrderDto">
         SELECT
             o.order_code, o.buyer_code, b.name as buyer_name, o.order_date, o.status, o.memo,

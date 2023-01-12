@@ -10,6 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -38,14 +40,29 @@ public class OrderController {
 
     @PostMapping("register")
     @ResponseBody
-    public void register(OrderDto orderDto, RedirectAttributes rttr) {
+    public String register(OrderDto orderDto, RedirectAttributes rttr) {
         log.info("register orderDto ==========> {}", orderDto);
-        int cnt = orderService.registerOrder(orderDto);
-        if (cnt==1) {
-            rttr.addFlashAttribute("message", orderDto.getOrder_code() + " 주문이 등록되었습니다.");
-        } else {
-            rttr.addFlashAttribute("message", orderDto.getOrder_code() + " 주문이 등록되지 않았습니다.");
-        }
+        String orderCode = orderService.registerOrder(orderDto);
+//        if (cnt==1) {
+//            rttr.addFlashAttribute("message", orderDto.getOrder_code() + " 주문이 등록되었습니다.");
+//        } else {
+//            rttr.addFlashAttribute("message", orderDto.getOrder_code() + " 주문이 등록되지 않았습니다.");
+//        }
+        return orderCode;
+    }
+
+    @PostMapping("registerItem")
+    @ResponseBody
+    public void register(@RequestParam(value="items") String[] addItems, @RequestParam String orderCode, RedirectAttributes rttr) {
+        log.info("addItems ===========> {}", (Object) addItems);
+        log.info("orderCode ===========> {}", orderCode);
+
+        int cnt = orderService.registerOrderItem(addItems, orderCode);
+//        if (cnt==1) {
+//            rttr.addFlashAttribute("message", orderDto.getOrder_code() + " 주문이 등록되었습니다.");
+//        } else {
+//            rttr.addFlashAttribute("message", orderDto.getOrder_code() + " 주문이 등록되지 않았습니다.");
+//        }
     }
 
 
