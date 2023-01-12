@@ -65,6 +65,13 @@ public class MemberController {
         return "redirect:/member/list";
     }
 
+    @PostMapping("deleteAutho")
+    public String deleteAutho(String user_id, String auth, RedirectAttributes redirect) {
+        String deleteAutho = memberService.deleteAutho(user_id, auth);
+        redirect.addFlashAttribute("deleteResult", deleteAutho);
+        return "redirect:/member/list";
+    }
+
     @PostMapping("modifyMember")
     public String modifyMember(String user_id, String name, String phone, Principal principal) {
         String upduser = principal.getName();
@@ -81,9 +88,5 @@ public class MemberController {
         model.addAttribute("userInfo", member);
     }
 
-    @PostMapping("deleteAutho")
-    public String deleteAutho(MemberDto memberDto) {
-        memberService.deleteAutho(memberDto);
-        return "redirect:/member/list";
-    }
+
 }

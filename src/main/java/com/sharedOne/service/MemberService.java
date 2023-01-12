@@ -43,7 +43,18 @@ public class MemberService {
         }
 
         return "error";
+    }
 
+    public String deleteAutho(String user_id, String auth) {
+        String authCheck = memberMapper.authCheck(user_id, auth);
+
+        if (authCheck != null) {
+            memberMapper.deleteAutho(user_id, auth);
+            return "success";
+        } else if (authCheck == null) {
+            return "not exist";
+        }
+        return "error";
     }
 
     public void modifyMember(String user_id, String name, String phone, String upduser) {
@@ -55,6 +66,6 @@ public class MemberService {
         return memberMapper.selectUserInfo(user_id);
     }
 
-    public void deleteAutho(MemberDto memberDto) {
-    }
+
+
 }

@@ -102,5 +102,13 @@
             user_id = #{user_id} AND auth = #{auth}
     </select>
 
+    <delete id="deleteAutho">
+        DELETE
+        FROM
+            authority
+        WHERE
+            user_id = #{user_id} AND auth = #{auth}
+    </delete>
+
 
 </mapper>
