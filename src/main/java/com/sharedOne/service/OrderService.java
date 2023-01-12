@@ -36,9 +36,8 @@ public class OrderService {
         String date = LocalDate.now().format(DateTimeFormatter.ofPattern("yyMMdd"));
         String buyerCode = orderDto.getBuyer_code();
         String code = buyerCode.substring(buyerCode.length()-2, buyerCode.length());
-        String random = (int) (Math.random() * 100) + "";
+        String random = (int) (Math.random() * (99-10+1)) + 1 + ""; // 10 ~ 99 랜덤 숫자
         orderCode = date + code + random;
-        //log.info("주문번호 ==============> {} = {} + {} + {}", orderCode, date, code, random);
         return orderCode;
     }
     
@@ -47,10 +46,9 @@ public class OrderService {
         log.info("========== 상품등록 ===========");
         List<OrderItemDto> itemList = new ArrayList<>();
         OrderItemDto itemDto = new OrderItemDto();
-        //log.info("========== {} ===========", addItems);
-        for (String addItem : addItems) {
-            List<String> list = Arrays.asList(addItem.split(","));
-            log.info("list ===========> {}", list);
+
+        if (!addItems[0].contains(",")){
+            List<String> list = Arrays.asList(addItems);
             itemDto.setProduct_code(list.get(0));
             itemDto.setProduct_name(list.get(1));
             itemDto.setQuantity(Integer.parseInt(list.get(2)));
@@ -59,9 +57,20 @@ public class OrderService {
             itemDto.setOrder_code(orderCode);
             itemDto.setAdduser("user1"); //[TODO] user 임의로 넣음.. >> 로그인 정보 추가 해야함
             itemList.add(itemDto);
+        } else {
+            for (String addItem : addItems) {
+                List<String> list = Arrays.asList(addItem.split(","));
+                itemDto.setProduct_code(list.get(0));
+                itemDto.setProduct_name(list.get(1));
+                itemDto.setQuantity(Integer.parseInt(list.get(2)));
+                itemDto.setPrice(Integer.parseInt(list.get(3)));
+                itemDto.setTotal_price(Integer.parseInt(list.get(4)));
+                itemDto.setOrder_code(orderCode);
+                itemDto.setAdduser("user1"); //[TODO] user 임의로 넣음.. >> 로그인 정보 추가 해야함
+                itemList.add(itemDto);
+            }
         }
-        log.info("itemList ===========> {}", itemList);
-
+        //log.info("itemList ===========> {}", itemList);
         int cnt = 0;
         for (OrderItemDto item : itemList) {
             orderMapper.insertOrderItem(item);
@@ -77,8 +86,7 @@ public class OrderService {
     }
     
     /* 주문 상품 목록 조회 */
-    public List<OrderItemDto> getItemList(String order_code) {
-        log.info("itemList orderCode ========> {}", order_code);
-        return orderMapper.listItem(order_code);
+    public List<OrderItemDto> getItemList(String orderCode) {
+        return orderMapper.listItem(orderCode);
     }
 }

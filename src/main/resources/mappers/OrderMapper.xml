@@ -22,9 +22,12 @@
 
     <select id="listOrder" resultType="com.sharedOne.domain.OrderDto">
         SELECT
-            o.order_code, o.buyer_code, b.name as buyer_name, o.order_date, o.status, o.memo,
-            o.adduser, o.adddate, o.upduser, o.upddate
+            o.order_code, o.buyer_code, b.name as buyer_name,
+            o.order_date, o.request_date, IFNULL(o.approval_date,'-'), IFNULL(o.return_date,'-'),
+            o.status, o.memo,
+            o.adduser, o.adddate, IFNULL(o.upduser,'-'), IFNULL(o.upddate,'-')
         FROM order_header o LEFT JOIN buyer b ON o.buyer_code = b.buyer_code
+        WHERE o.delyn = 'N'
     </select>
 
     <select id="listItem" resultMap="itemMap">
@@ -32,13 +35,14 @@
             i.order_code, i.product_code, p.name as 'product_name',
             i.quantity, i.price, pri.price as 'old_price', (i.quantity * i.price) as 'total_price',
             o.buyer_code, b.name as 'buyer_name',
-            i.adduser, i.adddate, i.upduser, i.upddate
+            i.adduser, i.adddate, IFNULL(i.upduser,'-'), IFNULL(i.upddate,'-')
         FROM order_item i
             LEFT JOIN order_header o ON o.order_code = i.order_code
             LEFT JOIN buyer b ON b.buyer_code = o.buyer_code
             LEFT JOIN product p ON p.product_code = i.product_code
             LEFT JOIN price pri ON pri.product_code = i.product_code and pri.buyer_code = o.buyer_code
         WHERE i.order_code = #{order_code}
+        AND o.delyn = 'N'
     </select>
 
     <resultMap type="com.sharedOne.domain.OrderItemDto" id="itemMap">
