@@ -75,7 +75,7 @@
             user_id = #{user_id}
     </update>
 
-    <select id="selectUserInfo" resultType="com.sharedOne.domain.MemberDto">
+    <select id="selectUserInfo" resultMap="myPageInfo">
         SELECT
             m.user_id, name, phone, auth
         FROM
@@ -83,6 +83,15 @@
         WHERE
             m.user_id = #{user_id}
     </select>
+
+    <resultMap id="myPageInfo" type="com.sharedOne.domain.MemberDto">
+        <id column="user_id" property="user_id"></id>
+        <result column="name" property="name"></result>
+        <result column="phone" property="phone"></result>
+        <collection property="auth" ofType="string">
+            <result column="auth" property="auth"></result>
+        </collection>
+    </resultMap>
 
     <select id="authCheck" resultType="String">
         SELECT
