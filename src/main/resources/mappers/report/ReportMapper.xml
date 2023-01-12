@@ -24,6 +24,9 @@
                 <if test="adduser != null and adduser!=''">
                     and h.adduser = #{adduser}
                 </if>
+                <if test="from_request_date != null and from_request_date!='' and to_request_date != null and to_request_date!=''">
+                    and h.request_date BETWEEN #{from_request_date} AND #{to_request_date}
+                </if>
                 <if test="from_add_date != null and from_add_date!='' and to_add_date != null and to_add_date!=''">
                     and h.adddate BETWEEN #{from_add_date} AND #{to_add_date}
                 </if>
@@ -56,7 +59,9 @@
                 <if test="adduser != null and adduser!=''">
                     and h.adduser = #{adduser}
                 </if>
-
+                <if test="from_request_date != null and from_request_date!='' and to_request_date != null and to_request_date!=''">
+                    and h.request_date BETWEEN #{from_request_date} AND #{to_request_date}
+                </if>
                 <if test="from_add_date != null and from_add_date!='' and to_add_date != null and to_add_date!=''">
                     and h.adddate BETWEEN #{from_add_date} AND #{to_add_date}
                 </if>
@@ -86,6 +91,9 @@
                 </if>
                 <if test="adduser != null and adduser!=''">
                     and h.adduser = #{adduser}
+                </if>
+                <if test="from_request_date != null and from_request_date!='' and to_request_date != null and to_request_date!=''">
+                    and h.request_date BETWEEN #{from_request_date} AND #{to_request_date}
                 </if>
                 <if test="from_add_date != null and from_add_date!='' and to_add_date != null and to_add_date!=''">
                     and h.adddate BETWEEN #{from_add_date} AND #{to_add_date}

@@ -2,6 +2,7 @@ package com.example.sharedOne.domain.report;
 
 import lombok.Data;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 
 @Data
@@ -10,6 +11,7 @@ public class OrderDto {
     private String order_code;
     private  String buyer_code;
     private Timestamp order_date;
+    private Timestamp request_date;
     private  String status;
     private Timestamp approval_date;
     private Timestamp return_date;

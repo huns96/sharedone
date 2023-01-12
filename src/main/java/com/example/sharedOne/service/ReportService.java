@@ -21,7 +21,9 @@ public class ReportService {
 //        return reportMapper.selectOrders(order_code,type);
 //    }
     public List<OrderDto> getOrders(String order_code, String buyer_code,
-                                    String status, String adduser, String from_add_date,
+                                    String status, String adduser,
+                                    String from_request_date, String to_request_date,
+                                    String from_add_date,
                                     String to_add_date, String product_code) {
         System.out.println("서비스겟오더스"+order_code);
         Map<String, Object> map = new HashMap<String, Object>();
@@ -33,7 +35,7 @@ public class ReportService {
         map.put("to_add_date",to_add_date);
 //        return reportMapper.selectOrders(map);
 
-        return reportMapper.selectOrders(order_code,buyer_code,status,
+        return reportMapper.selectOrders(order_code,buyer_code,status, from_request_date,to_request_date,
                 adduser,from_add_date,to_add_date,product_code);
     }
 
@@ -54,15 +56,18 @@ public class ReportService {
 
 
     public SumDto getSums(String order_code, String buyer_code, String status, String adduser,
+                                String from_request_date, String to_request_date,
                                 String from_add_date, String to_add_date, String product_code, String sumCondition) {
-        return reportMapper.getSums(order_code,buyer_code,status,adduser,
+        return reportMapper.getSums(order_code,buyer_code,status,adduser,from_request_date,to_request_date,
                 from_add_date,to_add_date, product_code,sumCondition);
     }
 
     public List<OrderGroupDto> getOrderGroups(String order_code, String buyer_code, String status,
-                                              String adduser, String from_add_date, String to_add_date,
+                                              String adduser,String from_request_date,String to_request_date,
+                                              String from_add_date, String to_add_date,
                                               String product_code, String sumCondition) {
         return reportMapper.selectOrderGroups(order_code,buyer_code,status,adduser,
+                from_request_date,to_request_date,
                 from_add_date,to_add_date, product_code,sumCondition);
     }
 }

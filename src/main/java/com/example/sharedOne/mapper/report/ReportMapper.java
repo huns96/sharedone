@@ -11,7 +11,9 @@ import java.util.List;
 @Mapper
 public interface ReportMapper {
     public List<OrderDto> selectOrders(String order_code, String buyer_code,
-                                       String status, String adduser, String from_add_date,
+                                       String status,
+                                       String from_request_date, String to_request_date,
+                                       String adduser, String from_add_date,
                                        String to_add_date, String product_code);
 
 
@@ -24,10 +26,12 @@ public interface ReportMapper {
     List<OrderItemDto> getOrderItems(String product_code);
 
     SumDto getSums(String order_code, String buyer_code, String status,
-                         String adduser, String from_add_date, String to_add_date,
+                         String adduser,
+                   String from_request_date,String to_request_date, String from_add_date, String to_add_date,
                          String product_code, String sumCondition);
 
     List<OrderGroupDto> selectOrderGroups(String order_code, String buyer_code, String status, String adduser,
+                                          String from_request_date, String to_request_date,
                                          String from_add_date, String to_add_date, String product_code, String sumCondition);
 }
 

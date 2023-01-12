@@ -67,13 +67,6 @@
 </head>
 <body>
 
-<%--param: ${param.status}... <br>--%>
-<%--param: ${param}... <br>--%>
-<%--paramvalues: ${paramValues}... <br>--%>
-<%--cookie:${cookie} <br>--%>
-<%--뷰에서보낸파람:${param.status2}--%>
-
-<%--<c:set var="orderBy" value=""></c:set>--%>
 
 <c:url value="/report/result" var="orderByUrl">
     <c:param name="order_code" value="${param.order_code }"/>
@@ -170,7 +163,7 @@
                     </button>
 
                     <br>
-                    요청일: <input type="date">~<input type="date">
+                    요청일: <input type="date" name="from_request_date">~<input type="date" name="to_request_date">
                     작성일: <input type="date" name="from_add_date">~<input type="date" name="to_add_date">
                     제품코드: <input type="text" name="product_code">
                     <button type="button" class="btn btn-light" data-bs-toggle="modal"
@@ -182,29 +175,29 @@
                     <br><br>
                     합계조건 :
                     <input type="radio" name="sumCondition"  checked value="i.num" /> 선택안함
-                    <input type="radio" name="sumCondition" value="month" /> 월별
+                    <input type="radio" name="sumCondition" value="month(h.request_date)" /> 월별
                     <input type="radio" name="sumCondition"  value="h.buyer_code" /> 바이어별
                     <input type="radio" name="sumCondition" value="h.adduser" /> 담당자별
                     <input type="radio" name="sumCondition"  value="h.status" /> 승인여부별
-                    <input type="radio" name="sumCondition" value="category" /> 카테고리별
+<%--                    <input type="radio" name="sumCondition" value="category" /> 카테고리별--%>
 
 
                     <br><br><br>
 
-                    조회 항목 선택 :
-                    <input type="checkbox" name="" value="1" id="2" checked>주문코드
-                    <input type="checkbox" name="" value="2" id="3" checked>바이어코드
-                    <input type="checkbox" name="" value="3" id="4" checked>요청일
-                    <input type="checkbox" name="" value="4" id="5" checked>승인여부
-                    <input type="checkbox" name="" value="" id="6">승인일
-                    <input type="checkbox" name="" value="" id="7">반려일
-                    <input type="checkbox" name="" value="" id="8">메모
-                    <input type="checkbox" name="" value="" id="9" checked>작성자
-                    <input type="checkbox" name="" value="" id="10" checked>작성일
-                    <input type="checkbox" name="" value="" id="11" checked>제품코드
-                    <input type="checkbox" name="" value="" id="12" checked>수량
-                    <input type="checkbox" name="" value="" id="13" checked>통화
-                    <input type="checkbox" name="" value="" id="14" checked>가격
+<%--                    조회 항목 선택 :--%>
+<%--                    <input type="checkbox" name="" value="1" id="2" checked>주문코드--%>
+<%--                    <input type="checkbox" name="" value="2" id="3" checked>바이어코드--%>
+<%--                    <input type="checkbox" name="" value="3" id="4" checked>요청일--%>
+<%--                    <input type="checkbox" name="" value="4" id="5" checked>승인여부--%>
+<%--                    <input type="checkbox" name="" value="" id="6">승인일--%>
+<%--                    <input type="checkbox" name="" value="" id="7">반려일--%>
+<%--                    <input type="checkbox" name="" value="" id="8">메모--%>
+<%--                    <input type="checkbox" name="" value="" id="9" checked>작성자--%>
+<%--                    <input type="checkbox" name="" value="" id="10" checked>작성일--%>
+<%--                    <input type="checkbox" name="" value="" id="11" checked>제품코드--%>
+<%--                    <input type="checkbox" name="" value="" id="12" checked>수량--%>
+<%--                    <input type="checkbox" name="" value="" id="13" checked>통화--%>
+<%--                    <input type="checkbox" name="" value="" id="14" checked>가격--%>
 
 
                 </form>
@@ -219,14 +212,14 @@
 
 
 
-
+                    <p>&nbsp;&nbsp;&nbsp;총 ${orderGroupCount}건 </p>
                     <table style="text-align: center" id="ordersTable" class="table table-bordered border border-5">
                         <thead class="table-dark">
                         <tr>
-                            <th></th>
+<%--                            <th></th>--%>
                             <th id="order_code">&nbsp;${groupName}</th>
-                            <th id="buyer_code">제품 수량</th>
-                            <th>가격</th>
+                            <th id="buyer_code">제품 수량 합계</th>
+                            <th>가격 합계</th>
 <%--                            <th id="status">승인여부</th>--%>
 <%--                            <th id="approval_date" style="display: none">승인일</th>--%>
 <%--                            <th id="return_date" style="display: none">반려일</th>--%>
@@ -241,12 +234,14 @@
                         </tr>
                         </thead>
                         <tbody>
+
                         <c:forEach items="${orderGroups}" var="orderGroup" varStatus="status">
                             <tr>
-                                <td>${status.index+1}</td>
-                                <td>&nbsp;&nbsp;${orderGroup.groupName}</td>
+<%--                                <td>${status.index+1}</td>--%>
+                                <td id="groupNameButton"><a href="javascript:doDisplay();"> &nbsp;&nbsp;${orderGroup.groupName}</a></td>
                                 <td>${orderGroup.sumQuantity}</td>
-                                <td>${orderGroup.sumPrice}</td>
+<%--                                <td>${orderGroup.sumPrice}</td>--%>
+                                <td class="row_value"><fmt:formatNumber value="${orderGroup.sumPrice}" pattern="#,###"/></td>
 
                                     <%------------------------------------%>
 <%--                                <td>${order.status}</td>--%>
@@ -287,7 +282,26 @@
                         </tfoot>
 
                     </table>
+<%--                                  <p id="ordersInGroup" style="display: none">아이템라인별--%>
+<%--                                      아이템라인별 <br>--%>
+<%--                                      아이템라인별 <br>--%>
+<%--                                      아이템라인별 <br>--%>
+<%--                                      아이템라인별 <br>--%>
+<%--                                      아이템라인별 <br>--%>
+<%--                                      아이템라인별 <br>--%>
+<%--                                      아이템라인별 <br>--%>
+<%--                                      아이템라인별 <br>--%>
+<%--                                      아이템라인별 <br>--%>
+<%--                                      아이템라인별 <br>--%>
+<%--                                      아이템라인별 <br>--%>
+<%--                                      아이템라인별 <br>--%>
+<%--                                      아이템라인별 <br>--%>
+<%--                                      아이템라인별 <br>--%>
+<%--                                      아이템라인별 <br>--%>
+<%--                                      아이템라인별 <br>--%>
 
+
+<%--                                  </p>--%>
 
                 </div>
             </div>
@@ -391,6 +405,26 @@
 
 
         <script>
+
+
+
+                var bDisplay = true;
+                function doDisplay(){
+                var con = document.getElementById("ordersInGroup");
+                if(con.style.display=='none'){
+                con.style.display = 'block';
+            }else{
+                con.style.display = 'none';
+            }}
+
+
+
+            //     document.getElementById('groupNameButton').click(function (){
+            //         console.log("click");
+            //     }
+            //     document.getElementById('ordersInGroup').style.display='block'
+            // })
+
             // $(document).ready(function() {
             //     $("input[type='checkbox']").click(function() {
             //          let v1 =parseInt($(this).each(getCheckboxValue())) ;
