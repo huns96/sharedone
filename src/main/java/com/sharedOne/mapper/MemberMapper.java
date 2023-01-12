@@ -20,4 +20,6 @@ public interface MemberMapper {
     int modifyMember(String user_id, String name, String phone, String upduser);
 
     MemberDto selectUserInfo(String user_id);
+
+    String authCheck(String user_id, String auth);
 }

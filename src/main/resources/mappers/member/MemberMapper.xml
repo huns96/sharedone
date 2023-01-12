@@ -84,6 +84,14 @@
             m.user_id = #{user_id}
     </select>
 
+    <select id="authCheck" resultType="String">
+        SELECT
+            auth
+        FROM
+            authority
+        WHERE
+            user_id = #{user_id} AND auth = #{auth}
+    </select>
 
 
 </mapper>

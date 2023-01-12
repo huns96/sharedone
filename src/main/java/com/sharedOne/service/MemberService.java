@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Service
 public class MemberService {
     @Autowired
@@ -30,12 +31,19 @@ public class MemberService {
         memberMapper.deleteMember(user_id, upduser);
     }
 
-    public void setAutho(String user_id, String auth) {
-        List<String> authList = memberMapper.selectUserInfo(user_id).getAuth();
-        MemberDto memberDto= memberMapper.selectUserInfo(user_id);
+    public String setAutho(String user_id, String auth) {
+        String authCheck = memberMapper.authCheck(user_id, auth);
+        if (authCheck != null) {
 
-        System.out.println("냥냥펀치"+ memberDto );
-        /*memberMapper.setAutho(user_id, auth);*/
+            return "exist";
+        } else if (authCheck == null) {
+            memberMapper.setAutho(user_id, auth);
+
+            return "success";
+        }
+
+        return "error";
+
     }
 
     public void modifyMember(String user_id, String name, String phone, String upduser) {

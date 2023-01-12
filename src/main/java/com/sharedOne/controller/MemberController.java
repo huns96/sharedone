@@ -9,7 +9,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -55,8 +58,10 @@ public class MemberController {
     }
 
     @PostMapping("setAutho")
-    public String setAutho(String user_id, String auth) {
-        memberService.setAutho(user_id, auth);
+    public String setAutho(String user_id, String auth, RedirectAttributes redirectAttributes) {
+        String setAutho = memberService.setAutho(user_id, auth);
+        redirectAttributes.addFlashAttribute("result", setAutho);
+
         return "redirect:/member/list";
     }
 
