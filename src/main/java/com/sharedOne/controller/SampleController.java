@@ -152,6 +152,8 @@ public class SampleController {
 
         model.addAttribute("priceList", list);
 
+        System.out.println("keyword::::::::"+keyword);
+
         System.out.print(list);
         return list;
     }

@@ -18,79 +18,12 @@
 </head>
 <body>
 <!-- Modal -->
-<div class="modal fade" id="buyerModal" tabindex="-1"
+<div class="modal fade" id="productModal" tabindex="-1"
      aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel" style="left: 10px">바이어</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                aria-label="Close" style="right: 10px"></button>
-      </div>
-      <div class="modal-body" style="float: left">
-<%--        <form action="">--%>
-<%--          <select name="" id="">--%>
-<%--            <option value=""></option>--%>
-<%--          </select>--%>
-<%--          <div class="search">--%>
-<%--            <input type="text">--%>
-<%--            <img src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png" alt="">--%>
-<%--          </div>--%>
-<%--        </form>--%>
-
-        <form class="d-flex" role="search" action="">
-          <select name="t" id="t" class="form-select" style="width: 160px ; font-size: 12px ">
-            <option value="buyer_code" ${param.t == 'buyer_code' ? 'selected' : ''}>바이어코드</option>
-            <option value="name" ${param.t == 'name' ? 'selected' : ''}>바이어명</option>
-          </select>
-          <input value="${param.q }" class="form-control me-2" id="keyword" type="search" placeholder="Search" aria-label="Search" name="q" style="font-size: 14px;" >
-          <button class="btn btn-outline-success" id="select" type="button" data-bs-toggle="modal" data-bs-target="#buyer_code_search">
-            <i class="fa-solid fa-magnifying-glass"></i>
-          </button>
-        </form>
-  <table class="table table-hover">
-    <thead>
-    <tr>
-      <th>#</th>
-      <th>바이어코드</th>
-      <th>바이어명</th>
-    </tr>
-    </thead>
-    <tbody>
-    <c:forEach items="${buyers}" var="buyer" varStatus="status">
-      <tr id="buyer">
-        <td>${status.count}</td>
-        <td>${buyer.buyer_code}</td>
-        <td>${buyer.name}</td>
-<%--        <td>${buyer.address}</td>--%>
-<%--        <td>${buyer.license}</td>--%>
-<%--        <td>${buyer.contact}</td>--%>
-<%--        <td>${buyer.adduser}</td>--%>
-<%--        <td>${buyer.upduser}</td>--%>
-      </tr>
-    </c:forEach>
-    </tbody>
-  </table>
-  </form>
-
-      </div>
-      <div class="modal-footer">
-        <button id="buyerConfirmButton" type="button"
-                class="btn btn-secondary" data-bs-dismiss="modal">확인</button>
-        <button type="button" class="btn btn-primary"
-                data-bs-dismiss="modal">취소</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<div class="modal fade" id="buyer_code_search" tabindex="-1"
-     aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModal" style="left: 10px">바이어코드 검색결과</h1>
+        <h1 class="modal-title fs-5" id="exampleModalLabel" style="left: 10px">제품</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal"
                 aria-label="Close" style="right: 10px"></button>
       </div>
@@ -105,36 +38,35 @@
         <%--          </div>--%>
         <%--        </form>--%>
 
-<%--        <form class="d-flex" role="search" action="">
-          <select name="t" class="form-select" style="width: 160px ; font-size: 12px " id="t">
-            <option value="buyer_code" ${param.t == 'buyer_code' ? 'selected' : ''}>바이어코드</option>
-            <option value="buyer_name" ${param.t == 'buyer_name' ? 'selected' : ''}>바이어명</option>
+        <form class="d-flex" role="search" action="">
+          <select name="t" id="t" class="form-select" style="width: 160px ; font-size: 12px ">
+            <option value="product_code" ${param.t == 'product_code' ? 'selected' : ''}>제품코드</option>
+            <option value="name" ${param.t == 'name' ? 'selected' : ''}>제품명</option>
           </select>
-          <input value="${param.q }" class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="q" style="font-size: 14px;" >
-          <button id="select" class="btn btn-outline-success" &lt;%&ndash;type="submit"&ndash;%&gt; type="button" data-bs-toggle="modal"
-                   &lt;%&ndash;data-bs-target=<c:if test=" ${t} == buyer_code">"#reroadbuyerModal"</c:if>&ndash;%&gt;>
+          <input value="${param.q }" class="form-control me-3" type="search" placeholder="Search" aria-label="Search" name="q" style="font-size: 14px;" >
+          <button class="btn btn-outline-success" id="select" type="button" data-bs-toggle="modal" data-bs-target="#product_code_search">
             <i class="fa-solid fa-magnifying-glass"></i>
           </button>
-        </form>--%>
+        </form>
         <table class="table table-hover">
           <thead>
           <tr>
             <th>#</th>
-            <th>바이어코드</th>
-            <th>바이어명</th>
+            <th>제품코드</th>
+            <th>제품명</th>
           </tr>
           </thead>
           <tbody>
-          <c:forEach items="${buyerCodeSearch}" var="buyer" varStatus="status">
-            <tr id="buyer">
+          <c:forEach items="${products}" var="product" varStatus="status">
+            <tr id="product">
               <td>${status.count}</td>
-              <td>${buyer.buyer_code}</td>
-              <td>${buyer.name}</td>
-                <%--        <td>${buyer.address}</td>--%>
-                <%--        <td>${buyer.license}</td>--%>
-                <%--        <td>${buyer.contact}</td>--%>
-                <%--        <td>${buyer.adduser}</td>--%>
-                <%--        <td>${buyer.upduser}</td>--%>
+              <td>${product.product_code}</td>
+              <td>${product.name}</td>
+                <%--        <td>${product.address}</td>--%>
+                <%--        <td>${product.license}</td>--%>
+                <%--        <td>${product.contact}</td>--%>
+                <%--        <td>${product.adduser}</td>--%>
+                <%--        <td>${product.upduser}</td>--%>
             </tr>
           </c:forEach>
           </tbody>
@@ -143,7 +75,7 @@
 
       </div>
       <div class="modal-footer">
-        <button id="reroadbuyerConfirmButton" type="button"
+        <button id="productConfirmButton" type="button"
                 class="btn btn-secondary" data-bs-dismiss="modal">확인</button>
         <button type="button" class="btn btn-primary"
                 data-bs-dismiss="modal">취소</button>
@@ -153,12 +85,12 @@
 </div>
 
 
-<div class="modal fade" id="name_search" tabindex="-1"
+<div class="modal fade" id="product_code_search" tabindex="-1"
      aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="example" style="left: 10px">바이어명 검색결과</h1>
+        <h1 class="modal-title fs-5" id="exampleModal" style="left: 10px">제품코드 검색결과</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal"
                 aria-label="Close" style="right: 10px"></button>
       </div>
@@ -175,12 +107,12 @@
 
         <%--        <form class="d-flex" role="search" action="">
                   <select name="t" class="form-select" style="width: 160px ; font-size: 12px " id="t">
-                    <option value="buyer_code" ${param.t == 'buyer_code' ? 'selected' : ''}>바이어코드</option>
-                    <option value="buyer_name" ${param.t == 'buyer_name' ? 'selected' : ''}>바이어명</option>
+                    <option value="product_code" ${param.t == 'product_code' ? 'selected' : ''}>제품코드</option>
+                    <option value="product_name" ${param.t == 'product_name' ? 'selected' : ''}>제품명</option>
                   </select>
-                  <input value="${param.q }" class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="q" style="font-size: 14px;" >
+                  <input value="${param.q }" class="form-control me-3" type="search" placeholder="Search" aria-label="Search" name="q" style="font-size: 14px;" >
                   <button id="select" class="btn btn-outline-success" &lt;%&ndash;type="submit"&ndash;%&gt; type="button" data-bs-toggle="modal"
-                           &lt;%&ndash;data-bs-target=<c:if test=" ${t} == buyer_code">"#reroadbuyerModal"</c:if>&ndash;%&gt;>
+                           &lt;%&ndash;data-bs-target=<c:if test=" ${t} == product_code">"#reroadproductModal"</c:if>&ndash;%&gt;>
                     <i class="fa-solid fa-magnifying-glass"></i>
                   </button>
                 </form>--%>
@@ -188,21 +120,89 @@
           <thead>
           <tr>
             <th>#</th>
-            <th>바이어코드</th>
-            <th>바이어명</th>
+            <th>제품코드</th>
+            <th>제품명</th>
           </tr>
           </thead>
           <tbody>
-          <c:forEach items="${buyerNameSearch}" var="buyer" varStatus="status">
-            <tr id="buyer">
+          <c:forEach items="${productCodeSearch}" var="product" varStatus="status">
+            <tr id="product">
               <td>${status.count}</td>
-              <td>${buyer.buyer_code}</td>
-              <td>${buyer.name}</td>
-                <%--        <td>${buyer.address}</td>--%>
-                <%--        <td>${buyer.license}</td>--%>
-                <%--        <td>${buyer.contact}</td>--%>
-                <%--        <td>${buyer.adduser}</td>--%>
-                <%--        <td>${buyer.upduser}</td>--%>
+              <td>${product.product_code}</td>
+              <td>${product.name}</td>
+                <%--        <td>${product.address}</td>--%>
+                <%--        <td>${product.license}</td>--%>
+                <%--        <td>${product.contact}</td>--%>
+                <%--        <td>${product.adduser}</td>--%>
+                <%--        <td>${product.upduser}</td>--%>
+            </tr>
+          </c:forEach>
+          </tbody>
+        </table>
+        </form>
+
+      </div>
+      <div class="modal-footer">
+        <button id="reroadproductConfirmButton" type="button"
+                class="btn btn-secondary" data-bs-dismiss="modal">확인</button>
+        <button type="button" class="btn btn-primary"
+                data-bs-dismiss="modal">취소</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="name_search" tabindex="-1"
+     aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="example" style="left: 10px">제품명 검색결과</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                aria-label="Close" style="right: 10px"></button>
+      </div>
+      <div class="modal-body" style="float: left">
+        <%--        <form action="">--%>
+        <%--          <select name="" id="">--%>
+        <%--            <option value=""></option>--%>
+        <%--          </select>--%>
+        <%--          <div class="search">--%>
+        <%--            <input type="text">--%>
+        <%--            <img src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png" alt="">--%>
+        <%--          </div>--%>
+        <%--        </form>--%>
+
+        <%--        <form class="d-flex" role="search" action="">
+                  <select name="t" class="form-select" style="width: 160px ; font-size: 12px " id="t">
+                    <option value="product_code" ${param.t == 'product_code' ? 'selected' : ''}>제품코드</option>
+                    <option value="product_name" ${param.t == 'product_name' ? 'selected' : ''}>제품명</option>
+                  </select>
+                  <input value="${param.q }" class="form-control me-3" type="search" placeholder="Search" aria-label="Search" name="q" style="font-size: 14px;" >
+                  <button id="select" class="btn btn-outline-success" &lt;%&ndash;type="submit"&ndash;%&gt; type="button" data-bs-toggle="modal"
+                           &lt;%&ndash;data-bs-target=<c:if test=" ${t} == product_code">"#reroadproductModal"</c:if>&ndash;%&gt;>
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                  </button>
+                </form>--%>
+        <table class="table table-hover">
+          <thead>
+          <tr>
+            <th>#</th>
+            <th>제품코드</th>
+            <th>제품명</th>
+          </tr>
+          </thead>
+          <tbody>
+          <c:forEach items="${productNameSearch}" var="product" varStatus="status">
+            <tr id="product">
+              <td>${status.count}</td>
+              <td>${product.product_code}</td>
+              <td>${product.name}</td>
+                <%--        <td>${product.address}</td>--%>
+                <%--        <td>${product.license}</td>--%>
+                <%--        <td>${product.contact}</td>--%>
+                <%--        <td>${product.adduser}</td>--%>
+                <%--        <td>${product.upduser}</td>--%>
             </tr>
           </c:forEach>
           </tbody>
@@ -222,7 +222,7 @@
 
 
 
-<%--<div class="modal fade" id="buyerModal" tabindex="-1"--%>
+<%--<div class="modal fade" id="productModal" tabindex="-1"--%>
 <%--     aria-labelledby="exampleModalLabel" aria-hidden="true">--%>
 <%--  <div class="modal-dialog">--%>
 <%--    <div class="modal-content">--%>
@@ -249,10 +249,7 @@
   document.querySelector("#t").addEventListener("click", function(){
     const type = document.querySelector("#t").value;
 
-    const keyword = document.getElementById("keyword").value;
-
     document.querySelector("#select").setAttribute("data-bs-target", "#"+type+"_search");
-
   });
 
 
