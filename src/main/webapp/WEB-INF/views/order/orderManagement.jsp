@@ -304,6 +304,8 @@
                 type: 'POST',
                 url: '/order/itemList',
                 data: {"orderCode": orderCode},
+                dataType : 'json',
+                traditional: true,
                 success: function (result) {
                     console.log(result);
                     for (var i = 0; i < result.length; i++) {

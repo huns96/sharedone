@@ -67,8 +67,8 @@ public class OrderController {
     /* 주문 상품 리스트 조회 */
     @RequestMapping("itemList")
     @ResponseBody
-    public List<OrderItemDto> itemList(@RequestBody String order_code) {
-        List<OrderItemDto> itemList = orderService.getItemList(order_code);
+    public List<OrderItemDto> itemList(@RequestParam String orderCode) {
+        List<OrderItemDto> itemList = orderService.getItemList(orderCode);
         log.info("itemList ========> {}", itemList);
         return itemList;
     }
