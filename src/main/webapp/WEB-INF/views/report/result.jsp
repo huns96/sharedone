@@ -106,7 +106,7 @@
 
 <div class="container-fluid">
     <div class="row flex-nowrap">
-        <my:sideBar2></my:sideBar2>
+        <my:Sidebar></my:Sidebar>
         <div class="col py-3">
             <h3><a href="result">Report</a></h3>
             <p style="display: none">리포트</p>
@@ -202,7 +202,7 @@
                     <input type="checkbox" name="" value="" id="7">반려일
                     <input type="checkbox" name="" value="" id="8">메모
                     <input type="checkbox" name="" value="" id="9" checked>작성자
-                    <input type="checkbox" name="" value="" id="10" checked>작성일
+                    <input type="checkbox" name="" value="" id="10" checked>작성일시
                     <input type="checkbox" name="" value="" id="11" checked>제품코드
                     <input type="checkbox" name="" value="" id="12" checked>수량
                     <input type="checkbox" name="" value="" id="13" checked>통화
@@ -242,7 +242,7 @@
                             <th id="return_date" style="display: none">반려일</th>
                             <th id="memo" style="display: none">메모</th>
                             <th id="adduser">작성자</th>
-                            <th id="adddate">작성일</th>
+                            <th id="adddate">작성일시</th>
                             <th id="product_code">제품 코드</th>
                             <th id="quantity">수량</th>
                             <th id="currency">통화</th>
@@ -255,8 +255,8 @@
                             <tr>
                                     <%--<td>${status.index+1}</td>--%>
                                 <td>&nbsp;&nbsp;${order.order_code}</td>
-                                <td>${order.buyer_code}</td>
-                                <td>${order.request_date}</td>
+                                <td>${order.buyer_code} </td>
+                                <td><fmt:formatDate value="${order.request_date}" pattern="yyyy-MM-dd"/></td>
                                 <td>${order.status}</td>
                                 <td style="display: none"></td>
                                 <td style="display: none"></td>
@@ -400,6 +400,12 @@
 
 
         <script>
+
+            if('${message}' != '')
+                alert('${message}');
+
+
+
             // $(document).ready(function() {
             //     $("input[type='checkbox']").click(function() {
             //          let v1 =parseInt($(this).each(getCheckboxValue())) ;

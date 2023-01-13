@@ -38,16 +38,20 @@ public class ReportController {
                              @RequestParam(required = false) String product_code,
                              @RequestParam(required = false, defaultValue = "i.num") String sumCondition
     ) {
+        if ((from_request_date.equals("") & !to_request_date.equals("") | (to_request_date.equals("") & !from_request_date.equals("")))
+                |
+                ((from_add_date.equals("") & !to_add_date.equals("")) | (to_add_date.equals("") & !from_add_date.equals("")))) {
+            model.addAttribute("message", "날짜 입력이 잘못 되었습니다");
+            return "/report/result";
+        }
+
         if (!sumCondition.equals("i.num") & (sumCondition != null) & !sumCondition.equals("")) {
-//        if (!sumCondition.equals("i.num") ){
-            if((((from_request_date.equals("")&from_request_date!=null)&!(to_request_date.equals("")&to_request_date!=null))
-                    |((to_request_date.equals("")&to_request_date!=null)&!(from_request_date.equals("")&from_request_date!=null)))
-            |(((from_add_date.equals("")&from_add_date!=null)&!(to_add_date.equals("")&to_add_date!=null))
-                    |((to_add_date.equals("")&to_add_date!=null)&!(from_add_date.equals("")&from_add_date!=null)))
-            ){
-                model.addAttribute("message","날짜를 입력해주세요");
-            System.out.println("에러");
-                return "/report/sumResult";}
+
+//            if((((from_request_date.equals("")|from_request_date!=null)&!(to_request_date.equals("")&to_request_date!=null))
+//                    |((to_request_date.equals("")&to_request_date!=null)&!(from_request_date.equals("")&from_request_date!=null)))
+//            |(((from_add_date.equals("")&from_add_date!=null)&!(to_add_date.equals("")&to_add_date!=null))
+//                    |((to_add_date.equals("")&to_add_date!=null)&!(from_add_date.equals("")&from_add_date!=null)))
+//            )
 
 
             System.out.println(sumCondition + "섬레졀트 작업시작");
@@ -66,24 +70,24 @@ public class ReportController {
 
 
             List<OrderGroupDto> orderGroups = reportService.getOrderGroups(order_code, buyer_code, status, adduser,
-                    from_request_date,to_request_date,from_add_date, to_add_date, product_code, sumCondition);
+                    from_request_date, to_request_date, from_add_date, to_add_date, product_code, sumCondition);
             System.out.println("오더그룹스" + orderGroups);
             // 왜 한 그룹으로 나오지..? > 이유는 모르겠지만 자동으로 고쳐짐;
             orderGroups.forEach(orderGroupDto -> System.out.println("찾으려고 적음" + orderGroupDto));
 
             SumDto sums = reportService.getSums(order_code, buyer_code, status, adduser,
-                    from_request_date,to_request_date,
+                    from_request_date, to_request_date,
                     from_add_date, to_add_date, product_code, sumCondition);
 
             model.addAttribute("orderGroups", orderGroups);
             model.addAttribute("sums", sums);
-            model.addAttribute("orderGroupCount",orderGroups.size());
-            model.addAttribute("from_add_date",from_add_date);
+            model.addAttribute("orderGroupCount", orderGroups.size());
+            model.addAttribute("from_add_date", from_add_date);
 //            if(!from_add_date.equals("")&from_add_date!=null){
-            model.addAttribute("to_add_date",to_add_date);
+            model.addAttribute("to_add_date", to_add_date);
 //            }
-            model.addAttribute("from_request_date",from_request_date);
-            model.addAttribute("to_request_date",to_request_date);
+            model.addAttribute("from_request_date", from_request_date);
+            model.addAttribute("to_request_date", to_request_date);
             return "/report/sumResult";
         }
 
@@ -91,16 +95,18 @@ public class ReportController {
         //---------------------------------------------------------------------
 
         System.out.println("레졀트 작업시작" + "order_code:" + sumCondition);
+
+
         if (order_code == null & buyer_code == null & adduser == null & from_add_date == null & to_add_date == null) {
             status = " ";
         }
 
         List<OrderDto> orders = reportService.getOrders(order_code, buyer_code, status, adduser,
-                from_request_date,to_request_date,
+                from_request_date, to_request_date,
                 from_add_date, to_add_date, product_code);
 
         SumDto sums = reportService.getSums(order_code, buyer_code, status, adduser,
-                from_request_date,to_request_date,
+                from_request_date, to_request_date,
                 from_add_date, to_add_date, product_code, sumCondition);
 
         System.out.println("갯수 : " + orders.size());
@@ -108,13 +114,13 @@ public class ReportController {
         System.out.println(orders);
         model.addAttribute("orders", orders);
         model.addAttribute("sums", sums);
-        model.addAttribute("orderCount",orders.size());
-        model.addAttribute("from_add_date",from_add_date);
+        model.addAttribute("orderCount", orders.size());
+        model.addAttribute("from_add_date", from_add_date);
 //            if(!from_add_date.equals("")&from_add_date!=null){
-        model.addAttribute("to_add_date",to_add_date);
+        model.addAttribute("to_add_date", to_add_date);
 //            }
-        model.addAttribute("from_request_date",from_request_date);
-        model.addAttribute("to_request_date",to_request_date);
+        model.addAttribute("from_request_date", from_request_date);
+        model.addAttribute("to_request_date", to_request_date);
 
         return "/report/result";
     }

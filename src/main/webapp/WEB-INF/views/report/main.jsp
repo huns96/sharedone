@@ -104,7 +104,7 @@
 
 <div class="container-fluid">
     <div class="row flex-nowrap">
-        <my:sideBar2></my:sideBar2>
+        <my:Sidebar></my:Sidebar>
         <div class="col py-3">
             <h3><a href="main">Report</a></h3><br>
 

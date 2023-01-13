@@ -99,10 +99,10 @@
 
 <div class="container-fluid">
     <div class="row flex-nowrap">
-        <my:sideBar2></my:sideBar2>
+        <my:Sidebar></my:Sidebar>
         <div class="col py-3">
             <h3><a href="result">Report</a></h3>
-            <p>합계리포트</p>   ${message}message
+            <p>합계리포트</p>
 
             <div class="p-3 mt-3 mb-3" style="background-color: white;">
                 <%--                서치바 기호에 맞게--%>
@@ -419,6 +419,9 @@
 
 
         <script>
+
+            if('${message}' != '')
+                alert('${message}');
 
 
             var bDisplay = true;
