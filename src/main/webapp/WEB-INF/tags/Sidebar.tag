@@ -63,3 +63,6 @@
             <li class="w-100">
                 <a href="/order/approval" class="nav-link"> <span class="d-none d-sm-inline name" style="align-items: center; color: aliceblue;">주문승인</span></a>
             </li>
+        </ul>
+    </div>
+</div>
