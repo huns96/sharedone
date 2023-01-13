@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.sharedOne.mapper.MemberMapper">
+<mapper namespace="com.sharedOne.mapper.member.MemberMapper">
 
     <select id="memberList" resultMap="memberList">
         SELECT
@@ -13,7 +13,7 @@
         WHERE delyn = 'N'
     </select>
 
-    <resultMap id="memberList" type="com.sharedOne.domain.MemberDto">
+    <resultMap id="memberList" type="com.sharedOne.domain.member.MemberDto">
         <id column="user_id" property="user_id"></id>
         <result column="phone" property="phone"></result>
         <result column="name" property="name"></result>
@@ -42,7 +42,7 @@
             m.user_id = #{user_id}
     </select>
 
-    <resultMap id="memberMap" type="com.sharedOne.domain.MemberDto">
+    <resultMap id="memberMap" type="com.sharedOne.domain.member.MemberDto">
         <id column="user_id" property="user_id"></id>
         <result column="password" property="password"></result>
         <collection property="auth" ofType="string">
@@ -84,7 +84,7 @@
             m.user_id = #{user_id}
     </select>
 
-    <resultMap id="myPageInfo" type="com.sharedOne.domain.MemberDto">
+    <resultMap id="myPageInfo" type="com.sharedOne.domain.member.MemberDto">
         <id column="user_id" property="user_id"></id>
         <result column="name" property="name"></result>
         <result column="phone" property="phone"></result>

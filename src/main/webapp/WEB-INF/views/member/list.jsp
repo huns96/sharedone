@@ -14,6 +14,14 @@
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <style>
 
+        body { background-color: #e0e0e0; }
+        .page-background {
+            background-color: white;
+            padding: 10px;
+            margin: 5px;
+            border-radius: 5px;
+        }
+
         .tit {
             margin-left: 50px;
             margin-top: 50px;
@@ -63,7 +71,6 @@
         }
 
         .search {
-            text-align: right;
             width: 1000px;
         }
 
@@ -79,8 +86,7 @@
         <my:Sidebar></my:Sidebar>
 
         <div style="width: 1000px">
-            <h1 class="tit">회원 목록</h1>
-            <div class="search">
+            <div class="search page-background" style="margin-left: 50px; margin-top: 50px;">
                 <select name="q" id="">
                     <option value="">전체</option>
                     <option value="">이름</option>
@@ -92,7 +98,12 @@
                 <input type="text" name="q">
                 <button class="searchBtn">검색</button>
             </div>
-            <table class="table" style="width: 1000px; margin-left: 50px;">
+            <div class="page-background" style="margin-left: 50px; width: 1000px;">
+                <div style="display: flex; justify-content: space-between">
+                <h5>회원 목록</h5>
+                <button style="margin-right: 30px;" class="addMemberbtn" data-bs-toggle="modal" data-bs-target="#addMemberModal">회원등록</button>
+                </div>
+            <table class="table" style="width: 1000px;">
                 <thead>
                 <tr>
                     <th>이름</th>
@@ -126,7 +137,7 @@
                 </c:forEach>
                 </tbody>
             </table>
-            <button class="addMemberbtn" data-bs-toggle="modal" data-bs-target="#addMemberModal">회원등록</button>
+            </div>
         </div>
     </div>
 </div>
@@ -141,17 +152,17 @@
             </div>
             <div class="modal-body">
                 <form action="/member/addMember" method="post" id="memberInsertForm">
-                    회원명:&nbsp;&nbsp;&nbsp; <input type="text" name="name"> <br>
+                    회원명:&nbsp;&nbsp;&nbsp; <input type="text" name="name" id="nnName"> <br>
                     <br>
-                    아이디:&nbsp;&nbsp;&nbsp; <input type="text" name="user_id">
+                    아이디:&nbsp;&nbsp;&nbsp; <input type="text" name="user_id" id="nnId">
                     <button type="button" class="dupliCheckBtn">아이디중복확인</button>
+                    <span id="dupMessage"></span>
                     <br>
                     <br>
-                    비밀번호: <input type="text" name="password"> <br>
+                    비밀번호: <input type="password" name="password" id="nnPassword"> <br>
                     <br>
-                    연락처:&nbsp;&nbsp;&nbsp; <input type="number" name="phone"> <br>
-                    <br>
-                    작성자:&nbsp;&nbsp;&nbsp; <input type="text" name="adduser">
+                    연락처:&nbsp;&nbsp;&nbsp; <input type="number" name="phone" id="nnPhone"> <br>
+                    <input type="hidden" name="adduser" value="admin">
                 </form>
             </div>
             <div class="modal-footer">
@@ -264,7 +275,14 @@
 <script>
     document.querySelector(".memberInsertBtn").addEventListener("click", function () {
         const memInsertForm = document.forms.memberInsertForm;
+        if  ($('#nnName').val() == "" ||
+            ($('#nnId').val() == "" ||
+            ($('#nnPassword').val() == "" ||
+            ($('#nnPhone').val() == "")))) {
+            alert("입력되지 않은 정보가 있습니다.")
+        } else{
         memInsertForm.submit();
+        }
     });
 
     function asd(id, name, phone, auth) {

@@ -1,7 +1,7 @@
 package com.sharedOne.service;
 
-import com.sharedOne.domain.MemberDto;
-import com.sharedOne.mapper.MemberMapper;
+import com.sharedOne.domain.member.MemberDto;
+import com.sharedOne.mapper.member.MemberMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

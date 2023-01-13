@@ -1,6 +1,6 @@
-package com.sharedOne.mapper;
+package com.sharedOne.mapper.member;
 
-import com.sharedOne.domain.MemberDto;
+import com.sharedOne.domain.member.MemberDto;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
