@@ -82,8 +82,7 @@
                 <div id="orders" class="contents top">
                     <div id="order-list" class="page-background">
                         <h4>주문 목록
-                        <button id="addNewOrderButton" class="btn btn-danger" style="float: right"
-                                data-bs-toggle="modal" data-bs-target="#newOrder">새 주문 등록</button>
+                        <button id="addNewOrderButton" class="btn btn-danger" style="float: right">새 주문 등록</button>
                         </h4>
                         <table class="table table-hover" id="order-table">
                             <thead>
@@ -114,7 +113,7 @@
                                     <td>${order.status}</td>
                                     <td>${order.adduser}</td>
                                     <td>${order.upduser}</td>
-                                    <td><button type="button" id="${order.order_code}" class="btn btn-outline-secondary">수정</button></td>
+                                    <td><button type="button" class="btn btn-outline-secondary" onclick="modifyOrderPopup(${order.order_code})">수정</button></td>
                                 </tr>
                             </c:forEach>
                             </tbody>
@@ -164,20 +163,12 @@
             let tr = $(this);
             let td = tr.children();
             let orderCode = td.eq(1).text();
-            console.log("==============> " + orderCode);
             itemListByOrderCode(orderCode);
         });
 
         /* 주문 등록 팝업창 */
         $('#addNewOrderButton').click(function() {
             newOrderPopup();
-        });
-
-        /* 주문 수정 팝업창 */
-        $('#modifyOrderButton').click(function() {
-            let orderCode = $(this).id;
-            console.log(orderCode);
-            modifyOrderPopup();
         });
 
         /* 바이어 검색 팝업창 */
@@ -202,7 +193,7 @@
                 dataType : 'json',
                 traditional: true,
                 success: function (result) {
-                    console.log(result);
+                    //console.log(result);
                     for (var i = 0; i < result.length; i++) {
                         let index = i + 1;
                         let product_code = result[i].product_code;
@@ -251,8 +242,8 @@
     }
 
     /* 주문 수정 팝업창 */
-    function modifyOrderPopup() {
-        let url = "/order/orderModify?order_code=" + $('#orderCode').val();
+    function modifyOrderPopup(orderCode) {
+        let url = "/order/orderModify?orderCode=" + orderCode;//$('#orderCode').val();
         let popupWidth = 800;
         let popupHeight = 800;
         let popupX = (window.screen.width / 2) - (popupWidth / 2);

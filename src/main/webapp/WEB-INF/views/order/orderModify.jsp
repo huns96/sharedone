@@ -35,7 +35,7 @@
             <label for="newBuyerCode" class="form-label">바이어코드</label>
             <div class="input-group">
                 <input id="newBuyerCode" type="text" class="form-control orderInfo" name="buyer_code" value="${order.buyer_code}" placeholder="바이어코드를 검색해주세요." readonly/>
-                <a id="buyerPopupButton" class="btn btn-outline-secondary">검색</a>
+                <a id="buyerPopupButton" class="btn btn-outline-secondary" style="pointer-events:none;">검색</a>
             </div>
         </div>
         <div class="col-md-6 mb-3">
@@ -119,7 +119,7 @@
 </form>
 
 <footer style="float: right; justify-content: flex-end;">
-    <button type="button" id="newOrderSubmitButton" class="btn btn-danger">주문등록</button>
+    <button type="button" id="modifyOrderSubmitButton" class="btn btn-danger">주문등록</button>
     <button type="button" class="btn btn-secondary" onclick="window.close();">취소</button>
 </footer>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
@@ -130,16 +130,6 @@
     getItemList();
 
     $(function() {
-        /* 바이어 검색 팝업창 */
-        $('#buyerPopupButton').click(function() {
-            buyerPopup();
-        });
-
-        /* 주문일 - 오늘 날짜 */
-        const now = new Date();
-        const today = now.getFullYear() + "-" + ("0"+(now.getMonth()+1)).slice(-2) + "-" + ("0"+(now.getDate())).slice(-2);
-        $('#newOrderDate').val(today);
-
         /* 납품 요청일 */
         //$('#newRequestDate')
 
@@ -183,40 +173,19 @@
             resetItemInfo();
         });
 
-        /* 주문 등록 전송 버튼 */
-        $('#newOrderSubmitButton').click(function() {
+        /* 주문 수정 전송 버튼 */
+        $('#modifyOrderSubmitButton').click(function() {
             let buyerCode = $.trim($('#newBuyerCode').val());
             let requestDate = $.trim($('#newRequestDate').val());
             if (buyerCode != "" && requestDate != "") {
-                addNewOrder();
+                modifyOrder();
             } else {
                 if (buyerCode == "") buyerPopup();
                 if (requestDate == "") $('#newRequestDate').focus();
             }
-
-
-            // console.log("----> "+orderItemList);
-            // $('#registerModalBody').empty();
-            // $('#registerModalBody').append("총 " + orderItemList.length + "건의 상품을 주문 등록하시겠습니까?");
         });
 
     });
-
-    /* 바이어 검색 팝업창 */
-    function buyerPopup() {
-        let url = "/search/buyerPopup";
-        let popupWidth = 600;
-        let popupHeight = 500;
-        let popupX = (window.screen.width / 2) - (popupWidth / 2);
-        let popupY= (window.screen.height / 2) - (popupHeight / 2);
-        let popupOption = 'status=no, height=' + popupHeight  + ', width=' + popupWidth  + ', left='+ popupX + ', top='+ popupY;
-        window.open(url,"",popupOption);
-    }
-    // 바이어 정보 추가
-    window.setBuyerInfo = function (buyerCode, buyerName) {
-        $('#newBuyerCode').val(buyerCode);
-        $('#newBuyerName').val(buyerName);
-    }
 
     /* 상품 검색 팝업창 */
     function itemPopup() {
@@ -257,9 +226,6 @@
             orderItemList.push(itemList);
             itemListInPopup(itemList, orderItemList);
 
-            // 바이어 정보 수정 불가
-            $('#buyerPopupButton').attr('style','pointer-events:none;');
-
         } else {
             alert("상품번호 " + productCode + "가 중복됩니다.");
         }
@@ -282,11 +248,6 @@
         );
     }
 
-    /* 주문상품 리스트 조회 */
-    function getItemList() {
-
-    }
-
 
     /* 상품입력창 초기화 */
     function resetItemInfo() {
@@ -296,13 +257,13 @@
         $('#newPrice').val("");
     }
 
-    /* 새 주문 등록 */
-    function addNewOrder() {
+    /* 주문 수정 */
+    function modifyOrder() {
         let queryString = $(".orderInfo").serialize();
         //console.log(queryString);
         $.ajax({
             type: 'POST',
-            url: '/order/register',
+            url: '/order/modify',
             data: queryString,
             success: function (data) {
                 //console.log(data);
@@ -312,7 +273,7 @@
                 };
                 $.ajax({
                     type: 'POST',
-                    url: '/order/registerItem',
+                    url: '/order/modifyItem',
                     data: objParams,
                     dataType : 'json',
                     traditional: true,
