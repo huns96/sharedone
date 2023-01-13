@@ -7,8 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -95,6 +93,19 @@ public class OrderService {
         return orderMapper.getOrder(orderCode);
     }
 
+    /* 주문 수정 */
+    public String modifyOrder(OrderDto orderDto) {
+        orderMapper.updateOrder(orderDto);
+        return orderDto.getOrder_code();
+    }
+
+    /* 주문 상품 수정 */
+    public int modifyOrderItem(String[] addItems, String[] removeItems, String orderCode) {
+        //orderMapper.updateOrderItem(orderDto);
+        return 0;
+    }
+    
+    /* 주문 상태 변경 */
     public int changeStatus(String orderCode, String status) {
         OrderDto orderDto = new OrderDto();
         orderDto.setOrder_code(orderCode);
@@ -103,4 +114,5 @@ public class OrderService {
 
         return orderMapper.changeStatus(orderDto);
     }
+
 }

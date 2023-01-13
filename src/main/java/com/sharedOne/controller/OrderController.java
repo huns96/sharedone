@@ -73,26 +73,28 @@ public class OrderController {
         model.addAttribute("order", orderDto);
         model.addAttribute("itemList", list);
 
-        log.info("orderModify order ==========> {}", orderDto);
-        log.info("orderModify itemList ==========> {}", list);
+//        log.info("orderModify order ==========> {}", orderDto);
+//        log.info("orderModify itemList ==========> {}", list);
     }
 
     @PostMapping("modify")
     @ResponseBody
     public String modify(OrderDto orderDto, RedirectAttributes rttr) {
-        //log.info("register orderDto ==========> {}", orderDto);
-        return orderService.registerOrder(orderDto);
+        log.info("modify orderDto ==========> {}", orderDto);
+        return orderService.modifyOrder(orderDto);
     }
 
     @PostMapping("modifyItem")
     @ResponseBody
-    public void modify(@RequestParam(value="items") String[] addItems, @RequestParam String orderCode, RedirectAttributes rttr) {
-//        int cnt = orderService.registerOrderItem(addItems, orderCode);
-//        if (cnt==1) {
-//            rttr.addFlashAttribute("message", orderCode + " 주문이 수정되었습니다.");
-//        } else {
-//            rttr.addFlashAttribute("message", orderCode + " 주문이 수정되지 않았습니다.");
-//        }
+    public void modify(@RequestParam(value="addItems") String[] addItems,
+                       @RequestParam(value="removeItems", required = false) String[] removeItems,
+                       @RequestParam String orderCode, RedirectAttributes rttr) {
+        int cnt = orderService.modifyOrderItem(addItems, removeItems, orderCode);
+        if (cnt==1) {
+            rttr.addFlashAttribute("message", orderCode + " 주문이 수정되었습니다.");
+        } else {
+            rttr.addFlashAttribute("message", orderCode + " 주문이 수정되지 않았습니다.");
+        }
     }
 
     /* 주문 상태 변경 */
