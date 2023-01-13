@@ -16,4 +16,5 @@ public interface OrderMapper {
 
     List<OrderItemDto> listItem(String order_code);
 
+    OrderDto getOrder(String order_code);
 }

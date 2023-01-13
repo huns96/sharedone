@@ -61,4 +61,14 @@
         <result column="upddate" property="upddate" />
     </resultMap>
 
+    <select id="getOrder" resultType="com.sharedOne.domain.OrderDto">
+        SELECT
+            o.order_code, o.buyer_code, b.name as buyer_name,
+            o.order_date, o.request_date, o.approval_date, o.return_date,
+            o.status, o.memo,
+            o.adduser, o.adddate, IFNULL(o.upduser,'-'), IFNULL(o.upddate,'-')
+        FROM order_header o LEFT JOIN buyer b ON o.buyer_code = b.buyer_code
+        WHERE o.delyn = 'N'
+        AND o.order_code = #{order_code}
+    </select>
 </mapper>

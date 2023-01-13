@@ -38,6 +38,10 @@
             width: 80px;
             float: right;
         }
+
+        .btn-outline-secondary {
+
+        }
     </style>
 </head>
 <body>
@@ -110,7 +114,7 @@
                                     <td>${order.status}</td>
                                     <td>${order.adduser}</td>
                                     <td>${order.upduser}</td>
-                                    <td>수정 버튼</td>
+                                    <td><button type="button" id="${order.order_code}" class="btn btn-outline-secondary">수정</button></td>
                                 </tr>
                             </c:forEach>
                             </tbody>
@@ -138,7 +142,7 @@
                                 <th>수정자</th>
                                 <th>주문코드</th>
                                 <th>바이어명</th>
-                                <th>주문수정</th>
+                                <%--<th>주문수정</th>--%>
                             </tr>
                             </thead>
                             <tbody></tbody>
@@ -148,119 +152,6 @@
             </div>
         </div>
     </div>
-
-    <%-- 새 주문 등록 모달 --%>
-    <%--<div class="modal fade" id="newOrder" &lt;%&ndash;style="z-index:1041;"&ndash;%&gt;&lt;%&ndash;data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true"&ndash;%&gt;>
-        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel"><b>새 주문 등록</b></h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="newOrderForm" class="form-inline">
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="newOrderCode" class="form-label">주문 코드</label>
-                                <input id="newOrderCode" type="text" class="form-control" name="order_code" disabled/>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">상태</label>
-                                <select class="form-select" disabled>
-                                    <option selected value="작성중">작성중</option>
-                                    <option value="승인요청">승인요청</option>
-                                    <option value="승인완료">승인완료</option>
-                                    <option value="승인취소">승인취소</option>
-                                    <option value="반려">반려</option>
-                                    <option value="종결">종결</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="newBuyerCode" class="form-label">바이어코드</label>
-                                <div class="input-group">
-                                    <input id="newBuyerCode" type="text" class="form-control" name="buyer_code" disabled/>
-                                    <a data-bs-toggle="modal" href="#buyerPopup" class="btn btn-outline-secondary">검색</a>
-                                    &lt;%&ndash;<button class="btn btn-outline-secondary" type="button" data-bs-toggle="modal"data-bs-target="#buyerPopup">>검색</button>&ndash;%&gt;
-                                </div>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="newBuyerName" class="form-label">바이어명</label>
-                                <input id="newBuyerName" type="text" class="form-control" name="buyer_name" disabled/>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="newRequestDate" class="form-label">납품요청일</label>
-                                <input id="newRequestDate" type="date" class="form-control" name="request_date" />
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="newOrderDate" class="form-label">주문일</label>
-                                <input id="newOrderDate" type="date" class="form-control" name="order_date" disabled/>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col mb-3">
-                                <label for="newMemo" class="form-label">주문메모</label>
-                                <textarea rows="3" id="newMemo" class="form-control" name="memo"></textarea>
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="newProductCode" class="form-label">상품코드</label>
-                                <div class="input-group">
-                                    <input id="newProductCode" type="text" class="form-control" name="product_code" disabled/>
-                                    <button id="productPopup" class="btn btn-outline-secondary" type="button">검색</button>
-                                </div>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="newProductName" class="form-label">상품명</label>
-                                <input id="newProductName" type="text" class="form-control" name="product_name" disabled/>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4 mb-3">
-                                <label for="newPrice" class="form-label">단가</label>
-                                <input id="newPrice" type="text" class="form-control" name="price" />
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <label for="newQuantity" class="form-label">수량</label>
-                                <input id="newQuantity" type="text" class="form-control" name="quantity" />
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <label class="form-label"></label>
-                                <button id="resetItemButton" class="btn btn-danger">초기화</button>
-                                <button id="addNewItemButton" class="btn btn-danger">상품등록</button>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <table class="table table-hover" id="newItem-table">
-                                <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>상품번호</th>
-                                    <th>상품명</th>
-                                    <th>수량</th>
-                                    <th>단가</th>
-                                    <th>총금액</th>
-                                    <th>X</th>
-                                </tr>
-                                </thead>
-                                <tbody></tbody>
-                            </table>
-                        </div>
-                    </form>
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" id="newOrderSubmitButton" class="btn btn-danger" data-bs-dismiss="modal">주문등록</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-                </div>
-            </div>
-        </div>
-    </div>--%>
     </div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
@@ -283,7 +174,11 @@
         });
 
         /* 주문 수정 팝업창 */
-
+        $('#modifyOrderButton').click(function() {
+            let orderCode = $(this).id;
+            console.log(orderCode);
+            modifyOrderPopup();
+        });
 
         /* 바이어 검색 팝업창 */
 
@@ -335,7 +230,7 @@
                             + "<td>" + upduser + "</td>"
                             + "<td>" + order_code + "</td>"
                             + "<td>" + buyer_name + "</td>"
-                            + "<td>수정버튼</td>"
+                            /*+ "<td>수정버튼</td>"*/
                             + "</tr>"
                         );
                     }
@@ -356,6 +251,15 @@
     }
 
     /* 주문 수정 팝업창 */
+    function modifyOrderPopup() {
+        let url = "/order/orderModify?order_code=" + $('#orderCode').val();
+        let popupWidth = 800;
+        let popupHeight = 800;
+        let popupX = (window.screen.width / 2) - (popupWidth / 2);
+        let popupY= (window.screen.height / 2) - (popupHeight / 2);
+        let popupOption = 'status=no, height=' + popupHeight  + ', width=' + popupWidth  + ', left='+ popupX + ', top='+ popupY;
+        window.open(url,"",popupOption);
+    }
 
 </script>
 </body>

@@ -43,10 +43,8 @@ public class OrderService {
     
     /* 주문 상품 등록 */
     public int registerOrderItem(String[] addItems, String orderCode) {
-        log.info("========== 상품등록 ===========");
         List<OrderItemDto> itemList = new ArrayList<>();
         OrderItemDto itemDto = new OrderItemDto();
-
         if (!addItems[0].contains(",")){
             List<String> list = Arrays.asList(addItems);
             itemDto.setProduct_code(list.get(0));
@@ -58,8 +56,9 @@ public class OrderService {
             itemDto.setAdduser("user1"); //[TODO] user 임의로 넣음.. >> 로그인 정보 추가 해야함
             itemList.add(itemDto);
         } else {
-            for (String addItem : addItems) {
-                List<String> list = Arrays.asList(addItem.split(","));
+            for (int i=0; i<addItems.length; i++) {
+                List<String> list = Arrays.asList(addItems[i].split(","));
+                itemDto = new OrderItemDto();
                 itemDto.setProduct_code(list.get(0));
                 itemDto.setProduct_name(list.get(1));
                 itemDto.setQuantity(Integer.parseInt(list.get(2)));
@@ -70,7 +69,7 @@ public class OrderService {
                 itemList.add(itemDto);
             }
         }
-        //log.info("itemList ===========> {}", itemList);
+        //log.info("register itemList ===========> {}", itemList);
         int cnt = 0;
         for (OrderItemDto item : itemList) {
             orderMapper.insertOrderItem(item);
@@ -88,5 +87,9 @@ public class OrderService {
     /* 주문 상품 목록 조회 */
     public List<OrderItemDto> getItemList(String orderCode) {
         return orderMapper.listItem(orderCode);
+    }
+
+    public OrderDto getOrderInfo(String orderCode) {
+        return orderMapper.getOrder(orderCode);
     }
 }
