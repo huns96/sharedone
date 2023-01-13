@@ -299,7 +299,7 @@
 
                     <%-- 맨앞 버튼은 1페이지가 아니면 존재함 --%>
                     <c:if test="${pageInfo.currentPageNumber ne 1 }">
-                        <c:url value="/report/result" var="listLink">
+                        <c:url value="/report/work" var="listLink">
                             <c:param name="page" value="1"/>
                             <c:param name="q" value="${param.q }"/>
                             <c:param name="t" value="${param.t }"/>
@@ -313,7 +313,7 @@
                     </c:if>
 
                     <c:if test="${pageInfo.hasPrevButton }">
-                        <c:url value="/report/result" var="listLink">
+                        <c:url value="/report/work" var="listLink">
                             <c:param name="page" value="${pageInfo.jumpPrevPageNumber }"></c:param>
                             <c:param name="q" value="${param.q }"/>
                             <c:param name="t" value="${param.t }"/>
@@ -326,7 +326,7 @@
                     </c:if>
 
                     <c:forEach begin="${pageInfo.leftPageNumber }" end="${pageInfo.rightPageNumber }" var="pageNumber">
-                        <c:url value="/report/result" var="listLink">
+                        <c:url value="/report/work" var="listLink">
                             <c:param name="page" value="${pageNumber }"/>
                             <c:param name="q" value="${param.q }"/>
                             <c:param name="t" value="${param.t }"/>

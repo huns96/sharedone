@@ -1,9 +1,6 @@
 package com.sharedOne.mapper.report;
 
-import com.sharedOne.domain.report.OrderDto;
-import com.sharedOne.domain.report.OrderGroupDto;
-import com.sharedOne.domain.report.OrderItemDto;
-import com.sharedOne.domain.report.SumDto;
+import com.sharedOne.domain.report.*;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -14,7 +11,8 @@ public interface ReportMapper {
                                        String status,
                                        String from_request_date, String to_request_date,
                                        String adduser, String from_add_date,
-                                       String to_add_date, String product_code);
+                                       String to_add_date, String product_code, PageInfo pageInfo,
+                                       int offset, int records);
 
 
 //public List<OrderDto> selectOrders(Map<String,Object> map);
@@ -33,6 +31,8 @@ public interface ReportMapper {
     List<OrderGroupDto> selectOrderGroups(String order_code, String buyer_code, String status, String adduser,
                                           String from_request_date, String to_request_date,
                                           String from_add_date, String to_add_date, String product_code, String sumCondition);
+
+    int countAll(String order_code, String buyer_code, String status, String from_request_date, String to_request_date, String adduser, String from_add_date, String to_add_date, String product_code, PageInfo pageInfo);
 }
 
 

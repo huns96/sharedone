@@ -369,7 +369,7 @@
                             </c:forEach>
 
                             <c:if test="${pageInfo.hasNextButton }">
-                                <c:url value="/report/result" var="listLink">
+                                <c:url value="/report/sumResult" var="listLink">
                                     <c:param name="page" value="${pageInfo.jumpNextPageNumber }"></c:param>
                                     <c:param name="q" value="${param.q }"/>
                                     <c:param name="t" value="${param.t }"/>
@@ -400,19 +400,6 @@
                 </div>
             </div>
         </div>
-        <%--<table id="testTable">--%>
-        <%--    <tbody>--%>
-        <%--    <tr>--%>
-        <%--        <td>1</td>--%>
-        <%--    </tr>--%>
-        <%--    <tr>--%>
-        <%--        <td>1</td>--%>
-        <%--    </tr>--%>
-        <%--    </tbody>--%>
-        <%--</table>--%>
-
-
-        <%--<c:set var="orderByUrl" value="홍길동" />--%>
 
 
         <%--------------------------------------------------------------------------%>
@@ -420,7 +407,7 @@
 
         <script>
 
-            if('${message}' != '')
+            if ('${message}' != '')
                 alert('${message}');
 
 

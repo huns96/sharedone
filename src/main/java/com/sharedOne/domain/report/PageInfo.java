@@ -1,5 +1,9 @@
 package com.sharedOne.domain.report;
 
+
+import lombok.Data;
+
+@Data
 public class PageInfo {
     private boolean hasPrevButton;
     private boolean hasNextButton;

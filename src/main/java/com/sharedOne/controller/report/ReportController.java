@@ -1,9 +1,6 @@
 package com.sharedOne.controller.report;
 
-import com.sharedOne.domain.report.OrderDto;
-import com.sharedOne.domain.report.OrderGroupDto;
-import com.sharedOne.domain.report.OrderItemDto;
-import com.sharedOne.domain.report.SumDto;
+import com.sharedOne.domain.report.*;
 import com.sharedOne.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,7 +23,7 @@ public class ReportController {
     }
 
     @GetMapping("work")
-    public String reportMain(Model model,
+    public String reportMain(Model model, PageInfo pageInfo,
                              @RequestParam(required = false) String order_code,
                              @RequestParam(required = false) String buyer_code,
                              @RequestParam(required = false) String status,
@@ -36,22 +33,20 @@ public class ReportController {
                              @RequestParam(required = false) String from_add_date,
                              @RequestParam(required = false) String to_add_date,
                              @RequestParam(required = false) String product_code,
-                             @RequestParam(required = false, defaultValue = "i.num") String sumCondition
+                             @RequestParam(required = false, defaultValue = "i.num") String sumCondition,
+                             @RequestParam(name = "page", defaultValue = "1") int page
     ) {
-        if ((from_request_date.equals("") & !to_request_date.equals("") | (to_request_date.equals("") & !from_request_date.equals("")))
-                |
-                ((from_add_date.equals("") & !to_add_date.equals("")) | (to_add_date.equals("") & !from_add_date.equals("")))) {
-            model.addAttribute("message", "날짜 입력이 잘못 되었습니다");
-            return "/report/result";
+
+        if (from_request_date != null & to_request_date != null & from_add_date != null & to_add_date != null) {
+            if ((from_request_date.equals("") & !to_request_date.equals("") | (to_request_date.equals("") & !from_request_date.equals("")))
+                    |
+                    ((from_add_date.equals("") & !to_add_date.equals("")) | (to_add_date.equals("") & !from_add_date.equals("")))) {
+                model.addAttribute("message", "날짜 입력이 잘못 되었습니다");
+                return "/report/result";
+            }
         }
 
         if (!sumCondition.equals("i.num") & (sumCondition != null) & !sumCondition.equals("")) {
-
-//            if((((from_request_date.equals("")|from_request_date!=null)&!(to_request_date.equals("")&to_request_date!=null))
-//                    |((to_request_date.equals("")&to_request_date!=null)&!(from_request_date.equals("")&from_request_date!=null)))
-//            |(((from_add_date.equals("")&from_add_date!=null)&!(to_add_date.equals("")&to_add_date!=null))
-//                    |((to_add_date.equals("")&to_add_date!=null)&!(from_add_date.equals("")&from_add_date!=null)))
-//            )
 
 
             System.out.println(sumCondition + "섬레졀트 작업시작");
@@ -103,7 +98,7 @@ public class ReportController {
 
         List<OrderDto> orders = reportService.getOrders(order_code, buyer_code, status, adduser,
                 from_request_date, to_request_date,
-                from_add_date, to_add_date, product_code);
+                from_add_date, to_add_date, product_code, pageInfo, page);
 
         SumDto sums = reportService.getSums(order_code, buyer_code, status, adduser,
                 from_request_date, to_request_date,
