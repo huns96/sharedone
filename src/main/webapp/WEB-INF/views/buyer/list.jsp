@@ -117,7 +117,7 @@
 
                                     <div class="mb-3">
                                         <label class="col-form-label">사업자 번호:</label>
-                                        <input type="text" class="form-control" name="license" required id="license">
+                                        <input type="number" class="form-control" name="license" required id="license">
                                     </div>
 
                                     <div class="mb-3">

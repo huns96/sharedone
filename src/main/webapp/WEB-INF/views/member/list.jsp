@@ -149,7 +149,7 @@
                     <br>
                     비밀번호: <input type="text" name="password"> <br>
                     <br>
-                    연락처:&nbsp;&nbsp;&nbsp; <input type="text" name="phone"> <br>
+                    연락처:&nbsp;&nbsp;&nbsp; <input type="number" name="phone"> <br>
                     <br>
                     작성자:&nbsp;&nbsp;&nbsp; <input type="text" name="adduser">
                 </form>
