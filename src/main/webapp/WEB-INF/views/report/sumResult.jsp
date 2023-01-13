@@ -319,314 +319,237 @@
                 </div>
             </div>
 
-            <!-- .row>.col -->
-            <div class="row">
-                <div class="col">
-                    <nav class="mt-3" aria-label="Page navigation example">
-                        <ul class="pagination justify-content-center">
 
-                            <%-- 맨앞 버튼은 1페이지가 아니면 존재함 --%>
-                            <c:if test="${pageInfo.currentPageNumber ne 1 }">
-                                <c:url value="/report/result" var="listLink">
-                                    <c:param name="page" value="1"/>
-                                    <c:param name="q" value="${param.q }"/>
-                                    <c:param name="t" value="${param.t }"/>
-                                </c:url>
-                                <!-- li.page-item>a.page-link{맨앞버튼} -->
-                                <li class="page-item">
-                                    <a href="${listLink }" class="page-link">
-                                        <i class="fa-solid fa-angles-left"></i>
-                                    </a>
-                                </li>
-                            </c:if>
-
-                            <c:if test="${pageInfo.hasPrevButton }">
-                                <c:url value="/report/result" var="listLink">
-                                    <c:param name="page" value="${pageInfo.jumpPrevPageNumber }"></c:param>
-                                    <c:param name="q" value="${param.q }"/>
-                                    <c:param name="t" value="${param.t }"/>
-                                </c:url>
-                                <li class="page-item">
-                                    <a href="${listLink }" class="page-link">
-                                        <i class="fa-solid fa-angle-left"></i>
-                                    </a>
-                                </li>
-                            </c:if>
-
-                            <c:forEach begin="${pageInfo.leftPageNumber }" end="${pageInfo.rightPageNumber }"
-                                       var="pageNumber">
-                                <c:url value="/report/result" var="listLink">
-                                    <c:param name="page" value="${pageNumber }"/>
-                                    <c:param name="q" value="${param.q }"/>
-                                    <c:param name="t" value="${param.t }"/>
-                                </c:url>
-                                <li class="page-item
-
-					    	<%-- 현재페이지에 active 클래스 추가 --%>
-					    	${pageInfo.currentPageNumber eq pageNumber ? 'active' : '' }
-
-					    "><a class="page-link" href="${listLink }">${pageNumber }</a></li>
-                            </c:forEach>
-
-                            <c:if test="${pageInfo.hasNextButton }">
-                                <c:url value="/report/sumResult" var="listLink">
-                                    <c:param name="page" value="${pageInfo.jumpNextPageNumber }"></c:param>
-                                    <c:param name="q" value="${param.q }"/>
-                                    <c:param name="t" value="${param.t }"/>
-                                </c:url>
-                                <li class="page-item">
-                                    <a href="${listLink }" class="page-link">
-                                        <i class="fa-solid fa-angle-right"></i>
-                                    </a>
-                                </li>
-                            </c:if>
-
-
-                            <c:if test="${pageInfo.currentPageNumber ne pageInfo.lastPageNumber }">
-                                <c:url value="/report/result" var="listLink">
-                                    <c:param value="${pageInfo.lastPageNumber }" name="page"/>
-                                    <c:param name="q" value="${param.q }"/>
-                                    <c:param name="t" value="${param.t }"/>
-                                </c:url>
-                                <!-- li.page-item>a.page-link{맨뒤버튼} -->
-                                <li class="page-item">
-                                    <a href="${listLink }" class="page-link">
-                                        <i class="fa-solid fa-angles-right"></i>
-                                    </a>
-                                </li>
-                            </c:if>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
         </div>
+    </div>
+</div>
 
 
-        <%--------------------------------------------------------------------------%>
+<%--------------------------------------------------------------------------%>
 
 
-        <script>
+<script>
 
-            if ('${message}' != '')
-                alert('${message}');
+    if ('${message}' != '')
+        alert('${message}');
 
 
-            var bDisplay = true;
+    var bDisplay = true;
 
-            function doDisplay() {
-                var con = document.getElementById("ordersInGroup");
-                if (con.style.display == 'none') {
-                    con.style.display = 'block';
+    function doDisplay() {
+        var con = document.getElementById("ordersInGroup");
+        if (con.style.display == 'none') {
+            con.style.display = 'block';
+        } else {
+            con.style.display = 'none';
+        }
+    }
+
+
+    //     document.getElementById('groupNameButton').click(function (){
+    //         console.log("click");
+    //     }
+    //     document.getElementById('ordersInGroup').style.display='block'
+    // })
+
+    // $(document).ready(function() {
+    //     $("input[type='checkbox']").click(function() {
+    //          let v1 =parseInt($(this).each(getCheckboxValue())) ;
+    //         console.log($(this).id.val())
+    //
+    //         $('td:nth-child('+v1+'),th:nth-child('+v1+')').toggle();
+    //     });
+    // });
+    //
+    //
+
+
+    //
+    // $(document).ready(function () {
+    //     $(".row_sum").each(function () {
+    //         var $this = $(this);
+    //         var sum_value = 0;
+    //         $(".row_value",$(this).closest('tr')).each(function (e) {
+    //             sum_value+=parseInt($(e).text());
+    //         })
+    //         $this.text(sum_value);
+    //     })
+    // })
+
+    // $(document).ready(
+    //     function calcSum() {
+    //     // table element 찾기
+    //     const table = document.getElementById('testTable');
+    //     console.log(table)
+    //     // 합계 계산
+    //     let sumPrice = 0;
+    //     for(let i = 0; i < table.rows.length; i++)  {
+    //         sumPrice += parseInt(table.rows[i].cells[0].innerHTML);
+    //     }
+    //     document.querySelector('.row_sum').innerHTML=sumPrice.toString();
+    //         console.log(sumPrice)}
+    // )
+
+
+    $(document).ready(function () {
+        $('#1').change(function () {
+            $('td:nth-child(' + this.id + '),th:nth-child(' + this.id + ')').toggle();
+        })
+        $('#2').change(function () {
+            $('td:nth-child(' + this.id + '),th:nth-child(' + this.id + ')').toggle();
+        })
+        $('#3').change(function () {
+            $('td:nth-child(' + this.id + '),th:nth-child(' + this.id + ')').toggle();
+        })
+        $('#4').change(function () {
+            $('td:nth-child(' + this.id + '),th:nth-child(' + this.id + ')').toggle();
+        })
+        $('#5').change(function () {
+            $('td:nth-child(' + this.id + '),th:nth-child(' + this.id + ')').toggle();
+        })
+        $('#6').change(function () {
+            $('td:nth-child(' + this.id + '),th:nth-child(' + this.id + ')').toggle();
+        })
+        $('#7').change(function () {
+            $('td:nth-child(' + this.id + '),th:nth-child(' + this.id + ')').toggle();
+        })
+        $('#8').change(function () {
+            $('td:nth-child(' + this.id + '),th:nth-child(' + this.id + ')').toggle();
+        })
+        $('#9').change(function () {
+            $('td:nth-child(' + this.id + '),th:nth-child(' + this.id + ')').toggle();
+        })
+        $('#10').change(function () {
+            $('td:nth-child(' + this.id + '),th:nth-child(' + this.id + ')').toggle();
+        })
+        $('#11').change(function () {
+            $('td:nth-child(' + this.id + '),th:nth-child(' + this.id + ')').toggle();
+        })
+        $('#12').change(function () {
+            $('td:nth-child(' + this.id + '),th:nth-child(' + this.id + ')').toggle();
+        })
+        $('#13').change(function () {
+            $('td:nth-child(' + this.id + '),th:nth-child(' + this.id + ')').toggle();
+        })
+        $('#14').change(function () {
+            $('td:nth-child(' + this.id + '),th:nth-child(' + this.id + ')').toggle();
+        })
+    })
+
+
+    $(document).ready(function () {
+        $('#ordersTable th').each(function (column) {
+            $(this).click(function () {
+                if ($(this).is('.asc')) {
+                    $(this).removeClass('asc');
+                    $(this).addClass('desc');
+                    sortdir = -1;
+
                 } else {
-                    con.style.display = 'none';
+                    $(this).addClass('asc');
+                    $(this).removeClass('desc');
+                    sortdir = 1;
                 }
-            }
 
+                $(this).siblings().removeClass('asc');
+                $(this).siblings().removeClass('desc');
 
-            //     document.getElementById('groupNameButton').click(function (){
-            //         console.log("click");
-            //     }
-            //     document.getElementById('ordersInGroup').style.display='block'
-            // })
+                var rec = $('#ordersTable').find('tbody>tr').get();
+                console.log(rec)
+                console.log()
+                rec.sort(function (a, b) {
+                    var val1 = $(a).children('td').eq(column).text().toUpperCase();
+                    var val2 = $(b).children('td').eq(column).text().toUpperCase();
+                    return (val1 < val2) ? -sortdir : (val1 > val2) ? sortdir : 0;
+                });
 
-            // $(document).ready(function() {
-            //     $("input[type='checkbox']").click(function() {
-            //          let v1 =parseInt($(this).each(getCheckboxValue())) ;
-            //         console.log($(this).id.val())
-            //
-            //         $('td:nth-child('+v1+'),th:nth-child('+v1+')').toggle();
-            //     });
-            // });
-            //
-            //
-
-
-            //
-            // $(document).ready(function () {
-            //     $(".row_sum").each(function () {
-            //         var $this = $(this);
-            //         var sum_value = 0;
-            //         $(".row_value",$(this).closest('tr')).each(function (e) {
-            //             sum_value+=parseInt($(e).text());
-            //         })
-            //         $this.text(sum_value);
-            //     })
-            // })
-
-            // $(document).ready(
-            //     function calcSum() {
-            //     // table element 찾기
-            //     const table = document.getElementById('testTable');
-            //     console.log(table)
-            //     // 합계 계산
-            //     let sumPrice = 0;
-            //     for(let i = 0; i < table.rows.length; i++)  {
-            //         sumPrice += parseInt(table.rows[i].cells[0].innerHTML);
-            //     }
-            //     document.querySelector('.row_sum').innerHTML=sumPrice.toString();
-            //         console.log(sumPrice)}
-            // )
-
-
-            $(document).ready(function () {
-                $('#1').change(function () {
-                    $('td:nth-child(' + this.id + '),th:nth-child(' + this.id + ')').toggle();
-                })
-                $('#2').change(function () {
-                    $('td:nth-child(' + this.id + '),th:nth-child(' + this.id + ')').toggle();
-                })
-                $('#3').change(function () {
-                    $('td:nth-child(' + this.id + '),th:nth-child(' + this.id + ')').toggle();
-                })
-                $('#4').change(function () {
-                    $('td:nth-child(' + this.id + '),th:nth-child(' + this.id + ')').toggle();
-                })
-                $('#5').change(function () {
-                    $('td:nth-child(' + this.id + '),th:nth-child(' + this.id + ')').toggle();
-                })
-                $('#6').change(function () {
-                    $('td:nth-child(' + this.id + '),th:nth-child(' + this.id + ')').toggle();
-                })
-                $('#7').change(function () {
-                    $('td:nth-child(' + this.id + '),th:nth-child(' + this.id + ')').toggle();
-                })
-                $('#8').change(function () {
-                    $('td:nth-child(' + this.id + '),th:nth-child(' + this.id + ')').toggle();
-                })
-                $('#9').change(function () {
-                    $('td:nth-child(' + this.id + '),th:nth-child(' + this.id + ')').toggle();
-                })
-                $('#10').change(function () {
-                    $('td:nth-child(' + this.id + '),th:nth-child(' + this.id + ')').toggle();
-                })
-                $('#11').change(function () {
-                    $('td:nth-child(' + this.id + '),th:nth-child(' + this.id + ')').toggle();
-                })
-                $('#12').change(function () {
-                    $('td:nth-child(' + this.id + '),th:nth-child(' + this.id + ')').toggle();
-                })
-                $('#13').change(function () {
-                    $('td:nth-child(' + this.id + '),th:nth-child(' + this.id + ')').toggle();
-                })
-                $('#14').change(function () {
-                    $('td:nth-child(' + this.id + '),th:nth-child(' + this.id + ')').toggle();
-                })
-            })
-
-
-            $(document).ready(function () {
-                $('#ordersTable th').each(function (column) {
-                    $(this).click(function () {
-                        if ($(this).is('.asc')) {
-                            $(this).removeClass('asc');
-                            $(this).addClass('desc');
-                            sortdir = -1;
-
-                        } else {
-                            $(this).addClass('asc');
-                            $(this).removeClass('desc');
-                            sortdir = 1;
-                        }
-
-                        $(this).siblings().removeClass('asc');
-                        $(this).siblings().removeClass('desc');
-
-                        var rec = $('#ordersTable').find('tbody>tr').get();
-                        console.log(rec)
-                        console.log()
-                        rec.sort(function (a, b) {
-                            var val1 = $(a).children('td').eq(column).text().toUpperCase();
-                            var val2 = $(b).children('td').eq(column).text().toUpperCase();
-                            return (val1 < val2) ? -sortdir : (val1 > val2) ? sortdir : 0;
-                        });
-
-                        $.each(rec, function (index, row) {
-                            $('#ordersTable tbody ').append(row);
-                        });
-                    });
+                $.each(rec, function (index, row) {
+                    $('#ordersTable tbody ').append(row);
                 });
             });
+        });
+    });
 
 
-            function searchOrderCode() {
-                console.log("jsp 서치오더코드")
-                // const boardId = document.querySelector("#boardId").value;
-                const partOfOrderCode = document.querySelector("#inputOrderCode").value;
-                console.log(partOfOrderCode)
+    function searchOrderCode() {
+        console.log("jsp 서치오더코드")
+        // const boardId = document.querySelector("#boardId").value;
+        const partOfOrderCode = document.querySelector("#inputOrderCode").value;
+        console.log(partOfOrderCode)
 
-                // console.log(data) 인풋데이터 받아짐
-                fetch("${pageContext.request.contextPath}/report/search/order_code", {
-                    method: "post",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(partOfOrderCode)
+        // console.log(data) 인풋데이터 받아짐
+        fetch("${pageContext.request.contextPath}/report/search/order_code", {
+            method: "post",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(partOfOrderCode)
+        })
+            .then(res => res.json())
+            .then(
+                function (변수2) {
+                    console.log(변수2);
+                    for (const i of 변수2) {
+                        console.log(i)
+                        const orderCodesData = `<input type="checkbox" name="order_code" value="\${i}">`
+                        console.log(orderCodesData)
+                        document.querySelector("#orderCodes").innerHTML = orderCodesData;
+                    }
                 })
-                    .then(res => res.json())
-                    .then(
-                        function (변수2) {
-                            console.log(변수2);
-                            for (const i of 변수2) {
-                                console.log(i)
-                                const orderCodesData = `<input type="checkbox" name="order_code" value="\${i}">`
-                                console.log(orderCodesData)
-                                document.querySelector("#orderCodes").innerHTML = orderCodesData;
-                            }
-                        })
-            }
+    }
 
 
-            // $("input[type='checkbox']").click(function() {
-            //     var index = $(this).attr('name').substr(2);
-            //     $('table tr').each(function() {
-            //         $('td:eq(' + index + ')',this).toggle();
-            //     });
-            // });
+    // $("input[type='checkbox']").click(function() {
+    //     var index = $(this).attr('name').substr(2);
+    //     $('table tr').each(function() {
+    //         $('td:eq(' + index + ')',this).toggle();
+    //     });
+    // });
 
-            <%--$('th').click(function(){--%>
-            <%--    const orderByClick=$(this).attr("id");--%>
-            <%--     alert(orderByClick);--%>
-            <%--     document.querySelector('#orderByUrlParam').innerHTML=`<c:param name="orderBy"  value="\${orderByClick}" />`;--%>
-            <%--    // const orderBy= new URLSearchParams(orderByClick).toString();--%>
+    <%--$('th').click(function(){--%>
+    <%--    const orderByClick=$(this).attr("id");--%>
+    <%--     alert(orderByClick);--%>
+    <%--     document.querySelector('#orderByUrlParam').innerHTML=`<c:param name="orderBy"  value="\${orderByClick}" />`;--%>
+    <%--    // const orderBy= new URLSearchParams(orderByClick).toString();--%>
 
-            <%--    &lt;%&ndash;$.get(${orderByUrl});&ndash;%&gt;--%>
-            <%--    $('#orderByUrl').submit();--%>
-            <%--});--%>
-
-
-            // document.querySelector('#order_code_check').addEventListener()
-            // function myFunction() {
-            //     var checkedList = document.querySelector(addEventListener(getCheckboxValue()))
-            //     var element = document.getElementById("checkedList");
-            //     element.classList.add("hidden_col");
-            // }
+    <%--    &lt;%&ndash;$.get(${orderByUrl});&ndash;%&gt;--%>
+    <%--    $('#orderByUrl').submit();--%>
+    <%--});--%>
 
 
-            // CheckBox 검사
-
-            // function getNumber(Event){
-            //     let result = '';
-            //     if(Event.target.checked)  {
-            //         result = Event.target.value;
-            //         console.log(result)
-            //         $('td:nth-child('+result+'),th:nth-child('+result+')').toggle();
-            //     }}
+    // document.querySelector('#order_code_check').addEventListener()
+    // function myFunction() {
+    //     var checkedList = document.querySelector(addEventListener(getCheckboxValue()))
+    //     var element = document.getElementById("checkedList");
+    //     element.classList.add("hidden_col");
+    // }
 
 
-            // $("input[type=checkbox]").click(getCheckboxValue(event));
-            //
-            //
-            //  $("input[type='checkbox']").click().$('td:nth-child('+this.val()+'),th:nth-child('+this.val()+')').toggle();
+    // CheckBox 검사
+
+    // function getNumber(Event){
+    //     let result = '';
+    //     if(Event.target.checked)  {
+    //         result = Event.target.value;
+    //         console.log(result)
+    //         $('td:nth-child('+result+'),th:nth-child('+result+')').toggle();
+    //     }}
 
 
-            // $(window).load(function(){
-            //     // 실행할 내용
-            // });
-        </script>
+    // $("input[type=checkbox]").click(getCheckboxValue(event));
+    //
+    //
+    //  $("input[type='checkbox']").click().$('td:nth-child('+this.val()+'),th:nth-child('+this.val()+')').toggle();
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
-                integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
-                crossorigin="anonymous"></script>
+
+    // $(window).load(function(){
+    //     // 실행할 내용
+    // });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+        crossorigin="anonymous"></script>
 </body>
 </html>
 
