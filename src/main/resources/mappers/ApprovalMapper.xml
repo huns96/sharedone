@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sharedOne.mapper.ApprovalMapper">
+    <select id="selectBuyers" resultType="com.sharedOne.domain.OrderDto">
+        SELECT * FROM order
+    </select>
+
+    <select id="countAll" resultType="int">
+        SELECT COUNT(*)
+        FROM order_header
+        WHERE status= "승인대기" OR "승인완료"
+    </select>
+
+    <select id="approvalList" resultType="com.sharedOne.domain.OrderDto">
+        SELECT
+        o.num,
+        o.order_code, o.buyer_code, b.name as buyer_name, o.order_date, o.status, o.memo,
+        o.adduser, o.adddate, o.upduser, o.upddate
+        FROM order_header o LEFT JOIN buyer b ON o.buyer_code = b.buyer_code
+        WHERE o.status= "승인대기" OR "승인완료"
+    </select>
+
+    <select id="listItem" resultType="com.sharedOne.domain.OrderItemDto">
+        SELECT
+        i.order_code, i.product_code, p.name as 'product_name',
+        i.quantity, i.price, pri.price as 'old_price', (i.quantity * i.price) as 'total_price',
+        o.buyer_code, b.name as 'buyer_name',
+        i.adduser, i.adddate, i.upduser, i.upddate
+        FROM order_item i
+        LEFT JOIN order_header o ON o.order_code = i.order_code
+        LEFT JOIN buyer b ON b.buyer_code = o.buyer_code
+        LEFT JOIN product p ON p.product_code = i.product_code
+        LEFT JOIN price pri ON pri.product_code = i.product_code and pri.buyer_code = o.buyer_code
+        WHERE i.order_code = #{orderCode}
+    </select>
+
+
+</mapper>

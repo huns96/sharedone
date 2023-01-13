@@ -1,28 +1,25 @@
 package com.sharedOne.domain;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
+import java.sql.Date;
 import java.sql.Timestamp;
-import java.time.LocalDate;
 
 @Data
-public class BuyerDto {
-    private String buyer_code;
+public class ProductDto {
+    private String product_code;
     private String name;
-    private String address;
-    private String country;
-    private String license;
-    private String contact;
-
+    private String ea;
+    private int category_id;
     private String delyn;
     private String adduser;
-
     private Timestamp adddate;
     private String upduser;
-
     private Timestamp upddate;
 
+    private String main_cat;
+    private String middle_cat;
+    private String sub_cat;
 
 
 }

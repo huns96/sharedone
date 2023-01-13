@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sharedOne.mapper.CategoryMapper">
+    <select id="selectById" resultType="com.sharedOne.domain.CategoryDto">
+<!--        select m.id as middle_id, m.name as middle_name-->
+<!--        FROM category_main c-->
+<!--        JOIN category_middle m-->
+<!--        ON c.main_id = m.middle_main_id-->
+<!--        WHERE c.main_id = #{id};-->
+        SELECT m.id as middle_id, m.name as middle_name
+        FROM category_main c
+        JOIN category_middle m on c.id = m.main_id
+        WHERE c.id = #{id};
+    </select>
+
+    <select id="selectByIdSub" resultType="com.sharedOne.domain.CategoryDto">
+        SELECT s.id as sub_id, s.name as sub_name
+        FROM category_sub s
+        JOIN category_middle m on s.middle_id = m.id
+        where m.id = #{middle_id};
+    </select>
+</mapper>
