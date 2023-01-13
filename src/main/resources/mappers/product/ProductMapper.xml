@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sharedOne.mapper.ProductMapper">
+    <select id="getList" resultType="com.sharedOne.domain.ProductDto">
+        select p.product_code,p.name, p.ea, main.name as 'main_cat',
+        mid.name as 'middle_cat',
+        sub.name as 'sub_cat'
+        from category_main main
+        JOIN category_middle mid
+        JOIN category_sub sub
+        JOIN product p
+        on main.id = mid.main_id
+        and mid.id = sub.middle_id
+        where p.category_id = sub.id
+        and p.delyn = 'N'
+    </select>
+
+    <insert id="insertProduct">
+        insert INTO product (product_code, name, ea, category_id, adduser)
+        values (#{product_code},#{name},#{ea},#{category_id},#{adduser});
+    </insert>
+
+    <update id="deleteProduct">
+        UPDATE product SET delyn ='Y' where product_code = #{product_code}
+    </update>
+
+</mapper>
+
