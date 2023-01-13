@@ -106,7 +106,7 @@
 
 <div class="container-fluid">
     <div class="row flex-nowrap">
-        <my:sideBar2></my:sideBar2>
+        <my:Sidebar></my:Sidebar>
         <div class="col py-3">
             <h3><a href="result">Report</a></h3>
             <p style="display: none">리포트</p>
@@ -194,19 +194,22 @@
                     <br><br><br>
 
                     조회 항목 선택 :
-                    <input type="checkbox" name="" value="1" id="2" checked>주문코드
-                    <input type="checkbox" name="" value="2" id="3" checked>바이어코드
+                    <input type="checkbox" name="" value="1" id="1" checked>주문코드
+                    <input type="checkbox" name="" value="2" id="2">바이어코드
+                    <input type="checkbox" name="" value="2" id="3" checked>바이어명
                     <input type="checkbox" name="" value="3" id="4" checked>요청일
                     <input type="checkbox" name="" value="4" id="5" checked>승인여부
                     <input type="checkbox" name="" value="" id="6">승인일
                     <input type="checkbox" name="" value="" id="7">반려일
                     <input type="checkbox" name="" value="" id="8">메모
-                    <input type="checkbox" name="" value="" id="9" checked>작성자
-                    <input type="checkbox" name="" value="" id="10" checked>작성일
-                    <input type="checkbox" name="" value="" id="11" checked>제품코드
-                    <input type="checkbox" name="" value="" id="12" checked>수량
-                    <input type="checkbox" name="" value="" id="13" checked>통화
-                    <input type="checkbox" name="" value="" id="14" checked>가격
+                    <input type="checkbox" name="" value="" id="9">작성자아이디
+                    <input type="checkbox" name="" value="" id="10" checked>작성자명
+                    <input type="checkbox" name="" value="" id="11" checked>작성일시
+                    <input type="checkbox" name="" value="" id="12">제품코드
+                    <input type="checkbox" name="" value="" id="13" checked>제품명
+                    <input type="checkbox" name="" value="" id="14" checked>수량
+                    <input type="checkbox" name="" value="" id="15" checked>통화
+                    <input type="checkbox" name="" value="" id="16" checked>가격
 
 
                 </form>
@@ -219,6 +222,7 @@
 
 
                     <p>&nbsp;&nbsp;&nbsp;총 ${orderCount}건
+
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -235,15 +239,18 @@
                         <tr>
                             <%--                            <th></th>--%>
                             <th id="order_code">&nbsp;주문 코드</th>
-                            <th id="buyer_code">바이어 코드</th>
+                            <th style="display: none" id="buyer_code">바이어 코드</th>
+                            <th>바이어명</th>
                             <th>요청일</th>
                             <th id="status">승인여부</th>
                             <th id="approval_date" style="display: none">승인일</th>
                             <th id="return_date" style="display: none">반려일</th>
                             <th id="memo" style="display: none">메모</th>
-                            <th id="adduser">작성자</th>
-                            <th id="adddate">작성일</th>
-                            <th id="product_code">제품 코드</th>
+                            <th id="adduser" style="display: none">작성자 아이디</th>
+                            <th>작성자명</th>
+                            <th id="adddate">작성일시</th>
+                            <th id="product_code" style="display: none">제품 코드</th>
+                            <th>제품명</th>
                             <th id="quantity">수량</th>
                             <th id="currency">통화</th>
                             <th id="price">가격</th>
@@ -255,15 +262,18 @@
                             <tr>
                                     <%--<td>${status.index+1}</td>--%>
                                 <td>&nbsp;&nbsp;${order.order_code}</td>
-                                <td>${order.buyer_code}</td>
-                                <td>${order.request_date}</td>
+                                <td style="display: none">${order.buyer_code} </td>
+                                <td>${order.buyer_name}</td>
+                                <td><fmt:formatDate value="${order.request_date}" pattern="yyyy-MM-dd"/></td>
                                 <td>${order.status}</td>
                                 <td style="display: none"></td>
                                 <td style="display: none"></td>
                                 <td style="display: none">${order.memo}</td>
-                                <td>${order.adduser}</td>
+                                <td style="display: none">${order.adduser}</td>
+                                <td>${order.user_name}</td>
                                 <td>${order.adddate}</td>
-                                <td>${order.product_code}</td>
+                                <td style="display: none">${order.product_code}</td>
+                                <td>${order.product_name}</td>
                                 <td>${order.quantity}</td>
                                 <td>${order.currency}</td>
                                 <td class="row_value"><fmt:formatNumber value="${order.price}" pattern="#,###"/></td>
@@ -278,15 +288,18 @@
                         <tr>
                             <td>합계</td>
                             <%--                            <td>&nbsp;&nbsp;${order.order_code}</td>--%>
-                            <td>${order.buyer_code}</td>
+                            <td style="display: none">${order.buyer_code}</td>
+                            <td></td>
                             <td>${order.request_date}</td>
                             <td>${order.status}</td>
                             <td style="display: none"></td>
                             <td style="display: none"></td>
                             <td style="display: none">${order.memo}</td>
-                            <td>${order.adduser}</td>
+                            <td style="display: none">${order.adduser}</td>
+                            <td>${order.user_name}</td>
                             <td>${order.adddate}</td>
-                            <td>${order.product_code}</td>
+                            <td style="display: none">${order.product_code}</td>
+                            <td>${order.product_name}</td>
                             <td>${sums.sumQuantity}</td>
                             <td>${order.currency}</td>
                             <%--                        <td class="row_sum"></td>--%>
@@ -308,10 +321,17 @@
 
                             <%-- 맨앞 버튼은 1페이지가 아니면 존재함 --%>
                             <c:if test="${pageInfo.currentPageNumber ne 1 }">
-                                <c:url value="/report/result" var="listLink">
+                                <c:url value="/report/work" var="listLink">
                                     <c:param name="page" value="1"/>
-                                    <c:param name="q" value="${param.q }"/>
-                                    <c:param name="t" value="${param.t }"/>
+                                    <c:param name="order_code" value="${param.order_code }"/>
+                                    <c:param name="buyer_code" value="${param.buyer_code }"/>
+                                    <c:param name="status" value="${param.status }"/>
+                                    <c:param name="adduser" value="${param.adduser }"/>
+                                    <c:param name="from_add_date" value="${param.from_add_date }"/>
+                                    <c:param name="to_add_date" value="${param.to_add_date }"/>
+                                    <c:param name="from_request_date" value="${param.from_request_date }"/>
+                                    <c:param name="to_request_date" value="${param.to_request_date }"/>
+                                    <c:param name="product_code" value="${param.product_code }"/>
                                 </c:url>
                                 <!-- li.page-item>a.page-link{맨앞버튼} -->
                                 <li class="page-item">
@@ -322,10 +342,8 @@
                             </c:if>
 
                             <c:if test="${pageInfo.hasPrevButton }">
-                                <c:url value="/report/result" var="listLink">
+                                <c:url value="/report/work" var="listLink">
                                     <c:param name="page" value="${pageInfo.jumpPrevPageNumber }"></c:param>
-                                    <c:param name="q" value="${param.q }"/>
-                                    <c:param name="t" value="${param.t }"/>
                                 </c:url>
                                 <li class="page-item">
                                     <a href="${listLink }" class="page-link">
@@ -334,12 +352,23 @@
                                 </li>
                             </c:if>
 
+
+
                             <c:forEach begin="${pageInfo.leftPageNumber }" end="${pageInfo.rightPageNumber }"
                                        var="pageNumber">
-                                <c:url value="/report/result" var="listLink">
+                                <c:url value="/report/work" var="listLink">
+                                    <c:param name="order_code" value="${param.order_code }"/>
+                                    <c:param name="buyer_code" value="${param.buyer_code }"/>
+                                    <c:param name="status" value="${param.status }"/>
+                                    <c:param name="adduser" value="${param.adduser }"/>
+                                    <c:param name="from_add_date" value="${param.from_add_date }"/>
+                                    <c:param name="to_add_date" value="${param.to_add_date }"/>
+                                    <c:param name="from_request_date" value="${param.from_request_date }"/>
+                                    <c:param name="to_request_date" value="${param.to_request_date }"/>
+                                    <c:param name="product_code" value="${param.product_code }"/>
                                     <c:param name="page" value="${pageNumber }"/>
-                                    <c:param name="q" value="${param.q }"/>
-                                    <c:param name="t" value="${param.t }"/>
+
+
                                 </c:url>
                                 <li class="page-item
 
@@ -350,10 +379,17 @@
                             </c:forEach>
 
                             <c:if test="${pageInfo.hasNextButton }">
-                                <c:url value="/report/result" var="listLink">
+                                <c:url value="/report/work" var="listLink">
                                     <c:param name="page" value="${pageInfo.jumpNextPageNumber }"></c:param>
-                                    <c:param name="q" value="${param.q }"/>
-                                    <c:param name="t" value="${param.t }"/>
+                                    <c:param name="order_code" value="${param.order_code }"/>
+                                    <c:param name="buyer_code" value="${param.buyer_code }"/>
+                                    <c:param name="status" value="${param.status }"/>
+                                    <c:param name="adduser" value="${param.adduser }"/>
+                                    <c:param name="from_add_date" value="${param.from_add_date }"/>
+                                    <c:param name="to_add_date" value="${param.to_add_date }"/>
+                                    <c:param name="from_request_date" value="${param.from_request_date }"/>
+                                    <c:param name="to_request_date" value="${param.to_request_date }"/>
+                                    <c:param name="product_code" value="${param.product_code }"/>
                                 </c:url>
                                 <li class="page-item">
                                     <a href="${listLink }" class="page-link">
@@ -364,10 +400,17 @@
 
 
                             <c:if test="${pageInfo.currentPageNumber ne pageInfo.lastPageNumber }">
-                                <c:url value="/report/result" var="listLink">
+                                <c:url value="/report/work" var="listLink">
                                     <c:param value="${pageInfo.lastPageNumber }" name="page"/>
-                                    <c:param name="q" value="${param.q }"/>
-                                    <c:param name="t" value="${param.t }"/>
+                                    <c:param name="order_code" value="${param.order_code }"/>
+                                    <c:param name="buyer_code" value="${param.buyer_code }"/>
+                                    <c:param name="status" value="${param.status }"/>
+                                    <c:param name="adduser" value="${param.adduser }"/>
+                                    <c:param name="from_add_date" value="${param.from_add_date }"/>
+                                    <c:param name="to_add_date" value="${param.to_add_date }"/>
+                                    <c:param name="from_request_date" value="${param.from_request_date }"/>
+                                    <c:param name="to_request_date" value="${param.to_request_date }"/>
+                                    <c:param name="product_code" value="${param.product_code }"/>
                                 </c:url>
                                 <!-- li.page-item>a.page-link{맨뒤버튼} -->
                                 <li class="page-item">
@@ -400,6 +443,11 @@
 
 
         <script>
+
+            if ('${message}' != '')
+                alert('${message}');
+
+
             // $(document).ready(function() {
             //     $("input[type='checkbox']").click(function() {
             //          let v1 =parseInt($(this).each(getCheckboxValue())) ;
@@ -482,6 +530,13 @@
                 $('#14').change(function () {
                     $('td:nth-child(' + this.id + '),th:nth-child(' + this.id + ')').toggle();
                 })
+                $('#15').change(function () {
+                    $('td:nth-child(' + this.id + '),th:nth-child(' + this.id + ')').toggle();
+                })
+                $('#16').change(function () {
+                    $('td:nth-child(' + this.id + '),th:nth-child(' + this.id + ')').toggle();
+                })
+
             })
 
 

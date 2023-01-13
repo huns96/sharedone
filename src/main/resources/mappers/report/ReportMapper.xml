@@ -7,8 +7,12 @@
 
     <!--    <select id="selectOrders" parameterType="map" resultType="com.example.sharedOne.domain.report.OrderDto">-->
     <select id="selectOrders" resultType="com.sharedOne.domain.report.OrderDto">
-        SELECT *
+        SELECT *,
+        b.name buyer_name, m.name user_name
         FROM order_header h left join order_item i on h.order_code=i.order_code
+        left join buyer b on h.buyer_code = b.buyer_code
+        left join member m on h.adduser=m.user_id
+        left join product p on i.product_code=p.product_code
         <where>
             <!--<trim prefix="WHERE" prefixOverrides="and">-->
             <trim prefixOverrides="and">
@@ -36,7 +40,46 @@
             </trim>
         </where>
         ORDER BY h.adddate DESC
+        LIMIT #{offset}, #{records}
     </select>
+
+
+    <select id="countAll" resultType="int">
+        SELECT count(*),
+        b.name buyer_name, m.name user_name
+        FROM order_header h left join order_item i on h.order_code=i.order_code
+        left join buyer b on h.buyer_code = b.buyer_code
+        left join member m on h.adduser=m.user_id
+        left join product p on i.product_code=p.product_code
+        <where>
+            <!--<trim prefix="WHERE" prefixOverrides="and">-->
+            <trim prefixOverrides="and">
+                <if test="order_code != null and order_code!=''">
+                    and h.order_code = #{order_code}
+                </if>
+                <if test="buyer_code != null and buyer_code!=''">
+                    and h.buyer_code = #{buyer_code}
+                </if>
+                <if test="status != null and status!=''">
+                    and h.status = #{status}
+                </if>
+                <if test="adduser != null and adduser!=''">
+                    and h.adduser = #{adduser}
+                </if>
+                <if test="from_request_date != null and from_request_date!='' and to_request_date != null and to_request_date!=''">
+                    and h.request_date BETWEEN #{from_request_date} AND #{to_request_date}
+                </if>
+                <if test="from_add_date != null and from_add_date!='' and to_add_date != null and to_add_date!=''">
+                    and h.adddate BETWEEN #{from_add_date} AND #{to_add_date}
+                </if>
+                <if test="product_code != null and product_code!=''">
+                    and i.product_code=#{product_code}
+                </if>
+            </trim>
+        </where>
+    </select>
+
+
 
 
     <select id="getSums" resultType="com.sharedOne.domain.report.SumDto">
@@ -105,6 +148,8 @@
         GROUP BY ${sumCondition}
         ORDER BY h.adddate DESC
     </select>
+
+
 
 
     <select id="searchOrderCode" resultType="String">
