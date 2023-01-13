@@ -11,7 +11,7 @@ public class ProductDto {
     private String product_code;
     private String name;
     private String ea;
-    private String category_id;
+    private int category_id;
 
     private String delyn;
     private String adduser;
