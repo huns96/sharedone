@@ -71,4 +71,11 @@
         WHERE o.delyn = 'N'
         AND o.order_code = #{order_code}
     </select>
+
+    <update id="changeStatus">
+        UPDATE order_header
+        SET status = #{status}, upduser = #{upduser}, upddate = CURRENT_TIMESTAMP()
+        WHERE order_code = #{order_code}
+    </update>
+
 </mapper>

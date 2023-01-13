@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -91,5 +93,14 @@ public class OrderService {
 
     public OrderDto getOrderInfo(String orderCode) {
         return orderMapper.getOrder(orderCode);
+    }
+
+    public int changeStatus(String orderCode, String status) {
+        OrderDto orderDto = new OrderDto();
+        orderDto.setOrder_code(orderCode);
+        orderDto.setStatus(status);
+        orderDto.setUpduser("user1"); //[TODO] user 임의로 넣음.. >> 로그인 정보 추가 해야함
+
+        return orderMapper.changeStatus(orderDto);
     }
 }

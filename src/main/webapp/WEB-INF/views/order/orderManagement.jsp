@@ -98,6 +98,7 @@
                                 <th>등록자</th>
                                 <th>수정자</th>
                                 <th>주문수정</th>
+                                <th></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -113,7 +114,19 @@
                                     <td>${order.status}</td>
                                     <td>${order.adduser}</td>
                                     <td>${order.upduser}</td>
-                                    <td><button type="button" class="btn btn-outline-secondary" onclick="modifyOrderPopup(${order.order_code})">수정</button></td>
+                                    <td>
+                                        <c:if test="${order.status == '작성중' || order.status == '승인취소' || order.status == '반려'}">
+                                            <button type="button" class="btn btn-outline-secondary" onclick="modifyOrderPopup(${order.order_code})">수정</button>
+                                        </c:if>
+                                    </td>
+                                    <td>
+                                        <c:if test="${order.status == '작성중'}">
+                                            <button type="button" class="btn btn-outline-secondary" onclick="changeStatus('${order.status}',${order.order_code})">승인요청</button>
+                                        </c:if>
+                                        <c:if test="${order.status == '승인요청'}">
+                                            <button type="button" class="btn btn-outline-secondary" onclick="changeStatus('${order.status}',${order.order_code})">승인취소</button>
+                                        </c:if>
+                                    </td>
                                 </tr>
                             </c:forEach>
                             </tbody>
@@ -175,6 +188,7 @@
 
 
         /* 등록,수정자 검색 팝업창 */
+
 
 
     });
@@ -250,6 +264,30 @@
         let popupY= (window.screen.height / 2) - (popupHeight / 2);
         let popupOption = 'status=no, height=' + popupHeight  + ', width=' + popupWidth  + ', left='+ popupX + ', top='+ popupY;
         window.open(url,"",popupOption);
+    }
+
+    /* 상태 변경 */
+    function changeStatus(nowStatus, orderCode) {
+        let status = "";
+        if (nowStatus == '작성중') status = "승인요청";
+        if (nowStatus == '승인요청') status = "승인취소";
+
+        $.ajax({
+            type: 'POST',
+            url: '/order/changeStatus',
+            data: {
+                "status": status,
+                "orderCode": orderCode
+            },
+            dataType : 'json',
+            traditional: true,
+            success: function (result) {
+                //console.log(result);
+            }
+        });
+        setTimeout(function () {
+            location.reload();
+        },500);
     }
 
 </script>

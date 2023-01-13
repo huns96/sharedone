@@ -95,4 +95,17 @@ public class OrderController {
 //        }
     }
 
+    /* 주문 상태 변경 */
+    @PostMapping("changeStatus")
+    @ResponseBody
+    public void changeStatus(@RequestParam String orderCode, @RequestParam String status, RedirectAttributes rttr) {
+        orderService.changeStatus(orderCode, status);
+//        int cnt = orderService.changeStatus(orderCode, status);
+//        if (cnt==1) {
+//            rttr.addFlashAttribute("message", orderCode + " 주문이 등록되었습니다.");
+//        } else {
+//            rttr.addFlashAttribute("message", orderCode + " 주문이 등록되지 않았습니다.");
+//        }
+
+    }
 }

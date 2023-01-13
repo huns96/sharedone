@@ -27,7 +27,7 @@
         </div>
         <div class="col-md-6 mb-3">
             <label for="newStatus" class="form-label">상태</label>
-            <input id="newStatus" type="text"  class="form-control orderInfo" name="status" value="${order.status}" readonly />
+            <input id="newStatus" type="text"  class="form-control orderInfo" name="status" value="작성중" readonly />
         </div>
     </div>
     <div class="row">
