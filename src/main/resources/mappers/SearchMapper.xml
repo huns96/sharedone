@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sharedOne.mapper.SearchMapper">
+    <select id="getBuyerList" resultType="com.sharedOne.domain.BuyerDto">
+        SELECT
+            b.buyer_code, b.name, b.address
+        FROM buyer b
+        <!--WHERE b.delyn = 'N"-->
+    </select>
+
+   <!-- <select id="getItemList" resultType="domain.com.sharedOne.OrderItemDto">
+        SELECT
+            b.buyer_code, b.name, b.address
+        FROM order_item o
+        &lt;!&ndash;WHERE b.delyn = 'N"&ndash;&gt;
+    </select>-->
+   <select id="getItemList" resultMap="itemMap">
+        SELECT
+            p.product_code, p.name as 'product_name', p.category_id, pri.currency, pri.price as 'old_price', pri.buyer_code
+        FROM product p
+        LEFT JOIN price pri ON pri.product_code = p.product_code
+        WHERE pri.buyer_code = #{buyer_code};
+    </select>
+
+    <resultMap type="com.sharedOne.domain.OrderItemDto" id="itemMap">
+        <result column="product_code" property="product_code" />
+        <result column="product_name" property="product_name" />
+        <result column="category_id" property="category_id" />
+        <result column="currency" property="currency" />
+        <result column="old_price" property="old_price" />
+        <result column="buyer_code" property="buyer_code" />
+    </resultMap>
+
+</mapper>
