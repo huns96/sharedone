@@ -61,7 +61,15 @@
                 <a href="/order/orderManagement" class="nav-link"> <span class="d-none d-sm-inline name" style="align-items: center; color: aliceblue;">주문관리</span></a>
             </li>
             <li class="w-100">
-                <a href="/order/approval" class="nav-link"> <span class="d-none d-sm-inline name" style="align-items: center; color: aliceblue;">주문승인</span></a>
+                <a href="/approval/approvalList" class="nav-link"> <span class="d-none d-sm-inline name" style="align-items: center; color: aliceblue;">주문승인</span></a>
+            </li>
+
+            <li>
+                <a href="#" class="nav-link px-0 align-middle">
+                    <span class="ms d-none d-sm-inline" style="color: red; font-size: 20px;">리포트</span> </a>
+            </li>
+            <li class="w-100">
+                <a href="/report/result" class="nav-link"> <span class="d-none d-sm-inline name" style="align-items: center; color: aliceblue;">리포트</span></a>
             </li>
         </ul>
     </div>
