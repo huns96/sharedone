@@ -105,7 +105,7 @@ public class BuyerController {
             redirectAttributes.addFlashAttribute("message","수정 실패");
         }
         return "redirect:/buyer/list";
-        
+
     }
 
 }
