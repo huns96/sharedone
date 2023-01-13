@@ -28,14 +28,6 @@
             <div class="col-md-6 mb-3">
                 <label for="newStatus" class="form-label">상태</label>
                 <input id="newStatus" type="text"  class="form-control orderInfo" name="status" value="작성중" readonly />
-                <%--<select class="form-select">
-                    <option selected value="작성중">작성중</option>
-                    <option value="승인요청">승인요청</option>
-                    <option value="승인완료">승인완료</option>
-                    <option value="승인취소">승인취소</option>
-                    <option value="반려">반려</option>
-                    <option value="종결">종결</option>
-                </select>--%>
             </div>
         </div>
         <div class="row">
@@ -54,7 +46,7 @@
         <div class="row">
             <div class="col-md-6 mb-3">
                 <label for="newRequestDate" class="form-label">납품요청일</label>
-                <input id="newRequestDate" type="date" class="form-control orderInfo" name="request_date" />
+                <input id="newRequestDate" type="date" class="form-control orderInfo" name="request_date" required="required" />
             </div>
             <div class="col-md-6 mb-3">
                 <label for="newOrderDate" class="form-label">주문일</label>
@@ -72,7 +64,7 @@
             <div class="col-md-6 mb-3">
                 <label for="newProductCode" class="form-label">상품코드</label>
                 <div class="input-group">
-                    <input id="newProductCode" type="text" class="form-control" name="product_code" readonly/>
+                    <input id="newProductCode" type="text" class="form-control" name="product_code" required="required" placeholder="상품코드를 검색해주세요." readonly/>
                     <button id="productPopupButton" class="btn btn-outline-secondary" type="button">검색</button>
                 </div>
             </div>
@@ -84,11 +76,11 @@
         <div class="row">
             <div class="col-md-4 mb-3">
                 <label for="newPrice" class="form-label">단가</label>
-                <input id="newPrice" type="text" class="form-control" name="price" />
+                <input id="newPrice" type="number" class="form-control" name="price" required="required" />
             </div>
             <div class="col-md-4 mb-3">
                 <label for="newQuantity" class="form-label">수량</label>
-                <input id="newQuantity" type="text" class="form-control" name="quantity" />
+                <input id="newQuantity" type="number" class="form-control" name="quantity" required="required" />
             </div>
             <div class="col-md-4 mb-3">
                 <label class="form-label"></label>
@@ -113,6 +105,7 @@
             </table>
         </div>
     </form>
+
     <footer style="float: right; justify-content: flex-end;">
         <button type="button" id="newOrderSubmitButton" class="btn btn-danger">주문등록</button>
         <button type="button" class="btn btn-secondary" onclick="window.close();">취소</button>
@@ -139,27 +132,61 @@
 
             /* 상품 검색 팝업창 */
             $('#productPopupButton').click(function() {
-                itemPopup();
+                let buyerCode = $.trim($('#newBuyerCode').val());
+                let requestDate = $.trim($('#newRequestDate').val());
+
+                if (buyerCode !== "" && requestDate !== "") {
+                    // [TODO] 상품코드를 직접 검색하는 경우 팝업창으로 상품코드 전달 - 팝업창 검색 기능 작업 이후
+                    // if ($('#newProductCode').val().trim() != "")
+                    itemPopup();
+                }
+                if (buyerCode == "")  buyerPopup();
+                if (requestDate == "") $('#newRequestDate').focus();
             });
 
             /* 상품 추가 버튼 */
             $('#addNewItemButton').click(function() {
-                addOrderItem();
+                let buyerCode = $.trim($('#newBuyerCode').val());
+                let requestDate = $.trim($('#newRequestDate').val());
+                let productCode = $.trim($('#newProductCode').val());
+                let productName = $.trim($('#newProductName').val());
+                let price = $.trim($('#newPrice').val());
+                let quantity = $.trim($('#newQuantity').val());
+
+                if (buyerCode !== "" && requestDate !== "") {
+                    if (productCode != "" && productName != "" && price != "" && quantity != "") {
+                        addOrderItem();
+                    }
+                    if (productCode == "" || productName == "")  itemPopup();
+                    if (price == "") $('#newPrice').focus();
+                    if (quantity == "") $('#newQuantity').focus();
+                }
+                if (buyerCode == "")  buyerPopup();
+                if (requestDate == "") $('#newRequestDate').focus();
             });
 
             /* 상품 초기화 버튼 */
             $('#resetItemButton').click(function() {
-                $('#newProductCode').val("");
-                $('#newProductName').val("");
-                $('#newQuantity').val("");
-                $('#newPrice').val("");
-                console.log("reset 이후 orderItemList ===> " + orderItemList);
+                resetItemInfo();
             });
 
             /* 주문 등록 전송 버튼 */
             $('#newOrderSubmitButton').click(function() {
-                addNewOrder();
+                let buyerCode = $.trim($('#newBuyerCode').val());
+                let requestDate = $.trim($('#newRequestDate').val());
+                if (buyerCode != "" && requestDate != "") {
+                    addNewOrder();
+                } else {
+                    if (buyerCode == "") buyerPopup();
+                    if (requestDate == "") $('#newRequestDate').focus();
+                }
+
+
+                // console.log("----> "+orderItemList);
+                // $('#registerModalBody').empty();
+                // $('#registerModalBody').append("총 " + orderItemList.length + "건의 상품을 주문 등록하시겠습니까?");
             });
+
         });
 
         /* 바이어 검색 팝업창 */
@@ -180,6 +207,7 @@
 
         /* 상품 검색 팝업창 */
         function itemPopup() {
+            resetItemInfo();
             let url = "/search/productPopup?buyer_code=" + $('#newBuyerCode').val();
             let popupWidth = 600;
             let popupHeight = 500;
@@ -203,18 +231,29 @@
             let quantity = $('#newQuantity').val();
             let price = $('#newPrice').val();
             let totalPrice = quantity * price;
-            //let orderCode = $('#newOrderCode').value;
-            //let buyerCode = $('#newBuyerCode').value;
 
-            // 필수정보 입력 검증 - productCode, name, quantity, price
+            // 상품 중복 확인
+            let dupli = false;
+            for(var i = 0; i<orderItemList.length; i++) {
+                if (orderItemList[i][0] == productCode) {
+                    dupli = true;
+                }
+            }
+            if (dupli == false) {
+                const itemList = [productCode, productName, quantity, price, totalPrice];
+                orderItemList.push(itemList);
+                itemListInPopup(itemList, orderItemList);
 
-            const itemList = [productCode, productName, quantity, price, totalPrice];
-            orderItemList.push(itemList);
+                // 바이어 정보 수정 불가
+                $('#buyerPopupButton').attr('style','pointer-events:none;');
 
-            itemListInPopup(itemList, orderItemList);
+            } else {
+                alert("상품번호 " + productCode + "가 중복됩니다.");
+            }
+            resetItemInfo();
         }
 
-        /* 모달창 - 주문상품 리스트 조회 */
+        /* 주문상품 리스트 조회 */
         function itemListInPopup(itemList, orderItemList) {
             let tbody = $('#newItem-table tbody');
             tbody.append("");
@@ -231,24 +270,27 @@
             );
         }
 
+        /* 상품입력창 초기화 */
+        function resetItemInfo() {
+            $('#newProductCode').val("");
+            $('#newProductName').val("");
+            $('#newQuantity').val("");
+            $('#newPrice').val("");
+        }
 
         /* 새 주문 등록 */
         function addNewOrder() {
             let queryString = $(".orderInfo").serialize();
-            //queryString += "&itemList=" + orderItemList;
-            console.log(queryString);
             $.ajax({
                 type: 'POST',
                 url: '/order/register',
                 data: queryString,
                 success: function (data) {
-                    console.log(data);
-                    console.log("orderItemList =====> "+orderItemList);
+                    //console.log(data);
                     var objParams = {
                         "items" : orderItemList,
                         "orderCode" : data
                     };
-
                     $.ajax({
                         type: 'POST',
                         url: '/order/registerItem',
@@ -257,7 +299,6 @@
                         traditional: true,
                         success: function (result) {
                             console.log(result);
-
 
                         }
                     });
