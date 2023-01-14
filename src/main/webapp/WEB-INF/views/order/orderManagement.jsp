@@ -98,7 +98,7 @@
                                 <th>등록자</th>
                                 <th>수정자</th>
                                 <th>주문수정</th>
-                                <th></th>
+                                <th>상태변경</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -116,15 +116,15 @@
                                     <td>${order.upduser}</td>
                                     <td>
                                         <c:if test="${order.status == '작성중' || order.status == '승인취소' || order.status == '반려'}">
-                                            <button type="button" class="btn btn-outline-secondary" onclick="modifyOrderPopup(${order.order_code})">수정</button>
+                                            <button type="button" class="btn btn-outline-secondary btn-sm" onclick="modifyOrderPopup(${order.order_code})">수정</button>
                                         </c:if>
                                     </td>
                                     <td>
                                         <c:if test="${order.status == '작성중'}">
-                                            <button type="button" class="btn btn-outline-secondary" onclick="changeStatus('${order.status}',${order.order_code})">승인요청</button>
+                                            <button type="button" class="btn btn-outline-secondary btn-sm" onclick="changeStatus('${order.status}',${order.order_code})">승인요청</button>
                                         </c:if>
                                         <c:if test="${order.status == '승인요청'}">
-                                            <button type="button" class="btn btn-outline-secondary" onclick="changeStatus('${order.status}',${order.order_code})">승인취소</button>
+                                            <button type="button" class="btn btn-outline-secondary btn-sm" onclick="changeStatus('${order.status}',${order.order_code})">승인취소</button>
                                         </c:if>
                                     </td>
                                 </tr>
