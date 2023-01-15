@@ -51,6 +51,7 @@ public class MemberController {
         model.addAttribute("total",memberList.getTotal());
         model.addAttribute("memberList", memberList.getResult());
 
+
         return "member/list";
     }
 

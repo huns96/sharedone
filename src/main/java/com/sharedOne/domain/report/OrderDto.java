@@ -26,6 +26,12 @@ public class OrderDto {
     private int price;
 
     //----------------------
+    private String buyer_name;
+    private String user_name;
+    private String product_name;
+
+
+
 //    private int sumQuantity;
 //    private int sumPrice;
 

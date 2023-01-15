@@ -1,14 +1,12 @@
 package com.sharedOne.service;
 
-import com.sharedOne.domain.report.OrderDto;
-import com.sharedOne.domain.report.OrderGroupDto;
-import com.sharedOne.domain.report.OrderItemDto;
-import com.sharedOne.domain.report.SumDto;
+import com.sharedOne.domain.report.*;
 import com.sharedOne.mapper.report.ReportMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+
 
 @Service
 public class ReportService {
@@ -20,7 +18,7 @@ public class ReportService {
                                     String status, String adduser,
                                     String from_request_date, String to_request_date,
                                     String from_add_date,
-                                    String to_add_date, String product_code) {
+                                    String to_add_date, String product_code, PageInfo pageInfo,int page) {
         System.out.println("서비스겟오더스" + order_code);
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("order_code", order_code);
@@ -31,8 +29,43 @@ public class ReportService {
         map.put("to_add_date", to_add_date);
 //        return reportMapper.selectOrders(map);
 
+
+        int records = 10;
+        int offset = (page - 1) * records;
+
+        int countAll = reportMapper.countAll(order_code, buyer_code, status, from_request_date, to_request_date,
+                adduser, from_add_date, to_add_date, product_code,pageInfo);// SELECT Count(*) FROM Board
+
+        System.out.println(countAll+"countAll결과");
+
+        int lastPage = (countAll - 1) / records + 1;
+
+        int leftPageNumber = (page - 1) / 10 * 10 + 1;
+        int rightPageNumber = leftPageNumber + 9;
+        rightPageNumber = Math.min(rightPageNumber, lastPage);
+
+        // 이전버튼 유무
+        boolean hasPrevButton = page > 10;
+        // 다음버튼 유무
+        boolean hasNextButton = page <= ((lastPage - 1) / 10 * 10);
+
+        // 이전버튼 눌렀을 때 가는 페이지 번호
+        int jumpPrevPageNumber = (page - 1) / 10 * 10 - 9;
+        int jumpNextPageNumber = (page - 1) / 10 * 10 + 11;
+
+        pageInfo.setHasPrevButton(hasPrevButton);
+        pageInfo.setHasNextButton(hasNextButton);
+        pageInfo.setJumpPrevPageNumber(jumpPrevPageNumber);
+        pageInfo.setJumpNextPageNumber(jumpNextPageNumber);
+        pageInfo.setCurrentPageNumber(page);
+        pageInfo.setLeftPageNumber(leftPageNumber);
+        pageInfo.setRightPageNumber(rightPageNumber);
+        pageInfo.setLastPageNumber(lastPage);
+
+//        return boardMapper.list(offset, records, type, "%" + keyword + "%");
+
         return reportMapper.selectOrders(order_code, buyer_code, status, from_request_date, to_request_date,
-                adduser, from_add_date, to_add_date, product_code);
+                adduser, from_add_date, to_add_date, product_code,pageInfo,offset,records);
     }
 
     public List<String> searchOrderCode(String order_code_part) {
@@ -69,4 +102,40 @@ public class ReportService {
                 from_request_date, to_request_date,
                 from_add_date, to_add_date, product_code, sumCondition);
     }
+
+
+
+
+//    public List<BoardDto> listBoard(int page, String type, String keyword, PageInfo pageInfo) {
+//        int records = 10;
+//        int offset = (page - 1) * records;
+//
+//        int countAll = boardMapper.countAll(type, "%" + keyword + "%"); // SELECT Count(*) FROM Board
+//        int lastPage = (countAll - 1) / records + 1;
+//
+//        int leftPageNumber = (page - 1) / 10 * 10 + 1;
+//        int rightPageNumber = leftPageNumber + 9;
+//        rightPageNumber = Math.min(rightPageNumber, lastPage);
+//
+//        // 이전버튼 유무
+//        boolean hasPrevButton = page > 10;
+//        // 다음버튼 유무
+//        boolean hasNextButton = page <= ((lastPage - 1) / 10 * 10);
+//
+//        // 이전버튼 눌렀을 때 가는 페이지 번호
+//        int jumpPrevPageNumber = (page - 1) / 10 * 10 - 9;
+//        int jumpNextPageNumber = (page - 1) / 10 * 10 + 11;
+//
+//        pageInfo.setHasPrevButton(hasPrevButton);
+//        pageInfo.setHasNextButton(hasNextButton);
+//        pageInfo.setJumpPrevPageNumber(jumpPrevPageNumber);
+//        pageInfo.setJumpNextPageNumber(jumpNextPageNumber);
+//        pageInfo.setCurrentPageNumber(page);
+//        pageInfo.setLeftPageNumber(leftPageNumber);
+//        pageInfo.setRightPageNumber(rightPageNumber);
+//        pageInfo.setLastPageNumber(lastPage);
+//
+//        return boardMapper.list(offset, records, type, "%" + keyword + "%");
+//    }
+
 }

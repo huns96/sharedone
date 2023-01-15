@@ -118,7 +118,9 @@
                     </thead>
                     <tbody>
                     <c:forEach items="${memberList}" var="mem" varStatus="sts">
+
                         <div hidden="hidden" id="pwpw">${mem.password}</div>
+
                         <tr>
                             <td>${mem.name}</td>
                             <td>${mem.user_id}</td>
