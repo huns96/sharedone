@@ -308,11 +308,11 @@
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <script>
 
-  $("#modifyConfirmButton").click(function(){
-    let price = $("#price").val();
-    let intPrice = parseInt(price);
-    $("input[name='price']").val(intPrice);
-  })
+//  $("#modifyConfirmButton").click(function(){
+  //  let price = $("#price").val();
+    //let intPrice = parseInt(price.replace(/,/g,""));
+   // $("input[name='price']").val(intPrice);
+  //})
 
   function myFunction2(x) {
     let price = document.getElementById(x).value;
@@ -430,10 +430,8 @@
 
   });
 
-  var i;
 
-
-  for(i=1; i<${pageInfo.countAll} ; i++) {
+  for(let i=1; i<=${pageInfo.countAll} ; i++) {
     let money = document.getElementById(i).innerText;
     let money2 = money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     document.getElementById(i).innerText=money2;

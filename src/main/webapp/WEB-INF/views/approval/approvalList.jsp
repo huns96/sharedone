@@ -135,8 +135,8 @@
 
                                             <c:if test="${order.status == '승인요청'}">
                                                 <div class="btn-group" style="width: 100%">
-                                                    <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#approvalModal${order.num}">승인완료</button>
-                                                    <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#returnModal${order.num}">승인반려</button>
+                                                    <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#approvalModal${order.num}">승인완료</button>
+                                                    <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#returnModal${order.num}">승인반려</button>
                                                 </div>
                                             </c:if>
                                             <div class="modal fade" id="returnModal${order.num}" tabindex="-1" aria-hidden="true">
@@ -193,6 +193,47 @@
                                 </c:forEach>
                                 </tbody>
                             </table>
+                            <div class="row" >
+                                <div class="col" style="width: 17px">
+                                    <nav class="mt-3 page" aria-label="Page navigation example">
+                                        <ul class="pagination justify-content-center">
+                                            <c:if test="${pageInfo.currentPageNumber != 1 }">
+                                                <li class="page-item">
+                                                    <a class="page-link" href="/aprroval/aprrovalList?page=1}" aria-label="first" style="height:100%;">
+                                                        <span aria-hidden="true"><i class="fa-solid fa-angles-left"></i></span>
+                                                    </a>
+                                                </li>
+                                            </c:if>
+                                            <c:if test="${pageInfo.leftPageNumber != 1 }">
+                                                <li class="page-item">
+                                                    <a class="page-link" href="/aprroval/aprrovalList?page=${pageInfo.currentPageNumber-1}" aria-label="left" style="height: 100%">
+                                                        <span aria-hidden="true"><i class="fa-solid fa-angle-left"></i></span>
+                                                    </a>
+                                                </li>
+                                            </c:if>
+                                            <c:forEach begin="${pageInfo.leftPageNumber}" end="${pageInfo.rightPageNumber }" var="pageNumber">
+                                                <li class="page-item ${pageInfo.currentPageNumber eq pageNumber ? 'active' : '' }">
+                                                    <a class="page-link" href="/aprroval/aprrovalList?page=${pageNumber}" >${pageNumber }</a>
+                                                </li>
+                                            </c:forEach>
+                                            <c:if test="${pageInfo.rightPageNumber} != ${pageInfo.lastPageNumber/10*10} and ${pageInfo.currentPageNumber != pageInfo.lastPageNumber }">
+                                                <li class="page-item">
+                                                    <a class="page-link" href="/aprroval/aprrovalList?page=${pageInfo.currentPageNumber+1}" aria-label="last" style="height: 100%">
+                                                        <span aria-hidden="true"><i class="fa-solid fa-angle-right"></i></span>
+                                                    </a>
+                                                </li>
+                                            </c:if>
+                                            <c:if test="${pageInfo.currentPageNumber != pageInfo.lastPageNumber }">
+                                                <li class="page-item">
+                                                    <a class="page-link" href="/aprroval/aprrovalList?page=${pageInfo.lastPageNumber}" aria-label="last" style="height:100%;">
+                                                        <span aria-hidden="true"><i class="fa-solid fa-angles-right"></i></span>
+                                                    </a>
+                                                </li>
+                                            </c:if>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -221,6 +262,7 @@
                                 </thead>
                                 <tbody></tbody>
                             </table>
+
                         </div>
                     </div>
                 </div>
