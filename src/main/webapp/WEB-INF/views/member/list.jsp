@@ -62,10 +62,10 @@
         }
 
         .dupliCheckBtn {
-            background-color: white;
-            border-color: black;
+            background-color: #6c757d;
+            border-style: none;
             border-radius: 8px;
-            color: black;
+            color: white;
         }
 
         .search {
@@ -184,21 +184,43 @@
             </div>
             <div class="modal-body">
                 <form action="/member/addMember" method="post" id="memberInsertForm">
-                    회원명:&nbsp;&nbsp;&nbsp; <input type="text" name="name" id="nnName"> <br>
-                    <br>
-                    아이디:&nbsp;&nbsp;&nbsp; <input type="text" name="user_id" id="nnId">
-                    <button type="button" class="dupliCheckBtn">아이디중복확인</button>
-                    <div id="dupliMessage" class="form-text">아이디 중복을 확인해주세요</div>
-                    <br>
-                    비밀번호: <input type="password" name="password" id="nnPassword"> <br>
-                    <br>
-                    연락처:&nbsp;&nbsp;&nbsp; <input type="text" name="phone" id="nnPhone"> <br>
+                    <table class="table">
+                        <tr>
+                            <th>회원명</th>
+                        </tr>
+                        <tr>
+                            <td><input type="text" name="name" id="nnName"></td>
+                        </tr>
+                        <tr>
+                           <th>아이디</th>
+                        </tr>
+                        <tr>
+                            <td><input type="text" name="user_id" id="nnId">
+                        <button type="button" class="dupliCheckBtn">중복확인</button>
+                        <div id="dupliMessage" class="form-text">아이디 중복을 확인해주세요</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>비밀번호</th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="password" name="password" id="nnPassword">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>연락처</th>
+                        </tr>
+                        <tr>
+                            <td><input type="text" name="phone" id="nnPhone"></td>
+                        </tr>
+                    </table>
                     <input type="hidden" name="adduser" value="admin">
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-                <button type="button" class="btn btn-primary memberInsertBtn">등록</button>
+                <button type="button" class="btn btn-primary memberInsertBtn" disabled>등록</button>
             </div>
         </div>
     </div>
@@ -298,7 +320,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-                <button id="modiBtn" type="button" class="btn btn-primary">수정</button>
+                <button id="modiBtn" type="button" class="btn btn-warning" style="color: white">수정</button>
             </div>
         </div>
     </div>
@@ -320,7 +342,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-                <button id="delBtn" type="button" class="btn btn-primary">삭제</button>
+                <button id="delBtn" type="button" class="btn btn-danger">삭제</button>
             </div>
         </div>
     </div>
@@ -333,6 +355,7 @@
         crossorigin="anonymous"></script>
 <script>
     const ctx = "${pageContext.request.contextPath}";
+    let availableId = false;
 
     document.querySelector(".memberInsertBtn").addEventListener("click", function () {
         const memInsertForm = document.forms.memberInsertForm;
@@ -368,13 +391,14 @@
 
     $('#authoDeleteBtn').click(function () {
         $('#userIdInput').val($('#copyId').text());
-        const authMessage = '${authMustHaveOne}';
-        if (authMessage == 1){
-            alert("1개 남은 권한은 삭제가 불가합니다")
-        } else {
-
-        }
     })
+
+    const authMessage = '${authMustHaveOne}';
+    if (authMessage == 1){
+        alert("1개 남은 권한은 삭제가 불가합니다")
+    } else {
+
+    };
 
     const deleteResult = '${deleteResult}';
     if (deleteResult == "success") {
@@ -412,14 +436,32 @@
         $('#delForm').submit();
     })
 
+    function enableSubmitButton(){
+        const button = $('.memberInsertBtn');
+        if (availableId == true){
+            button.removeAttr('disabled');
+        } else {
+            button.setAttribute('disabled', "");
+        }
+    }
+
     $('.dupliCheckBtn').click(function(){
+        availableId = false;
         const userId = $('#nnId').val();
         fetch("/member/existId/" + userId)
             .then(res => res.json())
             .then(data => {
                 $('#dupliMessage').text(data.message);
+                if (data.status == "not exist"){
+                    availableId = true;
+                    enableSubmitButton();
+
+                }
             });
     });
+
+
+
 
 </script>
 </body>

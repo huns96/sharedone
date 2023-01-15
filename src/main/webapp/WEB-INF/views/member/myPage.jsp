@@ -25,7 +25,7 @@
         }
 
         #myPageModiBtn {
-            background-color: #f39c12;
+            background-color: #ffc107;
             border-style: none;
             color: white;
             border-radius: 5px; width: 50px; height: 30px;
