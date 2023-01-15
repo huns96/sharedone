@@ -48,16 +48,16 @@
 
     <select id="listBuyer" resultType="com.sharedOne.domain.BuyerDto">
         SELECT
-            b.buyer_code,
-            b.name
-        FROM buyer b
+            buyer_code,
+            name
+        FROM buyer
         WHERE delyn="N" AND
         (<trim prefixOverrides="OR">
             <if test="type == 'all' or type == 'buyer_code'">
-                OR b.buyer_code LIKE #{keyword}
+                OR buyer_code LIKE #{keyword}
             </if>
             <if test="type == 'all' or type == 'name'">
-                OR b.name LIKE #{keyword}
+                OR name LIKE #{keyword}
             </if>
         </trim>);
 

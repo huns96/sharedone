@@ -4,7 +4,6 @@ import com.sharedOne.domain.OrderDto;
 import com.sharedOne.domain.OrderItemDto;
 import com.sharedOne.domain.PageInfo;
 import com.sharedOne.service.ApprovalService;
-import com.sharedOne.service.OrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,14 +11,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Controller
 @RequestMapping("approval")
 @Slf4j
-public class SmallController {
+public class approvalController {
 
     @Autowired
     private ApprovalService approvalService;
@@ -100,20 +97,6 @@ public class SmallController {
         return "redirect:/approval/approvalList";
     }
 
-
-    /* 주문 상태 변경 */
-    @PostMapping("changeStatus")
-    @ResponseBody
-    public void changeStatus(@RequestParam String orderCode, @RequestParam String status, RedirectAttributes rttr) {
-        approvalService.changeStatus(orderCode, status);
-//        int cnt = orderService.changeStatus(orderCode, status);
-//        if (cnt==1) {
-//            rttr.addFlashAttribute("message", orderCode + " 주문이 등록되었습니다.");
-//        } else {
-//            rttr.addFlashAttribute("message", orderCode + " 주문이 등록되지 않았습니다.");
-//        }
-
-    }
 
 
 }

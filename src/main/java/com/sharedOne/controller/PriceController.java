@@ -18,7 +18,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("price")
-public class SampleController {
+public class PriceController {
 
     @Autowired(required=false)
     private PriceService priceService;
