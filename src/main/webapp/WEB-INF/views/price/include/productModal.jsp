@@ -48,7 +48,7 @@
             <i class="fa-solid fa-magnifying-glass"></i>
           </button>
         </form>
-        <table class="table table-hover">
+        <table class="table table-hover" id="productList">
           <thead>
           <tr>
             <th>#</th>
@@ -116,7 +116,7 @@
                     <i class="fa-solid fa-magnifying-glass"></i>
                   </button>
                 </form>--%>
-        <table class="table table-hover">
+        <table class="table table-hover" id="productCodeList">
           <thead>
           <tr>
             <th>#</th>
@@ -184,7 +184,7 @@
                     <i class="fa-solid fa-magnifying-glass"></i>
                   </button>
                 </form>--%>
-        <table class="table table-hover">
+        <table class="table table-hover" id="productNameList">
           <thead>
           <tr>
             <th>#</th>

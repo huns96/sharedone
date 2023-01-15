@@ -21,6 +21,8 @@ public class OrderDto {
     private LocalDate return_date; // 반려일
     private String status; // 상태 (1:대기 2:승인요청 3:승인완료 4:승인취소 5:반려 6:종결)
     private String memo; // 주문 메모
+
+    private String comment;
     
     private String delyn; //삭제 여부
     private String adduser; // 등록자

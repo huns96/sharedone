@@ -14,9 +14,9 @@ public interface PriceMapper {
 
     int insert(PriceDto price);
 
-    int countAll();
+    int countAll(String buyerKeyword, String buyerType, String productKeyword, String productType);
 
-    List<PriceDto> listPrice(int offset, int records);
+    List<PriceDto> listPrice(int offset, int records, String buyerType, String buyerKeyword, String productType, String productKeyword);
 
 
 //    @Update("UPDATE price SET buyer_code = #{buyer_code}, product_code = #{product_code},price = #{price}, start_date = #{start_date}, end_date = #{end_date}, currency = #{currency}, upduser = 'user' WHERE num = #{num} ")
@@ -38,4 +38,6 @@ public interface PriceMapper {
     List<ProductDto> codeSearchProduct(String keyword);
 
     List<ProductDto> nameSearchProduct(String keyword);
+
+    void removePrices(PriceDto priceDto, int num);
 }

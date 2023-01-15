@@ -43,12 +43,12 @@
             <option value="buyer_code" ${param.t == 'buyer_code' ? 'selected' : ''}>바이어코드</option>
             <option value="name" ${param.t == 'name' ? 'selected' : ''}>바이어명</option>
           </select>
-          <input value="${param.q }" class="form-control me-2" id="keyword" type="search" placeholder="Search" aria-label="Search" name="q" style="font-size: 14px;" >
+          <input value="${param.q }" class="form-control me-2" name="keyword" id="keyword" type="search" placeholder="Search" aria-label="Search" name="q" style="font-size: 14px;" >
           <button class="btn btn-outline-success" id="select" type="button" data-bs-toggle="modal" data-bs-target="#buyer_code_search">
             <i class="fa-solid fa-magnifying-glass"></i>
           </button>
         </form>
-  <table class="table table-hover">
+  <table class="table table-hover" id="buyerList">
     <thead>
     <tr>
       <th>#</th>
@@ -58,7 +58,7 @@
     </thead>
     <tbody>
     <c:forEach items="${buyers}" var="buyer" varStatus="status">
-      <tr id="buyer">
+      <tr>
         <td>${status.count}</td>
         <td>${buyer.buyer_code}</td>
         <td>${buyer.name}</td>
@@ -116,7 +116,7 @@
             <i class="fa-solid fa-magnifying-glass"></i>
           </button>
         </form>--%>
-        <table class="table table-hover">
+        <table class="table table-hover" id="buyerCodeList">
           <thead>
           <tr>
             <th>#</th>
@@ -125,7 +125,7 @@
           </tr>
           </thead>
           <tbody>
-          <c:forEach items="${buyerCodeSearch}" var="buyer" varStatus="status">
+          <c:forEach items="${buyers}" var="buyer" varStatus="status">
             <tr id="buyer">
               <td>${status.count}</td>
               <td>${buyer.buyer_code}</td>
@@ -184,7 +184,7 @@
                     <i class="fa-solid fa-magnifying-glass"></i>
                   </button>
                 </form>--%>
-        <table class="table table-hover">
+        <table class="table table-hover" id="buyerNameList">
           <thead>
           <tr>
             <th>#</th>
@@ -193,7 +193,7 @@
           </tr>
           </thead>
           <tbody>
-          <c:forEach items="${buyerNameSearch}" var="buyer" varStatus="status">
+          <c:forEach items="${buyers}" var="buyer" varStatus="status">
             <tr id="buyer">
               <td>${status.count}</td>
               <td>${buyer.buyer_code}</td>
@@ -246,14 +246,28 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <script>
-  document.querySelector("#t").addEventListener("click", function(){
-    const type = document.querySelector("#t").value;
 
-    const keyword = document.getElementById("keyword").value;
+  const ctx = "${pageContext.request.contextPath}";
 
-    document.querySelector("#select").setAttribute("data-bs-target", "#"+type+"_search");
+  document.querySelector("#select").addEventListener("click", function(){
+    const t = document.querySelector("#t").value;
 
-  });
+    const q = document.getElementById("keyword").value;
+
+        $.ajax({
+          type: 'get',
+          url: '/price/priceList',
+          data: {"t" : t, "q" : q},
+          dataType: 'json',
+          traditional: true,
+          success: function (result) {
+            console.log(result);
+          }
+        });
+
+  document.querySelector("#select").setAttribute("data-bs-target", "#"+t+"_search");
+
+});
 
 
 

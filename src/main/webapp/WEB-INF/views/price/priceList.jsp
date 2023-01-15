@@ -15,9 +15,18 @@
   <link rel="stylesheet" type="text/css" media="screen" href="../css/price.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    .page-background {
+      background-color: white;
+      padding: 10px;
+      margin: 5px;
+      border-radius: 5px;
+    }
+
+  </style>
 </head>
 
-<body>
+<body style="background-color: #e0e0e0;">
 
 
 <%--<c:if test="${not empty message}">--%>
@@ -39,17 +48,64 @@
       </script>
     </c:if>
 
-    <div class="card" style="width: 85%">
-      <br>
+    <div class="container-md" style="width: 80%">
       <div class="page-header">
-        <h1 class="page-title"> Price </h1>
-        <div class="btn-group" style="left: 93%; margin-bottom: 4px">
-          <button class="btn btn-success btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#registerModal">등록 </button>
-        </div>
+<%--        <h1 class="page-title"> Price </h1>--%>
+  <div class="row">
+    <div class="col">
+      <div id="search" class="page-background">
+        <form action="" role="search" style="display: flex; height: 40px" >
+          <label class="form-label" style="width: 70px;  margin-top:8px; text-align:center">바이어</label>
+          <select name="bt" class="form-select" style="width: 130px; vertical-align:bottom" aria-label="Disabled select example">
+            <option value="buyer_code">바이어코드</option>
+            <option value="buyer_name">바이어명</option>
+          </select>
+          <input class="form-control" type="search" name="bq" placeholder="바이어검색" style="width: 200px; text-align:center">
+          <label class="form-label" style="width: 70px;  margin-top:8px; text-align:center">제품</label>
+          <select name="pt" class="form-select" style="width: 130px; vertical-align:bottom" aria-label="Disabled select example">
+            <option value="product_code">제품코드</option>
+            <option value="product_name">제품명</option>
+          </select>
+          <input class="form-control" type="search" name="pq" placeholder="제품검색" style="width: 200px; text-align:center">
+          <br>
+          <button type="submit" style="width: 100px; height: 40px; position: absolute; right:3%; border-radius: 7px;">조회</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
       </div>
 
-      <div class="card-body">
-        <table class="table table-hover table-striped dataTable mt-0" id="deviceTable">
+      <div class="card-body page-background " style="height: 85%;">
+          <h4 style="position: relative; top: 4%; margin-left: 20px ">판매가
+        <div class="btn-group" style="position: absolute; right: 10px;">
+          <button class="btn btn-success btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#registerModal" style="border-radius: 7px; margin-right: 4px">등록 </button>
+          <button class="btn btn-danger btn-sm" type="button"data-bs-toggle="modal" data-bs-target="#removeModal" id="delete" style="border-radius: 7px">삭제</button>
+          <div class="modal fade" id="removeModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5">삭제 확인</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <form id="remove" action="/price/remove" method="post">
+                    <input id="removeNum" type="hidden" name="removePrices">
+                    삭제하시겠습니까?
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                  <button id="removeConfirm" class="btn btn-danger" type="submit">확인</button>
+                </div>
+                </form>
+
+              </div>
+            </div>
+          </div>
+        </div>
+          </h4>
+        <br>
+        <table class="table table-hover mt-3" id="deviceTable">
           <thead>
           <tr style="text-align: center">
             <th>No.</th>
@@ -64,27 +120,28 @@
             <th>작성자</th>
             <th>작성일</th>
             <th>수정자</th>
-            <th>수정일</th>
+            <th></th>
+<%--            <th>수정일</th>--%>
           </tr>
           </thead>
           <tbody>
           <c:forEach items="${priceList}" var="price" varStatus="status">
             <tr style="text-align: center">
-              <td><input type="checkbox" value="${price.num}">  ${price.num}</td>
+              <td><input type="checkbox" value="${price.num}" name="checkPrices">  ${status.count}</td>
               <td>${price.buyer_code}</td>
               <td>${price.buyer_name}</td>
               <td>${price.product_code}</td>
               <td>${price.product_name}</td>
-              <td>${price.price}</td>
+              <td id="${status.count}">${price.price}</td>
               <td>${price.start_date}</td>
               <td>${price.end_date}</td>
               <td>${price.currency}</td>
               <td>${price.adduser}</td>
               <td>${price.adddate}</td>
               <td>${price.upduser}</td>
-              <td>${price.upddate}</td>
+<%--              <td>${price.upddate}</td>--%>
               <td>
-                <span style="text-decoration: underline;" id="modify" type="button" value="${price.num}" data-bs-toggle="modal" data-bs-target="#modifyModal${price.num}">수정</span>
+                <span style="text-decoration: underline;" id="modify" class="modify" type="button" value="${price.num}" data-bs-toggle="modal" data-bs-target="#modifyModal${price.num}" onclick="myFunction('price${status.count}')">수정</span>
                 <div class="modal fade" id="modifyModal${price.num}" tabindex="-1" aria-hidden="true">
                   <div class="modal-dialog modal-xl" role="document">
                     <div class="modal-content">
@@ -118,7 +175,7 @@
                             </div>
                             <div class="mb-3 mx-4">
                               <label class="form-label">판매가</label>
-                              <input class="form-control" type="text" name="price" id="price" value="${price.price}" style="text-align: center" required="required">
+                              <input class="form-control" onkeyup="inputNumberFormat(this);" type="text" name="price" id="price${status.count}" value="${price.price}" style="text-align: center" required="required">
                             </div>
                             <div class="mb-3 mx-4">
                               <label class="form-label">시작일</label>
@@ -142,7 +199,7 @@
                           </div>
 
                       <div class="modal-footer">
-                        <button id="modifyConfirmButton"
+                        <button id="modifyConfirmButton" onclick="myFunction2('price${status.count}')"
                                 class="btn btn-primary" type="submit">수정</button>
                         <button type="button" class="btn btn-secondary"
                                 data-bs-dismiss="modal">취소</button>
@@ -184,10 +241,54 @@
           </c:forEach>
           </tbody>
         </table>
+        <div class="row" >
+          <div class="col" style="width: 17px">
+            <nav class="mt-3 page" aria-label="Page navigation example">
+              <ul class="pagination justify-content-center">
+                <c:if test="${pageInfo.currentPageNumber != 1 }">
+                  <li class="page-item">
+                    <a class="page-link" href="/price/priceList?page=1}" aria-label="first" style="height:100%;">
+                      <span aria-hidden="true"><i class="fa-solid fa-angles-left"></i></span>
+                    </a>
+                  </li>
+                </c:if>
+                <c:if test="${pageInfo.leftPageNumber != 1 }">
+                  <li class="page-item">
+                    <a class="page-link" href="/price/priceList?page=${pageInfo.currentPageNumber-1}" aria-label="left" style="height: 100%">
+                      <span aria-hidden="true"><i class="fa-solid fa-angle-left"></i></span>
+                    </a>
+                  </li>
+                </c:if>
+                <c:forEach begin="${pageInfo.leftPageNumber}" end="${pageInfo.rightPageNumber }" var="pageNumber">
+                  <li class="page-item ${pageInfo.currentPageNumber eq pageNumber ? 'active' : '' }">
+                    <a class="page-link" href="/price/priceList?page=${pageNumber}" >${pageNumber }</a>
+                  </li>
+                </c:forEach>
+                <c:if test="${pageInfo.rightPageNumber} != ${pageInfo.lastPageNumber/10*10} and ${pageInfo.currentPageNumber != pageInfo.lastPageNumber }">
+                  <li class="page-item">
+                    <a class="page-link" href="/price/priceList?page=${pageInfo.currentPageNumber+1}" aria-label="last" style="height: 100%">
+                      <span aria-hidden="true"><i class="fa-solid fa-angle-right"></i></span>
+                    </a>
+                  </li>
+                </c:if>
+                <c:if test="${pageInfo.currentPageNumber != pageInfo.lastPageNumber }">
+                  <li class="page-item">
+                    <a class="page-link" href="/price/priceList?page=${pageInfo.lastPageNumber}" aria-label="last" style="height:100%;">
+                      <span aria-hidden="true"><i class="fa-solid fa-angles-right"></i></span>
+                    </a>
+                  </li>
+                </c:if>
+              </ul>
+            </nav>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
+      </div>
+
 </div>
+
+
 
 
 
@@ -206,6 +307,139 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <script>
+
+  $("#modifyConfirmButton").click(function(){
+    let price = $("#price").val();
+    let intPrice = parseInt(price);
+    $("input[name='price']").val(intPrice);
+  })
+
+  function myFunction2(x) {
+    let price = document.getElementById(x).value;
+    let intPrice = parseInt(price.replace(/,/g,""));
+    document.getElementById(x).value = intPrice;
+  }
+
+  function myFunction(x) {
+    let money = document.getElementById(x).value;
+    let money2 = money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    document.getElementById(x).value = money2;
+  }
+
+  $("#delete").click(function() {
+    let checkPrices = [];
+    $("input[name='checkPrices']:checked").each(function(){
+      checkPrices.push($(this).val());
+    })
+    $("#removeNum").val(checkPrices);
+  });
+
+  function comma(str) {
+    str = String(str);
+    return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+  }
+
+  function uncomma(str) {
+    str = String(str);
+    return str.replace(/[^\d]+/g, '');
+  }
+
+
+  function inputNumberFormat(obj) {
+    obj.value = comma(uncomma(obj.value));
+  }
+
+
+  function priceToString(price) {
+    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
+
+  $('#buyerList tr').dblclick(function() {
+    let tr = $(this);
+    let td = tr.children();
+    let buyerCode = td.eq(1).text();
+    $('#buyerCodeInput').val(buyerCode);
+    $("[name='buyer_code']").val(buyerCode);
+
+    $("#buyerModal").hide();
+    $(".modal-backdrop").remove();
+
+  });
+
+  $('#buyerCodeList tr').dblclick(function() {
+    let tr = $(this);
+    let td = tr.children();
+    let buyerCode = td.eq(1).text();
+    $('#buyerCodeInput').val(buyerCode);
+    $("[name='buyer_code']").val(buyerCode);
+
+    $("#buyerModal").hide();
+    $("#buyer_code_search").hide();
+    $(".modal-backdrop").remove();
+
+  });
+
+  $('#buyerNameList tr').dblclick(function() {
+    let tr = $(this);
+    let td = tr.children();
+    let buyerCode = td.eq(1).text();
+    $('#buyerCodeInput').val(buyerCode);
+    $("[name='buyer_code']").val(buyerCode);
+
+    $("#buyerModal").hide();
+    $("#name_search").hide();
+    $(".modal-backdrop").remove();
+
+  });
+
+  $('#productList tr').dblclick(function() {
+    let tr = $(this);
+    let td = tr.children();
+    let productCode = td.eq(1).text();
+    $('#productCodeInput').val(productCode);
+    $("[name='product_code']").val(productCode);
+
+    $("#productModal").hide();
+    $(".modal-backdrop").remove();
+
+  });
+
+  $('#productCodeList tr').dblclick(function() {
+    let tr = $(this);
+    let td = tr.children();
+    let productCode = td.eq(1).text();
+    $('#productCodeInput').val(productCode);
+    $("[name='product_code']").val(productCode);
+
+    $("#productModal").hide();
+    $("#product_code_search").hide();
+    $(".modal-backdrop").remove();
+
+  });
+
+  $('#productNameList tr').dblclick(function() {
+    let tr = $(this);
+    let td = tr.children();
+    let productCode = td.eq(1).text();
+    $('#productCodeInput').val(productCode);
+    $("[name='product_code']").val(productCode);
+
+    $("#productModal").hide();
+    $("#name_search").hide();
+    $(".modal-backdrop").remove();
+
+  });
+
+  var i;
+
+
+  for(i=1; i<${pageInfo.countAll} ; i++) {
+    let money = document.getElementById(i).innerText;
+    let money2 = money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    document.getElementById(i).innerText=money2;
+    // var money = '';
+    // var money2 = '';
+  }
 
 
 

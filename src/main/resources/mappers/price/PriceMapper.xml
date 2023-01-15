@@ -5,6 +5,8 @@
 
 <mapper namespace="com.sharedOne.mapper.PriceMapper">
 
+
+
     <select id="nameSearchProduct" resultType="com.sharedOne.domain.ProductDto">
         SELECT
             product_code,
@@ -42,20 +44,24 @@
             buyer_code LIKE #{keyword}
     </select>
 
+
+
     <select id="listBuyer" resultType="com.sharedOne.domain.BuyerDto">
         SELECT
-            buyer_code,
-            name
-        FROM buyer
-<!--        <if test="type != null">
-        WHERE
-            <if test="type == 'buyer_code'">
-                buyer_code LIKE #{keyword}
+            b.buyer_code,
+            b.name
+        FROM buyer b
+        WHERE delyn="N" AND
+        (<trim prefixOverrides="OR">
+            <if test="type == 'all' or type == 'buyer_code'">
+                OR b.buyer_code LIKE #{keyword}
             </if>
-            <if test="type == 'name'">
-                name LIKE #{keyword}
+            <if test="type == 'all' or type == 'name'">
+                OR b.name LIKE #{keyword}
             </if>
-        </if>-->
+        </trim>);
+
+
     </select>
 
     <select id="listProduct" resultType="com.sharedOne.domain.ProductDto">
@@ -63,16 +69,17 @@
             product_code,
             name
         FROM product
-   <!--     WHERE
-        <trim prefixOverrides="OR">
-            <if test="type == 'product_code'">
-                OR product_code LIKE #{keyword}
-            </if>
-            <if test="type == 'name'">
-                OR name LIKE #{keyword}
-            </if>
-        </trim>-->
+
     </select>
+
+    <update id="removePrices">
+        UPDATE price
+        SET
+        delyn = "Y",
+        upduser = "user"
+        WHERE
+        num = #{num};
+    </update>
 
     <update id="remove">
         UPDATE price
@@ -148,7 +155,24 @@
         product.name product_name
         FROM price LEFT JOIN buyer ON price.buyer_code = buyer.buyer_code
         LEFT JOIN product ON price.product_code = product.product_code
-        WHERE price.delyn="N"
+        WHERE price.delyn="N" AND
+        (<trim prefixOverrides="OR">
+            <if test="buyerType == 'all' or buyerType == 'buyer_code'">
+                OR price.buyer_code LIKE #{buyerKeyword}
+            </if>
+            <if test="buyerType == 'all' or buyerType == 'buyer_name'">
+                OR buyer.name LIKE #{buyerKeyword}
+            </if>
+        </trim>)
+        AND
+        (<trim prefixOverrides="OR">
+            <if test="productType == 'all' or productType == 'product_code'">
+                OR price.product_code LIKE #{productKeyword}
+            </if>
+            <if test="productType == 'all' or productType == 'product_name'">
+                OR product.name LIKE #{productKeyword}
+            </if>
+        </trim>)
         LIMIT #{offset}, #{records};
     </select>
 
@@ -163,7 +187,8 @@
         FROM price
         WHERE buyer_code = #{buyer_code} AND product_code = #{product_code}
                                         AND ((#{start_date} BETWEEN start_date AND end_date)
-                                            OR (#{end_date} BETWEEN start_date AND end_date));
+                                            OR (#{end_date} BETWEEN start_date AND end_date))
+                                        AND num != #{num};
     </select>
 
 </mapper>

@@ -56,10 +56,24 @@ public class SampleController {
     @PostMapping("remove")
     public String deletePrice(
             @Validated PriceDto priceDto,
+            @RequestParam(name = "removePrices", required = false) List<Integer> removePrices,
             BindingResult bindingResult,
             RedirectAttributes rttr
     ){
-        priceService.remove(priceDto);
+
+        if (removePrices != null){
+            System.out.println("deletePricesNum : exist" );
+            System.out.println("deletePricesNum : exist" + removePrices );
+            for (int num : removePrices) {
+                System.out.println("deletePricesNum :" +num);
+            }
+        }
+
+        if (removePrices == null){
+            System.out.println("deletePricesNum : no" );
+        }
+        priceService.remove(priceDto,removePrices);
+
 
         return "redirect:/price/priceList";
     }
@@ -117,12 +131,16 @@ public class SampleController {
                                PageInfo pageInfo,
                                @RequestParam(name="t", defaultValue = "all") String type,
                                @RequestParam(name="q", defaultValue = "") String keyword,
+                               @RequestParam(name="bt", defaultValue = "all") String buyerType,
+                               @RequestParam(name="bq", defaultValue = "") String buyerKeyword,
+                               @RequestParam(name="pt", defaultValue = "all") String productType,
+                               @RequestParam(name="pq", defaultValue = "") String productKeyword,
                                Model model) {
 
         System.out.print(page);
         System.out.print(pageInfo);
 
-        List<PriceDto> list = priceService.listPrice(page, pageInfo);
+        List<PriceDto> list = priceService.listPrice(page, pageInfo, buyerType, buyerKeyword, productType, productKeyword);
 
         List<BuyerDto> buyerList = priceService.searchBuyer(type, keyword);
 
@@ -159,7 +177,7 @@ public class SampleController {
     }
 
     @GetMapping("buyer")
-    public void buyerList(@RequestParam(name="t", defaultValue = "") String type,
+    public void buyerList(@RequestParam(name="t", defaultValue = "all") String type,
                      @RequestParam(name="q", defaultValue = "") String keyword,
                      Model model) {
 
@@ -172,7 +190,7 @@ public class SampleController {
     }
 
     @GetMapping("product")
-    public void productList(@RequestParam(name="t", defaultValue = "") String type,
+    public void productList(@RequestParam(name="t", defaultValue = "all") String type,
                      @RequestParam(name="q", defaultValue = "") String keyword,
                      Model model) {
 
