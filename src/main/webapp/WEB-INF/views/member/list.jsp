@@ -120,23 +120,18 @@
                     </thead>
                     <tbody>
                     <c:forEach items="${memberList}" var="mem" varStatus="sts">
+                        <div hidden="hidden" id="pwpw">${mem.password}</div>
                         <tr>
                             <td>${mem.name}</td>
                             <td>${mem.user_id}</td>
                             <td>${mem.phone}</td>
                             <td>${mem.adddate}</td>
-                            <td><c:if test= "${mem.auth != null}" >
-                                    ${mem.auth}
-                                </c:if>
-                                <c:if test="${mem.auth == null}">
-                                    권한없음
-                                </c:if>
-                            </td>
+                            <td>${mem.auth}</td>
                             <td>
                                 <button onclick="asd('${mem.user_id}','${mem.name}','${mem.phone}','${mem.auth}')"
                                         class="getAuthoBtn" data-bs-toggle="modal" data-bs-target="#getAuthoModal">권한변경
                                 </button>
-                                <button onclick="modi('${mem.user_id}','${mem.name}','${mem.phone}')" class="modifyBtn"
+                                <button onclick="modi('${mem.user_id}','${mem.name}','${mem.phone}','${mem.password}')" class="modifyBtn"
                                         data-bs-toggle="modal" data-bs-target="#modifyModal">수정
                                 </button>
                                 <button onclick="dele('${mem.user_id}')" class="deleteBtn" data-bs-toggle="modal"
@@ -144,6 +139,7 @@
                                 </button>
                             </td>
                         </tr>
+
                     </c:forEach>
                     </tbody>
                 </table>
@@ -236,15 +232,15 @@
                     </tr>
                     </tbody>
                 </table>
-                부여할 권한
+                <div style="font-weight: bold; display: flex">부여할 권한
                 <form method="post" id="setAuthoForm">
-                    <select name="auth">
+                    <select style="margin-left: 10px;" name="auth">
                         <option value="팀원">팀원</option>
                         <option value="팀장">팀장</option>
                         <option value="관리자">관리자</option>
                         <input id="userIdInput" type="hidden" name="user_id" value="">
                     </select>
-                    <br>
+                </div>
                     <br>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
                 <input id="authoChangeBtn" type="submit" class="btn btn-primary" value="권한추가" formaction="/member/setAutho"></input>
@@ -270,6 +266,7 @@
                     회원명 : <input id="modiName" type="text" name="name" value=""> <br>
                     <br>
                     연락처 : <input id="modiPhone" type="text" name="phone" value=""> <br>
+                    <input id="modiPassword" type="hidden" name="password" value="">
                 </form>
             </div>
             <div class="modal-footer">
@@ -361,10 +358,11 @@
         alert("알 수 없는 에러")
     };
 
-    function modi(id, name, phone) {
+    function modi(id, name, phone, password) {
         $('#modiId').val(id);
         $('#modiName').val(name);
         $('#modiPhone').val(phone);
+        $('#modiPassword').val(password);
     }
 
     $('#modiBtn').click(function () {

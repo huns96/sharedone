@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
+import java.lang.reflect.Member;
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
@@ -36,7 +37,7 @@ public class MemberController {
     }
 
     @GetMapping("list")
-    @PreAuthorize("hasAuthority('관리자')")
+
     public String list(
                 Model model,
                 @RequestParam(name="q", defaultValue = "") String keyword,
@@ -48,7 +49,7 @@ public class MemberController {
         model.addAttribute("pageSize", memberList.getPageSize());
         model.addAttribute("pages", memberList.getPages());
         model.addAttribute("total",memberList.getTotal());
-        model.addAttribute("buyerList", memberList.getResult());
+        model.addAttribute("memberList", memberList.getResult());
 
         return "member/list";
     }
