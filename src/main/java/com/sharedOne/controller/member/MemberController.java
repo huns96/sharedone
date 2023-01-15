@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
-import java.lang.reflect.Member;
+
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
@@ -50,6 +50,7 @@ public class MemberController {
         model.addAttribute("pages", memberList.getPages());
         model.addAttribute("total",memberList.getTotal());
         model.addAttribute("memberList", memberList.getResult());
+
 
         return "member/list";
     }
