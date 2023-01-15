@@ -11,15 +11,25 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" integrity="sha512-aOG0c6nPNzGk+5zjwyJaoRUgCdOrfSDhmMID2u4+OIslr0GjpLKo7Xm0Ao3xmpM4T8AmIouRkqwj1nrdVsLKEQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         body { padding: 20px; }
-        h3 { margin-bottom: 30px; }
+        table { text-align: center }
+        td, th {
+            padding: 1em .5em;
+            vertical-align: middle;
+        }
+        h4 { margin-bottom: 20px; }
         input:read-only {
             background-color: #e0e0e0;
         }
+        #item-button {
+            padding-top: 32px;
+            padding-left: 70px;
+        }
+        #tableDiv { margin: 10px; }
     </style>
 </head>
 <body>
 <header>
-    <h3><b>주문 수정</b></h3>
+    <h4><b>주문 수정</b></h4>
 </header>
 <form id="newOrderForm" class="form-horizontal">
     <div class="row">
@@ -84,14 +94,14 @@
             <label for="quantity" class="form-label">수량</label>
             <input id="quantity" type="number" class="form-control" name="quantity" required="required" />
         </div>
-        <div class="col-md-4 mb-3">
+        <div id="item-button" class="col-md-4 mb-3">
             <label class="form-label"></label>
-            <button type="button" id="resetItemButton" class="btn btn-danger">초기화</button>
-            <button type="button" id="addNewItemButton" class="btn btn-danger">상품추가</button>
+            <button type="button" id="resetItemButton" class="btn btn-secondary">초기화</button>
+            <button type="button" id="addNewItemButton" class="btn btn-success">상품추가</button>
         </div>
     </div>
-    <div class="row">
-        <table class="table table-hover" id="Item-table">
+    <div id="tableDiv" class="row">
+        <table class="table table-hover" id="item-table">
             <thead>
             <tr>
                 <th>#</th>
@@ -116,10 +126,10 @@
                     <td><fmt:formatNumber value="${item.total_price}" pattern="#,###"/></td>
                     <%--<td>${item.total_price}</td>--%>
                     <td>
-                        <button type="button" class="btn btn-outline-secondary btn-sm" onclick="modifyItem(${status.count})">수정</button>
+                        <button type="button" class="btn btn-outline-warning btn-sm" onclick="modifyItem(${status.count})">수정</button>
                     </td>
                     <td>
-                        <button type="button" class="btn btn-outline-secondary btn-sm" onclick="removeItem(${status.count})">삭제</button>
+                        <button type="button" class="btn btn-outline-danger btn-sm" onclick="removeItem(${status.count})">삭제</button>
                     </td>
                 </tr>
             </c:forEach>
@@ -128,8 +138,8 @@
     </div>
 </form>
 
-<footer style="float: right; justify-content: flex-end;">
-    <button type="button" id="modifyOrderSubmitButton" class="btn btn-danger">주문수정</button>
+<footer style="float: right; justify-content: flex-end; margin-bottom: 20px;">
+    <button type="button" id="modifyOrderSubmitButton" class="btn btn-primary">주문수정</button>
     <button type="button" class="btn btn-secondary" onclick="window.close();">취소</button>
 </footer>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
@@ -313,7 +323,7 @@
 
     /* 주문상품 리스트 추가 */
     function itemListInPopup(itemList, orderItemList) {
-        let tbody = $('#Item-table tbody');
+        let tbody = $('#item-table tbody');
         tbody.append("");
         tbody.append(
             "<tr>"
@@ -324,10 +334,10 @@
             + "<td>" + parseInt(itemList[3]).toLocaleString() + "</td>"
             + "<td>" + parseInt(itemList[4]).toLocaleString() + "</td>"
             + "<td style='width: 80px;'>"
-            +    "<button type='button' class='btn btn-outline-secondary btn-sm' onclick='modifyItem(" + orderItemList.length + ")'>수정</button>"
+            +    "<button type='button' class='btn btn-outline-warning btn-sm' onclick='modifyItem(" + orderItemList.length + ")'>수정</button>"
             + "</td>"
             + "<td style='width: 80px;'>"
-            +    "<button type='button' class='btn btn-outline-secondary btn-sm' onclick='removeItem(" + orderItemList.length + ")'>삭제</button>"
+            +    "<button type='button' class='btn btn-outline-danger btn-sm' onclick='removeItem(" + orderItemList.length + ")'>삭제</button>"
             + "</td>"
             + "</tr>"
         );
@@ -335,7 +345,7 @@
 
     /* 주문상품 리스트 조회 */
     function getItemList(orderItemList) {
-        let tbody = $('#Item-table tbody');
+        let tbody = $('#item-table tbody');
         tbody.empty(); //초기화
         tbody.append("");
         for (var i = 0; i < orderItemList.length; i++) {

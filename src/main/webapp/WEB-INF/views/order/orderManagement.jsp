@@ -19,22 +19,19 @@
             margin: 5px;
             border-radius: 5px;
         }
-        /*.top {
-            height: 40%;
-        }
-        .bottom {
-            height: 40%;
-        }*/
+        #order-list, #item-list { height: 390px; }
+
         h4 {
             font-weight: bold;
             margin-left: 20px;
         }
 
-        table { margin: 10px; }
+        table { text-align: center}
         td, th {
             padding: 1em .5em;
             vertical-align: middle;
         }
+        #order-table, #itemList-table { margin-top: 20px; }
 
         .search-label {
             width: 90px;
@@ -121,12 +118,12 @@
                                     <td>${order.upduser}</td>
                                     <td>
                                         <c:if test="${order.status == '작성중' || order.status == '승인취소' || order.status == '반려'}">
-                                            <button type="button" class="btn btn-outline-secondary btn-sm" onclick="modifyOrderPopup(${order.order_code})">수정</button>
+                                            <button type="button" class="btn btn-outline-warning btn-sm" onclick="modifyOrderPopup(${order.order_code})">수정</button>
                                         </c:if>
                                     </td>
                                     <td>
                                         <c:if test="${order.status == '작성중'}">
-                                            <button type="button" class="btn btn-outline-secondary btn-sm" onclick="changeStatus('${order.status}',${order.order_code})">승인요청</button>
+                                            <button type="button" class="btn btn-outline-primary btn-sm" onclick="changeStatus('${order.status}',${order.order_code})">승인요청</button>
                                         </c:if>
                                         <c:if test="${order.status == '승인요청'}">
                                             <button type="button" class="btn btn-outline-secondary btn-sm" onclick="changeStatus('${order.status}',${order.order_code})">승인취소</button>
@@ -211,7 +208,7 @@
                 dataType : 'json',
                 traditional: true,
                 success: function (result) {
-                    console.log(result);
+                    //console.log(result);
                     for (var i = 0; i < result.length; i++) {
                         let index = i + 1;
                         let product_code = result[i].product_code;
