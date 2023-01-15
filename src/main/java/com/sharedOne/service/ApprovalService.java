@@ -16,11 +16,13 @@ public class ApprovalService {
 
     @Autowired
     private ApprovalMapper mapper;
-    public List<OrderDto> approvalList(int page, PageInfo pageInfo) {
+
+    /* 주문 목록 조회 */
+    public List<OrderDto> approvalList(int page, PageInfo pageInfo, String type, String keyword) {
         int records = 10;
         int offset = (page - 1) * records;
 
-        int countAll = mapper.countAll();
+        int countAll = mapper.countAll("%"+keyword+"%", type);
 
         int lastPage = (countAll - 1) / records + 1;
 
@@ -36,12 +38,39 @@ public class ApprovalService {
         pageInfo.setRightPageNumber(rightPageNumber);
         pageInfo.setLastPageNumber(lastPage);
 
-        return mapper.approvalList(offset, records);
+        return mapper.approvalList(offset, records, type, "%" + keyword + "%");
     }
 
+    /* 주문 상품 목록 조회 */
     public List<OrderItemDto> getItemList(String orderCode) {
-
         return mapper.listItem(orderCode);
+    }
 
+    public OrderDto getOrderInfo(String orderCode) {
+        return mapper.getOrder(orderCode);
+    }
+
+    /* 주문 수정 */
+
+    /* 주문 상태 변경 */
+    public int changeStatus(String orderCode, String status) {
+        OrderDto orderDto = new OrderDto();
+        orderDto.setOrder_code(orderCode);
+        orderDto.setStatus(status);
+        orderDto.setUpduser("user1");
+        return mapper.changeStatus(orderDto);
+    }
+
+
+    public int approvalModify(OrderDto orderDto) {
+        return mapper.approvalOrder(orderDto);
+    }
+
+    public int returnModify(OrderDto orderDto) {
+        return mapper.returnOrder(orderDto);
+    }
+
+    public int cancel(OrderDto orderDto) {
+        return mapper.cancelOrder(orderDto);
     }
 }

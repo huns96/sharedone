@@ -41,7 +41,8 @@
                 </div>
                 <div class="mb-3 mx-4">
                   <label class="form-label">판매가</label>
-                  <input class="form-control" id="priceInput" required="required" type="int" name="price" style="text-align: center" placeholder="-">
+                  <input class="form-control" id="priceInput" onkeyup="inputNumberFormat(this);" required="required" type="text" style="text-align: center" placeholder="-">
+                    <input type="hidden" id="price" name="price">
                 </div>
                 <div class="mb-3 mx-4">
                   <label class="form-label">시작일</label>
@@ -86,6 +87,23 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <script>
+    $("#registerConfirmButton").click(function(){
+        let price = $("#priceInput").val();
+        let intPrice = parseInt(price.replace(/,/g,""));
+
+        $("#price").val(intPrice);
+        $("input[name='price']").val(intPrice);
+
+        for(let i=1; i<${pageInfo.countAll} ; i++) {
+            let money = document.getElementById(i).innerText;
+            let money2 = money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            document.getElementById(i).innerText=money2;
+            // var money = '';
+            // var money2 = '';
+        }
+
+
+    })
 
 </script>
 </body>

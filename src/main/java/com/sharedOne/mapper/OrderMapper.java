@@ -18,5 +18,8 @@ public interface OrderMapper {
 
     OrderDto getOrder(String orderCode);
 
+    int updateOrder(OrderDto orderDto);
+
+
     int changeStatus(OrderDto orderDto);
 }

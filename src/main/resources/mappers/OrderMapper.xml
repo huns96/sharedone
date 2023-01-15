@@ -72,6 +72,20 @@
         AND o.order_code = #{order_code}
     </select>
 
+    <update id="updateOrder">
+        UPDATE order_header
+        SET status = #{status}, request_date = #{request_date}, memo = #{memo},
+            upduser = #{upduser}, upddate = CURRENT_TIMESTAMP()
+        WHERE order_code = #{order_code}
+    </update>
+
+    <!--<update id="updateOrder">
+        UPDATE order_item
+        SET status = #{status}, request_date = #{request_date}, memo = #{memo},
+            upduser = #{upduser}, upddate = CURRENT_TIMESTAMP()
+        WHERE order_code = #{order_code}
+    </update>-->
+
     <update id="changeStatus">
         UPDATE order_header
         SET status = #{status}, upduser = #{upduser}, upddate = CURRENT_TIMESTAMP()

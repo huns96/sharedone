@@ -26,12 +26,12 @@ public class PriceService {
         return mapper.insert(price);
     }
 
-    public List<PriceDto> listPrice(int page, PageInfo pageInfo) {
+    public List<PriceDto> listPrice(int page, PageInfo pageInfo, String buyerType, String buyerKeyword, String productType, String productKeyword) {
 
         int records = 10;
         int offset = (page - 1) * records;
 
-        int countAll = mapper.countAll();
+        int countAll = mapper.countAll("%"+buyerKeyword+"%", buyerType,"%"+productKeyword+"%", productType );
 
         int lastPage = (countAll - 1) / records + 1;
 
@@ -41,13 +41,14 @@ public class PriceService {
         rightPageNumber = Math.min(rightPageNumber, lastPage);
         boolean hasNextPageNumber = page <= ((lastPage-1)/10*10);
 
+        pageInfo.setCountAll(countAll);
         pageInfo.setHasNextPageNumber(hasNextPageNumber);
         pageInfo.setCurrentPageNumber(currentPageNumber);
         pageInfo.setLeftPageNumber(leftPageNumber);
         pageInfo.setRightPageNumber(rightPageNumber);
         pageInfo.setLastPageNumber(lastPage);
 
-        return mapper.listPrice(offset, records);
+        return mapper.listPrice(offset, records, buyerType, "%" + buyerKeyword + "%", productType, "%" + productKeyword + "%");
     }
 
     public int modify(PriceDto priceDto) {
@@ -62,7 +63,14 @@ public class PriceService {
         return priceDto;
     }
 
-    public void remove(PriceDto priceDto) {
+    public void remove(PriceDto priceDto, List<Integer> removePrices) {
+        if (removePrices != null)
+            for (int num : removePrices) {
+
+                mapper.removePrices(priceDto, num);
+
+            };
+
         mapper.remove(priceDto);
     }
 

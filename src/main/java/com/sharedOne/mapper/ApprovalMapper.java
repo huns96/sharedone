@@ -8,9 +8,19 @@ import java.util.List;
 
 @Mapper
 public interface ApprovalMapper {
-    List<OrderDto> approvalList(int offset, int records);
+    List<OrderDto> approvalList(int offset, int records, String type, String keyword);
 
     List<OrderItemDto> listItem(String orderCode);
 
-    int countAll();
+    OrderDto getOrder(String orderCode);
+
+    int changeStatus(OrderDto orderDto);
+
+    int countAll(String keyword, String type);
+
+    int approvalOrder(OrderDto orderDto);
+
+    int returnOrder(OrderDto orderDto);
+
+    int cancelOrder(OrderDto orderDto);
 }
