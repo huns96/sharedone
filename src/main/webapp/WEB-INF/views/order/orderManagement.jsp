@@ -19,7 +19,7 @@
             margin: 5px;
             border-radius: 5px;
         }
-        #order-list, #item-list { height: 390px; }
+        /*#order-list, #item-list { height: 390px; } */  /*[TODO] 페이지네이션 구현 후 추가*/
 
         h4 {
             font-weight: bold;
@@ -34,7 +34,7 @@
         #order-table, #itemList-table { margin-top: 20px; }
 
         .search-label {
-            width: 90px;
+            width: 90px; text-align: center;
         }
         .search-input {
             width: 120px;
@@ -55,15 +55,23 @@
             <div class="col">
                 <div id="search" class="page-background">
                     <form class="form" action="" role="search">
-                        <div class="row">
+                       <div class="row">
                             <label class="form-label search-label">주문번호</label>
-                            <input class="form-control search-input" type="text" placeholder="10자리">
+                            <input class="form-control form-control-sm search-input" type="text" placeholder="10자리">
                             <label class="form-label search-label">바이어</label>
-                            <input class="form-control search-input" type="text" placeholder="바이어검색">
+                            <div class="input-group search-input">
+                                <input class="form-control form-control-sm" type="text" placeholder="바이어검색">
+                                <a id="buyerPopupButton" class="btn btn-outline-secondary">검색</a>
+                            </div>
+                            <%--<label for="buyerCode" class="form-label">바이어코드</label>
+                            <div class="input-group">
+                                <input id="buyerCode" type="text" class="form-control orderInfo" name="buyer_code" placeholder="바이어코드를 검색해주세요." readonly/>
+                                <a id="buyerPopupButton" class="btn btn-outline-secondary">검색</a>
+                            </div>--%>
 
                             <label class="form-label search-label">주문상태</label>
-                            <select class="form-select search-input" aria-label="Disabled select example">
-                                <%--1:대기 2:승인요청 3:승인완료 4:승인취소 5:반려 6:종결--%>
+                            <select class="form-select form-control-sm search-input" aria-label="Disabled select example">
+                                &lt;%&ndash;1:대기 2:승인요청 3:승인완료 4:승인취소 5:반려 6:종결&ndash;%&gt;
                                 <option value="작성중">작성중</option>
                                 <option selected value="승인요청">승인요청</option>
                                 <option value="승인완료">승인완료</option>
@@ -84,7 +92,7 @@
                 <div id="orders" class="contents top">
                     <div id="order-list" class="page-background">
                         <h4>주문 목록
-                        <button id="addNewOrderButton" class="btn btn-danger" style="float: right; margin-right: 20px;">새 주문 등록</button>
+                        <button id="addNewOrderButton" class="btn btn-success" style="float: right; margin-right: 20px;">새 주문 등록</button>
                         </h4>
                         <table class="table table-hover" id="order-table">
                             <thead>
@@ -99,7 +107,7 @@
                                     <th>상태</th>
                                     <th>등록자</th>
                                     <th>수정자</th>
-                                    <th>주문수정</th>
+                                    <th>수정/삭제</th>
                                     <th>상태변경</th>
                                 </tr>
                             </thead>
@@ -119,6 +127,10 @@
                                     <td>
                                         <c:if test="${order.status == '작성중' || order.status == '승인취소' || order.status == '반려'}">
                                             <button type="button" class="btn btn-outline-warning btn-sm" onclick="modifyOrderPopup(${order.order_code})">수정</button>
+                                        </c:if>
+                                        <c:if test="${(order.approval_date == '' || order.approval_date == null) &&
+                                                        (order.return_date == '' || order.return_date == null) && order.status == '작성중'}">
+                                            <button type="button" class="btn btn-outline-danger btn-sm" onclick="removeOrder(${order.order_code})">삭제</button>
                                         </c:if>
                                     </td>
                                     <td>
@@ -276,9 +288,27 @@
             type: 'POST',
             url: '/order/changeStatus',
             data: {
-                "status": status,
+                "status": "반려",
+                //"status": status,
                 "orderCode": orderCode
             },
+            dataType : 'json',
+            traditional: true,
+            success: function (result) {
+                //console.log(result);
+            }
+        });
+        setTimeout(function () {
+            location.reload();
+        },500);
+    }
+
+    /* 주문 삭제 */
+    function removeOrder(orderCode) {
+        $.ajax({
+            type: 'POST',
+            url: '/order/remove',
+            data: { "orderCode": orderCode },
             dataType : 'json',
             traditional: true,
             success: function (result) {

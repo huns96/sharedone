@@ -179,4 +179,18 @@ public class OrderService {
         return orderMapper.changeStatus(orderDto);
     }
 
+    /* 주문 삭제 - 승인요청 전 최초 등록일 경우 */
+    public void removeOrder(String orderCode) {
+        OrderDto orderDto = new OrderDto();
+        orderDto.setOrder_code(orderCode);
+        orderDto.setUpduser("user1"); //[TODO] user 임의로 넣음.. >> 로그인 정보 추가 해야함
+        OrderItemDto itemDto = new OrderItemDto();
+        itemDto.setOrder_code(orderCode);
+        itemDto.setUpduser("user1"); //[TODO] user 임의로 넣음.. >> 로그인 정보 추가 해야함
+        log.info("========== [ {}번 주문 삭제 ] ===========", orderDto.getOrder_code());
+        // 주문 삭제
+        orderMapper.removeOrder(orderDto);
+        // 주문 상품 삭제
+        orderMapper.removeAllOrderItem(itemDto);
+    }
 }

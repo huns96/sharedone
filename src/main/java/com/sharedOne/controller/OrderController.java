@@ -119,4 +119,17 @@ public class OrderController {
 //        }
 
     }
+
+    /* 주문 삭제 - 승인요청 전 최초 등록일 경우 */
+    @PostMapping("remove")
+    @ResponseBody
+    public void remove(@RequestParam String orderCode, RedirectAttributes rttr) {
+        orderService.removeOrder(orderCode);
+//        if(cnt == 1) {
+//            rttr.addFlashAttribute("message", id + "번 게시물이 삭제되었습니다.");
+//        } else {
+//            rttr.addFlashAttribute("message", id + "번 게시물이 삭제되지 않았습니다.");
+//        }
+
+    }
 }

@@ -102,4 +102,16 @@
         WHERE order_code = #{order_code}
     </update>
 
+    <update id="removeOrder">
+        UPDATE order_header
+        SET delyn = 'Y', upduser = #{upduser}, upddate = CURRENT_TIMESTAMP()
+        WHERE order_code = #{order_code}
+    </update>
+
+    <update id="removeAllOrderItem">
+        UPDATE order_item
+        SET delyn = 'Y', upduser = #{upduser}, upddate = CURRENT_TIMESTAMP()
+        WHERE order_code = #{order_code}
+    </update>
+
 </mapper>
