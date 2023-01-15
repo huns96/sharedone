@@ -27,7 +27,6 @@ public class OrderController {
     public void management(Model model) {
         List<OrderDto> list = orderService.getOrderList();
         model.addAttribute("orderList", list);
-        log.info("orderList ========> {}", list);
     }
 
     /* 주문 등록 - 팝업 */
@@ -39,7 +38,6 @@ public class OrderController {
     @PostMapping("register")
     @ResponseBody
     public String register(OrderDto orderDto, RedirectAttributes rttr) {
-        //log.info("register orderDto ==========> {}", orderDto);
         return orderService.registerOrder(orderDto);
     }
 
@@ -60,9 +58,7 @@ public class OrderController {
     @RequestMapping("itemList")
     @ResponseBody
     public List<OrderItemDto> itemList(@RequestParam String orderCode) {
-        List<OrderItemDto> itemList = orderService.getItemList(orderCode);
-        log.info("itemList ========> {}", itemList);
-        return itemList;
+        return orderService.getItemList(orderCode);
     }
 
     /* 주문 정보 조회 - 수정페이지 */
@@ -72,29 +68,42 @@ public class OrderController {
         List<OrderItemDto> list = orderService.getItemList(orderCode);
         model.addAttribute("order", orderDto);
         model.addAttribute("itemList", list);
-
-//        log.info("orderModify order ==========> {}", orderDto);
-//        log.info("orderModify itemList ==========> {}", list);
     }
 
+    /* 주문 수정  */
     @PostMapping("modify")
     @ResponseBody
     public String modify(OrderDto orderDto, RedirectAttributes rttr) {
-        log.info("modify orderDto ==========> {}", orderDto);
         return orderService.modifyOrder(orderDto);
     }
 
+    /* 주문 상품 수정  */
     @PostMapping("modifyItem")
     @ResponseBody
-    public void modify(@RequestParam(value="addItems") String[] addItems,
+    public void modify(@RequestParam(value="addItems", required = false) String[] addItems,
                        @RequestParam(value="removeItems", required = false) String[] removeItems,
+                       @RequestParam(value="modifyItems", required = false) String[] modifyItems,
                        @RequestParam String orderCode, RedirectAttributes rttr) {
-        int cnt = orderService.modifyOrderItem(addItems, removeItems, orderCode);
-        if (cnt==1) {
-            rttr.addFlashAttribute("message", orderCode + " 주문이 수정되었습니다.");
-        } else {
-            rttr.addFlashAttribute("message", orderCode + " 주문이 수정되지 않았습니다.");
+
+//        log.info("orderModify addItems ==========> {}", (Object) addItems);
+//        log.info("orderModify removeItems ==========> {}", (Object) removeItems);
+//        log.info("orderModify modifyItems ==========> {}", (Object) modifyItems);
+
+        if (addItems != null) {
+            orderService.registerOrderItem(addItems, orderCode);
         }
+        if (modifyItems != null) {
+            orderService.modifyOrderItem(modifyItems, orderCode);
+        }
+        if (removeItems != null) {
+            orderService.removeOrderItem(removeItems, orderCode);
+        }
+
+//        if (cnt==1) {
+//            rttr.addFlashAttribute("message", orderCode + " 주문이 수정되었습니다.");
+//        } else {
+//            rttr.addFlashAttribute("message", orderCode + " 주문이 수정되지 않았습니다.");
+//        }
     }
 
     /* 주문 상태 변경 */

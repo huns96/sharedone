@@ -11,21 +11,28 @@
 <%--    <link rel="stylesheet" href="resources/css/plugin/datepicker/bootstrap-datepicker.css">--%>
     <style>
         body { background-color: #e0e0e0; }
+        .container-md { width: 80%; margin: 20px; }
         .page-background {
             background-color: white;
             padding: 10px;
             margin: 5px;
             border-radius: 5px;
         }
-        .top {
+        /*.top {
             height: 40%;
         }
         .bottom {
             height: 40%;
-        }
+        }*/
         h4 {
             font-weight: bold;
             margin-left: 20px;
+        }
+
+        table { margin: 10px; }
+        td, th {
+            padding: 1em .5em;
+            vertical-align: middle;
         }
 
         .search-label {
@@ -39,16 +46,13 @@
             float: right;
         }
 
-        .btn-outline-secondary {
-
-        }
     </style>
 </head>
 <body>
 <div class="container-fluid">
     <div class="row flex-nowrap">
     <my:Sidebar></my:Sidebar>
-    <div class="container-md" style="width: 80%;">
+    <div class="container-md">
         <div class="row">
             <div class="col">
                 <div id="search" class="page-background">
@@ -82,7 +86,7 @@
                 <div id="orders" class="contents top">
                     <div id="order-list" class="page-background">
                         <h4>주문 목록
-                        <button id="addNewOrderButton" class="btn btn-danger" style="float: right">새 주문 등록</button>
+                        <button id="addNewOrderButton" class="btn btn-danger" style="float: right; margin-right: 20px;">새 주문 등록</button>
                         </h4>
                         <table class="table table-hover" id="order-table">
                             <thead>
@@ -152,9 +156,8 @@
                                 <th>기존단가</th>
                                 <th>등록자</th>
                                 <th>수정자</th>
-                                <th>주문코드</th>
-                                <th>바이어명</th>
-                                <%--<th>주문수정</th>--%>
+                                <%--<th>주문코드</th>
+                                <th>바이어명</th>--%>
                             </tr>
                             </thead>
                             <tbody></tbody>
@@ -207,7 +210,7 @@
                 dataType : 'json',
                 traditional: true,
                 success: function (result) {
-                    //console.log(result);
+                    console.log(result);
                     for (var i = 0; i < result.length; i++) {
                         let index = i + 1;
                         let product_code = result[i].product_code;
@@ -233,9 +236,8 @@
                             + "<td>" + old_price + "</td>"
                             + "<td>" + adduser + "</td>"
                             + "<td>" + upduser + "</td>"
-                            + "<td>" + order_code + "</td>"
-                            + "<td>" + buyer_name + "</td>"
-                            /*+ "<td>수정버튼</td>"*/
+                           /* + "<td>" + order_code + "</td>"
+                            + "<td>" + buyer_name + "</td>"*/
                             + "</tr>"
                         );
                     }

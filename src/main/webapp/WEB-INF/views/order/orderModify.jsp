@@ -98,7 +98,8 @@
                 <th>수량</th>
                 <th>단가</th>
                 <th>총금액</th>
-                <th>X</th>
+                <th>수정</th>
+                <th>삭제</th>
             </tr>
             </thead>
             <tbody>
@@ -110,7 +111,12 @@
                     <td>${item.quantity}</td>
                     <td>${item.price}</td>
                     <td>${item.total_price}</td>
-                    <td>X</td>
+                    <td>
+                        <button type="button" class="btn btn-outline-secondary btn-sm" onclick="modifyItem(${status.count})">수정</button>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-outline-secondary btn-sm" onclick="removeItem(${status.count})">삭제</button>
+                    </td>
                 </tr>
             </c:forEach>
             </tbody>
@@ -126,9 +132,27 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 <%--    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.ko.min.js" integrity="sha512-L4qpL1ZotXZLLe8Oo0ZyHrj/SweV7CieswUODAAPN/tnqN3PA1P+4qPu5vIryNor6HQ5o22NujIcAZIfyVXwbQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>--%>
 <script type="text/javascript">
-    //let orderItemList = []; //주문 등록 모달창의 상품(표) 리스트
-    let addtemList = [];
-    let removeItemList = [];
+
+    let orderItemList = [];
+    let oldItemList = []; // 기존 상품 리스트
+    let list;
+    <c:forEach items="${itemList}" var="item">
+        list = [];
+        list.push("${item.product_code}");
+        list.push("${item.product_name}");
+        list.push("${item.quantity}");
+        list.push("${item.price}");
+        list.push("${item.total_price}");
+        oldItemList.push(list);
+        orderItemList.push(list);
+    </c:forEach>
+    let addItemList = []; // 추가된 상품 리스트
+    let removeItemList = []; // 삭제된 상품 리스트
+    let modifyItemList = []; // 수정된 상품 리스트
+    let modifyFlag = false; // 수정 여부
+    let modifyIndex; // 수정할 상품의 index
+
+    //setItemList();
 
     $(function() {
         /* 납품 요청일 */
@@ -172,11 +196,15 @@
 
         /* 주문 수정 전송 버튼 */
         $('#modifyOrderSubmitButton').click(function() {
-            console.log("-------------");
             modifyOrder();
         });
 
     });
+
+    // function setItemList() {
+    //
+    //
+    // }
 
     /* 상품 검색 팝업창 */
     function itemPopup() {
@@ -205,24 +233,82 @@
         let price = $('#price').val();
         let totalPrice = quantity * price;
 
+        // 상품 수정인 경우 해당 상품 삭제 후 변경사항 추가
+        if (modifyFlag) {
+            orderItemList.splice(modifyIndex,1);
+            getItemList(orderItemList);
+        }
+
         // 상품 중복 확인
         let dupli = false;
         for(var i = 0; i<orderItemList.length; i++) {
             if (orderItemList[i][0] == productCode) {
                 dupli = true;
+                break;
             }
         }
         if (dupli == false) {
             const itemList = [productCode, productName, quantity, price, totalPrice];
             orderItemList.push(itemList);
+
+            let existListflag = "false";
+            for (var i = 0; i<oldItemList.length; i++) {
+                if (oldItemList[i][0] == itemList[0]) {
+                    existListflag = "true";
+                    if (oldItemList[i][2] == itemList[2] && oldItemList[i][3] == itemList[3]) {
+                        existListflag = "-";
+                    }
+                    break;
+                }
+            }
+            console.log(existListflag);
+            if (existListflag == "true") {
+                for(var i = 0; i<modifyItemList.length; i++) {
+                    if (modifyItemList[i][0] == itemList[0]) {
+                        modifyItemList.splice(i,1);
+                        break;
+                    }
+                }
+                modifyItemList.push(itemList); // 수정한 상품
+            } else if (existListflag == "false") {
+                for(var i = 0; i<addItemList.length; i++) {
+                    if (addItemList[i][0] == itemList[0]) {
+                        addItemList.splice(i,1);
+                        break;
+                    }
+                }
+                addItemList.push(itemList); // 새로 추가한 상품
+            } else {
+                for(var i = 0; i<modifyItemList.length; i++) {
+                    if (modifyItemList[i][0] == itemList[0]) {
+                        modifyItemList.splice(i,1);
+                        break;
+                    }
+                }
+                for(var i = 0; i<addItemList.length; i++) {
+                    if (addItemList[i][0] == itemList[0]) {
+                        addItemList.splice(i,1);
+                        break;
+                    }
+                }
+            }
+
+            for (var i = 0; i<removeItemList.length; i++) {
+                if (removeItemList[i][0] == itemList[0]) {
+                    removeItemList.splice(i, 1);
+                    break;
+                }
+            }
             itemListInPopup(itemList, orderItemList);
 
         } else {
             alert("상품번호 " + productCode + "가 중복됩니다.");
         }
         resetItemInfo();
+        modifyFlag = false;
     }
 
+    /* 주문상품 리스트 추가 */
     function itemListInPopup(itemList, orderItemList) {
         let tbody = $('#Item-table tbody');
         tbody.append("");
@@ -234,14 +320,87 @@
             + "<td>" + itemList[2] + "</td>"
             + "<td>" + itemList[3] + "</td>"
             + "<td>" + itemList[4] + "</td>"
-            + "<td>X</td>"
+            + "<td style='width: 80px;'>"
+            +    "<button type='button' class='btn btn-outline-secondary btn-sm' onclick='modifyItem(" + orderItemList.length + ")'>수정</button>"
+            + "</td>"
+            + "<td style='width: 80px;'>"
+            +    "<button type='button' class='btn btn-outline-secondary btn-sm' onclick='removeItem(" + orderItemList.length + ")'>삭제</button>"
+            + "</td>"
             + "</tr>"
         );
+    }
+
+    /* 주문상품 리스트 조회 */
+    function getItemList(orderItemList) {
+        let tbody = $('#Item-table tbody');
+        tbody.empty(); //초기화
+        tbody.append("");
+        for (var i = 0; i < orderItemList.length; i++) {
+            tbody.append(
+                "<tr>"
+                + "<td>" + orderItemList.length + "</td>"
+                + "<td>" + orderItemList[i][0] + "</td>"
+                + "<td>" + orderItemList[i][1] + "</td>"
+                + "<td>" + orderItemList[i][2] + "</td>"
+                + "<td>" + orderItemList[i][3] + "</td>"
+                + "<td>" + orderItemList[i][4] + "</td>"
+                + "<td style='width: 80px;'>"
+                +    "<button type='button' class='btn btn-outline-secondary btn-sm' onclick='modifyItem(" + orderItemList.length + ")'>수정</button>"
+                + "</td>"
+                + "<td style='width: 80px;'>"
+                +    "<button type='button' class='btn btn-outline-secondary btn-sm' onclick='removeItem(" + orderItemList.length + ")'>삭제</button>"
+                + "</td>"
+                + "</tr>"
+            );
+        }
+
+    }
+
+    /* 상품 삭제 */
+    function removeItem(index) {
+        //let existListflag = false;
+        let removeList = orderItemList[index-1];
+        for (var i = 0; i<oldItemList.length; i++) {
+            if (oldItemList[i][0] == removeList[0]) {
+                removeItemList.push(removeList); // 삭제한 상품 리스트
+                break;
+            }
+        }
+
+        // 상품 삭제일 경우에는 addItemList와 modifyItemList에서 삭제
+        for (var i = 0; i<addItemList.length; i++) {
+            if (addItemList[i][0] == removeList[0]) {
+                addItemList.splice(i, 1);
+                break;
+            }
+        }
+        for (var i = 0; i<modifyItemList.length; i++) {
+            if (modifyItemList[i][0] == removeList[0]) {
+                modifyItemList.splice(i, 1);
+                break;
+            }
+        }
+        orderItemList.splice(index-1, 1);
+        getItemList(orderItemList);
+    }
+
+    /* 상품 수정 정보 가져오기*/
+    function modifyItem(index) {
+        index = index-1;
+        let list = orderItemList[index];
+        $('#productCode').val(list[0]);
+        $('#productName').val(list[1]);
+        $('#quantity').val(list[2]);
+        $('#price').val(list[3]);
+        $('#productPopupButton').attr('style','pointer-events:none;');
+        modifyIndex = index;
+        modifyFlag = true;
     }
 
 
     /* 상품입력창 초기화 */
     function resetItemInfo() {
+        $('#productPopupButton').removeAttr('style');
         $('#productCode').val("");
         $('#productName').val("");
         $('#quantity').val("");
@@ -251,7 +410,17 @@
     /* 주문 수정 */
     function modifyOrder() {
         let queryString = $(".orderInfo").serialize();
-        console.log(queryString);
+        //console.log(queryString);
+        console.log('orderItemList');
+        console.log(orderItemList);
+        console.log('oldItemList');
+        console.log(oldItemList);
+        console.log('addItemList');
+        console.log(addItemList);
+        console.log('removeItemList');
+        console.log(removeItemList);
+        console.log('modifyItemList');
+        console.log(modifyItemList);
         $.ajax({
             type: 'POST',
             url: '/order/modify',
@@ -259,11 +428,12 @@
             success: function (data) {
                 console.log(data);
                 var objParams = {
-                    "addItems" : orderItemList,
-                    "removeItems" : orderItemList,
+                    "addItems" : addItemList,
+                    "removeItems" : removeItemList,
+                    "modifyItems" : modifyItemList,
                     "orderCode" : data
                 };
-                /*$.ajax({
+                $.ajax({
                     type: 'POST',
                     url: '/order/modifyItem',
                     data: objParams,
@@ -273,7 +443,7 @@
                         console.log(result);
 
                     }
-                });*/
+                });
             }
         });
 

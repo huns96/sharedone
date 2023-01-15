@@ -24,7 +24,7 @@ public class OrderService {
     public String registerOrder(OrderDto orderDto) {
         String orderCode = generateOrderCode(orderDto);
         orderDto.setOrder_code(orderCode); // 주문번호 채번
-        log.info("========== {}번 주문 등록 ===========", orderCode);
+        log.info("========== [ {}번 주문 등록 ] ===========", orderCode);
         orderDto.setAdduser("user1"); //[TODO] user 임의로 넣음.. >> 로그인 정보 추가 해야함
         orderMapper.insertOrder(orderDto);
         return orderCode;
@@ -75,7 +75,7 @@ public class OrderService {
             orderMapper.insertOrderItem(item);
             cnt++;
         }
-        log.info("========== {}개 상품등록 성공 ===========", cnt);
+        log.info("========== {}개 상품 추가 ===========", cnt);
         return cnt;
     }
     
@@ -95,14 +95,76 @@ public class OrderService {
 
     /* 주문 수정 */
     public String modifyOrder(OrderDto orderDto) {
+        orderDto.setUpduser("user1"); //[TODO] user 임의로 넣음.. >> 로그인 정보 추가 해야함
         orderMapper.updateOrder(orderDto);
+        log.info("========== [ {}번 주문 수정 ] ===========", orderDto.getOrder_code());
         return orderDto.getOrder_code();
     }
 
     /* 주문 상품 수정 */
-    public int modifyOrderItem(String[] addItems, String[] removeItems, String orderCode) {
-        //orderMapper.updateOrderItem(orderDto);
-        return 0;
+    public int modifyOrderItem(String[] modifyItems, String orderCode) {
+        List<OrderItemDto> modifyItemList = new ArrayList<>();
+        OrderItemDto itemDto = new OrderItemDto();
+        if (!modifyItems[0].contains(",")){
+            List<String> list = Arrays.asList(modifyItems);
+            itemDto.setProduct_code(list.get(0));
+            itemDto.setProduct_name(list.get(1));
+            itemDto.setQuantity(Integer.parseInt(list.get(2)));
+            itemDto.setPrice(Integer.parseInt(list.get(3)));
+            itemDto.setOrder_code(orderCode);
+            itemDto.setUpduser("user1"); //[TODO] user 임의로 넣음.. >> 로그인 정보 추가 해야함
+            modifyItemList.add(itemDto);
+        } else {
+            for (int i=0; i<modifyItems.length; i++) {
+                List<String> list = Arrays.asList(modifyItems[i].split(","));
+                itemDto = new OrderItemDto();
+                itemDto.setProduct_code(list.get(0));
+                itemDto.setProduct_name(list.get(1));
+                itemDto.setQuantity(Integer.parseInt(list.get(2)));
+                itemDto.setPrice(Integer.parseInt(list.get(3)));
+                itemDto.setOrder_code(orderCode);
+                itemDto.setUpduser("user1"); //[TODO] user 임의로 넣음.. >> 로그인 정보 추가 해야함
+                modifyItemList.add(itemDto);
+            }
+        }
+
+        int cnt = 0;
+        for (OrderItemDto item : modifyItemList) {
+            orderMapper.updateOrderItem(item);
+            cnt++;
+        }
+        log.info("========== {}개 상품 수정 ===========", cnt);
+        return cnt;
+    }
+
+    /* 주문 상품 삭제 */
+    public int removeOrderItem(String[] removeItems, String orderCode) {
+        List<OrderItemDto> removeItemList = new ArrayList<>();
+        OrderItemDto itemDto = new OrderItemDto();
+        if (!removeItems[0].contains(",")){
+            List<String> list = Arrays.asList(removeItems);
+            itemDto.setProduct_code(list.get(0));
+            itemDto.setOrder_code(orderCode);
+            itemDto.setUpduser("user1"); //[TODO] user 임의로 넣음.. >> 로그인 정보 추가 해야함
+            removeItemList.add(itemDto);
+        } else {
+            for (int i=0; i<removeItems.length; i++) {
+                List<String> list = Arrays.asList(removeItems[i].split(","));
+                itemDto = new OrderItemDto();
+                itemDto.setProduct_code(list.get(0));
+                itemDto.setOrder_code(orderCode);
+                itemDto.setUpduser("user1"); //[TODO] user 임의로 넣음.. >> 로그인 정보 추가 해야함
+                removeItemList.add(itemDto);
+            }
+        }
+
+        int cnt = 0;
+        for (OrderItemDto item : removeItemList) {
+            orderMapper.removeOrderItem(item);
+            cnt++;
+        }
+        log.info("========== {}개 상품 삭제 ===========", cnt);
+        return cnt;
     }
     
     /* 주문 상태 변경 */
