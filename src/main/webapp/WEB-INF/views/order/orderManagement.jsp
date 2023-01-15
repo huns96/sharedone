@@ -15,6 +15,7 @@
             background-color: white;
             padding: 10px;
             margin: 5px;
+            margin: 5px;
             border-radius: 5px;
         }
         .top {

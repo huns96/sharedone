@@ -1,4 +1,4 @@
-package com.sharedOne.domain;
+package com.sharedOne.domain.member;
 
 import lombok.Data;
 

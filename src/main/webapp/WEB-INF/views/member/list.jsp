@@ -14,6 +14,14 @@
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <style>
 
+        body { background-color: #e0e0e0; }
+        .page-background {
+            background-color: white;
+            padding: 10px;
+            margin: 5px;
+            border-radius: 5px;
+        }
+
         .tit {
             margin-left: 50px;
             margin-top: 50px;
@@ -63,8 +71,9 @@
         }
 
         .search {
-            text-align: right;
-            width: 1000px;
+            margin-left: 50px;
+            margin-top: 50px;
+            margin-right: 50px;
         }
 
         .searchBtn {
@@ -75,58 +84,96 @@
 </head>
 <body>
 <div class="container-fluid" style="padding: 0">
-    <div style="display: flex">
+    <div class="row flex-nowrap">
         <my:Sidebar></my:Sidebar>
 
-        <div style="width: 1000px">
-            <h1 class="tit">회원 목록</h1>
-            <div class="search">
-                <select name="q" id="">
+        <div class="col">
+            <div class="search page-background">
+                <form action="/member/list" method="get">
+                <select name="" id="">
                     <option value="">전체</option>
-                    <option value="">이름</option>
-                    <option value="">아이디</option>
-                    <option value="">연락처</option>
-                    <option value="">등록일</option>
-                    <option value="">권한</option>
+                    <option value="이름">이름</option>
+                    <option value="아이디">아이디</option>
+                    <option value="연락처">연락처</option>
+                    <option value="등록일">등록일</option>
+                    <option value=권한">권한</option>
                 </select>
-                <input type="text" name="q">
+                <input type="text" name="q" value="${param.q}">
                 <button class="searchBtn">검색</button>
+                </form>
             </div>
-            <table class="table" style="width: 1000px; margin-left: 50px;">
-                <thead>
-                <tr>
-                    <th>이름</th>
-                    <th>아이디</th>
-                    <th>연락처</th>
-                    <th>등록일</th>
-                    <th>권한</th>
+            <div class="col page-background" style="margin-left: 50px; margin-right: 50px">
+                <div style="display: flex; justify-content: space-between">
+                <h5>회원 목록</h5>
+                <button style="margin-right: 30px;" class="addMemberbtn" data-bs-toggle="modal" data-bs-target="#addMemberModal">회원등록</button>
+                </div>
+                <table class="table" style="text-align: center">
+                    <thead>
+                        <tr>
+                            <th>이름</th>
+                            <th>아이디</th>
+                            <th>연락처</th>
+                            <th>등록일</th>
+                            <th>권한</th>
 
-                </tr>
-                </thead>
-                <tbody>
-                <c:forEach items="${memberList}" var="mem" varStatus="sts">
-                    <tr>
-                        <td>${mem.name}</td>
-                        <td>${mem.user_id}</td>
-                        <td>${mem.phone}</td>
-                        <td>${mem.adddate}</td>
-                        <td>${mem.auth}</td>
-                        <td>
-                            <button onclick="asd('${mem.user_id}','${mem.name}','${mem.phone}','${mem.auth}')"
-                                    class="getAuthoBtn" data-bs-toggle="modal" data-bs-target="#getAuthoModal">권한부여
-                            </button>
-                            <button onclick="modi('${mem.user_id}','${mem.name}','${mem.phone}')" class="modifyBtn"
-                                    data-bs-toggle="modal" data-bs-target="#modifyModal">수정
-                            </button>
-                            <button onclick="dele('${mem.user_id}')" class="deleteBtn" data-bs-toggle="modal"
-                                    data-bs-target="#deleteModal">삭제
-                            </button>
-                        </td>
-                    </tr>
-                </c:forEach>
-                </tbody>
-            </table>
-            <button class="addMemberbtn" data-bs-toggle="modal" data-bs-target="#addMemberModal">회원등록</button>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach items="${memberList}" var="mem" varStatus="sts">
+                        <tr>
+                            <td>${mem.name}</td>
+                            <td>${mem.user_id}</td>
+                            <td>${mem.phone}</td>
+                            <td>${mem.adddate}</td>
+                            <td><c:if test= "${mem.auth != null}" >
+                                    ${mem.auth}
+                                </c:if>
+                                <c:if test="${mem.auth == null}">
+                                    권한없음
+                                </c:if>
+                            </td>
+                            <td>
+                                <button onclick="asd('${mem.user_id}','${mem.name}','${mem.phone}','${mem.auth}')"
+                                        class="getAuthoBtn" data-bs-toggle="modal" data-bs-target="#getAuthoModal">권한변경
+                                </button>
+                                <button onclick="modi('${mem.user_id}','${mem.name}','${mem.phone}')" class="modifyBtn"
+                                        data-bs-toggle="modal" data-bs-target="#modifyModal">수정
+                                </button>
+                                <button onclick="dele('${mem.user_id}')" class="deleteBtn" data-bs-toggle="modal"
+                                        data-bs-target="#deleteModal">삭제
+                                </button>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-3">
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination">
+                            <li class="page-item">
+                                <c:url value="/member/list" var="pageLink"></c:url>
+                                <a class="page-link" href="${pageLink }?page=1&q=${param.q}" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                            <c:forEach begin="1" end="${pages }" varStatus="status" var="pageNumb">
+                                <li class="page-item ${pageNum == pageNumb ? "active" : ""}">
+                                    <a class="page-link" href="${pageLink }?page=${pageNumb}&q=${param.q}">${pageNumb }</a>
+                                </li>
+                            </c:forEach>
+                            <li class="page-item">
+                                <a class="page-link" href="${pageLink }?page=${pages}&q=${param.q}" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
@@ -141,17 +188,16 @@
             </div>
             <div class="modal-body">
                 <form action="/member/addMember" method="post" id="memberInsertForm">
-                    회원명:&nbsp;&nbsp;&nbsp; <input type="text" name="name"> <br>
+                    회원명:&nbsp;&nbsp;&nbsp; <input type="text" name="name" id="nnName"> <br>
                     <br>
-                    아이디:&nbsp;&nbsp;&nbsp; <input type="text" name="user_id">
+                    아이디:&nbsp;&nbsp;&nbsp; <input type="text" name="user_id" id="nnId">
                     <button type="button" class="dupliCheckBtn">아이디중복확인</button>
+                    <div id="dupliMessage" class="form-text">아이디 중복을 확인해주세요</div>
                     <br>
+                    비밀번호: <input type="password" name="password" id="nnPassword"> <br>
                     <br>
-                    비밀번호: <input type="text" name="password"> <br>
-                    <br>
-                    연락처:&nbsp;&nbsp;&nbsp; <input type="number" name="phone"> <br>
-                    <br>
-                    작성자:&nbsp;&nbsp;&nbsp; <input type="text" name="adduser">
+                    연락처:&nbsp;&nbsp;&nbsp; <input type="text" name="phone" id="nnPhone"> <br>
+                    <input type="hidden" name="adduser" value="admin">
                 </form>
             </div>
             <div class="modal-footer">
@@ -262,9 +308,18 @@
         integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
         crossorigin="anonymous"></script>
 <script>
+    const ctx = "${pageContext.request.contextPath}";
+
     document.querySelector(".memberInsertBtn").addEventListener("click", function () {
         const memInsertForm = document.forms.memberInsertForm;
+        if  ($('#nnName').val() == "" ||
+            ($('#nnId').val() == "" ||
+            ($('#nnPassword').val() == "" ||
+            ($('#nnPhone').val() == "")))) {
+            alert("입력되지 않은 정보가 있습니다.")
+        } else{
         memInsertForm.submit();
+        }
     });
 
     function asd(id, name, phone, auth) {
@@ -289,6 +344,12 @@
 
     $('#authoDeleteBtn').click(function () {
         $('#userIdInput').val($('#copyId').text());
+        const authMessage = '${authMustHaveOne}';
+        if (authMessage == 1){
+            alert("1개 남은 권한은 삭제가 불가합니다")
+        } else {
+
+        }
     })
 
     const deleteResult = '${deleteResult}';
@@ -317,6 +378,15 @@
     $('#delBtn').click(function () {
         $('#delForm').submit();
     })
+
+    $('.dupliCheckBtn').click(function(){
+        const userId = $('#nnId').val();
+        fetch("/member/existId/" + userId)
+            .then(res => res.json())
+            .then(data => {
+                $('#dupliMessage').text(data.message);
+            });
+    });
 
 </script>
 </body>

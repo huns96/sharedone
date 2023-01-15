@@ -1,12 +1,13 @@
-package com.sharedOne.mapper;
+package com.sharedOne.mapper.member;
 
-import com.sharedOne.domain.MemberDto;
+import com.github.pagehelper.Page;
+import com.sharedOne.domain.member.MemberDto;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 @Mapper
 public interface MemberMapper {
-    List<MemberDto> memberList();
+    Page<MemberDto> memberList(String keyword);
     int insertMember(MemberDto memberDto);
 
     int insertAutho(String user_id);
@@ -17,7 +18,7 @@ public interface MemberMapper {
 
     int setAutho(String user_id, String auth);
 
-    int modifyMember(String user_id, String name, String phone, String upduser);
+    int modifyMember(String user_id, String name, String password, String phone, String upduser);
 
     MemberDto selectUserInfo(String user_id);
 
