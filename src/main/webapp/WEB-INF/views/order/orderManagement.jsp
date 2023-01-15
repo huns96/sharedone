@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -90,20 +91,20 @@
                         </h4>
                         <table class="table table-hover" id="order-table">
                             <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>주문번호</th>
-                                <th>거래처명</th>
-                                <th>주문일자</th>
-                                <th>납품요청일자</th>
-                                <th>승인일자</th>
-                                <th>반려일자</th>
-                                <th>상태</th>
-                                <th>등록자</th>
-                                <th>수정자</th>
-                                <th>주문수정</th>
-                                <th>상태변경</th>
-                            </tr>
+                                <tr>
+                                    <th>#</th>
+                                    <th>주문번호</th>
+                                    <th>거래처명</th>
+                                    <th>주문일자</th>
+                                    <th>납품요청일자</th>
+                                    <th>승인일자</th>
+                                    <th>반려일자</th>
+                                    <th>상태</th>
+                                    <th>등록자</th>
+                                    <th>수정자</th>
+                                    <th>주문수정</th>
+                                    <th>상태변경</th>
+                                </tr>
                             </thead>
                             <tbody>
                             <c:forEach items="${orderList}" var="order" varStatus="status">
@@ -230,10 +231,10 @@
                             + "<td>" + index + "</td>"
                             + "<td>" + product_code + "</td>"
                             + "<td>" + product_name + "</td>"
-                            + "<td>" + quantity + "</td>"
-                            + "<td>" + price + "</td>"
-                            + "<td>" + total_price + "</td>"
-                            + "<td>" + old_price + "</td>"
+                            + "<td>" + parseInt(quantity).toLocaleString() + "</td>"
+                            + "<td>" + parseInt(price).toLocaleString() + "</td>"
+                            + "<td>" + parseInt(total_price).toLocaleString() + "</td>"
+                            + "<td>" + parseInt(old_price).toLocaleString() + "</td>"
                             + "<td>" + adduser + "</td>"
                             + "<td>" + upduser + "</td>"
                            /* + "<td>" + order_code + "</td>"

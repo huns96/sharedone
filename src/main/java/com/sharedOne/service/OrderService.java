@@ -69,7 +69,7 @@ public class OrderService {
                 itemList.add(itemDto);
             }
         }
-        //log.info("register itemList ===========> {}", itemList);
+
         int cnt = 0;
         for (OrderItemDto item : itemList) {
             orderMapper.insertOrderItem(item);
@@ -81,7 +81,9 @@ public class OrderService {
     
     /* 주문 목록 조회 */
     public List<OrderDto> getOrderList() {
-        return orderMapper.listOrder();
+        List<OrderDto> list = orderMapper.listOrder();
+        //log.info("list orderDto ==========> {}", list);
+        return list;
     }
     
     /* 주문 상품 목록 조회 */

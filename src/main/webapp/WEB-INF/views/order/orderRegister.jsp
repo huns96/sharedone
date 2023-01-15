@@ -7,6 +7,7 @@
     <title>새 주문 등록</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" integrity="sha512-aOG0c6nPNzGk+5zjwyJaoRUgCdOrfSDhmMID2u4+OIslr0GjpLKo7Xm0Ao3xmpM4T8AmIouRkqwj1nrdVsLKEQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         body { padding: 20px; }
         h3 { margin-bottom: 30px; }
@@ -46,7 +47,7 @@
         <div class="row">
             <div class="col-md-6 mb-3">
                 <label for="requestDate" class="form-label">납품요청일</label>
-                <input id="requestDate" type="date" class="form-control orderInfo" name="request_date" required="required" />
+                <input id="requestDate" type="text" class="form-control orderInfo" name="request_date" required="required" />
             </div>
             <div class="col-md-6 mb-3">
                 <label for="orderDate" class="form-label">주문일</label>
@@ -113,8 +114,8 @@
     </footer>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
-<%--    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.ko.min.js" integrity="sha512-L4qpL1ZotXZLLe8Oo0ZyHrj/SweV7CieswUODAAPN/tnqN3PA1P+4qPu5vIryNor6HQ5o22NujIcAZIfyVXwbQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>--%>
-    <script type="text/javascript">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+   <script type="text/javascript">
         let orderItemList = []; //주문 등록 모달창의 상품(표) 리스트
         let modifyFlag = false;
         let modifyIndex; // 수정할 상품의 index
@@ -131,7 +132,11 @@
             $('#orderDate').val(today);
 
             /* 납품 요청일 */
-            //$('#newRequestDate')
+            $('#requestDate').datepicker({
+                dateFormat: "yy-mm-dd",
+                minDate: 0
+            }); //오늘이후 선택가능
+            $('#requestDate').attr("readonly",true).attr("style","background-color:white;");
 
             /* 상품 검색 팝업창 */
             $('#productPopupButton').click(function() {
@@ -272,9 +277,9 @@
                 + "<td>" + orderItemList.length + "</td>"
                 + "<td>" + itemList[0] + "</td>"
                 + "<td>" + itemList[1] + "</td>"
-                + "<td>" + itemList[2] + "</td>"
-                + "<td>" + itemList[3] + "</td>"
-                + "<td>" + itemList[4] + "</td>"
+                + "<td>" + parseInt(itemList[2]).toLocaleString() + "</td>"
+                + "<td>" + parseInt(itemList[3]).toLocaleString() + "</td>"
+                + "<td>" + parseInt(itemList[4]).toLocaleString() + "</td>"
                 + "<td style='width: 80px;'>"
                 +    "<button type='button' class='btn btn-outline-secondary btn-sm' onclick='modifyItem(" + orderItemList.length + ")'>수정</button>"
                 + "</td>"
@@ -296,9 +301,9 @@
                     + "<td>" + orderItemList.length + "</td>"
                     + "<td>" + orderItemList[i][0] + "</td>"
                     + "<td>" + orderItemList[i][1] + "</td>"
-                    + "<td>" + orderItemList[i][2] + "</td>"
-                    + "<td>" + orderItemList[i][3] + "</td>"
-                    + "<td>" + orderItemList[i][4] + "</td>"
+                    + "<td>" + parseInt(orderItemList[i][2]).toLocaleString() + "</td>"
+                    + "<td>" + parseInt(orderItemList[i][3]).toLocaleString() + "</td>"
+                    + "<td>" + parseInt(orderItemList[i][4]).toLocaleString() + "</td>"
                     + "<td style='width: 80px;'>"
                     +    "<button type='button' class='btn btn-outline-secondary btn-sm' onclick='modifyItem(" + orderItemList.length + ")'>수정</button>"
                     + "</td>"
