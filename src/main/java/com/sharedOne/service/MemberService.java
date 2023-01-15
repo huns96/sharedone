@@ -1,5 +1,6 @@
 package com.sharedOne.service;
 
+import com.github.pagehelper.Page;
 import com.sharedOne.domain.member.MemberDto;
 import com.sharedOne.mapper.member.MemberMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +14,8 @@ public class MemberService {
     private MemberMapper memberMapper;
 
 
-    public List<MemberDto> memberList() {
-        return memberMapper.memberList();
+    public Page<MemberDto> memberList(String keyword) {
+        return memberMapper.memberList("%" + keyword + "%");
     }
 
     public void insertMember(MemberDto memberDto) {
@@ -57,8 +58,8 @@ public class MemberService {
         return "error";
     }
 
-    public void modifyMember(String user_id, String name, String phone, String upduser) {
-        memberMapper.modifyMember(user_id, name, phone, upduser);
+    public void modifyMember(String user_id, String name, String password, String phone, String upduser) {
+        memberMapper.modifyMember(user_id, name, password, phone, upduser);
     }
 
     public MemberDto selectUserInfo(String user_id) {

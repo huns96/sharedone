@@ -9,17 +9,24 @@
         SELECT
             m.user_id, phone, name, adddate, auth
         FROM
-            member m JOIN authority au ON m.user_id = au.user_id
-        WHERE delyn = 'N'
+            member m JOIN authority a ON m.user_id = a.user_id
+        WHERE
+            delyn = 'N' AND
+            name LIKE #{keyword} OR
+            m.user_id LIKE #{keyword} OR
+            phone LIKE #{keyword} OR
+            adddate LIKE #{keyword} OR
+            auth LIKE #{keyword}
+
     </select>
 
     <resultMap id="memberList" type="com.sharedOne.domain.member.MemberDto">
-        <id column="user_id" property="user_id"></id>
-        <result column="phone" property="phone"></result>
-        <result column="name" property="name"></result>
-        <result column="adddate" property="adddate"></result>
+        <id column="user_id" property="user_id"/>
+        <result column="phone" property="phone"/>
+        <result column="name" property="name"/>
+        <result column="adddate" property="adddate"/>
         <collection property="auth" ofType="string">
-            <result column="auth" property="auth"></result>
+            <result column="auth" property="auth"/>
         </collection>
     </resultMap>
     
@@ -43,10 +50,10 @@
     </select>
 
     <resultMap id="memberMap" type="com.sharedOne.domain.member.MemberDto">
-        <id column="user_id" property="user_id"></id>
-        <result column="password" property="password"></result>
+        <id column="user_id" property="user_id"/>
+        <result column="password" property="password"/>
         <collection property="auth" ofType="string">
-            <result column="auth" property="auth"></result>
+            <result column="auth" property="auth"/>
         </collection>
     </resultMap>
 
@@ -70,7 +77,7 @@
         UPDATE
             member
         SET
-            name = #{name}, phone = #{phone}, upduser = #{upduser}, upddate = now()
+            name = #{name}, phone = #{phone}, password = #{password}, upduser = #{upduser}, upddate = now()
         WHERE
             user_id = #{user_id}
     </update>
@@ -85,11 +92,11 @@
     </select>
 
     <resultMap id="myPageInfo" type="com.sharedOne.domain.member.MemberDto">
-        <id column="user_id" property="user_id"></id>
-        <result column="name" property="name"></result>
-        <result column="phone" property="phone"></result>
+        <id column="user_id" property="user_id"/>
+        <result column="name" property="name"/>
+        <result column="phone" property="phone"/>
         <collection property="auth" ofType="string">
-            <result column="auth" property="auth"></result>
+            <result column="auth" property="auth"/>
         </collection>
     </resultMap>
 
