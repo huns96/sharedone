@@ -22,10 +22,8 @@
             border-radius: 5px;
         }
 
-        .tit {
-            margin-left: 50px;
-            margin-top: 50px;
-
+        .bg {
+            background-color: #e0e0e0;
         }
 
         .getAuthoBtn {
@@ -261,11 +259,38 @@
             </div>
             <div class="modal-body">
                 <form action="/member/modifyMember" method="post" id="modiForm">
-                    아이디&nbsp;:&nbsp;<input id="modiId" type="text" name="user_id" value="" readonly> <br>
-                    <br>
-                    회원명 : <input id="modiName" type="text" name="name" value=""> <br>
-                    <br>
-                    연락처 : <input id="modiPhone" type="text" name="phone" value=""> <br>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>회원명</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><input id="modiName" type="text" name="name" value=""></td>
+                            </tr>
+                        </tbody>
+                        <thead>
+                            <tr>
+                                <th>아이디</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><input id="modiId" type="text" name="user_id" value="" readonly></td>
+                            </tr>
+                        </tbody>
+                        <thead>
+                            <tr>
+                                <th>연락처</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><input id="modiPhone" type="text" name="phone" value=""></td>
+                            </tr>
+                        </tbody>
+                    </table>
                     <input id="modiPassword" type="hidden" name="password" value="">
                 </form>
             </div>
@@ -366,7 +391,15 @@
     }
 
     $('#modiBtn').click(function () {
-        $('#modiForm').submit();
+        if  ($('#modiId').val() == "" ||
+            ($('#modiName').val() == "" ||
+            ($('#modiPhone').val() == "" ||
+            ($('#modiPassword').val() == "")))) {
+            alert("입력되지 않은 정보가 있습니다.")
+        } else{
+            $('#modiForm').submit();
+        }
+
     })
 
     function dele(id) {

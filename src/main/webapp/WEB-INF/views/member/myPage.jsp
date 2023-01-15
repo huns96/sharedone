@@ -23,18 +23,27 @@
             margin: 5px;
             border-radius: 5px;
         }
+
+        #myPageModiBtn {
+            background-color: #f39c12;
+            border-style: none;
+            color: white;
+            border-radius: 5px; width: 50px; height: 30px;
+            margin-right: 10px;
+        }
+
     </style>
 </head>
 <body>
     <div class="container-fluid" style="padding: 0">
         <div class="row flex-nowrap">
             <my:Sidebar></my:Sidebar>
-            <div class="col" style="margin-top: 100px; margin-right: 100px; margin-left: 100px;">
+            <div class="col" style="margin-top: 50px; margin-right: 50px; margin-left: 50px;">
                 <div class="page-background">
                     <div style="display: flex; justify-content: space-between">
                     <h5>회원정보 수정</h5>
                         <div style="text-align: right;">
-                            <input id="myPageModiBtn" style="background-color: #f39c12; border-style: none; color: white; border-radius: 5px; width: 50px; height: 30px; margin-right: 10px;" type="button" value="수정"/>
+                            <input id="myPageModiBtn" type= "button" value="수정"/>
                         </div>
                     </div>
                     <form action="/member/modifyMember" method="post" id="myPageModiForm">
@@ -42,19 +51,19 @@
                             <tbody>
                                 <tr>
                                     <th style="width: 25%">회원명</th>
-                                    <td><input id="myName1" type="text" name="name" value="${userInfo.name}"></td>
+                                    <td><input id="myName" type="text" name="name" value="${userInfo.name}"></td>
                                 </tr>
                                 <tr>
                                     <th>아이디</th>
-                                    <td><input id="myId1" type="text" name="user_id" readonly value="${userInfo.user_id}"> *변경불가</td>
+                                    <td><input id="myId" type="text" name="user_id" readonly value="${userInfo.user_id}"> *변경불가</td>
                                 </tr>
                                 <tr>
                                     <th>비밀번호</th>
-                                    <td><input id="myPassword1" type="password" name="password"></td>
+                                    <td><input id="myPassword" type="password" name="password"></td>
                                 </tr>
                                 <tr>
                                     <th>연락처</th>
-                                    <td><input id="myPhone1" type="text" name="phone" value="${userInfo.phone}"></td>
+                                    <td><input id="myPhone" type="text" name="phone" value="${userInfo.phone}"></td>
                                 </tr>
                                 <tr>
                                     <th>권한</th>

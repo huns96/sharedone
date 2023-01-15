@@ -37,7 +37,7 @@ public class MemberController {
     }
 
     @GetMapping("list")
-
+    @PreAuthorize("hasAuthority('관리자')")
     public String list(
                 Model model,
                 @RequestParam(name="q", defaultValue = "") String keyword,
