@@ -28,6 +28,15 @@
             o.delyn, o.adduser, o.adddate, o.upduser, o.upddate
         FROM order_header o LEFT JOIN buyer b ON o.buyer_code = b.buyer_code
         WHERE o.delyn = 'N'
+        <if test="orderCode != null and orderCode !=''">
+            AND o.order_code like #{orderCode}
+        </if>
+        <if test="buyerCode != null and buyerCode !=''">
+            AND o.buyer_code = #{buyerCode}
+        </if>
+        <if test="status != null and status !='' and status != 'all'">
+            AND o.status = #{status}
+        </if>
     </select>
 
     <select id="listItem" resultMap="itemMap">

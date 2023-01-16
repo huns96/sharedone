@@ -33,15 +33,18 @@
         }
         #order-table, #itemList-table { margin-top: 20px; }
 
+        #search { height: 60px; }
         .search-label {
-            width: 90px; text-align: center;
+            width: 100px;  margin-top:8px; text-align:center; font-weight: bold;
+        }
+        .search-select {
+            width: 100px;  text-align:center; margin-left: 20px;
         }
         .search-input {
-            width: 120px;
+            width: 150px; /*text-align:center*/
         }
         .search-btn {
-            width: 80px;
-            float: right;
+            height: 40px;  /*position: absolute; right:6%;*/
         }
 
     </style>
@@ -54,33 +57,37 @@
         <div class="row">
             <div class="col">
                 <div id="search" class="page-background">
-                    <form class="form" action="" role="search">
-                       <div class="row">
-                            <label class="form-label search-label">주문번호</label>
-                            <input class="form-control form-control-sm search-input" type="text" placeholder="10자리">
-                            <label class="form-label search-label">바이어</label>
-                            <div class="input-group search-input">
-                                <input class="form-control form-control-sm" type="text" placeholder="바이어검색">
-                                <a id="buyerPopupButton" class="btn btn-outline-secondary">검색</a>
-                            </div>
-                            <%--<label for="buyerCode" class="form-label">바이어코드</label>
-                            <div class="input-group">
-                                <input id="buyerCode" type="text" class="form-control orderInfo" name="buyer_code" placeholder="바이어코드를 검색해주세요." readonly/>
-                                <a id="buyerPopupButton" class="btn btn-outline-secondary">검색</a>
-                            </div>--%>
+                    <form action="/order/orderManagement" role="search" style="display: flex;" >
+                        <label class="form-label search-label">주문번호</label>
+                        <input id="orderCode" class="form-control search-input" type="text" name="orderCode" value="${param.orderCode}">
 
-                            <label class="form-label search-label">주문상태</label>
-                            <select class="form-select form-control-sm search-input" aria-label="Disabled select example">
-                                &lt;%&ndash;1:대기 2:승인요청 3:승인완료 4:승인취소 5:반려 6:종결&ndash;%&gt;
-                                <option value="작성중">작성중</option>
-                                <option selected value="승인요청">승인요청</option>
-                                <option value="승인완료">승인완료</option>
-                                <option value="승인취소">승인취소</option>
-                                <option value="반려">반려</option>
-                                <option value="종결">종결</option>
-                            </select>
+                        <label class="form-label search-label">바이어명</label>
+                        <div class="input-group" style="width: 230px">
+                            <input id="buyerName" class="form-control search-input" type="text" name="buyerName" value="${param.buyerName}" placeholder="바이어코드 검색" readonly>
+                            <input id="buyerCode" class="form-control search-input" type="hidden" name="buyerCode" value="${param.buyerCode}">
+                            <a id="buyerPopupButton" class="btn btn-outline-secondary">검색</a>
+                        </div>
 
-                            <button class="search-btn" type="submit">조회</button>
+                        <label class="form-label search-label"> 주문상태</label>
+                        <select id="status" name="status" class="form-select search-input">
+                            <option value="all">전체</option>
+                            <option value="작성중" ${param.status == '작성중' ? 'selected' : '' }>작성중</option>
+                            <option value="승인요청" ${param.status == '승인요청' ? 'selected' : '' }>승인요청</option>
+                            <option value="승인완료" ${param.status == '승인완료' ? 'selected' : '' }>승인완료</option>
+                            <option value="승인취소" ${param.status == '승인취소' ? 'selected' : '' }>승인취소</option>
+                            <option value="반려" ${param.status == '반려' ? 'selected' : '' }>반려</option>
+                            <option value="종결" ${param.status == '종결' ? 'selected' : '' }>종결</option>
+                        </select>
+
+                        <%--<select name="t" id="searchTypeSelect" class="form-select search-select">
+                            <option value="all">전체</option>
+                            <option value="adduser" ${param.t == 'adduser' ? 'selected' : '' }>등록자</option>
+                            <option value="upduser" ${param.t == 'upduser' ? 'selected' : '' }>수정자</option>
+                        </select>
+                        <input value="${param.q }" class="form-control search-input" type="search" placeholder="등록자, 수정자" aria-label="Search" name="q">--%>
+                        <div class="buttonDiv" style="position: absolute; right:6%;">
+                            <button id="reset-btn" class="btn btn-secondary search-btn" type="button">초기화</button>
+                            <button class="btn btn-dark search-btn" type="submit">조회</button>
                         </div>
                     </form>
                 </div>
@@ -192,13 +199,23 @@
             itemListByOrderCode(orderCode);
         });
 
+        /* 검색 초기화 */
+        $('#reset-btn').click(function() {
+            $('#orderCode').val("");
+            $('#buyerCode').val("");
+            $('#buyerName').val("");
+            $('#status').val("");
+        });
+
         /* 주문 등록 팝업창 */
         $('#addNewOrderButton').click(function() {
             newOrderPopup();
         });
 
         /* 바이어 검색 팝업창 */
-
+        $('#buyerPopupButton').click(function() {
+            buyerPopup();
+        });
 
         /* 등록,수정자 검색 팝업창 */
 
@@ -254,6 +271,22 @@
                 }
             });
         }, 100);
+    }
+
+    /* 바이어 검색 팝업창 */
+    function buyerPopup() {
+        let url = "/search/buyerPopup";
+        let popupWidth = 600;
+        let popupHeight = 500;
+        let popupX = (window.screen.width / 2) - (popupWidth / 2);
+        let popupY= (window.screen.height / 2) - (popupHeight / 2);
+        let popupOption = 'status=no, height=' + popupHeight  + ', width=' + popupWidth  + ', left='+ popupX + ', top='+ popupY;
+        window.open(url,"",popupOption);
+    }
+    // 바이어 정보 추가
+    window.setBuyerInfo = function (buyerCode, buyerName) {
+        $('#buyerCode').val(buyerCode);
+        $('#buyerName').val(buyerName);
     }
 
     /* 새 주문 등록 팝업창 */

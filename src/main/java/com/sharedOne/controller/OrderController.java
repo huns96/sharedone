@@ -24,8 +24,14 @@ public class OrderController {
 
     /* 주문 관리 (메인) - 주문 리스트 조회 */
     @GetMapping("orderManagement")
-    public void management(Model model) {
-        List<OrderDto> list = orderService.getOrderList();
+    public void management(@RequestParam(required = false) String orderCode,
+                           @RequestParam(required = false) String buyerCode,
+                           @RequestParam(required = false) String status,
+                           @RequestParam(required = false) String adduser,
+                           @RequestParam(required = false) String upduser,
+                           Model model) {
+        //log.info("param ========> {} / {} / {}", orderCode, buyerCode, status);
+        List<OrderDto> list = orderService.getOrderList(orderCode, buyerCode, status, adduser, upduser);
         model.addAttribute("orderList", list);
     }
 
@@ -35,12 +41,14 @@ public class OrderController {
 
     }
 
+    /* 주문 등록 */
     @PostMapping("register")
     @ResponseBody
     public String register(OrderDto orderDto, RedirectAttributes rttr) {
         return orderService.registerOrder(orderDto);
     }
 
+    /* 주문 상품 등록 */
     @PostMapping("registerItem")
     @ResponseBody
     public void register(@RequestParam(value="items") String[] addItems, @RequestParam String orderCode, RedirectAttributes rttr) {
@@ -52,7 +60,6 @@ public class OrderController {
             rttr.addFlashAttribute("message", orderCode + " 주문이 등록되지 않았습니다.");
         }
     }
-
 
     /* 주문 상품 리스트 조회 */
     @RequestMapping("itemList")
@@ -125,10 +132,10 @@ public class OrderController {
     @ResponseBody
     public void remove(@RequestParam String orderCode, RedirectAttributes rttr) {
         orderService.removeOrder(orderCode);
-//        if(cnt == 1) {
-//            rttr.addFlashAttribute("message", id + "번 게시물이 삭제되었습니다.");
+//        if (cnt==1) {
+//            rttr.addFlashAttribute("message", orderCode + " 주문이 삭제되었습니다.");
 //        } else {
-//            rttr.addFlashAttribute("message", id + "번 게시물이 삭제되지 않았습니다.");
+//            rttr.addFlashAttribute("message", orderCode + " 주문이 삭제되지 않았습니다.");
 //        }
 
     }
