@@ -26,7 +26,7 @@ public interface OrderMapper {
 
     int changeStatus(OrderDto orderDto);
 
-    void removeOrder(OrderDto orderDto);
+    /*void removeOrder(OrderDto orderDto);
 
-    void removeAllOrderItem(OrderItemDto item);
+    void removeAllOrderItem(OrderItemDto item);*/
 }

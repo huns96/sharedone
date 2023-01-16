@@ -115,7 +115,7 @@
                                     <th>상태</th>
                                     <th>등록자</th>
                                     <th>수정자</th>
-                                    <th>수정/삭제</th>
+                                    <th>수정</th>
                                     <th>상태변경</th>
                                 </tr>
                             </thead>
@@ -136,17 +136,21 @@
                                         <c:if test="${order.status == '작성중' || order.status == '승인취소' || order.status == '승인반려'}">
                                             <button type="button" class="btn btn-outline-warning btn-sm" onclick="modifyOrderPopup(${order.order_code})">수정</button>
                                         </c:if>
-                                        <c:if test="${(order.approval_date == '' || order.approval_date == null) &&
+                                        <%--<c:if test="${(order.approval_date == '' || order.approval_date == null) &&
                                                         (order.return_date == '' || order.return_date == null) && order.status == '작성중'}">
                                             <button type="button" class="btn btn-outline-danger btn-sm" onclick="removeOrder(${order.order_code})">삭제</button>
-                                        </c:if>
+                                        </c:if>--%>
                                     </td>
                                     <td>
                                         <c:if test="${order.status == '작성중'}">
-                                            <button type="button" class="btn btn-outline-primary btn-sm" onclick="changeStatus('${order.status}',${order.order_code})">승인요청</button>
+                                            <button type="button" class="btn btn-outline-primary btn-sm" onclick="changeStatus('${order.status}',${order.order_code},'승인요청')">승인요청</button>
+                                            <button type="button" class="btn btn-outline-danger btn-sm" onclick="changeStatus('${order.status}',${order.order_code},'종결')">종결</button>
                                         </c:if>
                                         <c:if test="${order.status == '승인요청'}">
-                                            <button type="button" class="btn btn-outline-secondary btn-sm" onclick="changeStatus('${order.status}',${order.order_code})">승인취소</button>
+                                            <button type="button" class="btn btn-outline-secondary btn-sm" onclick="changeStatus('${order.status}',${order.order_code},'승인취소')">승인취소</button>
+                                        </c:if>
+                                        <c:if test="${order.status == '승인반려'}">
+                                            <button type="button" class="btn btn-outline-danger btn-sm" onclick="changeStatus('${order.status}',${order.order_code},'종결')">종결</button>
                                         </c:if>
                                     </td>
                                 </tr>
@@ -313,16 +317,16 @@
     }
 
     /* 상태 변경 */
-    function changeStatus(nowStatus, orderCode) {
-        let status = "";
+    function changeStatus(nowStatus, orderCode, newStatus) {
+        /*let status = "";
         if (nowStatus == '작성중') status = "승인요청";
-        if (nowStatus == '승인요청') status = "승인취소";
+        if (nowStatus == '승인요청') status = "승인취소";*/
 
         $.ajax({
             type: 'POST',
             url: '/order/changeStatus',
             data: {
-                "status": status,
+                "status": newStatus,
                 "orderCode": orderCode
             },
             dataType : 'json',
@@ -337,7 +341,7 @@
     }
 
     /* 주문 삭제 */
-    function removeOrder(orderCode) {
+    /*function removeOrder(orderCode) {
         $.ajax({
             type: 'POST',
             url: '/order/remove',
@@ -351,7 +355,7 @@
         setTimeout(function () {
             location.reload();
         },500);
-    }
+    }*/
 
 </script>
 </body>

@@ -26,7 +26,7 @@
             o.order_date, o.request_date, o.approval_date, o.return_date,
             o.status, o.memo,
             o.delyn, o.adduser, o.adddate, o.upduser, o.upddate
-        FROM order_header o LEFT JOIN buyer b ON o.buyer_code = b.buyer_code
+        FROM order_header o LEFT JOIN buyer b ON o.buyer_code = b.buyer_code AND b.delyn = 'N'
         WHERE o.delyn = 'N'
         <if test="orderCode != null and orderCode !=''">
             AND o.order_code like #{orderCode}
@@ -111,7 +111,7 @@
         WHERE order_code = #{order_code}
     </update>
 
-    <update id="removeOrder">
+    <!--<update id="removeOrder">
         UPDATE order_header
         SET delyn = 'Y', upduser = #{upduser}, upddate = CURRENT_TIMESTAMP()
         WHERE order_code = #{order_code}
@@ -121,6 +121,6 @@
         UPDATE order_item
         SET delyn = 'Y', upduser = #{upduser}, upddate = CURRENT_TIMESTAMP()
         WHERE order_code = #{order_code}
-    </update>
+    </update>-->
 
 </mapper>
