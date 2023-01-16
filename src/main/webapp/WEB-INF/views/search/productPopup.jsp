@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -42,6 +43,7 @@
                 <td>${item.product_name}</td>
                 <td>${item.category_id}</td>
                 <td>${item.old_price}</td>
+                <%--<td><fmt:formatNumber value="${item.old_price}" pattern="#,###"/></td>--%>
             </tr>
         </c:forEach>
         </tbody>
@@ -82,6 +84,7 @@
             const itemName = td.eq(3).text();
             const category = td.eq(4).text();
             const price = td.eq(5).text();
+            //console.log(price)
 
             // orderRegister의 setItemInfo()에 값 전달
             opener.setItemInfo(itemCode, itemName, category, price);

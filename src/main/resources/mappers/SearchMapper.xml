@@ -27,8 +27,9 @@
         SELECT
             p.product_code, p.name as 'product_name', p.category_id, pri.currency, pri.price as 'old_price', pri.buyer_code
         FROM product p
-        LEFT JOIN price pri ON pri.product_code = p.product_code
-        WHERE pri.buyer_code = #{buyer_code};
+        LEFT JOIN price pri ON pri.product_code = p.product_code AND pri.delyn = 'N'
+        WHERE pri.buyer_code = #{buyer_code}
+        AND p.delyn = 'N'
     </select>
 
     <resultMap type="com.sharedOne.domain.OrderItemDto" id="itemMap">
