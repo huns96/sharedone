@@ -23,9 +23,9 @@
         <my:Sidebar></my:Sidebar>
         <sec:authorize access="isAuthenticated()" var="login"></sec:authorize>
         <c:if test="${not login}">
-        <div class="container" style="margin-top: 200px; margin-left: 400px; width: 1000px;">
-            <div class="row">
-                <div class="col-5" style="text-align: center;">
+        <div class="container">
+            <div class="">
+                <div class="col-12" style="text-align: center; width: 30%; margin: 250px auto 0;">
                     <h1><i class="fa-solid fa-umbrella"></i></h1>
 
                     <form method="post">
