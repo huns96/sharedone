@@ -70,7 +70,7 @@
                     <option value="2">태블릿</option>
                   </optgroup>
                   </optgroup>
-                  <optgroup label="TV">
+                  <optgroup label="PC">
                     <option value="3">데스크탑</option>
                     <option value="4">노트북</option>
                   </optgroup>
@@ -339,10 +339,14 @@
   function submit(){ //product_register function
     const registerForm = document.querySelector('#registerForm');
     this.event.preventDefault();
-    if(productName.value ==='' || productEa.value ==='' || sel1.value ==='null'|| sel2.value ==='null' || sel3.value ==='null'
-    || sel1.value ==='' || sel2.value ==='' || sel3.value ===''){
-      alert("유효성 검사 해야됨!!");
-    }else{
+    if(productName.value ===''){
+      alert("아이디 확인");
+    }if(productEa.value ===''){
+      alert("단위 확인");
+    }if(sel1.value ==='null' || sel2.value ==='null' || sel3.value ==='null'){
+      alert("카테고리 확인");
+    }
+    else{
       registerForm.submit();
     }
   }
