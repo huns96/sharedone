@@ -74,10 +74,6 @@
             margin-right: 50px;
         }
 
-        .searchBtn {
-            background-color: white;
-            border-color: white;
-        }
     </style>
 </head>
 <body>
@@ -87,17 +83,9 @@
 
         <div class="col">
             <div class="search page-background">
-                <form action="/member/list" method="get">
-                <select name="" id="">
-                    <option value="">전체</option>
-                    <option value="이름">이름</option>
-                    <option value="아이디">아이디</option>
-                    <option value="연락처">연락처</option>
-                    <option value="등록일">등록일</option>
-                    <option value=권한">권한</option>
-                </select>
-                <input type="text" name="q" value="${param.q}">
-                <button class="searchBtn">검색</button>
+                <form action="/member/list" method="get" style="margin: 0;">
+                <input class="form-control" type="text" name="q" value="${param.q}" style="width: 200px; display: inline;" placeholder="통합검색">
+                <button class="btn btn-dark" style="margin-bottom: 4px;">검색</button>
                 </form>
             </div>
             <div class="col page-background" style="margin-left: 50px; margin-right: 50px">
