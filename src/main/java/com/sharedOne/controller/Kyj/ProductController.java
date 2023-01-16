@@ -12,8 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
+import java.sql.Timestamp;
 import java.util.*;
 
 @Controller
@@ -122,7 +124,7 @@ public class ProductController {
     }
 
     @PostMapping("register")
-    public String register(String name, String ea, int category,int category_id) {
+    public String register(String name, String ea, int category,int category_id,RedirectAttributes rttr) {
         System.out.println("name" + name);
         System.out.println("ea" + ea);
         System.out.println("category" + category);
@@ -158,7 +160,11 @@ public class ProductController {
         int insertProduct =
                productService.insertProduct(product_code, name, ea, category_id, adduser);
 
-        System.out.println(insertProduct);
+        if(insertProduct ==1){
+            rttr.addFlashAttribute("message","등록 완료");
+        }else{
+            rttr.addFlashAttribute("message","등록 실패");
+        }
 
 
         return "redirect:/product/list";
@@ -212,11 +218,28 @@ public class ProductController {
             }
 
             if(number == cnt){
-                System.out.println("삭제 완료요");
+                System.out.println("삭제 완료");
             }else{
                 System.out.println("삭제 안됨");
             }
             return "redirect:/product/list";
         }
     }
+
+    @PostMapping("modify")
+    public String modify(ProductDto product,RedirectAttributes rttr){
+        System.out.println("product" + product);
+        product.setUpduser("admin");
+        Timestamp now = new Timestamp(System.currentTimeMillis());
+        product.setUpddate(now);
+        int updateProduct = productService.updateProduct(product);
+        if(updateProduct ==1){
+            rttr.addFlashAttribute("message", "수정 완료");
+        }else{
+            rttr.addFlashAttribute("message","수정 실패");
+        }
+
+        return "redirect:/product/list";
+    }
+
 }

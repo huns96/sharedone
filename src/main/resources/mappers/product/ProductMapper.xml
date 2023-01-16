@@ -71,5 +71,10 @@
         and p.delyn = 'N'
     </select>
 
+    <update id="updateProduct">
+        UPDATE product SET name =#{name}, ea=#{ea},
+        upduser = #{upduser}, upddate = #{upddate} where product_code = #{product_code}
+    </update>
+
 </mapper>
 

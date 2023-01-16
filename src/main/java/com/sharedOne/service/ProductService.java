@@ -35,4 +35,8 @@ public class ProductService {
     public Page<ProductDto> getListByCategory(int category) {
         return productMapper.selectListByCategory(category);
     }
+
+    public int updateProduct(ProductDto product) {
+        return productMapper.updateProduct(product);
+    }
 }

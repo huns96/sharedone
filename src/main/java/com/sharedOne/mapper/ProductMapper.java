@@ -19,4 +19,6 @@ public interface ProductMapper {
     Page<ProductDto> selectProductByKeyword(String type, String newKeyword);
 
     Page<ProductDto> selectListByCategory(int category);
+
+    int updateProduct(ProductDto product);
 }

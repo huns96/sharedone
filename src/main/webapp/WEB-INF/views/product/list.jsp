@@ -34,6 +34,11 @@
   }
 </style>
 <body style="background-color: #e0e0e0;">
+<c:if test="${not empty message }">
+  <div class="alert alert-success" id="messageModal">
+      ${message }
+  </div>
+</c:if>
 <div class="container-fluid">
   <div class="row flex-nowrap">
     <my:Sidebar></my:Sidebar>
@@ -205,11 +210,12 @@
           </c:forEach>
           </tbody>
         </table>
+        <!-- 수정 모달 -->
         <div class="modal fade" id="modifyModal" tabindex="-1" aria-labelledby="modalModify" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <h1 class="modal-title fs-5" id="modalModify">}정보 수정</h1>
+                <h1 class="modal-title fs-5" id="modalModify">정보 수정</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
@@ -225,11 +231,11 @@
                     <label for="" class="col-form-label">단위:</label>
                     <input type="text" class="form-control" name="ea" required="required" id="productEa2">
                   </div>
-                  <div class="mb-3">
-                    <label for="" class="col-form-label">카테고리:</label>
-                    <input type="text" class="form-control" value="" readonly="readonly" style="background-color: #e0e0e0;" required="required">
-                    <input type="text" class="form-control" name="category" required="required" id="category2">
-                  </div>
+<%--                  <div class="mb-3">--%>
+<%--                    <label for="" class="col-form-label">카테고리:</label>--%>
+<%--                    <input type="text" class="form-control" value="" readonly="readonly" style="background-color: #e0e0e0;" required="required">--%>
+<%--                    <input type="text" class="form-control" name="category" required="required" id="category2">--%>
+<%--                  </div>--%>
                 </form>
 
               </div>
@@ -289,8 +295,11 @@
 
   const productName2 = document.querySelector("#productName2");
   const productEa2 = document.querySelector("#productEa2");
-  const category2 = document.querySelector("#category2");
 
+  setTimeout(function(){
+    if("${message}" != "")
+      document.querySelector("#messageModal").style.display='none';
+  },2000);
 
 
   function addSel2(){
@@ -380,14 +389,22 @@
     box.toggleAttribute("checked");
   }
 
+  const exampleModal = document.getElementById('modifyModal');
+  exampleModal.addEventListener('show.bs.modal', event =>{
+    const button = event.relatedTarget
+    const recipient = button.getAttribute('data-product-code')
+    const modalBodyInput = exampleModal.querySelector('.modal-body input')
+    modalBodyInput.value = recipient;
+    document.querySelector("#productCode").value = recipient;
+  })
+
   function submitModifyForm(){
     this.event.preventDefault();
-    if(productName2.value ==='' || productEa2.value ==='' || category2.value ===''){
+    if(productName2.value ==='' || productEa2.value ===''){
       alert("유효성 검사 해야됨");
     }else{
       document.querySelector("#modifyForm").submit()
               .then(
-
               );
     }
   }
