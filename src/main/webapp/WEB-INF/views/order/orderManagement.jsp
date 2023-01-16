@@ -143,14 +143,18 @@
                                     </td>
                                     <td>
                                         <c:if test="${order.status == '작성중'}">
-                                            <button type="button" class="btn btn-outline-primary btn-sm" onclick="changeStatus('${order.status}',${order.order_code},'승인요청')">승인요청</button>
-                                            <button type="button" class="btn btn-outline-danger btn-sm" onclick="changeStatus('${order.status}',${order.order_code},'종결')">종결</button>
+                                            <button type="button" class="btn btn-outline-primary btn-sm" onclick="checkStatus('${order.status}',${order.order_code},'승인요청')"
+                                                    data-bs-toggle="modal" data-bs-target="#changeStatusConfirmModal">승인요청</button>
+                                            <button type="button" class="btn btn-outline-danger btn-sm" onclick="checkStatus('${order.status}',${order.order_code},'종결')"
+                                                    data-bs-toggle="modal" data-bs-target="#changeStatusConfirmModal">종결</button>
                                         </c:if>
                                         <c:if test="${order.status == '승인요청'}">
-                                            <button type="button" class="btn btn-outline-secondary btn-sm" onclick="changeStatus('${order.status}',${order.order_code},'승인취소')">승인취소</button>
+                                            <button type="button" class="btn btn-outline-secondary btn-sm" onclick="checkStatus('${order.status}',${order.order_code},'승인취소')"
+                                                    data-bs-toggle="modal" data-bs-target="#changeStatusConfirmModal">승인요청취소</button>
                                         </c:if>
                                         <c:if test="${order.status == '승인반려'}">
-                                            <button type="button" class="btn btn-outline-danger btn-sm" onclick="changeStatus('${order.status}',${order.order_code},'종결')">종결</button>
+                                            <button type="button" class="btn btn-outline-danger btn-sm" onclick="checkStatus('${order.status}',${order.order_code},'종결')"
+                                                    data-bs-toggle="modal" data-bs-target="#changeStatusConfirmModal">종결</button>
                                         </c:if>
                                     </td>
                                 </tr>
@@ -178,8 +182,6 @@
                                 <th>기존단가</th>
                                 <th>등록자</th>
                                 <th>수정자</th>
-                                <%--<th>주문코드</th>
-                                <th>바이어명</th>--%>
                             </tr>
                             </thead>
                             <tbody></tbody>
@@ -191,6 +193,26 @@
     </div>
     </div>
 </div>
+
+<%-- 상태변경 확인 모달 --%>
+<div class="modal fade" id="changeStatusConfirmModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">주문상태 변경 확인</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-bs-dismiss="modal" onclick="changeStatus()" class="btn btn-primary">확인</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 <%--<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.ko.min.js" integrity="sha512-L4qpL1ZotXZLLe8Oo0ZyHrj/SweV7CieswUODAAPN/tnqN3PA1P+4qPu5vIryNor6HQ5o22NujIcAZIfyVXwbQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>--%>
@@ -316,18 +338,26 @@
         window.open(url,"",popupOption);
     }
 
-    /* 상태 변경 */
-    function changeStatus(nowStatus, orderCode, newStatus) {
-        /*let status = "";
-        if (nowStatus == '작성중') status = "승인요청";
-        if (nowStatus == '승인요청') status = "승인취소";*/
+    /* 상태 확인 */
+    let nowStatusValue = "";
+    let orderCodeValue = "";
+    let newStatusValue = "";
+    function checkStatus(nowStatus, orderCode, newStatus) {
+        nowStatusValue = nowStatus;
+        orderCodeValue = orderCode;
+        newStatusValue = newStatus;
+        $('.modal-body').empty();
+        $('.modal-body').append(orderCode + "번 주문을 <b>" + newStatus + "</b> 처리 하시겠습니까?");
+    }
 
+    /* 상태 변경 */
+    function changeStatus() {
         $.ajax({
             type: 'POST',
             url: '/order/changeStatus',
             data: {
-                "status": newStatus,
-                "orderCode": orderCode
+                "status": newStatusValue,
+                "orderCode": orderCodeValue
             },
             dataType : 'json',
             traditional: true,
