@@ -1,5 +1,6 @@
 package com.sharedOne.mapper.report;
 
+import com.sharedOne.domain.ProductDto;
 import com.sharedOne.domain.report.*;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -33,6 +34,10 @@ public interface ReportMapper {
                                           String from_add_date, String to_add_date, String product_code, String sumCondition);
 
     int countAll(String order_code, String buyer_code, String status, String from_request_date, String to_request_date, String adduser, String from_add_date, String to_add_date, String product_code, PageInfo pageInfo);
+
+    List<OrderDto> getOrderCodes();
+
+    List<ProductDto> getProducts();
 }
 
 

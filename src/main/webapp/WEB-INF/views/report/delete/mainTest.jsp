@@ -46,7 +46,7 @@
                 <thead><!-- table 기호에 맞게 -->
                 <tr> <!-- 데이터 받으면 그때 for문 -->
                     <th scope="col" class="table-head">#</th>
-                    <th scope="col" class="table-head">주문코드</th>
+                    <th scope="col" class="table-head">주문번호</th>
                     <th scope="col" class="table-head">주문코드</th>
                     <th scope="col" class="table-head">주문코드</th>
                     <th scope="col" class="table-head">주문코드</th>
