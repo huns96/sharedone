@@ -63,6 +63,7 @@ public class BuyerController {
         System.out.println(buyer_code); // buyer_code 만듬
         buyer.setBuyer_code(buyer_code);
         buyer.setAdduser("admin");
+        System.out.println("this is buyer" + buyer);
 
         int insertBuyer = buyerService.insertBuyer(buyer);
 

@@ -12,22 +12,65 @@
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
 <html>
 <head>
-  <title>asdf</title>
+  <title>Product</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.0-beta3/css/bootstrap.min.css" integrity="sha512-N415hCJJdJx+1UBfULt+i+ihvOn42V/kOjOpp1UTh4CZ70Hx5bDlKryWaqEKfY/8EYOu/C2MuyaluJryK1Lb5Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.0-beta3/js/bootstrap.min.js" integrity="sha512-mp3VeMpuFKbgxm/XMUU4QQUcJX4AZfV5esgX72JQr7H7zWusV6lLP1S78wZnX2z9dwvywil1VHkHZAqfGOW7Nw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
-<body>
+<style>
+  tr > .table-head{
+    text-align: center;
+    background-color:#e0e0e0;
+  }
+
+  tr > .td-body{
+    text-align: center;
+  }
+
+  tbody .row-head{
+    text-align:center;
+    vertical-align: middle;
+  }
+</style>
+<body style="background-color: #e0e0e0;">
 <div class="container-fluid">
   <div class="row flex-nowrap">
     <my:Sidebar></my:Sidebar>
     <div class="col py-3 mt-5" style="margin: 60px;">
-      <h1 style="margin-bottom: 50px;">제품 리스트</h1>
-      <div class="col-2 mt-3" style="text-align: right;">
-        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#registerModal">등록</button>
-        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="deleteCheck()" id="deleteCheck">삭제</button>
+      <div class="p-3 mt-3 mb-3" style="background-color: white;">
+        <table style="align-content: end;">
+          <tr>
+            <td style="">
+              <form action="${pageContext.request.contextPath}/product/listSearch" method="get">
+                <select name="search" id="" style="width: 94px;">
+                  <option value="all">통합검색</option>
+                  <option value="product_code">제품 코드</option>
+                  <option value="name">이름</option>
+                </select>
+
+                <input type="text" placeholder="search" name="keyword">
+                <button>전송</button>
+                <button onclick="location.replace(`${pageContext.request.contextPath}/product/list`)">초기화</button>
+              </form>
+            </td>
+          </tr>
+        </table>
       </div>
+      <div style="background-color: white;">
+        <div class="row p-2 justify-content-between">
+          <div class="col-4 mt-3"><h5 style="font-weight: bold;">제품 목록</h5></div>
+          <div class="col-2 mt-3" style="text-align: right;">
+            <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#registerModal">등록</button>
+            <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="deleteCheck()" id="deleteCheck">삭제</button>
+          </div>
+        </div>
+<%--      <div class="col-2 mt-3" style="text-align: right;">--%>
+<%--        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#registerModal">등록</button>--%>
+<%--        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="deleteCheck()" id="deleteCheck">삭제</button>--%>
+<%--      </div>--%>
+
+
 
       <!-- register Modal -->
       <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -53,9 +96,9 @@
                   <label for="registerForm" class="col-form-label">카테고리:</label>
                   <select name="category" id="sel1" onchange="addSel2()" class="form-select mb-1">
                     <option selected="selected" value="null" disabled>SELECTED</option>
-                    <option value="88">모바일</option>
-                    <option value="89">TV</option>
-                    <option value="90">가전</option>
+                    <option value="1">모바일</option>
+                    <option value="2">TV</option>
+                    <option value="3">가전</option>
                   </select>
                   <select name="" id="sel2" onchange="addSel3()" class="form-select mb-1">
                     <option selected="selected" value="null" disabled>SELECTED</option>
@@ -149,7 +192,7 @@
               <div class="modal-body">
                 <form action="${pageContext.request.contextPath}/product/modify" method="post" id="modifyForm">
                   <label for="" class="col-form-label">제품코드:</label>
-                  <input type="text" class="form-control" value="" readonly="readonly" style="background-color: lightgrey;" required="required">
+                  <input type="text" class="form-control" value="" readonly="readonly" style="background-color: #e0e0e0;" required="required">
                   <input type="hidden" class="form-control" name="product_code" value="" required="required" id="productCode">
                   <div class="mb-3">
                     <label for="" class="col-form-label">제품명:</label>
@@ -161,7 +204,7 @@
                   </div>
                   <div class="mb-3">
                     <label for="" class="col-form-label">카테고리:</label>
-                    <input type="text" class="form-control" value="" readonly="readonly" style="background-color: lightgrey;" required="required">
+                    <input type="text" class="form-control" value="" readonly="readonly" style="background-color: #e0e0e0;" required="required">
                     <input type="text" class="form-control" name="category" required="required" id="category2">
                   </div>
                 </form>
@@ -175,6 +218,33 @@
           </div>
         </div>
 
+      </div>
+
+      </div>
+      <!-- Pagination -->
+      <div class="row justify-content-center">
+        <div class="col-3">
+          <nav aria-label="Page navigation example">
+            <ul class="pagination">
+              <li class="page-item">
+                <c:url value="/product/list" var="pageLink"></c:url>
+                <a class="page-link" href="${pageLink }?page=1" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                </a>
+              </li>
+              <c:forEach begin="1" end="${pages }" varStatus="status" var="pageNumb">
+                <li class="page-item">
+                  <a class="page-link" href="${pageLink }?page=${pageNumb}">${pageNumb }</a>
+                </li>
+              </c:forEach>
+              <li class="page-item">
+                <a class="page-link" href="${pageLink }?page=${pages}" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
       </div>
     </div>
   </div>
