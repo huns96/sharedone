@@ -35,8 +35,8 @@
 </style>
 <body style="background-color: #e0e0e0;">
 <c:if test="${not empty message }">
-  <div class="alert alert-success" id="messageModal">
-      ${message }
+  <div class="alert alert-success" id="messageModal" role="alert">
+    <h4 class="alert-heading" style="text-align: center"> ${message } </h4>
   </div>
 </c:if>
 <div class="container-fluid">
@@ -90,13 +90,28 @@
           <div class="col-4 mt-3"><h5 style="font-weight: bold;">제품 목록</h5></div>
           <div class="col-2 mt-3" style="text-align: right;">
             <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#registerModal">등록</button>
-            <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="deleteCheck()" id="deleteCheck">삭제</button>
+            <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" id="deleteCheck">삭제</button>
           </div>
         </div>
-<%--      <div class="col-2 mt-3" style="text-align: right;">--%>
-<%--        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#registerModal">등록</button>--%>
-<%--        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="deleteCheck()" id="deleteCheck">삭제</button>--%>
-<%--      </div>--%>
+      <!-- remove modal -->
+        <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5">삭제 확인</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                  삭제하시겠습니까?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                <button class="btn btn-danger" onclick="deleteCheck()">확인</button>
+              </div>
+
+            </div>
+          </div>
+        </div>
 
 
 
@@ -125,7 +140,7 @@
                   <select name="category" id="sel1" onchange="addSel2()" class="form-select mb-1">
                     <option selected="selected" value="null" disabled>SELECTED</option>
                     <option value="1">모바일</option>
-                    <option value="2">TV</option>
+                    <option value="2">PC</option>
                     <option value="3">가전</option>
                   </select>
                   <select name="" id="sel2" onchange="addSel3()" class="form-select mb-1">
@@ -186,7 +201,7 @@
               <td class="td-body">${item.upddate}</td>
               <td>
                 <div class="d-flex justify-content-center" style="margin: 0;">
-                  <button class="btn btn-warning btn-sm" style="color: white;" id=`modify${item.product_code}` data-product-code="${item.product_code}" data-product-category="${item.category_id}" data-bs-toggle="modal" data-bs-target="#modifyModal">수정</button>
+                  <button class="btn btn-warning btn-sm" style="color: white;" id=`modify${item.product_code}` data-product-code="${item.product_code}" data-product-name="${item.name}" data-product-ea="${item.ea}" data-product-category="${item.category_id}" data-bs-toggle="modal" data-bs-target="#modifyModal">수정</button>
                 </div>
               </td>
             </tr>
@@ -345,12 +360,13 @@
       checked.forEach((e) =>{
         checkedList.push(e.value);
       })
-      alert(checkedList);
       executeDelete(checkedList);
       checkedList=[];
     }
     else{
+      $('#deleteModal').hide();
       alert("제품 선택");
+      location.reload();
     }
   }
 
@@ -360,6 +376,7 @@
             }
     )
   }
+
 
   function checkAll(selectAll){
     const productAll = document.querySelector("#productAll");
@@ -383,15 +400,21 @@
   exampleModal.addEventListener('show.bs.modal', event =>{
     const button = event.relatedTarget
     const recipient = button.getAttribute('data-product-code')
+    const recipient2 = button.getAttribute('data-product-name')
+    const recipient3 = button.getAttribute('data-product-ea')
     const modalBodyInput = exampleModal.querySelector('.modal-body input')
     modalBodyInput.value = recipient;
     document.querySelector("#productCode").value = recipient;
+    document.querySelector("#productName2").value = recipient2;
+    document.querySelector("#productEa2").value = recipient3;
   })
 
   function submitModifyForm(){
     this.event.preventDefault();
-    if(productName2.value ==='' || productEa2.value ===''){
-      alert("유효성 검사 해야됨");
+    if(productName2.value ===''){
+      alert("제품명 입력");
+    }if(productEa2.value ===''){
+      alert("단위 입력");
     }else{
       document.querySelector("#modifyForm").submit()
               .then(

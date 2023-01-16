@@ -39,8 +39,8 @@
 </style>
 <body>
 <c:if test="${not empty message }">
-    <div class="alert alert-success" id="messageModal">
-            ${message }
+    <div class="alert alert-success" id="messageModal" role="alert">
+           <h4 class="alert-heading" style="text-align: center"> ${message } </h4>
     </div>
 </c:if>
 <div class="container-fluid">
@@ -86,7 +86,28 @@
                     <div class="col-4 mt-3"><h5 style="font-weight: bold;">바이어 목록</h5></div>
                     <div class="col-2 mt-3" style="text-align: right;">
                         <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#registerModal">등록</button>
-                        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="deleteCheck()" id="deleteCheck">삭제</button>
+                        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" id="deleteCheck">삭제</button>
+                    </div>
+                </div>
+
+
+                <!-- remove modal -->
+                <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5">삭제 확인</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                삭제하시겠습니까?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                                <button class="btn btn-danger" onclick="deleteCheck()">확인</button>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
 
@@ -127,12 +148,12 @@
 
                                     <div class="mb-3">
                                         <label class="col-form-label">사업자 번호:</label>
-                                        <input type="text" class="form-control" name="license" required id="license" placeholder="사업자번호(정확히)">
+                                        <input type="text" class="form-control" name="license" required id="license" placeholder="사업자번호 ex)111-22-33333">
                                     </div>
 
                                     <div class="mb-3">
                                         <label class="col-form-label">전화 번호:</label>
-                                        <input type="text" class="form-control" name="contact" required id="contact" placeholder="전화번호(정확히)">
+                                        <input type="text" class="form-control" name="contact" required id="contact" placeholder="전화번호 ex)02-123-4567">
                                     </div>
 
                                 </form>
@@ -208,7 +229,8 @@
                                 <td class="td-body">${item.upddate}</td>
                                 <td>
                                     <div class="d-flex justify-content-center" style="margin: 0;">
-                                        <button class="btn btn-warning btn-sm" style="color: white;" id=`modify${item.buyer_code}` data-buyer-code="${item.buyer_code}" data-buyer-country="${item.country}" data-bs-toggle="modal" data-bs-target="#modifyModal">수정</button>
+                                        <button class="btn btn-warning btn-sm" style="color: white;" id=`modify${item.buyer_code}` data-buyer-code="${item.buyer_code}" data-buyer-country="${item.country}"
+                                                data-buyer-name="${item.name}" data-buyer-address="${item.address}" data-buyer-license="${item.license}" data-buyer-contact="${item.contact}" data-bs-toggle="modal" data-bs-target="#modifyModal">수정</button>
                                     </div>
                                 </td>
                             </tr>
@@ -372,13 +394,14 @@
             checked.forEach((e) =>{
                 checkedList.push(e.value);
             })
-            alert(checkedList);
             // 삭제 하시겠습니까? 모달 띠우고 확인 누르면 삭제쿼리 실행.
             executeDelete(checkedList);
             checkedList =[];
         }
         else{
+            $('#deleteModal').hide();
             alert("바이어 선택");
+            location.reload();
         }
         // checked.forEach((e) =>{
         //     alert(e.value);
@@ -438,12 +461,21 @@
             const button = event.relatedTarget
             const recipient = button.getAttribute('data-buyer-code')
             const buyerCountry = button.getAttribute('data-buyer-country');
+            const buyerCode = button.getAttribute('data-buyer-code');
+            const buyerName = button.getAttribute('data-buyer-name');
+            const buyerAddress = button.getAttribute('data-buyer-address');
+            const buyerLicense = button.getAttribute('data-buyer-license');
+            const buyerContact = button.getAttribute('data-buyer-contact');
             const modalBodyInput = exampleModal.querySelector('.modal-body input')
             const modalbuyerInput = exampleModal.querySelector('.modal-body .country')
             modalBodyInput.value = recipient
             modalbuyerInput.value = buyerCountry
-            document.querySelector("#buyerCode").value = recipient;
+            document.querySelector("#buyerCode").value = buyerCode;
             document.querySelector("#buyerCountry").value = buyerCountry;
+            document.querySelector("#buyerName").value = buyerName;
+            document.querySelector("#buyerAddress").value = buyerAddress;
+            document.querySelector("#buyerLicense").value = buyerLicense;
+            document.querySelector("#buyerContact").value = buyerContact;
         });
 
         function submitModifyForm(){
