@@ -28,7 +28,11 @@ public class ProductService {
         return productMapper.deleteProduct(product_code);
     }
 
-    public List<ProductDto> getProductByKewrod(String type, String newKeyword) {
+    public Page<ProductDto> getProductByKeword(String type, String newKeyword) {
         return productMapper.selectProductByKeyword(type, newKeyword);
+    }
+
+    public Page<ProductDto> getListByCategory(int category) {
+        return productMapper.selectListByCategory(category);
     }
 }

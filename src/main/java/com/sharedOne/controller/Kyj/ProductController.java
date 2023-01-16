@@ -79,13 +79,44 @@ public class ProductController {
     }
 
     @GetMapping("listSearch")
-    public String listSearch(Model model,
+    public String listSearch(Model model, @RequestParam(defaultValue = "1")int page,
                              @RequestParam(name="search",defaultValue = "all")String type,
                              @RequestParam(name="keyword",defaultValue = "")String keyword){
 
+        PageHelper.startPage(page, 10);
         String newKeyword = "%"+keyword+"%";
-        List<ProductDto> productDtos = productService.getProductByKewrod(type,newKeyword);
-        model.addAttribute("products",productDtos);
+        Page<ProductDto> productDtos = productService.getProductByKeword(type,newKeyword);
+        model.addAttribute("pageNum", productDtos.getPageNum());
+        model.addAttribute("pageSize", productDtos.getPageSize());
+        model.addAttribute("pages", productDtos.getPages());
+        model.addAttribute("total",productDtos.getTotal());
+        model.addAttribute("products", productDtos.getResult());
+
+        return "product/list";
+    }
+
+    @GetMapping("listSearchCategory")
+    public String listSearch(Model model, @RequestParam(defaultValue = "1")int page,
+                             @RequestParam(name="categoryId", defaultValue = "")String categoryId){
+       // System.out.println("THIS IS CATEGORYID" + categoryId); // middle category
+        PageHelper.startPage(page, 10);
+
+        if(categoryId.equals("")){
+            Page<ProductDto> products = productService.getList();
+            model.addAttribute("pageNum", products.getPageNum());
+            model.addAttribute("pageSize", products.getPageSize());
+            model.addAttribute("pages", products.getPages());
+            model.addAttribute("total",products.getTotal());
+            model.addAttribute("products", products);
+        }else {
+            int category = Integer.parseInt(categoryId);
+            Page<ProductDto> products = productService.getListByCategory(category);
+            model.addAttribute("pageNum", products.getPageNum());
+            model.addAttribute("pageSize", products.getPageSize());
+            model.addAttribute("pages", products.getPages());
+            model.addAttribute("total",products.getTotal());
+            model.addAttribute("products", products);
+        }
 
         return "product/list";
     }
