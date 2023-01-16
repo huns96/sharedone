@@ -100,7 +100,7 @@ public class ProductController {
         if (category == 1) {
             product_code = "MO";
         } else if (category == 2) {
-            product_code = "TV";
+            product_code = "PC";
         } else if (category == 3) {
             product_code = "HO";
         } //category_id = integer

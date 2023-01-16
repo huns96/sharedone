@@ -61,7 +61,7 @@
         <div class="row p-2 justify-content-between">
           <div class="col-4 mt-3"><h5 style="font-weight: bold;">제품 목록</h5></div>
           <div class="col-2 mt-3" style="text-align: right;">
-            <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#registerModal">등록</button>
+            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#registerModal">등록</button>
             <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="deleteCheck()" id="deleteCheck">삭제</button>
           </div>
         </div>
@@ -211,7 +211,7 @@
 
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="submitModifyForm()">수정</button>
+                <button type="button" class="btn btn-warning" onclick="submitModifyForm()">수정</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">나가기</button>
               </div>
             </div>
