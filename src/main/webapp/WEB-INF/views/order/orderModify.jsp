@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -7,17 +8,28 @@
     <title>주문 수정</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" integrity="sha512-aOG0c6nPNzGk+5zjwyJaoRUgCdOrfSDhmMID2u4+OIslr0GjpLKo7Xm0Ao3xmpM4T8AmIouRkqwj1nrdVsLKEQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         body { padding: 20px; }
-        h3 { margin-bottom: 30px; }
+        table { text-align: center }
+        td, th {
+            padding: 1em .5em;
+            vertical-align: middle;
+        }
+        h4 { margin-bottom: 20px; }
         input:read-only {
             background-color: #e0e0e0;
         }
+        #item-button {
+            padding-top: 32px;
+            padding-left: 70px;
+        }
+        #tableDiv { margin: 10px; }
     </style>
 </head>
 <body>
 <header>
-    <h3><b>주문 수정</b></h3>
+    <h4><b>주문 수정</b></h4>
 </header>
 <form id="newOrderForm" class="form-horizontal">
     <div class="row">
@@ -46,7 +58,7 @@
     <div class="row">
         <div class="col-md-6 mb-3">
             <label for="requestDate" class="form-label">납품요청일</label>
-            <input id="requestDate" type="date" class="form-control orderInfo" name="request_date" value="${order.request_date}" required="required" />
+            <input id="requestDate" type="text" class="form-control orderInfo" name="request_date" value="${order.request_date}" required="required" />
         </div>
         <div class="col-md-6 mb-3">
             <label for="orderDate" class="form-label">주문일</label>
@@ -82,14 +94,14 @@
             <label for="quantity" class="form-label">수량</label>
             <input id="quantity" type="number" class="form-control" name="quantity" required="required" />
         </div>
-        <div class="col-md-4 mb-3">
+        <div id="item-button" class="col-md-4 mb-3">
             <label class="form-label"></label>
-            <button type="button" id="resetItemButton" class="btn btn-danger">초기화</button>
-            <button type="button" id="addNewItemButton" class="btn btn-danger">상품추가</button>
+            <button type="button" id="resetItemButton" class="btn btn-secondary">초기화</button>
+            <button type="button" id="addNewItemButton" class="btn btn-success">상품추가</button>
         </div>
     </div>
-    <div class="row">
-        <table class="table table-hover" id="Item-table">
+    <div id="tableDiv" class="row">
+        <table class="table table-hover" id="item-table">
             <thead>
             <tr>
                 <th>#</th>
@@ -98,7 +110,8 @@
                 <th>수량</th>
                 <th>단가</th>
                 <th>총금액</th>
-                <th>X</th>
+                <th>수정</th>
+                <th>삭제</th>
             </tr>
             </thead>
             <tbody>
@@ -108,9 +121,16 @@
                     <td>${item.product_code}</td>
                     <td>${item.product_name}</td>
                     <td>${item.quantity}</td>
-                    <td>${item.price}</td>
-                    <td>${item.total_price}</td>
-                    <td>X</td>
+                    <td><fmt:formatNumber value="${item.price}" pattern="#,###"/></td>
+                    <%--<td>${item.price}</td>--%>
+                    <td><fmt:formatNumber value="${item.total_price}" pattern="#,###"/></td>
+                    <%--<td>${item.total_price}</td>--%>
+                    <td>
+                        <button type="button" class="btn btn-outline-warning btn-sm" onclick="modifyItem(${status.count})">수정</button>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-outline-danger btn-sm" onclick="removeItem(${status.count})">삭제</button>
+                    </td>
                 </tr>
             </c:forEach>
             </tbody>
@@ -118,21 +138,43 @@
     </div>
 </form>
 
-<footer style="float: right; justify-content: flex-end;">
-    <button type="button" id="modifyOrderSubmitButton" class="btn btn-danger">주문수정</button>
+<footer style="float: right; justify-content: flex-end; margin-bottom: 20px;">
+    <button type="button" id="modifyOrderSubmitButton" class="btn btn-primary">주문수정</button>
     <button type="button" class="btn btn-secondary" onclick="window.close();">취소</button>
 </footer>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
-<%--    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.ko.min.js" integrity="sha512-L4qpL1ZotXZLLe8Oo0ZyHrj/SweV7CieswUODAAPN/tnqN3PA1P+4qPu5vIryNor6HQ5o22NujIcAZIfyVXwbQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>--%>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script type="text/javascript">
-    //let orderItemList = []; //주문 등록 모달창의 상품(표) 리스트
-    let addtemList = [];
-    let removeItemList = [];
+
+    let orderItemList = [];
+    let oldItemList = []; // 기존 상품 리스트
+    let list;
+    <c:forEach items="${itemList}" var="item">
+        list = [];
+        list.push("${item.product_code}");
+        list.push("${item.product_name}");
+        list.push("${item.quantity}");
+        list.push("${item.price}");
+        list.push("${item.total_price}");
+        oldItemList.push(list);
+        orderItemList.push(list);
+    </c:forEach>
+    let addItemList = []; // 추가된 상품 리스트
+    let removeItemList = []; // 삭제된 상품 리스트
+    let modifyItemList = []; // 수정된 상품 리스트
+    let modifyFlag = false; // 수정 여부
+    let modifyIndex; // 수정할 상품의 index
+
+    //setItemList();
 
     $(function() {
         /* 납품 요청일 */
-        //$('#requestDate')
+        $('#requestDate').datepicker({
+            dateFormat: "yy-mm-dd",
+            minDate: 0
+        }); //오늘이후 선택가능
+        $('#requestDate').attr("readonly",true).attr("style","background-color:white;");
 
         /* 상품 검색 팝업창 */
         $('#productPopupButton').click(function() {
@@ -172,7 +214,6 @@
 
         /* 주문 수정 전송 버튼 */
         $('#modifyOrderSubmitButton').click(function() {
-            console.log("-------------");
             modifyOrder();
         });
 
@@ -205,43 +246,174 @@
         let price = $('#price').val();
         let totalPrice = quantity * price;
 
+        // 상품 수정인 경우 해당 상품 삭제 후 변경사항 추가
+        if (modifyFlag) {
+            orderItemList.splice(modifyIndex,1);
+            getItemList(orderItemList);
+        }
+
         // 상품 중복 확인
         let dupli = false;
         for(var i = 0; i<orderItemList.length; i++) {
             if (orderItemList[i][0] == productCode) {
                 dupli = true;
+                break;
             }
         }
         if (dupli == false) {
             const itemList = [productCode, productName, quantity, price, totalPrice];
             orderItemList.push(itemList);
+
+            let existListflag = "false";
+            for (var i = 0; i<oldItemList.length; i++) {
+                if (oldItemList[i][0] == itemList[0]) {
+                    existListflag = "true";
+                    if (oldItemList[i][2] == itemList[2] && oldItemList[i][3] == itemList[3]) {
+                        existListflag = "-";
+                    }
+                    break;
+                }
+            }
+            console.log(existListflag);
+            if (existListflag == "true") {
+                for(var i = 0; i<modifyItemList.length; i++) {
+                    if (modifyItemList[i][0] == itemList[0]) {
+                        modifyItemList.splice(i,1);
+                        break;
+                    }
+                }
+                modifyItemList.push(itemList); // 수정한 상품
+            } else if (existListflag == "false") {
+                for(var i = 0; i<addItemList.length; i++) {
+                    if (addItemList[i][0] == itemList[0]) {
+                        addItemList.splice(i,1);
+                        break;
+                    }
+                }
+                addItemList.push(itemList); // 새로 추가한 상품
+            } else {
+                for(var i = 0; i<modifyItemList.length; i++) {
+                    if (modifyItemList[i][0] == itemList[0]) {
+                        modifyItemList.splice(i,1);
+                        break;
+                    }
+                }
+                for(var i = 0; i<addItemList.length; i++) {
+                    if (addItemList[i][0] == itemList[0]) {
+                        addItemList.splice(i,1);
+                        break;
+                    }
+                }
+            }
+
+            for (var i = 0; i<removeItemList.length; i++) {
+                if (removeItemList[i][0] == itemList[0]) {
+                    removeItemList.splice(i, 1);
+                    break;
+                }
+            }
             itemListInPopup(itemList, orderItemList);
 
         } else {
             alert("상품번호 " + productCode + "가 중복됩니다.");
         }
         resetItemInfo();
+        modifyFlag = false;
     }
 
+    /* 주문상품 리스트 추가 */
     function itemListInPopup(itemList, orderItemList) {
-        let tbody = $('#Item-table tbody');
+        let tbody = $('#item-table tbody');
         tbody.append("");
         tbody.append(
             "<tr>"
             + "<td>" + orderItemList.length + "</td>"
             + "<td>" + itemList[0] + "</td>"
             + "<td>" + itemList[1] + "</td>"
-            + "<td>" + itemList[2] + "</td>"
-            + "<td>" + itemList[3] + "</td>"
-            + "<td>" + itemList[4] + "</td>"
-            + "<td>X</td>"
+            + "<td>" + parseInt(itemList[2]).toLocaleString() + "</td>"
+            + "<td>" + parseInt(itemList[3]).toLocaleString() + "</td>"
+            + "<td>" + parseInt(itemList[4]).toLocaleString() + "</td>"
+            + "<td style='width: 80px;'>"
+            +    "<button type='button' class='btn btn-outline-warning btn-sm' onclick='modifyItem(" + orderItemList.length + ")'>수정</button>"
+            + "</td>"
+            + "<td style='width: 80px;'>"
+            +    "<button type='button' class='btn btn-outline-danger btn-sm' onclick='removeItem(" + orderItemList.length + ")'>삭제</button>"
+            + "</td>"
             + "</tr>"
         );
+    }
+
+    /* 주문상품 리스트 조회 */
+    function getItemList(orderItemList) {
+        let tbody = $('#item-table tbody');
+        tbody.empty(); //초기화
+        tbody.append("");
+        for (var i = 0; i < orderItemList.length; i++) {
+            tbody.append(
+                "<tr>"
+                + "<td>" + orderItemList.length + "</td>"
+                + "<td>" + orderItemList[i][0] + "</td>"
+                + "<td>" + orderItemList[i][1] + "</td>"
+                + "<td>" + parseInt(orderItemList[i][2]).toLocaleString() + "</td>"
+                + "<td>" + parseInt(orderItemList[i][3]).toLocaleString() + "</td>"
+                + "<td>" + parseInt(orderItemList[i][4]).toLocaleString() + "</td>"
+                + "<td style='width: 80px;'>"
+                +    "<button type='button' class='btn btn-outline-secondary btn-sm' onclick='modifyItem(" + orderItemList.length + ")'>수정</button>"
+                + "</td>"
+                + "<td style='width: 80px;'>"
+                +    "<button type='button' class='btn btn-outline-secondary btn-sm' onclick='removeItem(" + orderItemList.length + ")'>삭제</button>"
+                + "</td>"
+                + "</tr>"
+            );
+        }
+
+    }
+
+    /* 상품 삭제 */
+    function removeItem(index) {
+        //let existListflag = false;
+        let removeList = orderItemList[index-1];
+        for (var i = 0; i<oldItemList.length; i++) {
+            if (oldItemList[i][0] == removeList[0]) {
+                removeItemList.push(removeList); // 삭제한 상품 리스트
+                break;
+            }
+        }
+
+        // 상품 삭제일 경우에는 addItemList와 modifyItemList에서 삭제
+        for (var i = 0; i<addItemList.length; i++) {
+            if (addItemList[i][0] == removeList[0]) {
+                addItemList.splice(i, 1);
+                break;
+            }
+        }
+        for (var i = 0; i<modifyItemList.length; i++) {
+            if (modifyItemList[i][0] == removeList[0]) {
+                modifyItemList.splice(i, 1);
+                break;
+            }
+        }
+        orderItemList.splice(index-1, 1);
+        getItemList(orderItemList);
+    }
+
+    /* 상품 수정 정보 가져오기*/
+    function modifyItem(index) {
+        index = index-1;
+        let list = orderItemList[index];
+        $('#productCode').val(list[0]);
+        $('#productName').val(list[1]);
+        $('#quantity').val(list[2]);
+        $('#price').val(list[3]);
+        $('#productPopupButton').attr('style','pointer-events:none;');
+        modifyIndex = index;
+        modifyFlag = true;
     }
 
 
     /* 상품입력창 초기화 */
     function resetItemInfo() {
+        $('#productPopupButton').removeAttr('style');
         $('#productCode').val("");
         $('#productName').val("");
         $('#quantity').val("");
@@ -251,7 +423,16 @@
     /* 주문 수정 */
     function modifyOrder() {
         let queryString = $(".orderInfo").serialize();
-        console.log(queryString);
+        /*console.log('orderItemList');
+        console.log(orderItemList);
+        console.log('oldItemList');
+        console.log(oldItemList);
+        console.log('addItemList');
+        console.log(addItemList);
+        console.log('removeItemList');
+        console.log(removeItemList);
+        console.log('modifyItemList');
+        console.log(modifyItemList);*/
         $.ajax({
             type: 'POST',
             url: '/order/modify',
@@ -259,11 +440,12 @@
             success: function (data) {
                 console.log(data);
                 var objParams = {
-                    "addItems" : orderItemList,
-                    "removeItems" : orderItemList,
+                    "addItems" : addItemList,
+                    "removeItems" : removeItemList,
+                    "modifyItems" : modifyItemList,
                     "orderCode" : data
                 };
-                /*$.ajax({
+                $.ajax({
                     type: 'POST',
                     url: '/order/modifyItem',
                     data: objParams,
@@ -273,7 +455,7 @@
                         console.log(result);
 
                     }
-                });*/
+                });
             }
         });
 

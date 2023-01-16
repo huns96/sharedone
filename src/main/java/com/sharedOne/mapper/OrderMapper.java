@@ -12,7 +12,7 @@ public interface OrderMapper {
 
     int insertOrderItem(OrderItemDto itemDto);
 
-    List<OrderDto> listOrder();
+    List<OrderDto> listOrder(String orderCode, String buyerCode, String status, String adduser, String upduser);
 
     List<OrderItemDto> listItem(String orderCode);
 
@@ -20,6 +20,13 @@ public interface OrderMapper {
 
     int updateOrder(OrderDto orderDto);
 
+    void updateOrderItem(OrderItemDto item);
+
+    void removeOrderItem(OrderItemDto item);
 
     int changeStatus(OrderDto orderDto);
+
+    void removeOrder(OrderDto orderDto);
+
+    void removeAllOrderItem(OrderItemDto item);
 }

@@ -9,12 +9,30 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         body { padding: 20px; }
-        .footer { float: right; }
+        .footer { float: right; position: absolute; bottom:6%; right:6%; }
+        #searchTypeSelect{
+            width: 130px;
+        }
+        #searchInput {
+            width: 200px;
+        }
     </style>
 </head>
 <body>
 <div id="buyerPopup">
     <h4><b>바이어 목록</b></h4>
+    <form action="/search/buyerPopup" role="search" style="display: flex; margin: 20px 0;">
+        <select name="type" id="searchTypeSelect" class="form-select search-select">
+            <%--<option value="all"></option>--%>
+            <option value="buyer_code" ${param.type == 'buyer_code' ? 'selected' : '' }>바이어코드</option>
+            <option selected value="buyer_name" ${param.type == 'buyer_name' ? 'selected' : '' }>바이어명</option>
+        </select>
+        <input value="${param.value }" id="searchInput" class="form-control search-input" type="text" name="value">
+        <div class="buttonDiv" style="position: absolute; right:6%;">
+            <button id="reset-btn" class="btn btn-secondary search-btn" type="button">초기화</button>
+            <button class="btn btn-dark search-btn" type="submit">조회</button>
+        </div>
+    </form>
     <table class="table" id="buyer-table">
         <thead>
         <tr>
@@ -38,7 +56,7 @@
         </tbody>
     </table>
     <div class="footer">
-        <button type="button" id="confirm" class="btn btn-danger">확인</button>
+        <button type="button" id="confirm" class="btn btn-primary">확인</button>
         <button type="button" class="btn btn-secondary" onclick="window.close()">취소</button>
     </div>
 </div>
@@ -57,6 +75,11 @@
             } else {
                 this.checked = false;
             }
+        });
+
+        /* 검색 초기화 */
+        $('#reset-btn').click(function() {
+            $('#searchInput').val("");
         });
 
         /* 확인 버튼 */

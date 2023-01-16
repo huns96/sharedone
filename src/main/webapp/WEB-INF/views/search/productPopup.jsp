@@ -69,9 +69,9 @@
         });
 
         /* 부모창에서 값 가져오기 */
-        $("#buyerCode").val(opener.$("#newBuyerCode").val());
-        $("#buyerName").val(opener.$("#newBuyerName").val());
-        $("#orderDate").val(opener.$("#newOrderDate").val());
+        $("#buyerCode").val(opener.$("#buyerCode").val());
+        $("#buyerName").val(opener.$("#buyerName").val());
+        $("#orderDate").val(opener.$("#orderDate").val());
 
         /* 확인 버튼 */
         $('#confirm').click(function() {
