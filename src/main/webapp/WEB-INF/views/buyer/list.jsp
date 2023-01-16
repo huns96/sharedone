@@ -11,7 +11,7 @@
 
 <html>
 <head>
-    <title>Title</title>
+    <title>Buyer</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.0-beta3/css/bootstrap.min.css" integrity="sha512-N415hCJJdJx+1UBfULt+i+ihvOn42V/kOjOpp1UTh4CZ70Hx5bDlKryWaqEKfY/8EYOu/C2MuyaluJryK1Lb5Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.0-beta3/js/bootstrap.min.js" integrity="sha512-mp3VeMpuFKbgxm/XMUU4QQUcJX4AZfV5esgX72JQr7H7zWusV6lLP1S78wZnX2z9dwvywil1VHkHZAqfGOW7Nw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -19,12 +19,12 @@
 </head>
 <style>
     body{
-        background-color: lightgray;
+        background-color: #e0e0e0;
     }
 
     tr > .table-head{
         text-align: center;
-        background-color:lightgray;
+        background-color:#e0e0e0;
     }
 
     tbody .row-head{
@@ -35,6 +35,7 @@
     tr > .td-body{
         text-align: center;
     }
+
 </style>
 <body>
 <c:if test="${not empty message }">
@@ -102,27 +103,36 @@
                                 <form action="${pageContext.request.contextPath}/buyer/register" method="post" id="registerForm">
                                     <div class="mb-3">
                                         <label class="col-form-label">바이어 명:</label>
-                                        <input type="text" class="form-control" name="name" required id="name">
+                                        <input type="text" class="form-control" name="name" required id="name" placeholder="한글/영문">
                                     </div>
 
                                     <div class="mb-3">
                                         <label class="col-form-label">바이어 주소:</label>
-                                        <input type="text" class="form-control" name="address" required id="address">
+                                        <input type="text" class="form-control" name="address" required id="address" placeholder="한글/영문">
                                     </div>
 
                                     <div class="mb-3">
                                         <label class="col-form-label">바이어 국적:</label>
-                                        <input type="text" class="form-control" name="country" required id="country">
+                                        <select name="country" id="country" class="form-select">
+                                            <option selected="selected" value="" disabled>SELECTED</option>
+                                            <option value="AU">Australia</option>
+                                            <option value="CA">Canada</option>
+                                            <option value="EN">England</option>
+                                            <option value="KO">Korea</option>
+                                            <option value="FR">France</option>
+                                            <option value="GE">Germany</option>
+                                        </select>
+<%--                                        <input type="text" class="form-control" name="country" required id="country">--%>
                                     </div>
 
                                     <div class="mb-3">
                                         <label class="col-form-label">사업자 번호:</label>
-                                        <input type="number" class="form-control" name="license" required id="license">
+                                        <input type="text" class="form-control" name="license" required id="license" placeholder="사업자번호(정확히)">
                                     </div>
 
                                     <div class="mb-3">
-                                        <label class="col-form-label">CONTACT?:</label>
-                                        <input type="text" class="form-control" name="contact" required id="contact">
+                                        <label class="col-form-label">전화 번호:</label>
+                                        <input type="text" class="form-control" name="contact" required id="contact" placeholder="전화번호(정확히)">
                                     </div>
 
                                 </form>
@@ -136,23 +146,23 @@
                 </div>
 
                 <!-- deleteModal -->
-                <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="exampleModalLabel">삭제하시겠습니까?</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
+<%--                <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">--%>
+<%--                    <div class="modal-dialog">--%>
+<%--                        <div class="modal-content">--%>
+<%--                            <div class="modal-header">--%>
+<%--                                <h1 class="modal-title fs-5" id="exampleModalLabel">삭제하시겠습니까?</h1>--%>
+<%--                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>--%>
+<%--                            </div>--%>
+<%--                            <div class="modal-body">--%>
 
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary">Save changes</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+<%--                            </div>--%>
+<%--                            <div class="modal-footer">--%>
+<%--                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>--%>
+<%--                                <button type="button" class="btn btn-primary">Save changes</button>--%>
+<%--                            </div>--%>
+<%--                        </div>--%>
+<%--                    </div>--%>
+<%--                </div>--%>
 
 
 
@@ -166,7 +176,7 @@
                             <th scope="col" class="table-head">주소</th>
                             <th scope="col" class="table-head">국적</th>
                             <th scope="col" class="table-head">사업자번호</th>
-                            <th scope="col" class="table-head">CONTACT</th>
+                            <th scope="col" class="table-head">전화번호</th>
                             <th scope="col" class="table-head">작성자</th>
                             <th scope="col" class="table-head">작성일</th>
                             <th scope="col" class="table-head">수정자</th>
@@ -215,16 +225,16 @@
                                 </div>
                                 <div class="modal-body">
                                     <form action="${pageContext.request.contextPath}/buyer/modify" method="post" id="modifyForm">
-                                        <label for="" class="col-form-label">코드번호:</label>
+                                        <label for="" class="col-form-label">바이어코드:</label>
                                         <input type="text" class="form-control" value="" readonly="readonly" style="background-color: lightgrey;" required="required">
                                         <input type="hidden" class="form-control" name="buyer_code" value="" required="required" id="buyerCode">
                                         <div class="mb-3">
                                             <label for="" class="col-form-label">이름:</label>
-                                            <input type="text" class="form-control" name="name" required="required" id="buyerName">
+                                            <input type="text" class="form-control" name="name" required="required" id="buyerName" placeholder="한글/영문">
                                         </div>
                                         <div class="mb-3">
                                             <label for="" class="col-form-label">주소:</label>
-                                            <input type="text" class="form-control" name="address" required="required" id="buyerAddress">
+                                            <input type="text" class="form-control" name="address" required="required" id="buyerAddress" placeholder="한글/영문">
                                         </div>
                                         <div class="mb-3">
                                             <label for="" class="col-form-label">국적:</label>
@@ -232,12 +242,12 @@
                                             <input type="hidden" class="form-control" name="country" required="required" id="buyerCountry">
                                         </div>
                                         <div class="mb-3">
-                                            <label for="" class="col-form-label">license:</label>
-                                            <input type="text" class="form-control" name="license" required="required" id="buyerLicense">
+                                            <label for="" class="col-form-label">사업자번호:</label>
+                                            <input type="text" class="form-control" name="license" required="required" id="buyerLicense" placeholder="사업자번호(정확히)">
                                         </div>
                                         <div class="mb-3">
-                                            <label for="" class="col-form-label">contact:</label>
-                                            <input type="text" class="form-control" name="contact" required="required" id="buyerContact">
+                                            <label for="" class="col-form-label">전화번호:</label>
+                                            <input type="text" class="form-control" name="contact" required="required" id="buyerContact" placeholder="전화번호(정확히)">
                                         </div>
                                     </form>
 
@@ -301,18 +311,46 @@
 
 
 
-
-
         setTimeout(function(){
             if("${message}" != "")
             document.querySelector("#messageModal").style.display='none';
         },2000);
 
+
+        function telValidator(args) {
+
+            if (/^[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}/.test(args)) {
+                return true;
+            }
+            // alert(msg);
+            return false;
+        }
+
+        function licenseValidator(args){
+            if(/^[0-9]{3}-[0-9]{2}-[0-9]{5}$/.test(args)){
+                return true;
+            }
+            return false;
+        }
+
     function registerBuyer(){
             this.event.preventDefault();
-            if(name.value ==='' || address.value ==='' || (country.value ==='' || country.value.length<2) || license.value ===''|| contact.value ===''){
-                alert("유효성 검사 해야됨 국적 영어 넣고!!");
-            }else{
+            if(name.value ===''){
+                alert("아이디 입력");
+            }
+            if(address.value===''){
+                alert("주소 입력")
+            }
+            if(country.value ==='' || country.value.length<2){
+                alert("나라 입력")
+            }
+            if(!licenseValidator(license.value)){
+                alert("사업자 번호 확인")
+            }
+            if(!telValidator(contact.value)){
+                alert("전화번호 확인")
+            }
+            else{
                 document.querySelector("#registerForm").submit();
             }
     }
@@ -334,7 +372,8 @@
             checked.forEach((e) =>{
                 checkedList.push(e.value);
             })
-            alert(checkedList); // 삭제 하시겠습니까? 모달 띠우고 확인 누르면 삭제쿼리 실행.
+            alert(checkedList);
+            // 삭제 하시겠습니까? 모달 띠우고 확인 누르면 삭제쿼리 실행.
             executeDelete(checkedList);
             checkedList =[];
         }
@@ -409,15 +448,26 @@
 
         function submitModifyForm(){
             this.event.preventDefault();
-            if(buyerName.value ==='' || buyerAddress.value ==='' || buyerLicense.value ===''|| buyerContact.value ===''){
-                alert("유효성 검사 해야됨 국적 영어 넣고!!");
-            }else{
+            if(buyerName.value ===''){
+                alert("아이디 확인");
+            }
+            if(buyerAddress.value ===''){
+                alert("주소 확인");
+            }
+            if(!licenseValidator(buyerLicense.value)){
+                alert("사업자 번호 확인")
+            }
+            if(!telValidator(buyerContact.value)){
+                alert("전화 번호 확인")
+            }
+
+            else{
                 document.querySelector("#modifyForm").submit()
                     .then(
-
                     );
             }
         }
+
     </script>
 </body>
 </html>

@@ -1,5 +1,7 @@
 package com.sharedOne.controller.Kyj;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.sharedOne.domain.CategoryDto;
 import com.sharedOne.domain.ProductDto;
 import com.sharedOne.service.CategoryService;
@@ -26,12 +28,17 @@ public class ProductController {
     private CategoryService categoryService;
 
     @GetMapping("list")
-    public String list(Model model) {
+    public String list(Model model, @RequestParam(defaultValue = "1")int page) {
 
-        List<ProductDto> productDtos = productService.getList();
+        PageHelper.startPage(page, 10);
+        Page<ProductDto> productDtos = productService.getList();
 
-       // System.out.println(productDtos);
-        model.addAttribute("products", productDtos);
+        model.addAttribute("pageNum", productDtos.getPageNum());
+        model.addAttribute("pageSize", productDtos.getPageSize());
+        model.addAttribute("pages", productDtos.getPages());
+        model.addAttribute("total",productDtos.getTotal());
+        model.addAttribute("products", productDtos.getResult());
+
         return "product/list";
     }
 
@@ -71,6 +78,18 @@ public class ProductController {
 
     }
 
+    @GetMapping("listSearch")
+    public String listSearch(Model model,
+                             @RequestParam(name="search",defaultValue = "all")String type,
+                             @RequestParam(name="keyword",defaultValue = "")String keyword){
+
+        String newKeyword = "%"+keyword+"%";
+        List<ProductDto> productDtos = productService.getProductByKewrod(type,newKeyword);
+        model.addAttribute("products",productDtos);
+
+        return "product/list";
+    }
+
     @PostMapping("register")
     public String register(String name, String ea, int category,int category_id) {
         System.out.println("name" + name);
@@ -78,11 +97,11 @@ public class ProductController {
         System.out.println("category" + category);
         System.out.println("category_id" + category_id);
         String product_code = "";
-        if (category == 88) {
+        if (category == 1) {
             product_code = "MO";
-        } else if (category == 89) {
+        } else if (category == 2) {
             product_code = "TV";
-        } else if (category == 90) {
+        } else if (category == 3) {
             product_code = "HO";
         } //category_id = integer
 

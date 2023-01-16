@@ -1,5 +1,6 @@
 package com.sharedOne.service;
 
+import com.github.pagehelper.Page;
 import com.sharedOne.domain.ProductDto;
 import com.sharedOne.mapper.ProductMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ public class ProductService {
     @Autowired
     private ProductMapper productMapper;
 
-    public List<ProductDto> getList(){
+    public Page<ProductDto> getList(){
         return productMapper.getList();
     }
 
@@ -25,5 +26,9 @@ public class ProductService {
 
     public int deleteProduct(String product_code) {
         return productMapper.deleteProduct(product_code);
+    }
+
+    public List<ProductDto> getProductByKewrod(String type, String newKeyword) {
+        return productMapper.selectProductByKeyword(type, newKeyword);
     }
 }
