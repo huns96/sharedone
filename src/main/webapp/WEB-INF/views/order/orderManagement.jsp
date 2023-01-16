@@ -12,12 +12,11 @@
 <%--    <link rel="stylesheet" href="resources/css/plugin/datepicker/bootstrap-datepicker.css">--%>
     <style>
         body { background-color: #e0e0e0; }
-        .container-md { width: 80%; margin: 20px; }
+        .container-md { width: 80%; margin: 40px; }
         .page-background {
             background-color: white;
             padding: 10px;
-            margin: 5px;
-            margin: 5px;
+            margin: 5px 0;
             border-radius: 5px;
         }
         /*#order-list, #item-list { height: 390px; } */  /*[TODO] 페이지네이션 구현 후 추가*/
@@ -47,6 +46,8 @@
         .search-btn {
             height: 40px;  /*position: absolute; right:6%;*/
         }
+
+        #commentDiv { padding: 15px;}
 
     </style>
 </head>
@@ -157,6 +158,7 @@
                                                     data-bs-toggle="modal" data-bs-target="#changeStatusConfirmModal">종결</button>
                                         </c:if>
                                     </td>
+                                    <td style="display:none;">${order.comment}</td>
                                 </tr>
                             </c:forEach>
                             </tbody>
@@ -166,7 +168,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col">
+            <div class="col-9">
                 <div id="items" class="contents bottom">
                     <div id="item-list" class="page-background">
                         <h4>주문 상품 목록</h4>
@@ -187,6 +189,14 @@
                             <tbody></tbody>
                         </table>
                     </div>
+                </div>
+            </div>
+            <div class="col-3">
+                <div id="commentDiv" class="page-background">
+                    <h5><b>승인/반려 메모</b></h5>
+                    <textarea rows="6" id="comment" class="form-control orderInfo" name="comment" readonly>
+
+                    </textarea>
                 </div>
             </div>
         </div>
@@ -224,6 +234,11 @@
             let td = tr.children();
             let orderCode = td.eq(1).text();
             itemListByOrderCode(orderCode);
+
+            // 승인/반려 메모
+            let comment = td.eq(12).text();
+            $('#comment').empty();
+            $('#comment').append(comment);
         });
 
         /* 검색 초기화 */

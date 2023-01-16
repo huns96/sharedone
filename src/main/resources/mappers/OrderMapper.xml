@@ -24,7 +24,7 @@
         SELECT
             o.order_code, o.buyer_code, b.name as buyer_name,
             o.order_date, o.request_date, o.approval_date, o.return_date,
-            o.status, o.memo,
+            o.status, o.memo, o.comment,
             o.delyn, o.adduser, o.adddate, o.upduser, o.upddate
         FROM order_header o LEFT JOIN buyer b ON o.buyer_code = b.buyer_code AND b.delyn = 'N'
         WHERE o.delyn = 'N'
@@ -76,7 +76,7 @@
         SELECT
             o.order_code, o.buyer_code, b.name as buyer_name,
             o.order_date, o.request_date, o.approval_date, o.return_date,
-            o.status, o.memo,
+            o.status, o.memo, o.comment
             o.adduser, o.adddate, IFNULL(o.upduser,'-'), IFNULL(o.upddate,'-')
         FROM order_header o LEFT JOIN buyer b ON o.buyer_code = b.buyer_code
         WHERE o.delyn = 'N'
