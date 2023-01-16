@@ -7,7 +7,7 @@
 
     <select id="memberList" resultMap="memberList">
         SELECT
-            m.user_id, phone, name, adddate, auth
+            m.user_id, phone, name, adddate, GROUP_CONCAT(auth) AS auth
         FROM
             member m JOIN authority a ON m.user_id = a.user_id
         WHERE
@@ -16,7 +16,7 @@
             m.user_id LIKE #{keyword} OR
             phone LIKE #{keyword} OR
             adddate LIKE #{keyword} OR
-            auth LIKE #{keyword}
+            auth LIKE #{keyword} GROUP BY m.user_id
 
     </select>
 
