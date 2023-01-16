@@ -34,34 +34,62 @@
   }
 </style>
 <body style="background-color: #e0e0e0;">
+<c:if test="${not empty message }">
+  <div class="alert alert-success" id="messageModal">
+      ${message }
+  </div>
+</c:if>
 <div class="container-fluid">
   <div class="row flex-nowrap">
     <my:Sidebar></my:Sidebar>
     <div class="col py-3 mt-5" style="margin: 60px;">
-      <div class="p-3 mt-3 mb-3" style="background-color: white;">
+      <div class="p-3 mt-3 mb-3" style="background-color: white; border-radius: 5px">
         <table style="align-content: end;">
           <tr>
-            <td style="">
-              <form action="${pageContext.request.contextPath}/product/listSearch" method="get">
-                <select name="search" id="" style="width: 94px;">
-                  <option value="all">통합검색</option>
+            <td style="float:end;">
+              <form action="${pageContext.request.contextPath}/product/listSearch" method="get" class="d-flex" style="height: 40px">
+                <select name="search" id="" class="form-select" style="width: 210px">
+<%--                  <option value="all">통합검색</option>--%>
                   <option value="product_code">제품 코드</option>
                   <option value="name">이름</option>
                 </select>
 
-                <input type="text" placeholder="search" name="keyword">
-                <button>전송</button>
-                <button onclick="location.replace(`${pageContext.request.contextPath}/product/list`)">초기화</button>
+                <input type="text" placeholder="search" name="keyword" class="form-control">
+                <button class="btn btn-dark" style="width: 100px; margin-right: 5px">검색</button>
+                <button onclick="location.replace(`${pageContext.request.contextPath}/product/list`)" class="btn btn-dark" style="width: 140px">초기화</button>
+              </form>
+              </td>
+          </tr>
+          <tr>
+            <td>
+              <form action="${pageContext.request.contextPath}/product/listSearchCategory" method="get" class="d-flex" style="height: 40px">
+                <select class="form-select" name="categoryId">
+                  <option disabled="disabled" selected="selected">Select</option>
+                    <optgroup label="모바일">
+                    <option value="1">스마트폰</option>
+                    <option value="2">태블릿</option>
+                  </optgroup>
+                  </optgroup>
+                  <optgroup label="TV">
+                    <option value="3">데스크탑</option>
+                    <option value="4">노트북</option>
+                  </optgroup>
+                  <optgroup label="가전">
+                    <option value="5">냉장고</option>
+                    <option value="6">세탁기</option>
+                  </optgroup>
+                </select>
+                <button class="btn btn-dark" style="width: 100px">검색</button>
               </form>
             </td>
           </tr>
         </table>
       </div>
-      <div style="background-color: white;">
+      <div style="background-color: white; border-radius: 5px">
         <div class="row p-2 justify-content-between">
           <div class="col-4 mt-3"><h5 style="font-weight: bold;">제품 목록</h5></div>
           <div class="col-2 mt-3" style="text-align: right;">
-            <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#registerModal">등록</button>
+            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#registerModal">등록</button>
             <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="deleteCheck()" id="deleteCheck">삭제</button>
           </div>
         </div>
@@ -112,7 +140,7 @@
 
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-primary" onclick="submit()">등록</button>
+              <button type="button" class="btn btn-success" onclick="submit()">등록</button>
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">나가기</button>
             </div>
           </div>
@@ -139,12 +167,12 @@
       </div>
 
       <div>
-        <table class="table table-bordered border border-5">
+        <table class="table table-hover">
           <thead>
           <tr>
             <th scope="col" class="table-head">전체<input class="form-check-input" id="productAll" type="checkbox" name="productCodeAll" style="margin-left: 5px" onclick="checkAll(this)"></th>
-            <th scope="col" class="table-head">상품코드</th>
-            <th scope="col" class="table-head">상품명</th>
+            <th scope="col" class="table-head">제품 코드</th>
+            <th scope="col" class="table-head">제품명</th>
             <th scope="col" class="table-head">단위</th>
             <th scope="col" class="table-head">카테고리</th>
             <th scope="col" class="table-head">작성자</th>
@@ -182,11 +210,12 @@
           </c:forEach>
           </tbody>
         </table>
+        <!-- 수정 모달 -->
         <div class="modal fade" id="modifyModal" tabindex="-1" aria-labelledby="modalModify" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <h1 class="modal-title fs-5" id="modalModify">}정보 수정</h1>
+                <h1 class="modal-title fs-5" id="modalModify">정보 수정</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
@@ -202,11 +231,11 @@
                     <label for="" class="col-form-label">단위:</label>
                     <input type="text" class="form-control" name="ea" required="required" id="productEa2">
                   </div>
-                  <div class="mb-3">
-                    <label for="" class="col-form-label">카테고리:</label>
-                    <input type="text" class="form-control" value="" readonly="readonly" style="background-color: #e0e0e0;" required="required">
-                    <input type="text" class="form-control" name="category" required="required" id="category2">
-                  </div>
+<%--                  <div class="mb-3">--%>
+<%--                    <label for="" class="col-form-label">카테고리:</label>--%>
+<%--                    <input type="text" class="form-control" value="" readonly="readonly" style="background-color: #e0e0e0;" required="required">--%>
+<%--                    <input type="text" class="form-control" name="category" required="required" id="category2">--%>
+<%--                  </div>--%>
                 </form>
 
               </div>
@@ -233,7 +262,7 @@
                 </a>
               </li>
               <c:forEach begin="1" end="${pages }" varStatus="status" var="pageNumb">
-                <li class="page-item">
+                <li class="page-item ${pageNum == pageNumb ? "active" : ""}">
                   <a class="page-link" href="${pageLink }?page=${pageNumb}">${pageNumb }</a>
                 </li>
               </c:forEach>
@@ -266,8 +295,11 @@
 
   const productName2 = document.querySelector("#productName2");
   const productEa2 = document.querySelector("#productEa2");
-  const category2 = document.querySelector("#category2");
 
+  setTimeout(function(){
+    if("${message}" != "")
+      document.querySelector("#messageModal").style.display='none';
+  },2000);
 
 
   function addSel2(){
@@ -357,14 +389,22 @@
     box.toggleAttribute("checked");
   }
 
+  const exampleModal = document.getElementById('modifyModal');
+  exampleModal.addEventListener('show.bs.modal', event =>{
+    const button = event.relatedTarget
+    const recipient = button.getAttribute('data-product-code')
+    const modalBodyInput = exampleModal.querySelector('.modal-body input')
+    modalBodyInput.value = recipient;
+    document.querySelector("#productCode").value = recipient;
+  })
+
   function submitModifyForm(){
     this.event.preventDefault();
-    if(productName2.value ==='' || productEa2.value ==='' || category2.value ===''){
+    if(productName2.value ==='' || productEa2.value ===''){
       alert("유효성 검사 해야됨");
     }else{
       document.querySelector("#modifyForm").submit()
               .then(
-
               );
     }
   }
