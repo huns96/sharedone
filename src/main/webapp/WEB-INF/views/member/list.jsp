@@ -102,10 +102,10 @@
             </div>
             <div class="col page-background" style="margin-left: 50px; margin-right: 50px">
                 <div style="display: flex; justify-content: space-between">
-                <h5>회원 목록</h5>
+                <h5 style="margin-left: 10px;">회원 목록</h5>
                 <button style="margin-right: 30px;" class="addMemberbtn" data-bs-toggle="modal" data-bs-target="#addMemberModal">회원등록</button>
                 </div>
-                <table class="table" style="text-align: center">
+                <table class="table" style="text-align: center; table-layout: fixed;">
                     <thead>
                         <tr>
                             <th>이름</th>
