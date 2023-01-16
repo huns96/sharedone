@@ -24,10 +24,15 @@ public class OrderController {
 
     /* 주문 관리 (메인) - 주문 리스트 조회 */
     @GetMapping("orderManagement")
-    public void management(Model model) {
-        List<OrderDto> list = orderService.getOrderList();
+    public void management(@RequestParam(required = false) String orderCode,
+                           @RequestParam(required = false) String buyerCode,
+                           @RequestParam(required = false) String status,
+                           @RequestParam(required = false) String adduser,
+                           @RequestParam(required = false) String upduser,
+                           Model model) {
+        //log.info("param ========> {} / {} / {}", orderCode, buyerCode, status);
+        List<OrderDto> list = orderService.getOrderList(orderCode, buyerCode, status, adduser, upduser);
         model.addAttribute("orderList", list);
-        log.info("orderList ========> {}", list);
     }
 
     /* 주문 등록 - 팝업 */
@@ -36,13 +41,14 @@ public class OrderController {
 
     }
 
+    /* 주문 등록 */
     @PostMapping("register")
     @ResponseBody
     public String register(OrderDto orderDto, RedirectAttributes rttr) {
-        //log.info("register orderDto ==========> {}", orderDto);
         return orderService.registerOrder(orderDto);
     }
 
+    /* 주문 상품 등록 */
     @PostMapping("registerItem")
     @ResponseBody
     public void register(@RequestParam(value="items") String[] addItems, @RequestParam String orderCode, RedirectAttributes rttr) {
@@ -55,14 +61,11 @@ public class OrderController {
         }
     }
 
-
     /* 주문 상품 리스트 조회 */
     @RequestMapping("itemList")
     @ResponseBody
     public List<OrderItemDto> itemList(@RequestParam String orderCode) {
-        List<OrderItemDto> itemList = orderService.getItemList(orderCode);
-        log.info("itemList ========> {}", itemList);
-        return itemList;
+        return orderService.getItemList(orderCode);
     }
 
     /* 주문 정보 조회 - 수정페이지 */
@@ -72,29 +75,42 @@ public class OrderController {
         List<OrderItemDto> list = orderService.getItemList(orderCode);
         model.addAttribute("order", orderDto);
         model.addAttribute("itemList", list);
-
-//        log.info("orderModify order ==========> {}", orderDto);
-//        log.info("orderModify itemList ==========> {}", list);
     }
 
+    /* 주문 수정  */
     @PostMapping("modify")
     @ResponseBody
     public String modify(OrderDto orderDto, RedirectAttributes rttr) {
-        log.info("modify orderDto ==========> {}", orderDto);
         return orderService.modifyOrder(orderDto);
     }
 
+    /* 주문 상품 수정  */
     @PostMapping("modifyItem")
     @ResponseBody
-    public void modify(@RequestParam(value="addItems") String[] addItems,
+    public void modify(@RequestParam(value="addItems", required = false) String[] addItems,
                        @RequestParam(value="removeItems", required = false) String[] removeItems,
+                       @RequestParam(value="modifyItems", required = false) String[] modifyItems,
                        @RequestParam String orderCode, RedirectAttributes rttr) {
-        int cnt = orderService.modifyOrderItem(addItems, removeItems, orderCode);
-        if (cnt==1) {
-            rttr.addFlashAttribute("message", orderCode + " 주문이 수정되었습니다.");
-        } else {
-            rttr.addFlashAttribute("message", orderCode + " 주문이 수정되지 않았습니다.");
+
+//        log.info("orderModify addItems ==========> {}", (Object) addItems);
+//        log.info("orderModify removeItems ==========> {}", (Object) removeItems);
+//        log.info("orderModify modifyItems ==========> {}", (Object) modifyItems);
+
+        if (addItems != null) {
+            orderService.registerOrderItem(addItems, orderCode);
         }
+        if (modifyItems != null) {
+            orderService.modifyOrderItem(modifyItems, orderCode);
+        }
+        if (removeItems != null) {
+            orderService.removeOrderItem(removeItems, orderCode);
+        }
+
+//        if (cnt==1) {
+//            rttr.addFlashAttribute("message", orderCode + " 주문이 수정되었습니다.");
+//        } else {
+//            rttr.addFlashAttribute("message", orderCode + " 주문이 수정되지 않았습니다.");
+//        }
     }
 
     /* 주문 상태 변경 */
@@ -107,6 +123,19 @@ public class OrderController {
 //            rttr.addFlashAttribute("message", orderCode + " 주문이 등록되었습니다.");
 //        } else {
 //            rttr.addFlashAttribute("message", orderCode + " 주문이 등록되지 않았습니다.");
+//        }
+
+    }
+
+    /* 주문 삭제 - 승인요청 전 최초 등록일 경우 */
+    @PostMapping("remove")
+    @ResponseBody
+    public void remove(@RequestParam String orderCode, RedirectAttributes rttr) {
+        orderService.removeOrder(orderCode);
+//        if (cnt==1) {
+//            rttr.addFlashAttribute("message", orderCode + " 주문이 삭제되었습니다.");
+//        } else {
+//            rttr.addFlashAttribute("message", orderCode + " 주문이 삭제되지 않았습니다.");
 //        }
 
     }

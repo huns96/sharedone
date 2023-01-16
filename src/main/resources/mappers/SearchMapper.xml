@@ -8,7 +8,13 @@
         SELECT
             b.buyer_code, b.name, b.address
         FROM buyer b
-        <!--WHERE b.delyn = 'N"-->
+        WHERE b.delyn = 'N'
+        <if test="type == 'buyer_code'">
+            AND b.buyer_code LIKE #{value}
+        </if>
+        <if test="type == 'buyer_name'">
+            AND b.name LIKE #{value}
+        </if>
     </select>
 
    <!-- <select id="getItemList" resultType="domain.com.sharedOne.OrderItemDto">

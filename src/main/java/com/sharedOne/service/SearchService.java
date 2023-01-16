@@ -16,8 +16,8 @@ public class SearchService {
     @Autowired
     private SearchMapper searchMapper;
 
-    public List<BuyerDto> getBuyerList() {
-        return searchMapper.getBuyerList();
+    public List<BuyerDto> getBuyerList(String type, String value) {
+        return searchMapper.getBuyerList(type, "%" + value + "%");
     }
 
     public List<OrderItemDto> getItemList(String buyer_code) {
