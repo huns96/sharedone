@@ -21,10 +21,13 @@ public class SearchController {
 
     /* 바이어 검색 */
     @GetMapping("buyerPopup")
-    public void getBuyerInfo(Model model) {
-        List<BuyerDto> list = searchService.getBuyerList();
+    public void getBuyerInfo(@RequestParam(required = false) String type,
+                             @RequestParam(required = false) String value,
+                             Model model) {
+        //log.info("buyer param ========> {} / {}", type, value);
+        List<BuyerDto> list = searchService.getBuyerList(type, value);
         model.addAttribute("buyerList", list);
-        log.info("buyerList ========> {}", list);
+        //log.info("buyerList ========> {}", list);
     }
 
     /* 상품 검색 */
@@ -32,7 +35,7 @@ public class SearchController {
     public void getProductInfo(@RequestParam String buyer_code, Model model) {
         List<OrderItemDto> list = searchService.getItemList(buyer_code);
         model.addAttribute("itemList", list);
-        log.info("itemList ========> {}", list);
+        //log.info("itemList ========> {}", list);
 
     }
 
