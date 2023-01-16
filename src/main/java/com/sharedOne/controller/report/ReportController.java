@@ -1,5 +1,7 @@
 package com.sharedOne.controller.report;
 
+import com.sharedOne.domain.BuyerDto;
+import com.sharedOne.domain.ProductDto;
 import com.sharedOne.domain.report.*;
 import com.sharedOne.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,25 +52,29 @@ public class ReportController {
 
 
             System.out.println(sumCondition + "섬레졀트 작업시작");
-            if (sumCondition.equals(("month(h.request_date)"))) {
-                model.addAttribute("groupName", "월");
-            }
-            if (sumCondition.equals("h.buyer_code")) {
-                model.addAttribute("groupName", "바이어코드");
-            }
-            if (sumCondition.equals("h.adduser")) {
-                model.addAttribute("groupName", "유저명");
-            }
-            if (sumCondition.equals("h.status")) {
-                model.addAttribute("groupName", "승인여부");
-            }
 
 
-            List<OrderGroupDto> orderGroups = reportService.getOrderGroups(order_code, buyer_code, status, adduser,
+
+            List<OrderGroupDto> orderGroups = reportService.getOrderGroups(model,order_code, buyer_code, status, adduser,
                     from_request_date, to_request_date, from_add_date, to_add_date, product_code, sumCondition);
-            System.out.println("오더그룹스" + orderGroups);
-            // 왜 한 그룹으로 나오지..? > 이유는 모르겠지만 자동으로 고쳐짐;
-            orderGroups.forEach(orderGroupDto -> System.out.println("찾으려고 적음" + orderGroupDto));
+//            if (sumCondition.equals(("month(h.request_date)"))) {
+//                model.addAttribute("groupName", "월");
+//            }
+//            if (sumCondition.equals("h.buyer_code")) {
+//                model.addAttribute("groupName", "바이어코드");
+//            }
+//            if (sumCondition.equals("h.adduser")) {
+//                model.addAttribute("groupName", "담당자");
+//            }
+//            if (sumCondition.equals("h.status")) {
+//                model.addAttribute("groupName", "주문상태");
+//            }
+//
+//            System.out.println("오더그룹스" + orderGroups);
+//            // 왜 한 그룹으로 나오지..? > 이유는 모르겠지만 자동으로 고쳐짐;
+//            orderGroups.forEach(orderGroupDto -> System.out.println("찾으려고 적음" + orderGroupDto));
+
+
 
             SumDto sums = reportService.getSums(order_code, buyer_code, status, adduser,
                     from_request_date, to_request_date,
@@ -128,6 +134,32 @@ public class ReportController {
     @GetMapping("mainTest")
     public void mainTest() {
     }
+    @GetMapping("result-css이전")
+    public void resutl_css이전() {
+    }
+
+    @GetMapping("orderPopup")
+    public void orderPopup() {
+    }
+
+    @GetMapping("search/orderCodes")
+    public String getOrderCodes(Model model) {
+        List<OrderDto> orderCodes = reportService.getOrderCodes();
+        model.addAttribute("orderCodes", orderCodes);
+        System.out.println(orderCodes);
+        return "/report/orderPopup";
+    }
+
+    @GetMapping("productPopup")
+    public void getProductCodes(Model model) {
+        List<ProductDto> products = reportService.getProducts();
+        model.addAttribute("products", products);
+        System.out.println(products);
+    }
+
+
+
+
 
 
     @ResponseBody

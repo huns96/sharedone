@@ -1,9 +1,11 @@
 package com.sharedOne.service;
 
+import com.sharedOne.domain.ProductDto;
 import com.sharedOne.domain.report.*;
 import com.sharedOne.mapper.report.ReportMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import java.util.*;
 
@@ -18,7 +20,7 @@ public class ReportService {
                                     String status, String adduser,
                                     String from_request_date, String to_request_date,
                                     String from_add_date,
-                                    String to_add_date, String product_code, PageInfo pageInfo,int page) {
+                                    String to_add_date, String product_code, PageInfo pageInfo, int page) {
         System.out.println("서비스겟오더스" + order_code);
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("order_code", order_code);
@@ -34,9 +36,9 @@ public class ReportService {
         int offset = (page - 1) * records;
 
         int countAll = reportMapper.countAll(order_code, buyer_code, status, from_request_date, to_request_date,
-                adduser, from_add_date, to_add_date, product_code,pageInfo);// SELECT Count(*) FROM Board
+                adduser, from_add_date, to_add_date, product_code, pageInfo);// SELECT Count(*) FROM Board
 
-        System.out.println(countAll+"countAll결과");
+        System.out.println(countAll + "countAll결과");
 
         int lastPage = (countAll - 1) / records + 1;
 
@@ -65,7 +67,7 @@ public class ReportService {
 //        return boardMapper.list(offset, records, type, "%" + keyword + "%");
 
         return reportMapper.selectOrders(order_code, buyer_code, status, from_request_date, to_request_date,
-                adduser, from_add_date, to_add_date, product_code,pageInfo,offset,records);
+                adduser, from_add_date, to_add_date, product_code, pageInfo, offset, records);
     }
 
     public List<String> searchOrderCode(String order_code_part) {
@@ -93,17 +95,59 @@ public class ReportService {
                 from_add_date, to_add_date, product_code, sumCondition);
     }
 
-    public List<OrderGroupDto> getOrderGroups(String order_code, String buyer_code, String status,
+    public List<OrderGroupDto> getOrderGroups(Model model, String order_code, String buyer_code, String status,
                                               String adduser, String from_request_date, String to_request_date,
                                               String from_add_date, String to_add_date,
                                               String product_code, String sumCondition) {
-
-        return reportMapper.selectOrderGroups(order_code, buyer_code, status, adduser,
+        List<OrderGroupDto> orderGroups = reportMapper.selectOrderGroups(order_code, buyer_code, status, adduser,
                 from_request_date, to_request_date,
                 from_add_date, to_add_date, product_code, sumCondition);
+        if (sumCondition.equals(("year(h.request_date)"))) {
+            model.addAttribute("groupName", "년도");
+        }
+        if (sumCondition.equals(("quarter(h.request_date)"))) {
+            model.addAttribute("groupName", "분기");
+            for (OrderGroupDto order : orderGroups) {
+                order.setGroupName(order.getYear() + "/" + order.getGroupName() + "분기");
+            }
+        }
+        if (sumCondition.equals(("month(h.request_date)"))) {
+            model.addAttribute("groupName", "월");
+            for (OrderGroupDto order : orderGroups) {
+                order.setGroupName(order.getYear() + "/" + order.getGroupName()+"월");
+            }
+        }
+        if (sumCondition.equals(("week(h.request_date)"))) {
+            model.addAttribute("groupName", "주차");
+            for (OrderGroupDto order : orderGroups) {
+                order.setGroupName(order.getYear() + "/" + order.getGroupName() + "주차");
+            }
+        }
+        if (sumCondition.equals("b.name")) {
+            model.addAttribute("groupName", "바이어");
+
+        }
+        if (sumCondition.equals("addm.name")) {
+            model.addAttribute("groupName", "담당자");
+        }
+        if (sumCondition.equals("h.status")) {
+            model.addAttribute("groupName", "주문상태");
+        }
+
+        System.out.println("오더그룹스" + orderGroups);
+        // 왜 한 그룹으로 나오지..? > 이유는 모르겠지만 자동으로 고쳐짐;
+        orderGroups.forEach(orderGroupDto -> System.out.println("찾으려고 적음" + orderGroupDto));
+
+        return orderGroups;
     }
 
+    public List<OrderDto> getOrderCodes() {
+        return reportMapper.getOrderCodes();
+    }
 
+    public List<ProductDto> getProducts() {
+        return reportMapper.getProducts();
+    }
 
 
 //    public List<BoardDto> listBoard(int page, String type, String keyword, PageInfo pageInfo) {

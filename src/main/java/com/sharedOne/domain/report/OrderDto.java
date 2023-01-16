@@ -18,6 +18,9 @@ public class OrderDto {
     private String memo;
     private String adduser;
     private String adddate;
+    private String upduser;
+    private String upddate;
+    private String comment;
 
     //-------order_item--------
     private String product_code;
@@ -27,7 +30,8 @@ public class OrderDto {
 
     //----------------------
     private String buyer_name;
-    private String user_name;
+    private String adduser_name;
+    private String upduser_name;
     private String product_name;
 
 
