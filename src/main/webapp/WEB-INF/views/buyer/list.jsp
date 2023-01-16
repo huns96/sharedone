@@ -378,7 +378,7 @@
             checkedList =[];
         }
         else{
-            alert("아무것도 선택 안됐음");
+            alert("바이어 선택");
         }
         // checked.forEach((e) =>{
         //     alert(e.value);
