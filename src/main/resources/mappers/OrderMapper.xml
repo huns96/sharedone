@@ -43,18 +43,22 @@
     </select>
 
     <select id="listItem" resultMap="itemMap">
+        <![CDATA[
         SELECT
             i.num, i.order_code, i.product_code, p.name as 'product_name',
             i.quantity, i.price, pri.price as 'old_price', (i.quantity * i.price) as 'total_price',
             o.buyer_code, b.name as 'buyer_name',
+            pri.start_date, pri.end_date,
             i.delyn, i.adduser, i.adddate, i.upduser, i.upddate
         FROM order_item i
             LEFT JOIN order_header o ON o.order_code = i.order_code
             LEFT JOIN buyer b ON b.buyer_code = o.buyer_code
-            LEFT JOIN product p ON p.product_code = i.product_code <!--AND p.delyn = 'N'-->
+            LEFT JOIN product p ON p.product_code = i.product_code
             LEFT JOIN price pri ON pri.product_code = i.product_code and pri.buyer_code = o.buyer_code AND pri.delyn = 'N'
-        WHERE i.order_code = #{order_code}
-        AND i.delyn = 'N'
+        WHERE p.delyn = 'N'
+            AND i.order_code = #{orderCode}
+            AND pri.start_date <= #{requestDate} AND pri.end_date >= #{requestDate}
+        ]]>
     </select>
 
     <resultMap type="com.sharedOne.domain.OrderItemDto" id="itemMap">

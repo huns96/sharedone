@@ -16,45 +16,96 @@
             padding: 1em .5em;
             vertical-align: middle;
         }
+        #searchTypeSelect{
+            width: 130px;
+        }
+        #searchInput {
+            width: 200px;
+        }
+        #buttonDiv {
+            margin-top: 5px;
+            margin-left: 40px;
+        }
+        .totalNum { margin-left: 20px; }
     </style>
 </head>
 <body>
-<div id="buyerPopup">
+<div id="productPopup">
     <h4><b>상품 목록</b></h4>
-    <div class="row">
+    <%--<div class="row">
         <input id="buyerCode" type="text" class="form-control" name="buyer_code" />
         <input id="buyerName" type="text" class="form-control" name="buyer_name" />
         <input id="orderDate" type="text" class="form-control" name="order_date" />
+    </div>--%>
+    <form action="/search/productPopup" role="search" style="display: flex; margin: 20px 0;">
+        <select name="type" id="searchTypeSelect" class="form-select search-select">
+            <%--<option value="all"></option>--%>
+            <option value="product_code" ${param.type == 'product_code' ? 'selected' : '' }>상품코드</option>
+            <option selected value="product_name" ${param.type == 'product_name' ? 'selected' : '' }>상품명</option>
+        </select>
+        <input value="${param.value }" id="searchInput" class="form-control search-input" type="text" name="value">
+        <div id="buttonDiv">
+            <button id="reset-btn" class="btn btn-secondary search-btn btn-sm" type="button">초기화</button>
+            <button class="btn btn-dark search-btn btn-sm" type="submit">조회</button>
+        </div>
+    </form>
+    <div style="height: 250px;">
+        <table class="table" id="item-table">
+            <thead>
+            <tr>
+                <th style="width: 10%"></th>
+                <%--<th>#</th>--%>
+                <th style="width: 20%">상품코드</th>
+                <th style="width: 20%">상품명</th>
+                <th style="width: 20%">카테고리</th>
+                <th style="width: 20%">단가</th>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach items="${itemList}" var="item" varStatus="status">
+                <tr>
+                    <td><input type="checkbox" id="checkbox"></td>
+                        <%--<td>${status.count}</td>--%>
+                    <td>${item.product_code}</td>
+                    <td>${item.product_name}</td>
+                    <td>${item.category_id}</td>
+                    <td>${item.old_price}</td>
+                        <%--<td><fmt:formatNumber value="${item.old_price}" pattern="#,###"/></td>--%>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
     </div>
-
-
-    <table class="table" id="item-table">
-        <thead>
-            <tr>
-                <th></th>
-                <th>#</th>
-                <th>상품코드</th>
-                <th>상품명</th>
-                <th>카테고리</th>
-                <th>단가</th>
-            </tr>
-        </thead>
-        <tbody>
-        <c:forEach items="${itemList}" var="item" varStatus="status">
-            <tr>
-                <td><input type="checkbox" id="checkbox"></td>
-                <td>${status.count}</td>
-                <td>${item.product_code}</td>
-                <td>${item.product_name}</td>
-                <td>${item.category_id}</td>
-                <td>${item.old_price}</td>
-                <%--<td><fmt:formatNumber value="${item.old_price}" pattern="#,###"/></td>--%>
-            </tr>
-        </c:forEach>
-        </tbody>
-    </table>
+    <c:if test="${total != null && total != ''}">
+    <div class="totalNum"><b>총 ${total}건</b></div>
+    </c:if>
+    <%--페이지네이션--%>
+    <div class="row justify-content-center">
+        <div class="col-3">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination pagination-sm">
+                    <li class="page-item">
+                        <c:url value="/search/productPopup" var="pageLink"></c:url>
+                        <a class="page-link" href="${pageLink}?page=1" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <c:forEach begin="1" end="${pages}" varStatus="status" var="pageNumb">
+                        <li class="page-item  ${pageNum == pageNumb ? "active" : ""}">
+                            <a class="page-link" href="${pageLink }?page=${pageNumb}">${pageNumb }</a>
+                        </li>
+                    </c:forEach>
+                    <li class="page-item">
+                        <a class="page-link" href="${pageLink }?page=${pages}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
     <div class="footer">
-        <button type="button" id="confirm" class="btn btn-danger">확인</button>
+        <button type="button" id="confirm" class="btn btn-primary">확인</button>
         <button type="button" class="btn btn-secondary" onclick="window.close()">취소</button>
     </div>
 </div>
@@ -77,18 +128,19 @@
 
         /* 부모창에서 값 가져오기 */
         $("#buyerCode").val(opener.$("#buyerCode").val());
-        $("#buyerName").val(opener.$("#buyerName").val());
-        $("#orderDate").val(opener.$("#orderDate").val());
+        // $("#buyerName").val(opener.$("#buyerName").val());
+        // $("#orderDate").val(opener.$("#orderDate").val());
+        $("#requestDate").val(opener.$("#requestDate").val());
 
         /* 확인 버튼 */
         $('#confirm').click(function() {
             const checkbox = $('input[id=checkbox]:checked');
             const tr = checkbox.parent().parent();
             const td = tr.children();
-            const itemCode = td.eq(2).text();
-            const itemName = td.eq(3).text();
-            const category = td.eq(4).text();
-            const price = td.eq(5).text();
+            const itemCode = td.eq(1).text();
+            const itemName = td.eq(2).text();
+            const category = td.eq(3).text();
+            const price = td.eq(4).text();
             //console.log(price)
 
             // orderRegister의 setItemInfo()에 값 전달

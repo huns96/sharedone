@@ -27,7 +27,7 @@
 </head>
 <body>
     <header>
-        <h3><b>주문 등록</b></h3>
+        <h4><b>주문 등록</b></h4>
     </header>
     <form id="newOrderForm" class="form-horizontal">
         <div class="row">
@@ -225,7 +225,8 @@
         /* 상품 검색 팝업창 */
         function itemPopup() {
             resetItemInfo();
-            let url = "/search/productPopup?buyer_code=" + $('#buyerCode').val();
+            let url = "/search/productPopup?buyer_code=" + $('#buyerCode').val()
+                        + "&request_date=" + $('#requestDate').val();
             let popupWidth = 600;
             let popupHeight = 500;
             let popupX = (window.screen.width / 2) - (popupWidth / 2);
@@ -268,8 +269,9 @@
                 orderItemList.push(itemList);
                 itemListInPopup(itemList, orderItemList);
 
-                // 바이어 정보 수정 불가
+                // 바이어, 납품요청일 수정 불가
                 $('#buyerPopupButton').attr('style','pointer-events:none;');
+                $('#requestDate').datepicker('disable').removeAttr('disabled')
 
             } else {
                 alert("상품번호 " + productCode + "가 중복됩니다.");

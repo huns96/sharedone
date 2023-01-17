@@ -1,5 +1,7 @@
 package com.sharedOne.controller;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.sharedOne.domain.OrderDto;
 import com.sharedOne.domain.OrderItemDto;
 import com.sharedOne.service.OrderService;
@@ -10,8 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -28,9 +28,16 @@ public class OrderController {
                            @RequestParam(required = false) String buyerCode,
                            @RequestParam(required = false) String status,
                            @RequestParam(required = false) String userId,
+                           @RequestParam(defaultValue = "1")int page,
                            Model model) {
         //log.info("param ========> {} / {} / {}", orderCode, buyerCode, status);
-        List<OrderDto> list = orderService.getOrderList(orderCode, buyerCode, status, userId);
+        PageHelper.startPage(page,7);
+        Page<OrderDto> list = orderService.getOrderList(orderCode, buyerCode, status, userId);
+
+        model.addAttribute("pageNum", list.getPageNum());
+        model.addAttribute("pageSize", list.getPageSize());
+        model.addAttribute("pages", list.getPages());
+        model.addAttribute("total",list.getTotal());
         model.addAttribute("orderList", list);
     }
 
@@ -63,15 +70,25 @@ public class OrderController {
     /* 주문 상품 리스트 조회 */
     @RequestMapping("itemList")
     @ResponseBody
-    public List<OrderItemDto> itemList(@RequestParam String orderCode) {
-        return orderService.getItemList(orderCode);
+    public Page<OrderItemDto> itemList(@RequestParam String orderCode,
+                                       @RequestParam String requestDate,
+                                       @RequestParam(defaultValue = "1")int page,
+                                       Model model) {
+        PageHelper.startPage(page,4);
+        Page<OrderItemDto> list = orderService.getItemList(orderCode, requestDate);
+        //log.info("list itemDto ===============> {}", list);
+        model.addAttribute("pageNum_item", list.getPageNum());
+        model.addAttribute("pageSize_item", list.getPageSize());
+        model.addAttribute("pages_item", list.getPages());
+        model.addAttribute("total_item",list.getTotal());
+        return list;
     }
 
     /* 주문 정보 조회 - 수정페이지 */
     @GetMapping("orderModify")
-    public void modify(String orderCode, Model model) {
+    public void modify(String orderCode, String requestDate, Model model) {
         OrderDto orderDto = orderService.getOrderInfo(orderCode);
-        List<OrderItemDto> list = orderService.getItemList(orderCode);
+        List<OrderItemDto> list = orderService.getItemList(orderCode, requestDate);
         model.addAttribute("order", orderDto);
         model.addAttribute("itemList", list);
     }

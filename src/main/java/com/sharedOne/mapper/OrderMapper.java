@@ -1,5 +1,6 @@
 package com.sharedOne.mapper;
 
+import com.github.pagehelper.Page;
 import com.sharedOne.domain.OrderDto;
 import com.sharedOne.domain.OrderItemDto;
 import org.apache.ibatis.annotations.Mapper;
@@ -12,9 +13,9 @@ public interface OrderMapper {
 
     int insertOrderItem(OrderItemDto itemDto);
 
-    List<OrderDto> listOrder(String orderCode, String buyerCode, String status, String userId);
+    Page<OrderDto> listOrder(String orderCode, String buyerCode, String status, String userId);
 
-    List<OrderItemDto> listItem(String orderCode);
+    Page<OrderItemDto> listItem(String orderCode, String requestDate);
 
     OrderDto getOrder(String orderCode);
 

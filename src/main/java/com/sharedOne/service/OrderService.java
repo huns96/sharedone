@@ -1,5 +1,6 @@
 package com.sharedOne.service;
 
+import com.github.pagehelper.Page;
 import com.sharedOne.domain.OrderDto;
 import com.sharedOne.domain.OrderItemDto;
 import com.sharedOne.mapper.OrderMapper;
@@ -81,7 +82,7 @@ public class OrderService {
     }
     
     /* 주문 목록 조회 */
-    public List<OrderDto> getOrderList(String orderCode, String buyerCode, String status, String userId) {
+    public Page<OrderDto> getOrderList(String orderCode, String buyerCode, String status, String userId) {
         if (orderCode != null && orderCode != "") {
             orderCode = "%" + orderCode + "%";
         }
@@ -92,15 +93,16 @@ public class OrderService {
             }
         }
 
-        //log.info("list orderCode ==========> {}", orderCode);
-        List<OrderDto> list = orderMapper.listOrder(orderCode, buyerCode, status, userId);
+        Page<OrderDto> list = orderMapper.listOrder(orderCode, buyerCode, status, userId);
         //log.info("list orderDto ==========> {}", list);
         return list;
     }
     
     /* 주문 상품 목록 조회 */
-    public List<OrderItemDto> getItemList(String orderCode) {
-        return orderMapper.listItem(orderCode);
+    public Page<OrderItemDto> getItemList(String orderCode, String requestDate) {
+        Page<OrderItemDto> list = orderMapper.listItem(orderCode, requestDate);
+        //log.info("list OrderItemDto ==========> {}", list);
+        return list;
     }
 
     public OrderDto getOrderInfo(String orderCode) {

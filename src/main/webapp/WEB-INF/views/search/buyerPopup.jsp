@@ -22,13 +22,15 @@
             width: 200px;
         }
         #buttonDiv {
+            margin-top: 5px;
             margin-left: 40px;
         }
+        .totalNum { margin-left: 20px; }
     </style>
 </head>
 <body>
 <div id="buyerPopup">
-    <h4><b>바이어 목록</b></h4>
+    <h5><b>바이어 목록</b></h5>
     <form action="/search/buyerPopup" role="search" style="display: flex; margin: 20px 0;">
         <select name="type" id="searchTypeSelect" class="form-select search-select">
             <%--<option value="all"></option>--%>
@@ -37,32 +39,62 @@
         </select>
         <input value="${param.value }" id="searchInput" class="form-control search-input" type="text" name="value">
         <div id="buttonDiv">
-            <button id="reset-btn" class="btn btn-secondary search-btn" type="button">초기화</button>
-            <button class="btn btn-dark search-btn" type="submit">조회</button>
+            <button id="reset-btn" class="btn btn-secondary search-btn btn-sm" type="button">초기화</button>
+            <button class="btn btn-dark search-btn btn-sm" type="submit">조회</button>
         </div>
     </form>
-    <table class="table" id="buyer-table">
-        <thead>
+    <div style="height: 250px;">
+        <table class="table" id="buyer-table">
+            <thead>
             <tr>
-                <th></th>
-                <th>#</th>
-                <th>바이어코드</th>
-                <th>바이어명</th>
-                <th>주소</th>
+                <th style="width: 10%"></th>
+                <%--<th>#</th>--%>
+                <th style="width: 30%">바이어코드</th>
+                <th style="width: 30%">바이어명</th>
+                <th style="width: 30%">주소</th>
             </tr>
-        </thead>
-        <tbody>
-        <c:forEach items="${buyerList}" var="buyer" varStatus="status">
-            <tr>
-                <td><input type="checkbox" id="checkbox"></td>
-                <td>${status.count}</td>
-                <td>${buyer.buyer_code}</td>
-                <td>${buyer.name}</td>
-                <td>${buyer.address}</td>
-            </tr>
-        </c:forEach>
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            <c:forEach items="${buyerList}" var="buyer" varStatus="status">
+                <tr>
+                    <td><input type="checkbox" id="checkbox"></td>
+                    <%--<td>${status.count}</td>--%>
+                    <td>${buyer.buyer_code}</td>
+                    <td>${buyer.name}</td>
+                    <td>${buyer.address}</td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+    </div>
+    <c:if test="${total != null && total != ''}">
+        <div class="totalNum"><b>총 ${total}건</b></div>
+    </c:if>
+    <%--페이지네이션--%>
+    <div class="row justify-content-center">
+        <div class="col-3">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination pagination-sm">
+                    <li class="page-item">
+                        <c:url value="/search/buyerPopup" var="pageLink"></c:url>
+                        <a class="page-link" href="${pageLink}?page=1" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <c:forEach begin="1" end="${pages}" varStatus="status" var="pageNumb">
+                        <li class="page-item  ${pageNum == pageNumb ? "active" : ""}">
+                            <a class="page-link" href="${pageLink }?page=${pageNumb}">${pageNumb }</a>
+                        </li>
+                    </c:forEach>
+                    <li class="page-item">
+                        <a class="page-link" href="${pageLink }?page=${pages}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
     <div class="footer">
         <button type="button" id="confirm" class="btn btn-primary">확인</button>
         <button type="button" class="btn btn-secondary" onclick="window.close()">취소</button>
@@ -95,8 +127,8 @@
             const checkbox = $('input[id=checkbox]:checked');
             const tr = checkbox.parent().parent();
             const td = tr.children();
-            const buyerCode = td.eq(2).text();
-            const buyerName = td.eq(3).text();
+            const buyerCode = td.eq(1).text();
+            const buyerName = td.eq(2).text();
 
             // orderRegister의 setBuyerInfo()에 값 전달
             opener.setBuyerInfo(buyerCode, buyerName);

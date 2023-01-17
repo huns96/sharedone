@@ -19,19 +19,20 @@
             margin: 5px 0;
             border-radius: 5px;
         }
-        /*#order-list, #item-list { height: 390px; } */  /*[TODO] 페이지네이션 구현 후 추가*/
-
+        #order-list { height: 510px }
+        #item-list, #commentDiv { height: 350px; }
         h5 {
             font-weight: bold;
             margin: 5px 0 0 20px;
         }
-
+        h6 { margin-bottom: 20px; }
         table { text-align: center }
         td, th {
             padding: 1em .5em;
             vertical-align: middle;
         }
         #order-table, #itemList-table { margin-top: 20px; }
+        .totalNum { margin-left: 20px; }
 
         #search { height: 60px; }
         .search-label {
@@ -93,7 +94,7 @@
                         </div>
 
                         <div id="buttonDiv">
-                            <button id="reset-btn" class="btn btn-secondary search-btn" type="button">초기화</button>
+                            <button id="reset-btn" class="btn btn-secondary search-btn" type="button">X</button>
                             <button class="btn btn-dark search-btn" type="submit">조회</button>
                         </div>
                     </form>
@@ -108,10 +109,11 @@
                         <h5>주문 목록
                         <button id="addNewOrderButton" class="btn btn-success" style="float: right; margin-right: 20px;">새 주문 등록</button>
                         </h5>
-                        <table class="table table-hover" id="order-table">
-                            <thead>
+                        <div style="height: 370px;">
+                            <table class="table table-hover" id="order-table">
+                                <thead>
                                 <tr>
-                                    <th>#</th>
+                                    <%--<th>#</th>--%>
                                     <th>주문번호</th>
                                     <th>바이어명</th>
                                     <th>주문일자</th>
@@ -124,82 +126,146 @@
                                     <th>수정</th>
                                     <th>상태변경</th>
                                 </tr>
-                            </thead>
-                            <tbody>
-                            <c:forEach items="${orderList}" var="order" varStatus="status">
-                                <tr>
-                                    <td>${status.count}</td>
-                                    <td>${order.order_code}</td>
-                                    <td>${order.buyer_name}</td>
-                                    <td>${order.order_date}</td>
-                                    <td>${order.request_date}</td>
-                                    <td>${order.approval_date}</td>
-                                    <td>${order.return_date}</td>
-                                    <td>${order.status}</td>
-                                    <td>${order.adduser}</td>
-                                    <td>${order.upduser}</td>
-                                    <td>
-                                        <c:if test="${order.status == '작성중' || order.status == '승인취소' || order.status == '승인반려'}">
-                                            <button type="button" class="btn btn-outline-warning btn-sm" onclick="modifyOrderPopup(${order.order_code})">수정</button>
-                                        </c:if>
-                                        <%--<c:if test="${(order.approval_date == '' || order.approval_date == null) &&
-                                                        (order.return_date == '' || order.return_date == null) && order.status == '작성중'}">
-                                            <button type="button" class="btn btn-outline-danger btn-sm" onclick="removeOrder(${order.order_code})">삭제</button>
-                                        </c:if>--%>
-                                    </td>
-                                    <td>
-                                        <c:if test="${order.status == '작성중'}">
-                                            <button type="button" class="btn btn-outline-primary btn-sm" onclick="checkStatus('${order.status}',${order.order_code},'승인요청')"
-                                                    data-bs-toggle="modal" data-bs-target="#changeStatusConfirmModal">승인요청</button>
-                                            <button type="button" class="btn btn-outline-danger btn-sm" onclick="checkStatus('${order.status}',${order.order_code},'종결')"
-                                                    data-bs-toggle="modal" data-bs-target="#changeStatusConfirmModal">종결</button>
-                                        </c:if>
-                                        <c:if test="${order.status == '승인요청'}">
-                                            <button type="button" class="btn btn-outline-secondary btn-sm" onclick="checkStatus('${order.status}',${order.order_code},'승인취소')"
-                                                    data-bs-toggle="modal" data-bs-target="#changeStatusConfirmModal">승인요청취소</button>
-                                        </c:if>
-                                        <c:if test="${order.status == '승인반려'}">
-                                            <button type="button" class="btn btn-outline-danger btn-sm" onclick="checkStatus('${order.status}',${order.order_code},'종결')"
-                                                    data-bs-toggle="modal" data-bs-target="#changeStatusConfirmModal">종결</button>
-                                        </c:if>
-                                    </td>
-                                    <td style="display:none;">${order.comment}</td>
-                                </tr>
-                            </c:forEach>
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                <c:forEach items="${orderList}" var="order" varStatus="status">
+                                    <tr>
+                                            <%--<td>${status.count}</td>--%>
+                                        <td>${order.order_code}</td>
+                                        <td>${order.buyer_name}</td>
+                                        <td>${order.order_date}</td>
+                                        <td>${order.request_date}</td>
+                                        <td>${order.approval_date}</td>
+                                        <td>${order.return_date}</td>
+                                        <td>${order.status}</td>
+                                        <td>${order.adduser}</td>
+                                        <td>${order.upduser}</td>
+                                        <td>
+                                            <c:if test="${order.status == '작성중' || order.status == '승인취소' || order.status == '승인반려'}">
+                                                <button type="button" class="btn btn-outline-warning btn-sm" onclick="modifyOrderPopup('${order.order_code}','${order.request_date}')">수정</button>
+                                            </c:if>
+                                                <%--<c:if test="${(order.approval_date == '' || order.approval_date == null) &&
+                                                                (order.return_date == '' || order.return_date == null) && order.status == '작성중'}">
+                                                    <button type="button" class="btn btn-outline-danger btn-sm" onclick="removeOrder(${order.order_code})">삭제</button>
+                                                </c:if>--%>
+                                        </td>
+                                        <td>
+                                            <c:if test="${order.status == '작성중'}">
+                                                <button type="button" class="btn btn-outline-primary btn-sm" onclick="checkStatus('${order.status}',${order.order_code},'승인요청')"
+                                                        data-bs-toggle="modal" data-bs-target="#changeStatusConfirmModal">승인요청</button>
+                                                <button type="button" class="btn btn-outline-danger btn-sm" onclick="checkStatus('${order.status}',${order.order_code},'종결')"
+                                                        data-bs-toggle="modal" data-bs-target="#changeStatusConfirmModal">종결</button>
+                                            </c:if>
+                                            <c:if test="${order.status == '승인요청'}">
+                                                <button type="button" class="btn btn-outline-secondary btn-sm" onclick="checkStatus('${order.status}',${order.order_code},'승인취소')"
+                                                        data-bs-toggle="modal" data-bs-target="#changeStatusConfirmModal">승인요청취소</button>
+                                            </c:if>
+                                            <c:if test="${order.status == '승인반려'}">
+                                                <button type="button" class="btn btn-outline-danger btn-sm" onclick="checkStatus('${order.status}',${order.order_code},'종결')"
+                                                        data-bs-toggle="modal" data-bs-target="#changeStatusConfirmModal">종결</button>
+                                            </c:if>
+                                        </td>
+                                        <td style="display:none;">${order.comment}</td>
+                                    </tr>
+                                </c:forEach>
+                                </tbody>
+                            </table>
+                        </div>
+                        <c:if test="${total != null && total != ''}">
+                            <div class="totalNum"><b>총 ${total}건</b></div>
+                        </c:if>
+
+                        <%--페이지네이션--%>
+                        <div class="row justify-content-center">
+                            <div class="col-3">
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination pagination-sm">
+                                        <li class="page-item">
+                                            <c:url value="/order/orderManagement" var="pageLink"></c:url>
+                                            <a class="page-link" href="${pageLink}?page=1" aria-label="Previous">
+                                                <span aria-hidden="true">&laquo;</span>
+                                            </a>
+                                        </li>
+                                        <c:forEach begin="1" end="${pages}" varStatus="status" var="pageNumb">
+                                            <li class="page-item  ${pageNum == pageNumb ? "active" : ""}">
+                                                <a class="page-link" href="${pageLink }?page=${pageNumb}">${pageNumb }</a>
+                                            </li>
+                                        </c:forEach>
+                                        <li class="page-item">
+                                            <a class="page-link" href="${pageLink }?page=${pages}" aria-label="Next">
+                                                <span aria-hidden="true">&raquo;</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
         </div>
+
         <div class="row">
             <div class="col-9">
                 <div id="items" class="contents bottom">
                     <div id="item-list" class="page-background">
                         <h5>주문 상품 목록</h5>
-                        <table class="table table-hover" id="itemList-table">
-                            <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>상품번호</th>
-                                <th>상품명</th>
-                                <th>수량</th>
-                                <th>단가</th>
-                                <th>총금액</th>
-                                <th>기존단가</th>
-                                <th>등록자</th>
-                                <th>수정자</th>
-                            </tr>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
+                        <div style="height: 240px;">
+                            <table class="table table-hover" id="itemList-table">
+                                <thead>
+                                <tr>
+                                    <%--<th>#</th>--%>
+                                    <th>상품번호</th>
+                                    <th>상품명</th>
+                                    <th>수량</th>
+                                    <th>단가</th>
+                                    <th>총금액</th>
+                                    <th>기존단가</th>
+                                    <th>등록자</th>
+                                    <th>수정자</th>
+                                </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                        <c:if test="${total_item != null && total_item != ''}">
+                            <div class="totalNum">총 <b>${total_item}</b>건</div>
+                        </c:if>
+
+                        <%--페이지네이션--%>
+                        <div class="row justify-content-center">
+                            <div class="col-3">
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination pagination-sm">
+                                        <li class="page-item">
+                                            <c:url value="/order/itemList" var="pageLink"></c:url>
+                                            <a class="page-link" href="${pageLink}?page=1" aria-label="Previous">
+                                                <span aria-hidden="true">&laquo;</span>
+                                            </a>
+                                        </li>
+                                        <c:forEach begin="1" end="${pages_item}" varStatus="status" var="pageNumb">
+                                            <li class="page-item  ${pageNum_item == pageNumb ? "active" : ""}">
+                                                <a class="page-link" href="${pageLink}?page=${pageNumb}">${pageNumb }</a>
+                                            </li>
+                                        </c:forEach>
+                                        <li class="page-item">
+                                            <a class="page-link" href="${pageLink}?page=${pages_item}" aria-label="Next">
+                                                <span aria-hidden="true">&raquo;</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
             <div class="col-3">
                 <div id="commentDiv" class="page-background">
-                    <h6><b>승인/반려 메모</b></h6>
-                    <textarea rows="6" id="comment" class="form-control orderInfo" name="comment" readonly>
+                    <h6><b>승인 / 반려 메모</b></h6>
+                    <textarea rows="10" id="comment" class="form-control orderInfo" name="comment" readonly>
 
                     </textarea>
                 </div>
@@ -237,11 +303,12 @@
         $('#order-table tr').dblclick(function() {
             let tr = $(this);
             let td = tr.children();
-            let orderCode = td.eq(1).text();
-            itemListByOrderCode(orderCode);
+            let orderCode = td.eq(0).text();
+            let requestDate = td.eq(3).text();
+            itemListByOrderCode(orderCode, requestDate.replaceAll("-", ""));
 
             // 승인/반려 메모
-            let comment = td.eq(12).text();
+            let comment = td.eq(11).text();
             $('#comment').empty();
             $('#comment').append(comment);
         });
@@ -275,7 +342,7 @@
     });
 
     /* 주문번호별 상품 조회 */
-    function itemListByOrderCode(orderCode) {
+    function itemListByOrderCode(orderCode, requestDate) {
         let tbody = $('#itemList-table tbody');
         tbody.empty(); //초기화
         tbody.append("");
@@ -284,11 +351,15 @@
             $.ajax({
                 type: 'POST',
                 url: '/order/itemList',
-                data: {"orderCode": orderCode},
+                data: {
+                    "orderCode": orderCode,
+                    "requestDate": requestDate
+                },
                 dataType : 'json',
                 traditional: true,
                 success: function (result) {
-                    //console.log(result);
+                    console.log(result);
+                    console.log("==========="+'${total_item}');
                     for (var i = 0; i < result.length; i++) {
                         let index = i + 1;
                         let product_code = result[i].product_code;
@@ -303,9 +374,10 @@
                         let buyer_name = result[i].buyer_name;
                         //let updateButton = updateButton;
 
+
                         tbody.append(
                             "<tr>"
-                            + "<td>" + index + "</td>"
+                            /*+ "<td>" + index + "</td>"*/
                             + "<td>" + product_code + "</td>"
                             + "<td>" + product_name + "</td>"
                             + "<td>" + parseInt(quantity).toLocaleString() + "</td>"
@@ -370,8 +442,8 @@
     }
 
     /* 주문 수정 팝업창 */
-    function modifyOrderPopup(orderCode) {
-        let url = "/order/orderModify?orderCode=" + orderCode;//$('#orderCode').val();
+    function modifyOrderPopup(orderCode, requestDate) {
+        let url = "/order/orderModify?orderCode=" + orderCode + "&&requestDate=" + requestDate.replaceAll("-","");
         let popupWidth = 800;
         let popupHeight = 800;
         let popupX = (window.screen.width / 2) - (popupWidth / 2);

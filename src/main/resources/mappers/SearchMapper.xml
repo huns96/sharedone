@@ -18,12 +18,17 @@
     </select>
 
    <select id="getItemList" resultMap="itemMap">
+        <![CDATA[
         SELECT
-            p.product_code, p.name as 'product_name', p.category_id, pri.currency, pri.price as 'old_price', pri.buyer_code
+            p.product_code, p.name as 'product_name',
+            p.category_id, pri.currency, pri.price as 'old_price', pri.buyer_code,
+            pri.start_date, pri.end_date
         FROM product p
-        LEFT JOIN price pri ON pri.product_code = p.product_code AND pri.delyn = 'N'
-        WHERE pri.buyer_code = #{buyer_code}
-        AND p.delyn = 'N'
+            LEFT JOIN price pri ON pri.product_code = p.product_code AND pri.delyn = 'N'
+        WHERE p.delyn = 'N'
+            AND pri.buyer_code = #{buyer_code}
+            AND pri.start_date <= #{request_date} AND pri.end_date >= #{request_date}
+        ]]>
     </select>
 
     <resultMap type="com.sharedOne.domain.OrderItemDto" id="itemMap">
@@ -33,6 +38,8 @@
         <result column="currency" property="currency" />
         <result column="old_price" property="old_price" />
         <result column="buyer_code" property="buyer_code" />
+        <result column="start_date" property="start_date" />
+        <result column="end_date" property="end_date" />
     </resultMap>
 
     <select id="getMemberList" resultType="com.sharedOne.domain.member.MemberDto">
