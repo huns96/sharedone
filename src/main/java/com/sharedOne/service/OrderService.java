@@ -36,8 +36,9 @@ public class OrderService {
         String date = LocalDate.now().format(DateTimeFormatter.ofPattern("yyMMdd"));
         String buyerCode = orderDto.getBuyer_code();
         String code = buyerCode.substring(buyerCode.length()-2, buyerCode.length());
-        String random = (int) (Math.random() * (99-10+1)) + 1 + ""; // 10 ~ 99 랜덤 숫자
-        orderCode = date + code + random;
+        //String random = (int) (Math.random() * (99-10+1)) + 1 + ""; // 10 ~ 99 랜덤 숫자
+        int random = (int) (Math.random() * 100);
+        orderCode = date + code + String.format("%02d", random);;
         return orderCode;
     }
     

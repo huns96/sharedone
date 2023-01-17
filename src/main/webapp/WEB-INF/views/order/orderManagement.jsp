@@ -248,13 +248,12 @@
 
         /* 검색 초기화 */
         $('#reset-btn').click(function() {
-            /*$('#orderCode').val("");
+            $('#orderCode').val("");
             $('#buyerCode').val("");
             $('#buyerName').val("");
             $('#status').val("");
             $('#userId').val("");
-            $('#userName').val("");*/
-            location.reload();
+            //location.reload();
         });
 
         /* 주문 등록 팝업창 */
