@@ -139,13 +139,13 @@
 
                 <div class="mb-3">
                   <label for="registerForm" class="col-form-label">카테고리:</label>
-                  <select name="category" id="sel1" onchange="addSel2(this)" class="form-select mb-1">
+                  <select name="category" id="sel1" oninput="addSel2(this)" class="form-select mb-1">
                     <option selected="selected" value="null" disabled>SELECTED</option>
                     <option value="1">모바일</option>
                     <option value="2">PC</option>
                     <option value="3">가전</option>
                   </select>
-                  <select name="" id="sel2" onchange="addSel3()" class="form-select mb-1">
+                  <select name="" id="sel2" oninput="addSel3(this)" class="form-select mb-1">
                     <option selected="selected" value="" disabled>SELECTED</option>
                   </select>
                   <select name="category_id" id="sel3" class="form-select mb-1">
@@ -158,7 +158,7 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-success" onclick="submit()">등록</button>
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">나가기</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="exitModal">나가기</button>
             </div>
           </div>
         </div>
@@ -308,15 +308,16 @@
     fetch(ctx + "/product/categoryListMid/" + main_id)
             .then(res => res.json())
             .then(data =>{
+              categoryMiddle += `<option selected="selected" value="" disabled>SELECTED</option>`
               for(let key in data){
                 categoryMiddle += `<option value="\${key }">\${data[key] }</option>`
                // console.log(key + " " + data[key]);
               }
               sel2.innerHTML= `\${categoryMiddle}`
               categoryMiddle="";
-              sel3.innerHTML="";
-              $(this).find("option:eq(0)").prop("selected", true);
-              sel2.empty();
+             // sel3.innerHTML="";
+              //$(this).find("option:eq(0)").prop("selected", true);
+              //sel2.empty();
             })
   }  // 버그 있을거같은데 ㅠㅠㅠㅠ ------------------
 
@@ -327,13 +328,14 @@
     fetch(ctx + "/product/categoryListSub/" + middle_id)
             .then(res => res.json())
             .then(data =>{
+              categorySub += `<option selected="selected" value="" disabled>SELECTED</option>`
               for(let key in data){
                 categorySub += `<option value="\${key }">\${data[key] }</option>`
                // console.log(key + " " + data[key]);
               }
               sel3.innerHTML=`\${categorySub}`
-              $(this).find("option:eq(0)").prop("selected", true);
               categorySub="";
+              $(this).find("option:eq(0)").prop("selected", true);
             })
   }
 
@@ -432,6 +434,20 @@
     }
   }
   //
+  document.querySelector("#exitModal").addEventListener("click", function(){
+    productName.value ="";
+    productEa.value="";
+     // sel1.value="";
+     // sel2.value="";
+     // sel3.value="";
+
+    $("#sel1").val("null").prop("selected", true);
+    $("#sel2").val("").prop("selected", true);
+    $("#sel2 option").not("[value='']").remove();
+    $("#sel3").val("").prop("selected", true);
+    $("#sel3 option").not("[value='']").remove();
+  })
+
   // function submitSearchForm(){
   //   var formData = $('#form1').serialize()
   //   // console.log(formData);
