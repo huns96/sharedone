@@ -9,12 +9,20 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         body { padding: 20px; }
-        .footer { float: right; position: absolute; bottom:6%; right:6%; }
+        .footer { float: right; justify-content: flex-end; margin-bottom: 20px; }
+        table { text-align: center }
+        td, th {
+            padding: 1em .5em;
+            vertical-align: middle;
+        }
         #searchTypeSelect{
             width: 130px;
         }
         #searchInput {
             width: 200px;
+        }
+        #buttonDiv {
+            margin-left: 40px;
         }
     </style>
 </head>
@@ -28,20 +36,20 @@
             <option selected value="buyer_name" ${param.type == 'buyer_name' ? 'selected' : '' }>바이어명</option>
         </select>
         <input value="${param.value }" id="searchInput" class="form-control search-input" type="text" name="value">
-        <div class="buttonDiv" style="position: absolute; right:6%;">
+        <div id="buttonDiv">
             <button id="reset-btn" class="btn btn-secondary search-btn" type="button">초기화</button>
             <button class="btn btn-dark search-btn" type="submit">조회</button>
         </div>
     </form>
     <table class="table" id="buyer-table">
         <thead>
-        <tr>
-            <th></th>
-            <th>#</th>
-            <th>바이어코드</th>
-            <th>바이어명</th>
-            <th>주소</th>
-        </tr>
+            <tr>
+                <th></th>
+                <th>#</th>
+                <th>바이어코드</th>
+                <th>바이어명</th>
+                <th>주소</th>
+            </tr>
         </thead>
         <tbody>
         <c:forEach items="${buyerList}" var="buyer" varStatus="status">

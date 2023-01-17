@@ -40,8 +40,11 @@ public class SearchController {
     }
 
     /* 등록자 , 수정자 검색 */
-    @GetMapping("userPopup")
-    public void getUserInfo(Model model) {
-
+    @GetMapping("memberPopup")
+    public void getMemberInfo(@RequestParam(required = false) String type,
+                            @RequestParam(required = false) String value,
+                            Model model) {
+        List<BuyerDto> list = searchService.getMemberList(type, value);
+        model.addAttribute("memberList", list);
     }
 }

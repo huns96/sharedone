@@ -14,27 +14,30 @@
 
 </style>
 
-<div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark" style="width: 200px">
+
+<div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark" style="width: 220px;">
     <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
         <a href="   " class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
             <span class="fs-5 d-none d-sm-inline">Menu</span>
         </a>
-        <sec:authorize access="isAuthenticated()" var="login"></sec:authorize>
-        <c:if test="${not login}">
-            <a id="logLink" href="/member/login">로그인</a>
-        </c:if>
-        <c:if test="${login}">
-            <div style="display: flex">
-            <a id="logLink" href="/member/logout">로그아웃</a>
-            <a id="logLink" href="/member/myPage" style="margin-left: 20px">마이페이지</a>
-            </div>
-        </c:if>
+
         <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
             <li class="nav-item">
                 <a href="/member/login" class="nav-link align-middle px-0">
                     <i class="fa-solid fa-house" style="color: aliceblue;"></i> <span class="ms-1 d-none d-sm-inline" style="color: aliceblue;">Home</span>
                 </a>
             </li>
+
+            <sec:authorize access="isAuthenticated()" var="login"></sec:authorize>
+            <c:if test="${not login}">
+                <a id="logLink" href="/member/login">로그인</a>
+            </c:if>
+            <c:if test="${login}">
+                <div style="display: flex">
+                    <a id="logLink" href="/member/logout">로그아웃</a>
+                    <a id="logLink" href="/member/myPage" style="margin-left: 20px">마이페이지</a>
+                </div>
+            </c:if>
 
             <li>
                 <a href="#" class="nav-link px-0 align-middle">

@@ -17,12 +17,6 @@
         </if>
     </select>
 
-   <!-- <select id="getItemList" resultType="domain.com.sharedOne.OrderItemDto">
-        SELECT
-            b.buyer_code, b.name, b.address
-        FROM order_item o
-        &lt;!&ndash;WHERE b.delyn = 'N"&ndash;&gt;
-    </select>-->
    <select id="getItemList" resultMap="itemMap">
         SELECT
             p.product_code, p.name as 'product_name', p.category_id, pri.currency, pri.price as 'old_price', pri.buyer_code
@@ -41,4 +35,16 @@
         <result column="buyer_code" property="buyer_code" />
     </resultMap>
 
+    <select id="getMemberList" resultType="com.sharedOne.domain.member.MemberDto">
+        SELECT
+            m.user_id, m.name, m.phone
+        FROM member m
+        WHERE m.delyn = 'N'
+        <if test="type == 'user_id'">
+            AND m.user_id LIKE #{value}
+        </if>
+        <if test="type == 'user_name'">
+            AND m.name LIKE #{value}
+        </if>
+    </select>
 </mapper>
