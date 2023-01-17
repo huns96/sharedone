@@ -19,6 +19,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 <style>
+
+
   tr > .table-head{
     text-align: center;
     background-color:#e0e0e0;
@@ -35,28 +37,28 @@
 </style>
 <body style="background-color: #e0e0e0;">
 <c:if test="${not empty message }">
-  <div class="alert alert-success" id="messageModal">
-      ${message }
+  <div class="alert alert-success" id="messageModal" role="alert">
+    <h4 class="alert-heading" style="text-align: center"> ${message } </h4>
   </div>
 </c:if>
 <div class="container-fluid">
   <div class="row flex-nowrap">
     <my:Sidebar></my:Sidebar>
-    <div class="col py-3 mt-5" style="margin: 60px;">
-      <div class="p-3 mt-3 mb-3" style="background-color: white; border-radius: 5px">
+    <div class="col py-3" style="">
+      <div class="p-3 mb-3" style="background-color: white; border-radius: 5px">
         <table style="align-content: end;">
           <tr>
             <td style="float:end;">
-              <form action="${pageContext.request.contextPath}/product/listSearch" method="get" class="d-flex" style="height: 40px">
-                <select name="search" id="" class="form-select" style="width: 210px">
+              <form class="d-flex" action="${pageContext.request.contextPath}/product/listSearch" style="height: 40px" method="get"> <!--action="{pageContext.request.contextPath}/product/listSearch"  -->
+                <select name="search" id="optionId" class="form-select" style="width: 210px">
 <%--                  <option value="all">통합검색</option>--%>
-                  <option value="product_code">제품 코드</option>
-                  <option value="name">이름</option>
+                  <option value="product_code" <c:if test="${type == 'product_code'}">selected</c:if> >제품 코드</option>
+                  <option value="name"<c:if test="${type == 'name'}">selected</c:if> >이름</option>
                 </select>
 
-                <input type="text" placeholder="search" name="keyword" class="form-control">
+                <input type="text" placeholder="search" name="keyword" class="form-control" id="searchId" value="${keyword}">
                 <button class="btn btn-dark" style="width: 100px; margin-right: 5px">검색</button>
-                <button onclick="location.replace(`${pageContext.request.contextPath}/product/list`)" class="btn btn-dark" style="width: 140px">초기화</button>
+                <a type="button" class="btn btn-dark" style="width: 140px" href="/product/list">초기화</a>
               </form>
               </td>
           </tr>
@@ -87,16 +89,31 @@
       </div>
       <div style="background-color: white; border-radius: 5px">
         <div class="row p-2 justify-content-between">
-          <div class="col-4 mt-3"><h5 style="font-weight: bold;">제품 목록</h5></div>
+          <div class="col-4 mt-3"><h4 style="font-weight: bold;">제품 목록</h4></div>
           <div class="col-2 mt-3" style="text-align: right;">
             <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#registerModal">등록</button>
-            <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="deleteCheck()" id="deleteCheck">삭제</button>
+            <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" id="deleteCheck">삭제</button>
           </div>
         </div>
-<%--      <div class="col-2 mt-3" style="text-align: right;">--%>
-<%--        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#registerModal">등록</button>--%>
-<%--        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="deleteCheck()" id="deleteCheck">삭제</button>--%>
-<%--      </div>--%>
+      <!-- remove modal -->
+        <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5">삭제 확인</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                  삭제하시겠습니까?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                <button class="btn btn-danger" onclick="deleteCheck()">확인</button>
+              </div>
+
+            </div>
+          </div>
+        </div>
 
 
 
@@ -122,17 +139,17 @@
 
                 <div class="mb-3">
                   <label for="registerForm" class="col-form-label">카테고리:</label>
-                  <select name="category" id="sel1" onchange="addSel2()" class="form-select mb-1">
+                  <select name="category" id="sel1" onchange="addSel2(this)" class="form-select mb-1">
                     <option selected="selected" value="null" disabled>SELECTED</option>
                     <option value="1">모바일</option>
-                    <option value="2">TV</option>
+                    <option value="2">PC</option>
                     <option value="3">가전</option>
                   </select>
                   <select name="" id="sel2" onchange="addSel3()" class="form-select mb-1">
-                    <option selected="selected" value="null" disabled>SELECTED</option>
+                    <option selected="selected" value="" disabled>SELECTED</option>
                   </select>
                   <select name="category_id" id="sel3" class="form-select mb-1">
-                    <option selected="selected" value="null" disabled>SELECTED</option>
+                    <option selected="selected" value="" disabled>SELECTED</option>
                   </select>
                 </div>
 
@@ -186,7 +203,7 @@
               <td class="td-body">${item.upddate}</td>
               <td>
                 <div class="d-flex justify-content-center" style="margin: 0;">
-                  <button class="btn btn-warning btn-sm" style="color: white;" id=`modify${item.product_code}` data-product-code="${item.product_code}" data-product-category="${item.category_id}" data-bs-toggle="modal" data-bs-target="#modifyModal">수정</button>
+                  <button class="btn btn-warning btn-sm" style="color: white;" id=`modify${item.product_code}` data-product-code="${item.product_code}" data-product-name="${item.name}" data-product-ea="${item.ea}" data-product-category="${item.category_id}" data-bs-toggle="modal" data-bs-target="#modifyModal">수정</button>
                 </div>
               </td>
             </tr>
@@ -298,8 +315,10 @@
               sel2.innerHTML= `\${categoryMiddle}`
               categoryMiddle="";
               sel3.innerHTML="";
+              $(this).find("option:eq(0)").prop("selected", true);
+              sel2.empty();
             })
-  }  // 버그 있을거같은데 유의해야될부분 ------------------
+  }  // 버그 있을거같은데 ㅠㅠㅠㅠ ------------------
 
   function addSel3(){
     let sel2Value = sel2.value;
@@ -313,6 +332,7 @@
                // console.log(key + " " + data[key]);
               }
               sel3.innerHTML=`\${categorySub}`
+              $(this).find("option:eq(0)").prop("selected", true);
               categorySub="";
             })
   }
@@ -326,7 +346,8 @@
       alert("아이디 확인");
     }if(productEa.value ===''){
       alert("단위 확인");
-    }if(sel1.value ==='null' || sel2.value ==='null' || sel3.value ==='null'){
+    }if((sel1.value ==='') || (sel1.value === null) || (sel2.value ==='')
+            || (sel2.value === null) || (sel3.value ==='') || (sel3.value ===null)){
       alert("카테고리 확인");
     }
     else{
@@ -345,12 +366,13 @@
       checked.forEach((e) =>{
         checkedList.push(e.value);
       })
-      alert(checkedList);
       executeDelete(checkedList);
       checkedList=[];
     }
     else{
+      $('#deleteModal').hide();
       alert("제품 선택");
+      location.reload();
     }
   }
 
@@ -360,6 +382,7 @@
             }
     )
   }
+
 
   function checkAll(selectAll){
     const productAll = document.querySelector("#productAll");
@@ -383,21 +406,46 @@
   exampleModal.addEventListener('show.bs.modal', event =>{
     const button = event.relatedTarget
     const recipient = button.getAttribute('data-product-code')
+    const recipient2 = button.getAttribute('data-product-name')
+    const recipient3 = button.getAttribute('data-product-ea')
     const modalBodyInput = exampleModal.querySelector('.modal-body input')
     modalBodyInput.value = recipient;
     document.querySelector("#productCode").value = recipient;
+    document.querySelector("#productName2").value = recipient2;
+    document.querySelector("#productEa2").value = recipient3;
   })
 
   function submitModifyForm(){
     this.event.preventDefault();
-    if(productName2.value ==='' || productEa2.value ===''){
-      alert("유효성 검사 해야됨");
-    }else{
+    if(productName2.value ===''){
+      alert("제품명 입력");
+    }if(productEa2.value ===''){
+      alert("단위 입력");
+    }
+    if(sel1.value ==='' || sel2.value ==='' || sel3.value ===''){
+      alert("카테고리 입력");
+    }
+    else{
       document.querySelector("#modifyForm").submit()
               .then(
               );
     }
   }
+  //
+  // function submitSearchForm(){
+  //   var formData = $('#form1').serialize()
+  //   // console.log(formData);
+  //
+  //   $.ajax({
+  //     url: "/product/listSearch",
+  //     data : formData,
+  //     method :"post",
+  //     success: function(data){
+  //       console.log(data["keyword"]);
+  //     }
+  //   })
+  //
+  // }
 
   //
   //   if(sel1 == 1){

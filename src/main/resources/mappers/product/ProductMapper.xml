@@ -15,7 +15,7 @@
         on main.id = mid.main_id
         and mid.id = sub.middle_id
         where p.category_id = sub.id
-        and p.delyn = 'N'
+        and p.delyn = 'N' order by p.product_code
     </select>
 
     <insert id="insertProduct">
@@ -54,6 +54,7 @@
                 p.name LIKE #{newKeyword} and delyn = 'N'
             </if>
         </trim>
+        order by p.product_code
     </select>
 
     <select id="selectListByCategory" resultType="com.sharedOne.domain.ProductDto">
@@ -69,6 +70,7 @@
         where p.category_id = sub.id
         and mid.id= #{category}
         and p.delyn = 'N'
+        order by p.product_code
     </select>
 
     <update id="updateProduct">
