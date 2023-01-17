@@ -37,7 +37,7 @@
 <%--  </script>--%>
 <%--</c:if>--%>
 
-<div class="content-wrapper">
+<div class="container-fluid">
   <div class="row flex-nowrap">
     <my:Sidebar></my:Sidebar>
     <c:if test="${not empty message}">
