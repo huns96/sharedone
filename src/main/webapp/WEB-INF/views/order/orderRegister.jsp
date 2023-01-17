@@ -86,11 +86,11 @@
         <div class="row">
             <div class="col-md-4 mb-3">
                 <label for="price" class="form-label">단가</label>
-                <input id="price" type="number" class="form-control" name="price" required="required" />
+                <input id="price" type="number" min="1" class="form-control" name="price" required="required" />
             </div>
             <div class="col-md-4 mb-3">
                 <label for="quantity" class="form-label">수량</label>
-                <input id="quantity" type="number" class="form-control" name="quantity" required="required" />
+                <input id="quantity" type="number" min="1" class="form-control" name="quantity" required="required" />
             </div>
             <div id="item-button" class="col-md-4 mb-3">
                 <label class="form-label"></label>

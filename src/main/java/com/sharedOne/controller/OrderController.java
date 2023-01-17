@@ -27,11 +27,10 @@ public class OrderController {
     public void management(@RequestParam(required = false) String orderCode,
                            @RequestParam(required = false) String buyerCode,
                            @RequestParam(required = false) String status,
-                           @RequestParam(required = false) String adduser,
-                           @RequestParam(required = false) String upduser,
+                           @RequestParam(required = false) String userId,
                            Model model) {
         //log.info("param ========> {} / {} / {}", orderCode, buyerCode, status);
-        List<OrderDto> list = orderService.getOrderList(orderCode, buyerCode, status, adduser, upduser);
+        List<OrderDto> list = orderService.getOrderList(orderCode, buyerCode, status, userId);
         model.addAttribute("orderList", list);
     }
 
@@ -105,12 +104,6 @@ public class OrderController {
         if (removeItems != null) {
             orderService.removeOrderItem(removeItems, orderCode);
         }
-
-//        if (cnt==1) {
-//            rttr.addFlashAttribute("message", orderCode + " 주문이 수정되었습니다.");
-//        } else {
-//            rttr.addFlashAttribute("message", orderCode + " 주문이 수정되지 않았습니다.");
-//        }
     }
 
     /* 주문 상태 변경 */
@@ -118,25 +111,12 @@ public class OrderController {
     @ResponseBody
     public void changeStatus(@RequestParam String orderCode, @RequestParam String status, RedirectAttributes rttr) {
         orderService.changeStatus(orderCode, status);
-//        int cnt = orderService.changeStatus(orderCode, status);
-//        if (cnt==1) {
-//            rttr.addFlashAttribute("message", orderCode + " 주문이 등록되었습니다.");
-//        } else {
-//            rttr.addFlashAttribute("message", orderCode + " 주문이 등록되지 않았습니다.");
-//        }
-
     }
 
     /* 주문 삭제 - 승인요청 전 최초 등록일 경우 */
-    @PostMapping("remove")
+    /*@PostMapping("remove")
     @ResponseBody
     public void remove(@RequestParam String orderCode, RedirectAttributes rttr) {
         orderService.removeOrder(orderCode);
-//        if (cnt==1) {
-//            rttr.addFlashAttribute("message", orderCode + " 주문이 삭제되었습니다.");
-//        } else {
-//            rttr.addFlashAttribute("message", orderCode + " 주문이 삭제되지 않았습니다.");
-//        }
-
-    }
+    }*/
 }
