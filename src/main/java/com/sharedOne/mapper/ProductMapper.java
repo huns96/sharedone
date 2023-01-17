@@ -16,5 +16,9 @@ public interface ProductMapper {
 
     int deleteProduct(String product_code);
 
-    List<ProductDto> selectProductByKeyword(String type, String newKeyword);
+    Page<ProductDto> selectProductByKeyword(String type, String newKeyword);
+
+    Page<ProductDto> selectListByCategory(int category);
+
+    int updateProduct(ProductDto product);
 }

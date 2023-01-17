@@ -37,7 +37,7 @@ public class CustomConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.formLogin().loginPage("/member/login").defaultSuccessUrl("/member/login", true);
         httpSecurity.logout().logoutUrl("/member/logout").logoutSuccessUrl("/member/login");
-        httpSecurity.rememberMe();
+        httpSecurity.rememberMe().key("rememberKey");
         httpSecurity.csrf().disable();
         return httpSecurity.build();
     }

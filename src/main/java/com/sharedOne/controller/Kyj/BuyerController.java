@@ -38,16 +38,21 @@ public class BuyerController {
     }
 
     @GetMapping("listSearch")
-    public String listSearch(Model model,
+    public String listSearch(Model model, @RequestParam(defaultValue = "1")int page,
             @RequestParam(name ="search", defaultValue = "all")String type,
                              @RequestParam(name ="keyword", defaultValue = "")String keyword){
 
+        PageHelper.startPage(page,10);
 //        System.out.println(type + " " + keyword);
         String newKeyword = "%"+keyword+"%";
-        List<BuyerDto> buyerLists = buyerService.getBuyersByKeyword(type,newKeyword);
+        Page<BuyerDto> buyerLists = buyerService.getBuyersByKeyword(type,newKeyword);
 
         System.out.println(buyerLists);
-        model.addAttribute("buyerList",buyerLists);
+        model.addAttribute("pageNum", buyerLists.getPageNum());
+        model.addAttribute("pageSize", buyerLists.getPageSize());
+        model.addAttribute("pages", buyerLists.getPages());
+        model.addAttribute("total",buyerLists.getTotal());
+        model.addAttribute("buyerList", buyerLists.getResult());
 
         return "buyer/list";
     }

@@ -48,8 +48,8 @@
         FROM order_item i
             LEFT JOIN order_header o ON o.order_code = i.order_code
             LEFT JOIN buyer b ON b.buyer_code = o.buyer_code
-            LEFT JOIN product p ON p.product_code = i.product_code
-            LEFT JOIN price pri ON pri.product_code = i.product_code and pri.buyer_code = o.buyer_code
+            LEFT JOIN product p ON p.product_code = i.product_code <!--AND p.delyn = 'N'-->
+            LEFT JOIN price pri ON pri.product_code = i.product_code and pri.buyer_code = o.buyer_code AND pri.delyn = 'N'
         WHERE i.order_code = #{order_code}
         AND i.delyn = 'N'
     </select>

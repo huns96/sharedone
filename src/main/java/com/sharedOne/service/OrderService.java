@@ -81,7 +81,11 @@ public class OrderService {
     
     /* 주문 목록 조회 */
     public List<OrderDto> getOrderList(String orderCode, String buyerCode, String status, String adduser, String upduser) {
-        List<OrderDto> list = orderMapper.listOrder("%" + orderCode + "%", buyerCode, status, adduser, upduser);
+        if (orderCode != null && orderCode != "") {
+            orderCode = "%" + orderCode + "%";
+        }
+        //log.info("list orderCode ==========> {}", orderCode);
+        List<OrderDto> list = orderMapper.listOrder(orderCode, buyerCode, status, adduser, upduser);
         //log.info("list orderDto ==========> {}", list);
         return list;
     }

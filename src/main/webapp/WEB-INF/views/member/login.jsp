@@ -23,11 +23,10 @@
         <my:Sidebar></my:Sidebar>
         <sec:authorize access="isAuthenticated()" var="login"></sec:authorize>
         <c:if test="${not login}">
-            <div class="container" style="margin-top: 200px; margin-left: 400px; width: 1000px;">
-                <div class="row">
-                    <div class="col-5" style="text-align: center;">
-                        <h1><i class="fa-solid fa-umbrella"></i></h1>
-
+        <div class="container">
+            <div class="">
+                <div class="col-12" style="text-align: center; width: 30%; margin: 250px auto 0;">
+                    <h1><i class="fa-solid fa-umbrella"></i></h1>
                         <form method="post">
 
                             <div class="input-group mb-3">
@@ -44,16 +43,15 @@
                                 <input type="password" name="password" class="form-control" placeholder="암호">
                             </div>
 
-                           <%-- <div class="form-check form-switch mb-3">
-                                <input class="form-check-input" name="remember-me" type="checkbox" role="switch"
-                                       id="flexSwitchCheckChecked" checked>
-                                <label class="form-check-label" for="flexSwitchCheckChecked">자동 로그인</label>
-                            </div>--%>
-                            <div class="d-grid gap-2 col-6 mx-auto">
-                                <button class="btn btn-primary" type="submit">로그인</button>
-                            </div>
-                        </form>
-                    </div>
+                        <%--<div class="form-check form-switch mb-3">
+                            <input class="form-check-input" name="remember-me" type="checkbox" role="switch"
+                                   id="flexSwitchCheckChecked" checked>
+                            <label class="form-check-label" for="flexSwitchCheckChecked">자동 로그인</label>
+                        </div>--%>
+                        <div class="d-grid gap-2 col-6 mx-auto">
+                            <button class="btn btn-primary" type="submit">로그인</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </c:if>

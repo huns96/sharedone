@@ -87,9 +87,8 @@
         <div class="col">
             <div class="search page-background">
                 <form action="/member/list" method="get" style="margin: 0;">
-                    <input class="form-control" type="text" name="q" value="${param.q}"
-                           style="width: 200px; display: inline;" placeholder="통합검색">
-                    <button class="btn btn-dark" style="margin-bottom: 4px;">검색</button>
+                <input class="form-control" type="text" name="q" value="${param.q}" style="width: 200px; display: inline;" placeholder="통합검색">
+                <button class="btn btn-dark" style="margin-bottom: 4px;">검색</button>
                 </form>
             </div>
             <div class="col page-background" style="margin-left: 40px; margin-right: 40px">
@@ -344,6 +343,9 @@
         </div>
     </div>
 </div>
+</div>
+</div>
+
 
 <script
         src="https://code.jquery.com/jquery-3.6.3.js"

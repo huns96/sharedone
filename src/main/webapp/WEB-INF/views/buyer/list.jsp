@@ -47,20 +47,20 @@
     <div class="row flex-nowrap">
         <my:Sidebar></my:Sidebar>
         <div class="col py-3 mt-5" style="margin: 60px;">
-            <div class="p-3 mt-3 mb-3" style="background-color: white;">
-                <table style="align-content: end;">
+            <div class="p-3 mt-3 mb-3" style="background-color: white; border-radius: 5px">
+                <table style="  align-content: end;">
                     <tr>
                         <td style="float: end;">
-                            <form action="${pageContext.request.contextPath}/buyer/listSearch" method="get">
-                                <select name="search" id="">
+                            <form action="${pageContext.request.contextPath}/buyer/listSearch" method="get" class="d-flex" style="height: 40px">
+                                <select name="search" id="" class="form-select" style="width: 200px">
                                     <option value="all">통합검색</option>
                                     <option value="buyer_code">바이어 코드</option>
                                     <option value="name">이름</option>
                                 </select>
 
-                                <input type="text" placeholder="search" name="keyword">
-                                <button>전송</button>
-                                <button onclick="location.replace(`${pageContext.request.contextPath}/buyer/list`)">초기화</button>
+                                <input type="text" placeholder="search" name="keyword" class="form-control">
+                                <button class="btn btn-dark" style="width: 100px; margin-right: 5px">검색</button>
+                                <button onclick="location.replace(`${pageContext.request.contextPath}/buyer/list`)" class="btn btn-dark" style="width: 140px">초기화</button>
                             </form>
                         </td>
                     </tr>
@@ -81,11 +81,11 @@
 
 
 
-            <div style="background-color: white;" class="mb-5">
+            <div style="background-color: white; border-radius: 5px" class="mb-5">
                 <div class="row p-2 justify-content-between">
                     <div class="col-4 mt-3"><h5 style="font-weight: bold;">바이어 목록</h5></div>
                     <div class="col-2 mt-3" style="text-align: right;">
-                        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#registerModal">등록</button>
+                        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#registerModal">등록</button>
                         <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="deleteCheck()" id="deleteCheck">삭제</button>
                     </div>
                 </div>
@@ -138,7 +138,7 @@
                                 </form>
                             </div>
                             <div class="modal-footer">
-                                <button id="registerConfirm" type="submit" class="btn btn-primary" onclick="registerBuyer()">등록</button>
+                                <button id="registerConfirm" type="submit" class="btn btn-success" onclick="registerBuyer()">등록</button>
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
                             </div>
                         </div>
@@ -167,7 +167,7 @@
 
 
                 <div>
-                    <table class="table table-bordered border border-5">
+                    <table class="table table-hover">
                         <thead><!-- table 기호에 맞게 -->
                         <tr> <!-- 데이터 받으면 그때 for문 -->
                             <th scope="col" class="table-head">전체<input class="form-check-input" id="buyerAll" type="checkbox" name="buyerCodeAll" style="margin-left: 5px" onclick="checkAll(this)"></th>
@@ -275,7 +275,7 @@
                                 </a>
                             </li>
                             <c:forEach begin="1" end="${pages }" varStatus="status" var="pageNumb">
-                                <li class="page-item">
+                                <li class="page-item  ${pageNum == pageNumb ? "active" : ""}">
                                     <a class="page-link" href="${pageLink }?page=${pageNumb}">${pageNumb }</a>
                                 </li>
                             </c:forEach>
@@ -378,7 +378,7 @@
             checkedList =[];
         }
         else{
-            alert("아무것도 선택 안됐음");
+            alert("바이어 선택");
         }
         // checked.forEach((e) =>{
         //     alert(e.value);

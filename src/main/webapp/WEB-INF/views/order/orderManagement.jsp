@@ -76,7 +76,7 @@
                             <option value="승인요청" ${param.status == '승인요청' ? 'selected' : '' }>승인요청</option>
                             <option value="승인완료" ${param.status == '승인완료' ? 'selected' : '' }>승인완료</option>
                             <option value="승인취소" ${param.status == '승인취소' ? 'selected' : '' }>승인취소</option>
-                            <option value="반려" ${param.status == '반려' ? 'selected' : '' }>반려</option>
+                            <option value="승인반려" ${param.status == '승인반려' ? 'selected' : '' }>승인반려</option>
                             <option value="종결" ${param.status == '종결' ? 'selected' : '' }>종결</option>
                         </select>
 
@@ -133,7 +133,7 @@
                                     <td>${order.adduser}</td>
                                     <td>${order.upduser}</td>
                                     <td>
-                                        <c:if test="${order.status == '작성중' || order.status == '승인취소' || order.status == '반려'}">
+                                        <c:if test="${order.status == '작성중' || order.status == '승인취소' || order.status == '승인반려'}">
                                             <button type="button" class="btn btn-outline-warning btn-sm" onclick="modifyOrderPopup(${order.order_code})">수정</button>
                                         </c:if>
                                         <c:if test="${(order.approval_date == '' || order.approval_date == null) &&
@@ -322,8 +322,7 @@
             type: 'POST',
             url: '/order/changeStatus',
             data: {
-                "status": "반려",
-                //"status": status,
+                "status": status,
                 "orderCode": orderCode
             },
             dataType : 'json',
