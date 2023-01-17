@@ -72,9 +72,9 @@
         }
 
         .search {
-            margin-left: 50px;
-            margin-top: 50px;
-            margin-right: 50px;
+            margin-left: 40px;
+            margin-top: 40px;
+            margin-right: 40px;
         }
 
     </style>
@@ -92,7 +92,7 @@
                     <button class="btn btn-dark" style="margin-bottom: 4px;">검색</button>
                 </form>
             </div>
-            <div class="col page-background" style="margin-left: 50px; margin-right: 50px">
+            <div class="col page-background" style="margin-left: 40px; margin-right: 40px">
                 <div style="display: flex; justify-content: space-between">
                     <h5 style="margin-left: 10px;">회원 목록</h5>
                     <button style="margin-right: 30px;" class="addMemberbtn" data-bs-toggle="modal"
