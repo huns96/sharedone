@@ -4,9 +4,13 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.sharedOne.domain.member.MemberDto;
 import com.sharedOne.service.MemberService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.WebAttributes;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -14,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
-
+import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
@@ -22,10 +26,11 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("member")
+@Slf4j
 public class MemberController {
 
     @Autowired
-    private MemberService memberService; 
+    private MemberService memberService;
 
     @GetMapping("signup")
     public void signup() {
@@ -40,18 +45,17 @@ public class MemberController {
     @GetMapping("list")
     @PreAuthorize("hasAuthority('관리자')")
     public String list(
-                Model model,
-                @RequestParam(name="q", defaultValue = "") String keyword,
-                @RequestParam(defaultValue = "1")int page) {
-        PageHelper.startPage(page,5);
+            Model model,
+            @RequestParam(name = "q", defaultValue = "") String keyword,
+            @RequestParam(defaultValue = "1") int page) {
+        PageHelper.startPage(page, 5);
         Page<MemberDto> memberList = memberService.memberList(keyword);
         model.addAttribute("memberList", memberList);
         model.addAttribute("pageNum", memberList.getPageNum());
         model.addAttribute("pageSize", memberList.getPageSize());
         model.addAttribute("pages", memberList.getPages());
-        model.addAttribute("total",memberList.getTotal());
+        model.addAttribute("total", memberList.getTotal());
         model.addAttribute("memberList", memberList.getResult());
-
 
         return "member/list";
     }
@@ -104,7 +108,6 @@ public class MemberController {
     public String myPage(Model model, Principal principal, SecurityContextHolder sch) {
         /*String user_id = principal.getName();*/
         String id = sch.getContext().getAuthentication().getPrincipal().toString();
-        System.out.println("유저 아이디" + id);
         if (id == "anonymousUser") {
             return "redirect:/member/accessDenied";
         } else {
@@ -117,7 +120,7 @@ public class MemberController {
 
     @GetMapping("existId/{id}")
     @ResponseBody
-    public Map <String, Object> existId(@PathVariable String id){
+    public Map<String, Object> existId(@PathVariable String id) {
         Map<String, Object> map = new HashMap<>();
         MemberDto member = memberService.selectUserInfo(id);
         if (member == null) {
@@ -131,10 +134,10 @@ public class MemberController {
     }
 
     @GetMapping("accessDenied")
-    public void accessDenied(Model model){
-        model.addAttribute("msg","로그인 후 사용 가능합니다");
+    public void accessDenied(Model model) {
+        log.info("MemberController:  accessDenied()");
+        model.addAttribute("errMsg", "접근 권한이 없습니다.");
         model.addAttribute("url", "/member/login");
     }
-
 
 }
