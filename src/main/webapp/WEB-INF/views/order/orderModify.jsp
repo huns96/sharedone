@@ -58,7 +58,7 @@
     <div class="row">
         <div class="col-md-6 mb-3">
             <label for="requestDate" class="form-label">납품요청일</label>
-            <input id="requestDate" type="text" class="form-control orderInfo" name="request_date" value="${order.request_date}" required="required" />
+            <input id="requestDate" type="text" class="form-control orderInfo" name="request_date" value="${order.request_date}" readonly/>
         </div>
         <div class="col-md-6 mb-3">
             <label for="orderDate" class="form-label">주문일</label>
@@ -169,13 +169,6 @@
     //setItemList();
 
     $(function() {
-        /* 납품 요청일 */
-        $('#requestDate').datepicker({
-            dateFormat: "yy-mm-dd",
-            minDate: 0
-        }); //오늘이후 선택가능
-        $('#requestDate').attr("readonly",true).attr("style","background-color:white;");
-
         /* 상품 검색 팝업창 */
         $('#productPopupButton').click(function() {
             let requestDate = $.trim($('#requestDate').val());
@@ -222,7 +215,8 @@
     /* 상품 검색 팝업창 */
     function itemPopup() {
         resetItemInfo();
-        let url = "/search/productPopup?buyer_code=" + $('#buyerCode').val();
+        let url = "/search/productPopup?buyer_code=" + $('#buyerCode').val()
+            + "&request_date=" + $('#requestDate').val().replaceAll("-", "");
         let popupWidth = 600;
         let popupHeight = 500;
         let popupX = (window.screen.width / 2) - (popupWidth / 2);
@@ -358,10 +352,10 @@
                 + "<td>" + parseInt(orderItemList[i][3]).toLocaleString() + "</td>"
                 + "<td>" + parseInt(orderItemList[i][4]).toLocaleString() + "</td>"
                 + "<td style='width: 80px;'>"
-                +    "<button type='button' class='btn btn-outline-secondary btn-sm' onclick='modifyItem(" + orderItemList.length + ")'>수정</button>"
+                +    "<button type='button' class='btn btn-outline-warning btn-sm' onclick='modifyItem(" + orderItemList.length + ")'>수정</button>"
                 + "</td>"
                 + "<td style='width: 80px;'>"
-                +    "<button type='button' class='btn btn-outline-secondary btn-sm' onclick='removeItem(" + orderItemList.length + ")'>삭제</button>"
+                +    "<button type='button' class='btn btn-outline-danger btn-sm' onclick='removeItem(" + orderItemList.length + ")'>삭제</button>"
                 + "</td>"
                 + "</tr>"
             );

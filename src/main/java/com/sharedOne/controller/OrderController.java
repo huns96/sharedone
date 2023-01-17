@@ -71,10 +71,11 @@ public class OrderController {
     @RequestMapping("itemList")
     @ResponseBody
     public Page<OrderItemDto> itemList(@RequestParam String orderCode,
+                                       @RequestParam String requestDate,
                                        @RequestParam(defaultValue = "1")int page,
                                        Model model) {
         PageHelper.startPage(page,4);
-        Page<OrderItemDto> list = orderService.getItemList(orderCode);
+        Page<OrderItemDto> list = orderService.getItemList(orderCode, requestDate);
         //log.info("list itemDto ===============> {}", list);
         model.addAttribute("pageNum_item", list.getPageNum());
         model.addAttribute("pageSize_item", list.getPageSize());
@@ -85,9 +86,9 @@ public class OrderController {
 
     /* 주문 정보 조회 - 수정페이지 */
     @GetMapping("orderModify")
-    public void modify(String orderCode, Model model) {
+    public void modify(String orderCode, String requestDate, Model model) {
         OrderDto orderDto = orderService.getOrderInfo(orderCode);
-        List<OrderItemDto> list = orderService.getItemList(orderCode);
+        List<OrderItemDto> list = orderService.getItemList(orderCode, requestDate);
         model.addAttribute("order", orderDto);
         model.addAttribute("itemList", list);
     }

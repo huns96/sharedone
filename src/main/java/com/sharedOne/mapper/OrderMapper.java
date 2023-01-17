@@ -15,7 +15,7 @@ public interface OrderMapper {
 
     Page<OrderDto> listOrder(String orderCode, String buyerCode, String status, String userId);
 
-    Page<OrderItemDto> listItem(String orderCode);
+    Page<OrderItemDto> listItem(String orderCode, String requestDate);
 
     OrderDto getOrder(String orderCode);
 

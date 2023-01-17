@@ -2,6 +2,7 @@ package com.sharedOne.domain;
 
 import lombok.Data;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 
 @Data
@@ -18,6 +19,8 @@ public class OrderItemDto {
     private int price; // 단가(사용자가 변경가능한 값)
     private int old_price; // 기존단가(price 테이블 값)
     private int total_price; // 총금액
+    private Date start_date;
+    private Date end_date;
 
     private String delyn; //삭제 여부
     private String adduser; // 등록자

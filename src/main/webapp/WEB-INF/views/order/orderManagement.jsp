@@ -142,7 +142,7 @@
                                         <td>${order.upduser}</td>
                                         <td>
                                             <c:if test="${order.status == '작성중' || order.status == '승인취소' || order.status == '승인반려'}">
-                                                <button type="button" class="btn btn-outline-warning btn-sm" onclick="modifyOrderPopup(${order.order_code})">수정</button>
+                                                <button type="button" class="btn btn-outline-warning btn-sm" onclick="modifyOrderPopup('${order.order_code}','${order.request_date}')">수정</button>
                                             </c:if>
                                                 <%--<c:if test="${(order.approval_date == '' || order.approval_date == null) &&
                                                                 (order.return_date == '' || order.return_date == null) && order.status == '작성중'}">
@@ -304,7 +304,8 @@
             let tr = $(this);
             let td = tr.children();
             let orderCode = td.eq(0).text();
-            itemListByOrderCode(orderCode);
+            let requestDate = td.eq(3).text();
+            itemListByOrderCode(orderCode, requestDate.replaceAll("-", ""));
 
             // 승인/반려 메모
             let comment = td.eq(11).text();
@@ -341,7 +342,7 @@
     });
 
     /* 주문번호별 상품 조회 */
-    function itemListByOrderCode(orderCode) {
+    function itemListByOrderCode(orderCode, requestDate) {
         let tbody = $('#itemList-table tbody');
         tbody.empty(); //초기화
         tbody.append("");
@@ -350,11 +351,15 @@
             $.ajax({
                 type: 'POST',
                 url: '/order/itemList',
-                data: {"orderCode": orderCode},
+                data: {
+                    "orderCode": orderCode,
+                    "requestDate": requestDate
+                },
                 dataType : 'json',
                 traditional: true,
                 success: function (result) {
-                    //console.log(result);
+                    console.log(result);
+                    console.log("==========="+'${total_item}');
                     for (var i = 0; i < result.length; i++) {
                         let index = i + 1;
                         let product_code = result[i].product_code;
@@ -368,6 +373,7 @@
                         let order_code = result[i].order_code;
                         let buyer_name = result[i].buyer_name;
                         //let updateButton = updateButton;
+
 
                         tbody.append(
                             "<tr>"
@@ -436,8 +442,8 @@
     }
 
     /* 주문 수정 팝업창 */
-    function modifyOrderPopup(orderCode) {
-        let url = "/order/orderModify?orderCode=" + orderCode;//$('#orderCode').val();
+    function modifyOrderPopup(orderCode, requestDate) {
+        let url = "/order/orderModify?orderCode=" + orderCode + "&&requestDate=" + requestDate.replaceAll("-","");
         let popupWidth = 800;
         let popupHeight = 800;
         let popupX = (window.screen.width / 2) - (popupWidth / 2);

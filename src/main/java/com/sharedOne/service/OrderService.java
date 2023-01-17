@@ -93,17 +93,15 @@ public class OrderService {
             }
         }
 
-        //log.info("list orderCode ==========> {}", orderCode);
         Page<OrderDto> list = orderMapper.listOrder(orderCode, buyerCode, status, userId);
-        log.info("list orderDto ==========> {}", list);
+        //log.info("list orderDto ==========> {}", list);
         return list;
     }
     
     /* 주문 상품 목록 조회 */
-    public Page<OrderItemDto> getItemList(String orderCode) {
-        log.info("list OrderItemDto orderCode ==========> {}", orderCode);
-        Page<OrderItemDto> list = orderMapper.listItem(orderCode);
-        log.info("list OrderItemDto ==========> {}", list);
+    public Page<OrderItemDto> getItemList(String orderCode, String requestDate) {
+        Page<OrderItemDto> list = orderMapper.listItem(orderCode, requestDate);
+        //log.info("list OrderItemDto ==========> {}", list);
         return list;
     }
 

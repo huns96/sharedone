@@ -23,7 +23,7 @@ public class SearchService {
     }
 
     public Page<OrderItemDto> getItemList(String buyer_code, String request_date) {
-        return searchMapper.getItemList(buyer_code);
+        return searchMapper.getItemList(buyer_code, request_date);
     }
 
     public Page<MemberDto> getMemberList(String type, String value) {
