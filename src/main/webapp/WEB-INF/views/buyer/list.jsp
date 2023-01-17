@@ -46,21 +46,21 @@
 <div class="container-fluid">
     <div class="row flex-nowrap">
         <my:Sidebar></my:Sidebar>
-        <div class="col py-3 mt-5" style="margin: 60px;">
-            <div class="p-3 mt-3 mb-3" style="background-color: white; border-radius: 5px">
+        <div class="col py-3" style="">
+            <div class="p-3 mb-3" style="background-color: white; border-radius: 5px">
                 <table style="  align-content: end;">
                     <tr>
                         <td style="float: end;">
                             <form action="${pageContext.request.contextPath}/buyer/listSearch" method="get" class="d-flex" style="height: 40px">
                                 <select name="search" id="" class="form-select" style="width: 200px">
                                     <option value="all">통합검색</option>
-                                    <option value="buyer_code">바이어 코드</option>
-                                    <option value="name">이름</option>
+                                    <option value="buyer_code" <c:if test="${type == 'buyer_code'}">selected</c:if> >바이어 코드</option>
+                                    <option value="name" <c:if test="${type == 'name'}">selected</c:if> >이름</option>
                                 </select>
 
-                                <input type="text" placeholder="search" name="keyword" class="form-control">
+                                <input type="text" placeholder="search" name="keyword" class="form-control" value="${keyword}">
                                 <button class="btn btn-dark" style="width: 100px; margin-right: 5px">검색</button>
-                                <button onclick="location.replace(`${pageContext.request.contextPath}/buyer/list`)" class="btn btn-dark" style="width: 140px">초기화</button>
+                                <a type="button" class="btn btn-dark" style="width: 140px" href="/buyer/list">초기화</a>
                             </form>
                         </td>
                     </tr>
@@ -83,7 +83,7 @@
 
             <div style="background-color: white; border-radius: 5px" class="mb-5">
                 <div class="row p-2 justify-content-between">
-                    <div class="col-4 mt-3"><h5 style="font-weight: bold;">바이어 목록</h5></div>
+                    <div class="col-4 mt-3 mb-1"><h4 style="font-weight: bold;">바이어 목록</h4></div>
                     <div class="col-2 mt-3" style="text-align: right;">
                         <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#registerModal">등록</button>
                         <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" id="deleteCheck">삭제</button>

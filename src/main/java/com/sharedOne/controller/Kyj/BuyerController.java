@@ -53,7 +53,8 @@ public class BuyerController {
         model.addAttribute("pages", buyerLists.getPages());
         model.addAttribute("total",buyerLists.getTotal());
         model.addAttribute("buyerList", buyerLists.getResult());
-
+        model.addAttribute("type",type);
+        model.addAttribute("keyword",keyword);
         return "buyer/list";
     }
 

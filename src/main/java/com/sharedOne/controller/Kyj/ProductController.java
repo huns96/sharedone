@@ -83,9 +83,11 @@ public class ProductController {
     @GetMapping("listSearch")
     public String listSearch(Model model, @RequestParam(defaultValue = "1")int page,
                              @RequestParam(name="search",defaultValue = "all")String type,
-                             @RequestParam(name="keyword",defaultValue = "")String keyword){
+                             @RequestParam(name="keyword",defaultValue = "")String keyword
+                             ){
 
         PageHelper.startPage(page, 10);
+        System.out.println("this is type: " +type);
         String newKeyword = "%"+keyword+"%";
         Page<ProductDto> productDtos = productService.getProductByKeword(type,newKeyword);
         model.addAttribute("pageNum", productDtos.getPageNum());
@@ -94,8 +96,13 @@ public class ProductController {
         model.addAttribute("total",productDtos.getTotal());
         model.addAttribute("products", productDtos.getResult());
 
+        model.addAttribute("type",type);
+        model.addAttribute("keyword",keyword);
+
         return "product/list";
     }
+
+
 
     @GetMapping("listSearchCategory")
     public String listSearch(Model model, @RequestParam(defaultValue = "1")int page,
@@ -133,7 +140,7 @@ public class ProductController {
         if (category == 1) {
             product_code = "MO";
         } else if (category == 2) {
-            product_code = "TV";
+            product_code = "PC";
         } else if (category == 3) {
             product_code = "HO";
         } //category_id = integer
