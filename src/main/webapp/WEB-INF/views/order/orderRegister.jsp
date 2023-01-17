@@ -225,7 +225,8 @@
         /* 상품 검색 팝업창 */
         function itemPopup() {
             resetItemInfo();
-            let url = "/search/productPopup?buyer_code=" + $('#buyerCode').val();
+            let url = "/search/productPopup?buyer_code=" + $('#buyerCode').val()
+                        + "&request_date=" + $('#requestDate').val();
             let popupWidth = 600;
             let popupHeight = 500;
             let popupX = (window.screen.width / 2) - (popupWidth / 2);
