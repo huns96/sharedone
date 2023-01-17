@@ -27,11 +27,10 @@ public class OrderController {
     public void management(@RequestParam(required = false) String orderCode,
                            @RequestParam(required = false) String buyerCode,
                            @RequestParam(required = false) String status,
-                           @RequestParam(required = false) String adduser,
-                           @RequestParam(required = false) String upduser,
+                           @RequestParam(required = false) String userId,
                            Model model) {
         //log.info("param ========> {} / {} / {}", orderCode, buyerCode, status);
-        List<OrderDto> list = orderService.getOrderList(orderCode, buyerCode, status, adduser, upduser);
+        List<OrderDto> list = orderService.getOrderList(orderCode, buyerCode, status, userId);
         model.addAttribute("orderList", list);
     }
 

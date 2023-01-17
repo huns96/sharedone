@@ -23,4 +23,8 @@ public class SearchService {
     public List<OrderItemDto> getItemList(String buyer_code) {
         return searchMapper.getItemList(buyer_code);
     }
+
+    public List<BuyerDto> getMemberList(String type, String value) {
+        return searchMapper.getMemberList(type, "%" + value + "%");
+    }
 }

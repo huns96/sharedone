@@ -12,4 +12,6 @@ public interface SearchMapper {
     List<BuyerDto> getBuyerList(String type, String value);
 
     List<OrderItemDto> getItemList(String buyer_code);
+
+    List<BuyerDto> getMemberList(String type, String value);
 }

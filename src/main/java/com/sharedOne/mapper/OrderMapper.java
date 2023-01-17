@@ -12,7 +12,7 @@ public interface OrderMapper {
 
     int insertOrderItem(OrderItemDto itemDto);
 
-    List<OrderDto> listOrder(String orderCode, String buyerCode, String status, String adduser, String upduser);
+    List<OrderDto> listOrder(String orderCode, String buyerCode, String status, String userId);
 
     List<OrderItemDto> listItem(String orderCode);
 
