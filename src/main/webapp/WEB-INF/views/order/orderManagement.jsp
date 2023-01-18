@@ -112,7 +112,7 @@
 
                         <div id="buttonDiv">
                             <button id="reset-btn" class="btn btn-secondary search-btn" type="button">X</button>
-                            <button class="btn btn-dark search-btn" type="submit">조회</button>
+                            <button id="search-btn" class="btn btn-dark search-btn" type="submit" <%--onclick="setSearchValue(${param.orderCode},${param.buyerCode},${param.status},${param.userId})"--%>>조회</button>
                         </div>
                     </form>
                 </div>
@@ -198,18 +198,23 @@
                                 <nav aria-label="Page navigation example">
                                     <ul class="pagination pagination-sm">
                                         <li class="page-item">
-                                            <c:url value="/order/orderManagement" var="pageLink"></c:url>
-                                            <a class="page-link" href="${pageLink}?page=1" aria-label="Previous">
+                                            <c:url value="/order/orderManagement" var="pageLink">
+                                                <c:param name="orderCode" value="${param.orderCode }" />
+                                                <c:param name="buyerCode" value="${param.buyerCode }" />
+                                                <c:param name="status" value="${param.status }" />
+                                                <c:param name="userId" value="${param.userId }" />
+                                            </c:url>
+                                            <a class="page-link" href="${pageLink}&page=1" aria-label="Previous">
                                                 <span aria-hidden="true">&laquo;</span>
                                             </a>
                                         </li>
                                         <c:forEach begin="1" end="${pages}" varStatus="status" var="pageNumb">
                                             <li class="page-item  ${pageNum == pageNumb ? "active" : ""}">
-                                                <a class="page-link" href="${pageLink }?page=${pageNumb}">${pageNumb }</a>
+                                                <a class="page-link" href="${pageLink }&page=${pageNumb}">${pageNumb }</a>
                                             </li>
                                         </c:forEach>
                                         <li class="page-item">
-                                            <a class="page-link" href="${pageLink }?page=${pages}" aria-label="Next">
+                                            <a class="page-link" href="${pageLink }&page=${pages}" aria-label="Next">
                                                 <span aria-hidden="true">&raquo;</span>
                                             </a>
                                         </li>
@@ -287,6 +292,13 @@
 <%--<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.ko.min.js" integrity="sha512-L4qpL1ZotXZLLe8Oo0ZyHrj/SweV7CieswUODAAPN/tnqN3PA1P+4qPu5vIryNor6HQ5o22NujIcAZIfyVXwbQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>--%>
 <script type="text/javascript">
     $(function () {
+        /* 검색 조건 값 세션에서 가져오기 */
+       /* $('#orderCode').val(localStorage.getItem("orderCode"));
+        console.log(localStorage.getItem("orderCode"));
+        console.log(localStorage.getItem("buyerCode"));
+        console.log(localStorage.getItem("status"));
+        console.log(localStorage.getItem("userId"));*/
+
         /* 주문 상품 조회 */
         $('#order-table tr').dblclick(function() {
             let tr = $(this);
@@ -312,7 +324,7 @@
             $('#buyerName').val("");
             $('#status').val("");
             $('#userId').val("");
-            //location.reload();
+            $('#search-btn').click();
         });
 
         /* 주문 등록 팝업창 */
@@ -332,6 +344,19 @@
 
 
     });
+
+    /* 검색 조회 시, 세션에 검색 조건 저장 */
+    /*function setSearchValue(orderCode, buyerCode, status, userId) {
+        /!*localStorage.orderCode = orderCode;
+        localStorage.buyerCode = buyerCode;
+        localStorage.status = status;
+        localStorage.userId = userId;*!/
+        console.log("---------------------")
+        window.localStorage.setItem("orderCode", orderCode);
+        window.localStorage.setItem("buyerCode", buyerCode);
+        window.localStorage.setItem("status", status);
+        window.localStorage.setItem("userId", userId);
+    }*/
 
     /* 주문번호별 상품 조회 */
     function itemListByOrderCode(orderCode, requestDate) {
