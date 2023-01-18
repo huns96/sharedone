@@ -299,6 +299,10 @@
             let comment = td.eq(11).text();
             $('#comment').empty();
             $('#comment').append(comment);
+
+            // 선택한 주문 정보 폰트 두껍게
+            $('#order-table tbody tr').attr("style", "font-weight: regular;");
+            tr.attr("style", "font-weight: bold;");
         });
 
         /* 검색 초기화 */
