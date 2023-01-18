@@ -307,9 +307,10 @@
             tbody.empty(); //초기화
             tbody.append("");
             for (var i = 0; i < orderItemList.length; i++) {
+                let index = i + 1;
                 tbody.append(
                     "<tr>"
-                    + "<td>" + orderItemList.length + "</td>"
+                    + "<td>" + index + "</td>"
                     + "<td>" + orderItemList[i][0] + "</td>"
                     + "<td>" + orderItemList[i][1] + "</td>"
                     + "<td>" + parseInt(orderItemList[i][2]).toLocaleString() + "</td>"

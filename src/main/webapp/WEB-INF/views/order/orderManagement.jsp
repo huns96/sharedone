@@ -23,7 +23,7 @@
         #item-list, #commentDiv { height: 350px; }
         h5 {
             font-weight: bold;
-            margin: 5px 0 0 20px;
+            margin: 5px 0 20px 20px;
         }
         h6 { margin-bottom: 20px; }
         table { text-align: center }
@@ -31,8 +31,25 @@
             padding: 1em .5em;
             vertical-align: middle;
         }
-        #order-table, #itemList-table { margin-top: 20px; }
-        .totalNum { margin-left: 20px; }
+        /*#order-table, #itemList-table { margin-top: 20px; }*/
+        .totalNum {
+            float: right;
+            margin-right: 20px;
+        }
+        #totalInfo {
+            float: right;
+            margin-right: 20px;
+            font-weight: bold;
+        }
+        .itemtableDiv {
+            height: 250px;
+            overflow: auto;
+        }
+        .fixedHeader {
+            position: sticky;
+            top: 0;
+            background-color: white !important;;
+        }
 
         #search { height: 60px; }
         .search-label {
@@ -109,7 +126,7 @@
                         <h5>주문 목록
                         <button id="addNewOrderButton" class="btn btn-success" style="float: right; margin-right: 20px;">새 주문 등록</button>
                         </h5>
-                        <div style="height: 370px;">
+                        <div style="height: 400px;">
                             <table class="table table-hover" id="order-table">
                                 <thead>
                                 <tr>
@@ -211,54 +228,25 @@
                 <div id="items" class="contents bottom">
                     <div id="item-list" class="page-background">
                         <h5>주문 상품 목록</h5>
-                        <div style="height: 240px;">
+                        <div class="itemtableDiv">
                             <table class="table table-hover" id="itemList-table">
                                 <thead>
                                 <tr>
                                     <%--<th>#</th>--%>
-                                    <th>상품번호</th>
-                                    <th>상품명</th>
-                                    <th>수량</th>
-                                    <th>단가</th>
-                                    <th>총금액</th>
-                                    <th>기존단가</th>
-                                    <th>등록자</th>
-                                    <th>수정자</th>
+                                    <th class="fixedHeader">상품번호</th>
+                                    <th class="fixedHeader">상품명</th>
+                                    <th class="fixedHeader">수량</th>
+                                    <th class="fixedHeader">단가</th>
+                                    <th class="fixedHeader">총금액</th>
+                                    <th class="fixedHeader">기존단가</th>
+                                    <th class="fixedHeader">등록자</th>
+                                    <th class="fixedHeader">수정자</th>
                                 </tr>
                                 </thead>
                                 <tbody></tbody>
                             </table>
                         </div>
-                        <c:if test="${total_item != null && total_item != ''}">
-                            <div class="totalNum">총 <b>${total_item}</b>건</div>
-                        </c:if>
-
-                        <%--페이지네이션--%>
-                        <div class="row justify-content-center">
-                            <div class="col-3">
-                                <nav aria-label="Page navigation example">
-                                    <ul class="pagination pagination-sm">
-                                        <li class="page-item">
-                                            <c:url value="/order/itemList" var="pageLink"></c:url>
-                                            <a class="page-link" href="${pageLink}?page=1" aria-label="Previous">
-                                                <span aria-hidden="true">&laquo;</span>
-                                            </a>
-                                        </li>
-                                        <c:forEach begin="1" end="${pages_item}" varStatus="status" var="pageNumb">
-                                            <li class="page-item  ${pageNum_item == pageNumb ? "active" : ""}">
-                                                <a class="page-link" href="${pageLink}?page=${pageNumb}">${pageNumb }</a>
-                                            </li>
-                                        </c:forEach>
-                                        <li class="page-item">
-                                            <a class="page-link" href="${pageLink}?page=${pages_item}" aria-label="Next">
-                                                <span aria-hidden="true">&raquo;</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </nav>
-                            </div>
-                        </div>
-
+                        <div id="totalInfo"></div>
                     </div>
                 </div>
             </div>
@@ -359,7 +347,8 @@
                 traditional: true,
                 success: function (result) {
                     console.log(result);
-                    console.log("==========="+'${total_item}');
+                    let totalPrice = 0;
+                    let totalNum = 0;
                     for (var i = 0; i < result.length; i++) {
                         let index = i + 1;
                         let product_code = result[i].product_code;
@@ -373,7 +362,10 @@
                         let order_code = result[i].order_code;
                         let buyer_name = result[i].buyer_name;
                         //let updateButton = updateButton;
+                        totalPrice += parseInt(total_price);
+                        totalNum++;
 
+                        if (upduser == null) upduser = "";
 
                         tbody.append(
                             "<tr>"
@@ -391,6 +383,9 @@
                             + "</tr>"
                         );
                     }
+
+                    $('#totalInfo').empty();
+                    $('#totalInfo').append("총 " + totalNum + "건  /  총 " + totalPrice.toLocaleString() + "원");
                 }
             });
         }, 100);
