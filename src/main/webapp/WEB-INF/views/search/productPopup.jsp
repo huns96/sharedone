@@ -32,15 +32,6 @@
 <body>
 <div id="productPopup">
     <h4><b>상품 목록</b></h4>
-    <%--<div class="row">
-        <input id="buyerCode" type="text" class="form-control" name="buyer_code" />
-        <input id="buyerName" type="text" class="form-control" name="buyer_name" />
-        <input id="orderDate" type="text" class="form-control" name="order_date" />
-    </div>--%>
-    <%--<c:url value="/search/productPopup" var="pageLink">
-        <c:param name="buyer_code" value="${param.type }" />
-        <c:param name="request_date" value="${param.value }" />
-    </c:url>--%>
     <form id="searchFrom" action="/search/productPopup" role="search" style="display: flex; margin: 20px 0;">
         <select name="type" id="searchTypeSelect" class="form-select search-select">
             <%--<option value="all"></option>--%>
@@ -48,6 +39,8 @@
             <option selected value="product_name" ${param.type == 'product_name' ? 'selected' : '' }>상품명</option>
         </select>
         <input value="${param.value }" id="searchInput" class="form-control search-input" type="text" name="value">
+        <input type="hidden" name="buyer_code" value="${param.buyer_code }">
+        <input type="hidden" name="request_date" value="${param.request_date }">
         <div id="buttonDiv">
             <button id="reset-btn" class="btn btn-secondary search-btn btn-sm" type="button">초기화</button>
             <button id="search-btn" class="btn btn-dark search-btn btn-sm" type="submit">조회</button>
@@ -90,23 +83,23 @@
             <nav aria-label="Page navigation example">
                 <ul class="pagination pagination-sm">
                     <li class="page-item">
-                        <c:url value="/search/productPopup" var="pageLink"></c:url>
-                        <a class="page-link" aria-label="Previous"
-                           onclick="location.href='/search/productPopup?page=1&buyer_code='+buyerCode+'&request_date='+requestDate">
+                        <c:url value="/search/productPopup" var="pageLink">
+                            <c:param name="buyer_code" value="${param.buyer_code }" />
+                            <c:param name="request_date" value="${param.request_date }" />
+                            <c:param name="type" value="${param.type }" />
+                            <c:param name="value" value="${param.value }" />
+                        </c:url>
+                        <a class="page-link" href="${pageLink}&page=1" aria-label="Previous">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
                     </li>
                     <c:forEach begin="1" end="${pages}" varStatus="status" var="pageNumb">
                         <li class="page-item  ${pageNum == pageNumb ? "active" : ""}">
-                            <a class="page-link"
-                               onclick="location.href='/search/productPopup?page=${pageNumb}&buyer_code='+buyerCode+'&request_date='+requestDate">
-                                    ${pageNumb }
-                            </a>
+                            <a class="page-link" href="${pageLink }&page=${pageNumb}">${pageNumb }</a>
                         </li>
                     </c:forEach>
                     <li class="page-item">
-                        <a class="page-link" aria-label="Next"
-                           onclick="location.href='/search/productPopup?page=${pages}&buyer_code='+buyerCode+'&request_date='+requestDate">
+                        <a class="page-link" href="${pageLink }&page=${pages}" aria-label="Next">
                             <span aria-hidden="true">&raquo;</span>
                         </a>
                     </li>
@@ -123,8 +116,8 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 <script type="text/javascript">
     /* 부모창에서 값 가져오기 */
-    let buyerCode = opener.$("#buyerCode").val();
-    let requestDate = opener.$("#requestDate").val().replaceAll("-","");
+    /*let buyerCode = opener.$("#buyerCode").val();
+    let requestDate = opener.$("#requestDate").val().replaceAll("-","");*/
 
     $(function() {
         // 체크박스 하나만 선택
@@ -139,17 +132,6 @@
                 this.checked = false;
             }
         });
-
-        /* 검색 조회 */
-        /*$('#search-btn').click(function() {
-            searchProduct();
-        });*/
-
-        /* 부모창에서 값 가져오기 */
-        $("#buyerCode").val(opener.$("#buyerCode").val());
-        // $("#buyerName").val(opener.$("#buyerName").val());
-        // $("#orderDate").val(opener.$("#orderDate").val());
-        $("#requestDate").val(opener.$("#requestDate").val());
 
         /* 확인 버튼 */
         $('#confirm').click(function() {
@@ -166,29 +148,6 @@
             window.close();
         });
     })
-
-    /*function searchProduct() {
-        let type = $('#searchTypeSelect option:selected').val();
-        let value = $('#searchInput').val();
-        console.log(type);
-        console.log(value);
-        $.ajax({
-            type: 'GET',
-            url: '/search/productPopup',
-            data: {
-                "buyer_code": buyerCode,
-                "request_date": requestDate,
-                "type": type,
-                "value": value
-            },
-            dataType : 'json',
-            traditional: true,
-            success: function (result) {
-                console.log(result);
-
-            }
-        });
-    }*/
 
 </script>
 </body>
