@@ -74,7 +74,7 @@ public class OrderController {
                                        @RequestParam String requestDate,
                                        @RequestParam(defaultValue = "1")int page,
                                        Model model) {
-        PageHelper.startPage(page,4);
+        //PageHelper.startPage(page,4);
         Page<OrderItemDto> list = orderService.getItemList(orderCode, requestDate);
         //log.info("list itemDto ===============> {}", list);
         model.addAttribute("pageNum_item", list.getPageNum());
