@@ -23,10 +23,10 @@
         <my:Sidebar></my:Sidebar>
         <sec:authorize access="isAuthenticated()" var="login"></sec:authorize>
         <c:if test="${not login}">
-        <div class="container">
-            <div class="">
+        <div class="container" style="background-image: url(${pageContext.request.contextPath}/content/img/logo.png); background-repeat: no-repeat; background-size: cover;">
+            <div>
                 <div class="col-12" style="text-align: center; width: 30%; margin: 250px auto 0;">
-                    <h1><i class="fa-solid fa-umbrella"></i></h1>
+                    <div></div>
                         <form method="post">
 
                             <div class="input-group mb-3">
