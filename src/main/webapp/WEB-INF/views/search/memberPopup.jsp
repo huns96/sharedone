@@ -40,7 +40,7 @@
         <input value="${param.value }" id="searchInput" class="form-control search-input" type="text" name="value">
         <div id="buttonDiv">
             <button id="reset-btn" class="btn btn-secondary search-btn btn-sm" type="button">초기화</button>
-            <button class="btn btn-dark search-btn btn-sm" type="submit">조회</button>
+            <button id="search-btn" class="btn btn-dark search-btn btn-sm" type="submit">조회</button>
         </div>
     </form>
     <div style="height: 250px;">
@@ -76,18 +76,21 @@
             <nav aria-label="Page navigation example">
                 <ul class="pagination pagination-sm">
                     <li class="page-item">
-                        <c:url value="/search/memberPopup" var="pageLink"></c:url>
-                        <a class="page-link" href="${pageLink}?page=1" aria-label="Previous">
+                        <c:url value="/search/memberPopup" var="pageLink">
+                            <c:param name="type" value="${param.type }" />
+                            <c:param name="value" value="${param.value }" />
+                        </c:url>
+                        <a class="page-link" href="${pageLink}&page=1" aria-label="Previous">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
                     </li>
                     <c:forEach begin="1" end="${pages}" varStatus="status" var="pageNumb">
                         <li class="page-item  ${pageNum == pageNumb ? "active" : ""}">
-                            <a class="page-link" href="${pageLink }?page=${pageNumb}">${pageNumb }</a>
+                            <a class="page-link" href="${pageLink }&page=${pageNumb}">${pageNumb }</a>
                         </li>
                     </c:forEach>
                     <li class="page-item">
-                        <a class="page-link" href="${pageLink }?page=${pages}" aria-label="Next">
+                        <a class="page-link" href="${pageLink }&page=${pages}" aria-label="Next">
                             <span aria-hidden="true">&raquo;</span>
                         </a>
                     </li>
@@ -120,6 +123,7 @@
         /* 검색 초기화 */
         $('#reset-btn').click(function() {
             $('#searchInput').val("");
+            $('#search-btn').click();
         });
 
         /* 확인 버튼 */
