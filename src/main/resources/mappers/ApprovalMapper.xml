@@ -4,67 +4,92 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.sharedOne.mapper.ApprovalMapper">
-    <select id="selectBuyers" resultType="com.sharedOne.domain.OrderDto">
-        SELECT * FROM order
-    </select>
 
-    <select id="countAll" resultType="int">
-        SELECT COUNT(*)
-        FROM order_header
-        WHERE status= "승인요청" OR "승인완료" AND (
-        <trim prefixOverrides="OR">
-            <if test="type == 'all' or type == '승인요청'">
-                OR ( order_code LIKE #{keyword} AND status= "승인요청" )
-            </if>
+<!--    <select id="listOrder" resultType="com.sharedOne.domain.OrderDto">-->
+<!--        SELECT-->
+<!--        o.order_code, o.buyer_code, b.name as buyer_name,-->
+<!--        o.order_date, o.request_date, o.approval_date, o.return_date,-->
+<!--        o.status, o.memo, o.comment,-->
+<!--        o.delyn, o.adduser, o.adddate, o.upduser, o.upddate-->
+<!--        FROM order_header o LEFT JOIN buyer b ON o.buyer_code = b.buyer_code AND b.delyn = 'N'-->
+<!--        WHERE o.delyn = 'N' AND (o.status= "승인완료" OR o.status="승인요청")-->
+<!--        <if test="orderCode != null and orderCode !=''">-->
+<!--            AND o.order_code like #{orderCode}-->
+<!--        </if>-->
+<!--        <if test="buyerCode != null and buyerCode !=''">-->
+<!--            AND o.buyer_code = #{buyerCode}-->
+<!--        </if>-->
+<!--        <if test="status != null and status !='' and status != 'all'">-->
+<!--            AND o.status = #{status}-->
+<!--        </if>-->
+<!--        <if test="userId != null and userId !=''">-->
+<!--            AND (o.adduser = #{userId} OR o.upduser = #{userId})-->
+<!--        </if>-->
+<!--    </select>-->
 
-            <if test="type == 'all' or type == '승인완료'">
-                OR ( order_code LIKE #{keyword} AND status= "승인완료" )
-            </if>
-
-        </trim>
-        )
-    </select>
-
-    <select id="approvalList" resultType="com.sharedOne.domain.OrderDto">
+    <select id="listOrder" resultType="com.sharedOne.domain.OrderDto">
         SELECT
         o.num,
         o.order_code, o.buyer_code, b.name as buyer_name,
-        o.order_date, o.request_date, o.approval_date,
+        o.order_date, o.request_date, o.approval_date, o.return_date,
         o.status, o.memo, o.comment,
-        o.adduser, o.adddate, o.upduser, o.upddate
+        o.delyn, o.adduser, o.adddate, o.upduser, o.upddate
         FROM order_header o LEFT JOIN buyer b ON o.buyer_code = b.buyer_code
-        WHERE o.delyn = 'N' AND (o.status= "승인완료" OR o.status="승인요청")
-            AND (
-            <trim prefixOverrides="OR">
-                <if test="type == 'all' or type == '승인요청'">
-                    OR ( order_code LIKE #{keyword} AND status= "승인요청" )
-                </if>
-
-                <if test="type == 'all' or type == '승인완료'">
-                    OR ( order_code LIKE #{keyword} AND status= "승인완료" )
-                </if>
-
-            </trim>
-            );
+        WHERE o.delyn = 'N' AND b.delyn = 'N' AND (o.status= "승인완료" OR o.status="승인요청")
+        <if test="orderCode != null and orderCode !=''">
+            AND o.order_code like #{orderCode}
+        </if>
+        <if test="buyerCode != null and buyerCode !=''">
+            AND o.buyer_code = #{buyerCode}
+        </if>
+        <if test="status != null and status !='' and status != 'all'">
+            AND o.status = #{status}
+        </if>
+        <if test="userId != null and userId !=''">
+            AND (o.adduser = #{userId} OR o.upduser = #{userId})
+        </if>
     </select>
 
     <select id="listItem" resultMap="itemMap">
+        <![CDATA[
         SELECT
-        i.order_code, i.product_code, p.name as 'product_name',
-        i.quantity, i.price, pri.price as 'old_price', (i.quantity * i.price) as 'total_price',
-        o.buyer_code, b.name as 'buyer_name',
-        i.adduser, i.adddate, i.upduser, i.upddate
+            i.num, i.order_code, i.product_code, p.name as 'product_name',
+            i.quantity, i.price, pri.price as 'old_price', (i.quantity * i.price) as 'total_price',
+            o.buyer_code, b.name as 'buyer_name',
+            pri.start_date, pri.end_date,
+            i.delyn, i.adduser, i.adddate, i.upduser, i.upddate
         FROM order_item i
-        LEFT JOIN order_header o ON o.order_code = i.order_code
-        LEFT JOIN buyer b ON b.buyer_code = o.buyer_code
-        LEFT JOIN product p ON p.product_code = i.product_code
-        LEFT JOIN price pri ON pri.product_code = i.product_code and pri.buyer_code = o.buyer_code
-        WHERE i.order_code = #{order_code}
-        AND o.delyn = 'N'
-        GROUP BY i.order_code;
+            LEFT JOIN order_header o ON o.order_code = i.order_code
+            LEFT JOIN buyer b ON b.buyer_code = o.buyer_code
+            LEFT JOIN product p ON p.product_code = i.product_code
+            LEFT JOIN price pri ON pri.product_code = i.product_code and pri.buyer_code = o.buyer_code
+        WHERE i.delyn = 'N' AND p.delyn = 'N'
+            AND i.order_code = #{orderCode}
+            AND pri.start_date <= #{requestDate} AND pri.end_date >= #{requestDate}
+        ]]>
     </select>
 
+<!--    <select id="listItem" resultMap="itemMap">-->
+<!--        <![CDATA[-->
+<!--        SELECT-->
+<!--            i.num, i.order_code, i.product_code, p.name as 'product_name',-->
+<!--            i.quantity, i.price, pri.price as 'old_price', (i.quantity * i.price) as 'total_price',-->
+<!--            o.buyer_code, b.name as 'buyer_name',-->
+<!--            pri.start_date, pri.end_date,-->
+<!--            i.delyn, i.adduser, i.adddate, i.upduser, i.upddate-->
+<!--        FROM order_item i-->
+<!--            LEFT JOIN order_header o ON o.order_code = i.order_code-->
+<!--            LEFT JOIN buyer b ON b.buyer_code = o.buyer_code-->
+<!--            LEFT JOIN product p ON p.product_code = i.product_code-->
+<!--            LEFT JOIN price pri ON pri.product_code = i.product_code and pri.buyer_code = o.buyer_code AND pri.delyn = 'N'-->
+<!--        WHERE p.delyn = 'N'-->
+<!--            AND i.order_code = #{orderCode}-->
+<!--            AND pri.start_date <= #{requestDate} AND pri.end_date >= #{requestDate}-->
+<!--        ]]>-->
+<!--    </select>-->
+
     <resultMap type="com.sharedOne.domain.OrderItemDto" id="itemMap">
+        <result column="num" property="num" />
         <result column="order_code" property="order_code" />
         <result column="product_code" property="product_code" />
         <result column="product_name" property="product_name" />
@@ -74,6 +99,7 @@
         <result column="total_price" property="total_price" />
         <result column="buyer_code" property="buyer_code" />
         <result column="buyer_name" property="buyer_name" />
+        <result column="delyn" property="delyn" />
         <result column="adduser" property="adduser" />
         <result column="adddate" property="adddate" />
         <result column="upduser" property="upduser" />
@@ -95,7 +121,7 @@
     <update id="approvalOrder">
         UPDATE order_header
         SET status = "승인완료", approval_date = CURRENT_TIMESTAMP(), comment = #{comment},
-        upduser = "user", upddate = CURRENT_TIMESTAMP()
+        upduser = "admin", upddate = CURRENT_TIMESTAMP()
         WHERE num = #{num}
     </update>
 
@@ -105,7 +131,7 @@
         SET status = "승인반려", comment = #{comment},
 <!--        approval_date = CURRENT_TIMESTAMP(),-->
         return_date = CURRENT_TIMESTAMP(),
-        upduser = "user", upddate = CURRENT_TIMESTAMP()
+        upduser = "admin", upddate = CURRENT_TIMESTAMP()
         WHERE num = #{num}
     </update>
 

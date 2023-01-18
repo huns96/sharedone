@@ -30,7 +30,7 @@ public class OrderService {
         orderMapper.insertOrder(orderDto);
         return orderCode;
     }
-    
+
     /* 주문 번호 생성 */
     public String generateOrderCode(OrderDto orderDto) {
         String orderCode = "";
@@ -42,7 +42,7 @@ public class OrderService {
         orderCode = date + code + String.format("%02d", random);;
         return orderCode;
     }
-    
+
     /* 주문 상품 등록 */
     public int registerOrderItem(String[] addItems, String orderCode) {
         List<OrderItemDto> itemList = new ArrayList<>();
@@ -80,7 +80,7 @@ public class OrderService {
         log.info("========== {}개 상품 추가 ===========", cnt);
         return cnt;
     }
-    
+
     /* 주문 목록 조회 */
     public Page<OrderDto> getOrderList(String orderCode, String buyerCode, String status, String userId) {
         if (orderCode != null && orderCode != "") {
@@ -97,7 +97,7 @@ public class OrderService {
         //log.info("list orderDto ==========> {}", list);
         return list;
     }
-    
+
     /* 주문 상품 목록 조회 */
     public Page<OrderItemDto> getItemList(String orderCode, String requestDate) {
         Page<OrderItemDto> list = orderMapper.listItem(orderCode, requestDate);
@@ -182,7 +182,7 @@ public class OrderService {
         log.info("========== {}개 상품 삭제 ===========", cnt);
         return cnt;
     }
-    
+
     /* 주문 상태 변경 */
     public int changeStatus(String orderCode, String status) {
         OrderDto orderDto = new OrderDto();

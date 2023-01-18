@@ -7,16 +7,16 @@
 
     <select id="memberList" resultMap="memberList">
         SELECT
-            m.user_id, phone, name, adddate, GROUP_CONCAT(auth) AS auth
+        m.user_id, phone, name, adddate, GROUP_CONCAT(auth) AS auth
         FROM
-            member m JOIN authority a ON m.user_id = a.user_id
+        member m JOIN authority a ON m.user_id = a.user_id
         WHERE
-            delyn = 'N' AND
-            name LIKE #{keyword} OR
-            m.user_id LIKE #{keyword} OR
-            phone LIKE #{keyword} OR
-            adddate LIKE #{keyword} OR
-            auth LIKE #{keyword} GROUP BY m.user_id
+        delyn = 'N' AND
+        name LIKE #{keyword} OR
+        m.user_id LIKE #{keyword} OR
+        phone LIKE #{keyword} OR
+        adddate LIKE #{keyword} OR
+        auth LIKE #{keyword} GROUP BY m.user_id
 
     </select>
 
@@ -29,12 +29,12 @@
             <result column="auth" property="auth"/>
         </collection>
     </resultMap>
-    
+
     <insert id="insertMember">
         INSERT INTO member (user_id, password, name, phone, adduser)
         VALUES (#{user_id}, #{password}, #{name}, #{phone}, #{adduser})
     </insert>
-    
+
     <insert id="insertAutho">
         INSERT INTO authority (user_id, auth)
         VALUES (#{user_id}, "팀원")
@@ -42,11 +42,11 @@
 
     <select id="selectById" resultMap="memberMap">
         SELECT
-            m.user_id, password, auth
+        m.user_id, password, auth
         FROM
-            member m JOIN authority a ON m.user_id = a.user_id
+        member m JOIN authority a ON m.user_id = a.user_id
         WHERE
-            m.user_id = #{user_id}
+        m.user_id = #{user_id}
     </select>
 
     <resultMap id="memberMap" type="com.sharedOne.domain.member.MemberDto">
@@ -59,36 +59,36 @@
 
     <update id="deleteMember">
         UPDATE
-            member
+        member
         SET
-            delyn = 'Y', upddate = now(), upduser = #{upduser}
+        delyn = 'Y', upddate = now(), upduser = #{upduser}
         WHERE
-            user_id = #{user_id}
+        user_id = #{user_id}
     </update>
 
     <insert id="setAutho">
         INSERT INTO
-            authority (user_id, auth)
+        authority (user_id, auth)
         VALUES
-            (#{user_id}, #{auth})
+        (#{user_id}, #{auth})
     </insert>
 
     <update id="modifyMember">
         UPDATE
-            member
+        member
         SET
-            name = #{name}, phone = #{phone}, password = #{password}, upduser = #{upduser}, upddate = now()
+        name = #{name}, phone = #{phone}, password = #{password}, upduser = #{upduser}, upddate = now()
         WHERE
-            user_id = #{user_id}
+        user_id = #{user_id}
     </update>
 
     <select id="selectUserInfo" resultMap="myPageInfo">
         SELECT
-            m.user_id, name, phone, auth
+        m.user_id, name, phone, auth
         FROM
-            member m JOIN authority a ON a.user_id = m.user_id
+        member m JOIN authority a ON a.user_id = m.user_id
         WHERE
-            m.user_id = #{user_id}
+        m.user_id = #{user_id}
     </select>
 
     <resultMap id="myPageInfo" type="com.sharedOne.domain.member.MemberDto">
@@ -102,19 +102,19 @@
 
     <select id="authCheck" resultType="String">
         SELECT
-            auth
+        auth
         FROM
-            authority
+        authority
         WHERE
-            user_id = #{user_id} AND auth = #{auth}
+        user_id = #{user_id} AND auth = #{auth}
     </select>
 
     <delete id="deleteAutho">
         DELETE
         FROM
-            authority
+        authority
         WHERE
-            user_id = #{user_id} AND auth = #{auth}
+        user_id = #{user_id} AND auth = #{auth}
     </delete>
 
 

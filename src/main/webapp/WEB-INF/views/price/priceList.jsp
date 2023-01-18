@@ -15,6 +15,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="../css/price.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" integrity="sha512-aOG0c6nPNzGk+5zjwyJaoRUgCdOrfSDhmMID2u4+OIslr0GjpLKo7Xm0Ao3xmpM4T8AmIouRkqwj1nrdVsLKEQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <style>
     .page-background {
       background-color: white;
@@ -56,19 +57,20 @@
       <div id="search" class="page-background">
         <form action="" role="search" style="display: flex; height: 40px" >
           <label class="form-label" style="width: 70px;  margin-top:8px; text-align:center">바이어</label>
-          <select name="bt" class="form-select" style="width: 130px; vertical-align:bottom" aria-label="Disabled select example">
+          <select name="bt" id="bt" class="form-select" style="width: 130px; vertical-align:bottom" aria-label="Disabled select example">
             <option value="buyer_code">바이어코드</option>
             <option value="buyer_name">바이어명</option>
           </select>
-          <input class="form-control" type="search" name="bq" placeholder="바이어검색" style="width: 200px; text-align:center">
+          <input class="form-control" type="search" id="bq" name="bq" placeholder="바이어검색" style="width: 200px; text-align:center">
           <label class="form-label" style="width: 70px;  margin-top:8px; text-align:center">제품</label>
-          <select name="pt" class="form-select" style="width: 130px; vertical-align:bottom" aria-label="Disabled select example">
+          <select name="pt" id="pt" class="form-select" style="width: 130px; vertical-align:bottom" aria-label="Disabled select example">
             <option value="product_code">제품코드</option>
             <option value="product_name">제품명</option>
           </select>
-          <input class="form-control" type="search" name="pq" placeholder="제품검색" style="width: 200px; text-align:center">
+          <input class="form-control" type="search" id="pq" name="pq" placeholder="제품검색" style="width: 200px; text-align:center">
           <br>
-          <button class="btn btn-dark" type="submit" style="width: 100px; height: 40px; position: absolute; right:3%; border-radius: 7px;">조회</button>
+          <button id="reset-btn" class="btn btn-secondary search-btn" type="button" style="margin-left:40px;">X</button>
+          <button id="search-btn" class="btn btn-dark" type="submit" style="width: 100px; height: 40px; margin-left:40px;border-radius: 7px;">조회</button>
         </form>
       </div>
     </div>
@@ -77,7 +79,7 @@
       </div>
 
       <div class="card-body page-background " style="height: 85%;">
-          <h4 style="position: relative; top: 4%; margin-left: 20px ">판매가
+          <h4 style="position: relative; top: 4%; margin-left: 20px ;font-weight: bold; ">판매가
         <div class="btn-group" style="position: absolute; right: 10px;">
           <button class="btn btn-success btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#registerModal" style="border-radius: 7px; margin-right: 4px">등록 </button>
           <button class="btn btn-danger btn-sm" type="button"data-bs-toggle="modal" data-bs-target="#removeModal" id="delete" style="border-radius: 7px">삭제</button>
@@ -108,7 +110,7 @@
         <table class="table table-hover mt-3" id="deviceTable">
           <thead>
           <tr style="text-align: center">
-            <th>No.</th>
+            <th><%--No.--%></th>
             <th>바이어코드</th>
             <th>바이어명</th>
             <th>제품코드</th>
@@ -127,7 +129,7 @@
           <tbody>
           <c:forEach items="${priceList}" var="price" varStatus="status">
             <tr style="text-align: center">
-              <td><input type="checkbox" value="${price.num}" name="checkPrices">  ${status.count}</td>
+              <td><input type="checkbox" value="${price.num}" name="checkPrices"> <%-- ${status.count}--%></td>
               <td>${price.buyer_code}</td>
               <td>${price.buyer_name}</td>
               <td>${price.product_code}</td>
@@ -154,10 +156,17 @@
                       <div class="modal-body">
                         <form class="modifyForm" id="modifyForm" action="/price/modify" method="post" enctype="multipart/form-data" style="margin: auto;  height: 664px;">
                           <div style="margin: 20px;">
-                                  <div class="mb-3 mx-4" style="position: relative">
-                                    <label class="form-label">바이어코드</label>
-                                    <input class="form-control" type="text" name="buyer_code" data-bs-toggle="modal" data-bs-target="#buyerModal" placeholder="바이어 코드" value="${price.buyer_code}" style="text-align: center" readonly>
-                                    <i class="fa-solid fa-magnifying-glass" type="button" style="position: absolute; top: 62%; right: 1%" data-bs-toggle="modal" data-bs-target="#buyerModal"></i>
+                                  <div class="mb-3 mx-4 row">
+                                    <div class="col-md-6 mb-3">
+                                      <label class="form-label">바이어코드</label>
+                                      <input class="form-control" type="text" name="buyer_code" <%--data-bs-toggle="modal" data-bs-target="#buyerModal" --%> value="${price.buyer_code}" style="text-align: center; background-color: #e0e0e0" readonly>
+                                        <%--                                    <i class="fa-solid fa-magnifying-glass" type="button" style="position: absolute; top: 62%; right: 1%" data-bs-toggle="modal" data-bs-target="#buyerModal"></i>--%>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                      <label class="form-label">바이어명</label>
+                                      <input class="form-control" type="text" name="buyer_name" <%--data-bs-toggle="modal" data-bs-target="#buyerModal" --%> value="${price.buyer_name}" style="text-align: center; background-color: #e0e0e0" readonly>
+                                        <%--                                    <i class="fa-solid fa-magnifying-glass" type="button" style="position: absolute; top: 62%; right: 1%" data-bs-toggle="modal" data-bs-target="#buyerModal"></i>--%>
+                                    </div>
                                   </div>
 <%--                            <div class="mb-3 mx-4" style="position: relative">--%>
 <%--                              <label class="form-label">바이어코드</label>--%>
@@ -168,10 +177,17 @@
 <%--                              <label class="form-label">제품코드</label>--%>
 <%--                              <input class="form-control" type="text" id="product_code" name="product_code" value="${price.product_code}" data-bs-toggle="modal" data-bs-target="#productModal" required="required" placeholder="제품 코드" style="text-align: center">--%>
 <%--                            </div>--%>
-                            <div class="mb-3 mx-4" style="position: relative">
-                              <label class="form-label">제품코드</label>
-                              <input class="form-control" type="text" name="product_code" data-bs-toggle="modal" data-bs-target="#productModal" placeholder="제품 코드" value="${price.product_code}" style="text-align: center" readonly>
-                              <i class="fa-solid fa-magnifying-glass" type="button" style="position: absolute; top: 62%; right: 1%" data-bs-toggle="modal" data-bs-target="#productModal"></i>
+                            <div class="mb-3 mx-4 row">
+                              <div class="col-md-6 mb-3">
+                                <label class="form-label">제품코드</label>
+                                <input class="form-control" type="text" name="product_code" <%--data-bs-toggle="modal" data-bs-target="#productModal"--%> value="${price.product_code}" style="text-align: center; background-color: #e0e0e0" readonly>
+                                  <%--                              <i class="fa-solid fa-magnifying-glass" type="button" style="position: absolute; top: 62%; right: 1%" data-bs-toggle="modal" data-bs-target="#productModal"></i>--%>
+                              </div>
+                              <div class="col-md-6 mb-3">
+                                <label class="form-label">제품명</label>
+                                <input class="form-control" type="text" name="product_name" <%--data-bs-toggle="modal" data-bs-target="#productModal"--%> value="${price.product_name}" style="text-align: center; background-color: #e0e0e0" readonly>
+                                  <%--                              <i class="fa-solid fa-magnifying-glass" type="button" style="position: absolute; top: 62%; right: 1%" data-bs-toggle="modal" data-bs-target="#productModal"></i>--%>
+                              </div>
                             </div>
                             <div class="mb-3 mx-4">
                               <label class="form-label">판매가</label>
@@ -179,11 +195,13 @@
                             </div>
                             <div class="mb-3 mx-4">
                               <label class="form-label">시작일</label>
-                              <input class="form-control" type="date" name="start_date" id="start_date" value="${price.start_date}"  style="text-align: center" required="required">
+<%--                              <input type="hidden" id="oldStart${status.count}" value="${price.start_date}">--%>
+                              <input class="form-control" <%--class="datepicker"--%> type="date" name="start_date" id="start_date${status.count}" value="${price.start_date}"  style="text-align: center" required="required" onchange="startDate('${status.count}')">
                             </div>
                             <div class="mb-3 mx-4">
                               <label class="form-label">종료일</label>
-                              <input class="form-control" type="date" name="end_date" id="end_date" value="${price.end_date}"  style="text-align: center" required="required">
+<%--                              <input type="hidden" id="oldEnd${status.count}" value="${price.end_date}">--%>
+                              <input class="form-control" type="date" name="end_date" id="end_date${status.count}" value="${price.end_date}"  style="text-align: center" required="required" onchange="endDate('${status.count}')">
                             </div>
                             <div class="mb-3 mx-4">
                               <label class="form-label">화폐단위</label><br>
@@ -197,6 +215,7 @@
                             </div>
                             <input class="form-control" type="hidden" name="num" id="num" value="${price.num}">
                           </div>
+                      </div>
 
                       <div class="modal-footer">
                         <button id="modifyConfirmButton" onclick="myFunction2('price${status.count}')"
@@ -206,7 +225,7 @@
                       </div>
                       </form>
 
-                      </div>
+
 
 
 
@@ -247,7 +266,7 @@
               <ul class="pagination justify-content-center">
                 <c:if test="${pageInfo.currentPageNumber != 1 }">
                   <li class="page-item">
-                    <a class="page-link" href="/price/priceList?page=1}" aria-label="first" style="height:100%;">
+                    <a class="page-link" href="/price/priceList?page=1" aria-label="first" style="height:100%;">
                       <span aria-hidden="true"><i class="fa-solid fa-angles-left"></i></span>
                     </a>
                   </li>
@@ -306,13 +325,53 @@
 <script src="http://code.jquery.com/jquery-3.6.3.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
 <script>
+
+  /* 검색 초기화 */
+  $('#reset-btn').click(function() {
+    $('#bt').val("");
+    $('#bq').val("");
+    $('#pt').val("");
+    $('#pq').val("");
+    $('#search-btn').click();
+  });
+
+
 
 //  $("#modifyConfirmButton").click(function(){
   //  let price = $("#price").val();
     //let intPrice = parseInt(price.replace(/,/g,""));
    // $("input[name='price']").val(intPrice);
   //})
+
+  function startDate(s) {
+    // alert(document.getElementById('start_date'+s).value);
+    // alert(document.getElementById('end_date'+s).value);
+    // alert(document.getElementById('oldStart'+s).value);
+    if(document.getElementById('start_date'+s).value > document.getElementById('end_date'+s).value){
+      alert("종료일이 시작일보다 먼저일 수 없습니다.");
+      // document.getElementById('start_date'+s).value = document.getElementById('oldStart'+s).value;
+      document.getElementById('start_date'+s).value = null;
+      return false;
+    }
+  }
+
+  function endDate(e) {
+    // alert(document.getElementById('start_date'+s).value);
+    // alert(document.getElementById('end_date'+s).value);
+    // alert(document.getElementById('oldStart'+s).value);
+    if(document.getElementById('start_date'+e).value > document.getElementById('end_date'+e).value){
+      alert("종료일이 시작일보다 먼저일 수 없습니다.");
+      document.getElementById('end_date'+e).value = null;
+      return false;
+    }
+  }
+
 
   function myFunction2(x) {
     let price = document.getElementById(x).value;
@@ -358,8 +417,11 @@
     let tr = $(this);
     let td = tr.children();
     let buyerCode = td.eq(1).text();
+    let buyerName = td.eq(2).text();
     $('#buyerCodeInput').val(buyerCode);
     $("[name='buyer_code']").val(buyerCode);
+    $('#buyerNameInput').val(buyerName);
+    $("[name='buyer_name']").val(buyerName);
 
     $("#buyerModal").hide();
     $(".modal-backdrop").remove();
@@ -396,8 +458,11 @@
     let tr = $(this);
     let td = tr.children();
     let productCode = td.eq(1).text();
+    let productName = td.eq(2).text();
     $('#productCodeInput').val(productCode);
     $("[name='product_code']").val(productCode);
+    $('#productNameInput').val(productName);
+    $("[name='product_name']").val(productName);
 
     $("#productModal").hide();
     $(".modal-backdrop").remove();
@@ -439,6 +504,9 @@
     // var money2 = '';
   }
 
+  // $(function(){
+  // $('.datepicker').datepicker();
+  // })
 
 
   <%--const ctx = "${pageContext.request.contextPath}";--%>

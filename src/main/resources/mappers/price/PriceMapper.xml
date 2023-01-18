@@ -59,7 +59,7 @@
             <if test="type == 'all' or type == 'name'">
                 OR name LIKE #{keyword}
             </if>
-        </trim>);
+        </trim>)
 
 
     </select>
@@ -69,6 +69,16 @@
             product_code,
             name
         FROM product
+        WHERE delyn="N" AND
+        (<trim prefixOverrides="OR">
+        <if test="type == 'all' or type == 'product_code'">
+            OR product_code LIKE #{keyword}
+        </if>
+        <if test="type == 'all' or type == 'name'">
+            OR name LIKE #{keyword}
+        </if>
+    </trim>);
+
 
     </select>
 
@@ -111,8 +121,9 @@
 
     <select id="countAll" resultType="int">
         SELECT COUNT(*)
-        FROM price
-        WHERE delyn="N";
+        FROM price LEFT JOIN buyer ON price.buyer_code = buyer.buyer_code
+        LEFT JOIN product ON price.product_code = product.product_code
+        WHERE price.delyn="N" AND buyer.delyn="N" AND product.delyn="N"
     </select>
 
     <select id="findPriceByNum" resultType="com.sharedOne.domain.PriceDto">
@@ -155,7 +166,8 @@
         product.name product_name
         FROM price LEFT JOIN buyer ON price.buyer_code = buyer.buyer_code
         LEFT JOIN product ON price.product_code = product.product_code
-        WHERE price.delyn="N" AND
+        WHERE price.delyn="N" AND buyer.delyn="N" AND product.delyn="N"
+        AND
         (<trim prefixOverrides="OR">
             <if test="buyerType == 'all' or buyerType == 'buyer_code'">
                 OR price.buyer_code LIKE #{buyerKeyword}
@@ -173,6 +185,7 @@
                 OR product.name LIKE #{productKeyword}
             </if>
         </trim>)
+        ORDER BY adddate DESC
         LIMIT #{offset}, #{records};
     </select>
 

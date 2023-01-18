@@ -122,9 +122,9 @@
                     <td>${item.product_name}</td>
                     <td>${item.quantity}</td>
                     <td><fmt:formatNumber value="${item.price}" pattern="#,###"/></td>
-                    <%--<td>${item.price}</td>--%>
+                        <%--<td>${item.price}</td>--%>
                     <td><fmt:formatNumber value="${item.total_price}" pattern="#,###"/></td>
-                    <%--<td>${item.total_price}</td>--%>
+                        <%--<td>${item.total_price}</td>--%>
                     <td>
                         <button type="button" class="btn btn-outline-warning btn-sm" onclick="modifyItem(${status.count})">수정</button>
                     </td>
@@ -151,14 +151,14 @@
     let oldItemList = []; // 기존 상품 리스트
     let list;
     <c:forEach items="${itemList}" var="item">
-        list = [];
-        list.push("${item.product_code}");
-        list.push("${item.product_name}");
-        list.push("${item.quantity}");
-        list.push("${item.price}");
-        list.push("${item.total_price}");
-        oldItemList.push(list);
-        orderItemList.push(list);
+    list = [];
+    list.push("${item.product_code}");
+    list.push("${item.product_name}");
+    list.push("${item.quantity}");
+    list.push("${item.price}");
+    list.push("${item.total_price}");
+    oldItemList.push(list);
+    orderItemList.push(list);
     </c:forEach>
     let addItemList = []; // 추가된 상품 리스트
     let removeItemList = []; // 삭제된 상품 리스트

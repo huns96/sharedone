@@ -95,24 +95,24 @@ public class ReportService {
         if (sumCondition.equals(("year(h.request_date)"))) {
             model.addAttribute("groupName", "년도");
         }
-        if (sumCondition.equals(("quarter(h.request_date)"))) {
-            model.addAttribute("groupName", "분기");
-            for (OrderGroupDto order : orderGroups) {
-                order.setGroupName(order.getYear() + "/" + order.getGroupName() + "분기");
-            }
-        }
-        if (sumCondition.equals(("month(h.request_date)"))) {
-            model.addAttribute("groupName", "월");
-            for (OrderGroupDto order : orderGroups) {
-                order.setGroupName(order.getYear() + "/" + order.getGroupName()+"월");
-            }
-        }
-        if (sumCondition.equals(("week(h.request_date)"))) {
-            model.addAttribute("groupName", "주차");
-            for (OrderGroupDto order : orderGroups) {
-                order.setGroupName(order.getYear() + "/" + order.getGroupName() + "주차");
-            }
-        }
+//        if (sumCondition.equals(("quarter(h.request_date)"))) {
+//            model.addAttribute("groupName", "분기");
+//            for (OrderGroupDto order : orderGroups) {
+//                order.setGroupName(order.getYear() + "/" + order.getGroupName() + "분기");
+//            }
+//        }
+//        if (sumCondition.equals(("month(h.request_date)"))) {
+//            model.addAttribute("groupName", "월");
+//            for (OrderGroupDto order : orderGroups) {
+//                order.setGroupName(order.getYear() + "/" + order.getGroupName()+"월");
+//            }
+//        }
+//        if (sumCondition.equals(("week(h.request_date)"))) {
+//            model.addAttribute("groupName", "주차");
+//            for (OrderGroupDto order : orderGroups) {
+//                order.setGroupName(order.getYear() + "/" + order.getGroupName() + "주차");
+//            }
+//        }
         if (sumCondition.equals("b.name")) {
             model.addAttribute("groupName", "바이어");
 
