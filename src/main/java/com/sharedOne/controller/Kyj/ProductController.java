@@ -4,11 +4,13 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.sharedOne.domain.CategoryDto;
 import com.sharedOne.domain.ProductDto;
+import com.sharedOne.security.CustomUserDetailsService;
 import com.sharedOne.service.CategoryService;
 import com.sharedOne.service.ProductService;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.CachingUserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +30,8 @@ public class ProductController {
 
     @Autowired
     private CategoryService categoryService;
+
+
 
     @GetMapping("list")
     public String list(Model model, @RequestParam(defaultValue = "1")int page) {
