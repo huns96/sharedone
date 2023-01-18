@@ -11,11 +11,12 @@
     <%--    <link rel="stylesheet" href="resources/css/plugin/datepicker/bootstrap-datepicker.css">--%>
     <style>
         body { background-color: #e0e0e0; }
-        .container-md { width: 80%; margin: 40px; }
+        .container-md { width: 85%;
+            padding-top: 30px; }
         .page-background {
             background-color: white;
             padding: 10px;
-            margin: 5px 0;
+            margin: 5px;
             border-radius: 5px;
         }
         #order-list { height: 510px }
@@ -110,8 +111,8 @@
                             </div>
 
                             <div id="buttonDiv">
-                                <button id="reset-btn" class="btn btn-secondary search-btn" type="button">X</button>
-                                <button id="search-btn" class="btn btn-dark search-btn" type="submit" <%--onclick="setSearchValue(${param.orderCode},${param.buyerCode},${param.status},${param.userId})"--%>>조회</button>
+                                <button id="search-btn" class="btn btn-dark search-btn" type="submit" <%--onclick="setSearchValue(${param.orderCode},${param.buyerCode},${param.status},${param.userId})"--%>>검색</button>
+                                <button id="reset-btn" class="btn btn-secondary search-btn" type="button">초기화</button>
                             </div>
                         </form>
                     </div>
@@ -128,7 +129,7 @@
                                 <table class="table table-hover" id="order-table">
                                     <thead>
                                     <tr>
-                                        <th>#</th>
+<%--                                        <th>#</th>--%>
                                         <th>주문번호</th>
                                         <th>바이어명</th>
                                         <th>주문일자</th>
@@ -138,13 +139,13 @@
                                         <th>상태</th>
                                         <th>등록자</th>
                                         <th>수정자</th>
-                                        <th></th>
+                                        <th>승인/반려</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <c:forEach items="${approvalList}" var="order" varStatus="status">
                                         <tr>
-                                                <td>${order.num}</td>
+<%--                                                <td>${order.num}</td>--%>
                                             <td>${order.order_code}</td>
                                             <td>${order.buyer_name}</td>
                                             <td>${order.order_date}</td>
@@ -324,7 +325,6 @@
         </div>
     </div>
 </div>
-
 </div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
@@ -367,7 +367,7 @@
         setTimeout(function () {
             $.ajax({
                 type: 'POST',
-                url: '/order/itemList',
+                url: '/approval/itemList',
                 data: {
                     "orderCode": orderCode,
                     "requestDate": requestDate

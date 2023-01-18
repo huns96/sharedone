@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -69,7 +70,9 @@ public class approvalController {
 //    }
 
     @PostMapping("approvalModify")
-    public String approval(OrderDto orderDto, RedirectAttributes rttr) {
+    public String approval(OrderDto orderDto, RedirectAttributes rttr, Principal principal) {
+        String upduser = principal.getName();
+        orderDto.setUpduser(upduser);
 
         int num = orderDto.getNum();
         System.out.print("num:::::::"+num+"::::::::::");
@@ -86,7 +89,9 @@ public class approvalController {
 
 
     @PostMapping("returnModify")
-    public String returnModify(OrderDto orderDto, RedirectAttributes rttr) {
+    public String returnModify(OrderDto orderDto, RedirectAttributes rttr, Principal principal) {
+        String upduser = principal.getName();
+        orderDto.setUpduser(upduser);
 
         int num = orderDto.getNum();
         System.out.print("num:::::::"+num+"::::::::::");

@@ -69,8 +69,9 @@
           </select>
           <input class="form-control" type="search" id="pq" name="pq" placeholder="제품검색" style="width: 200px; text-align:center">
           <br>
-          <button id="reset-btn" class="btn btn-secondary search-btn" type="button" style="margin-left:40px;">X</button>
-          <button id="search-btn" class="btn btn-dark" type="submit" style="width: 100px; height: 40px; margin-left:40px;border-radius: 7px;">조회</button>
+          <button id="search-btn" class="btn btn-dark" type="submit" style="width: 100px; height: 40px; margin-left:40px;border-radius: 7px;">검색</button>
+          <button id="reset-btn" class="btn btn-secondary search-btn" type="button" style="margin-left:10px;">초기화</button>
+
         </form>
       </div>
     </div>
@@ -263,18 +264,18 @@
         <div class="row" >
           <div class="col" style="width: 17px">
             <nav class="mt-3 page" aria-label="Page navigation example">
-              <ul class="pagination justify-content-center">
+              <ul class="pagination pagination-sm justify-content-center">
                 <c:if test="${pageInfo.currentPageNumber != 1 }">
                   <li class="page-item">
                     <a class="page-link" href="/price/priceList?page=1" aria-label="first" style="height:100%;">
-                      <span aria-hidden="true"><i class="fa-solid fa-angles-left"></i></span>
+                      <span aria-hidden="true"><%--<i class="fa-solid fa-angles-left"></i>--%>&laquo;</span>
                     </a>
                   </li>
                 </c:if>
                 <c:if test="${pageInfo.leftPageNumber != 1 }">
                   <li class="page-item">
                     <a class="page-link" href="/price/priceList?page=${pageInfo.currentPageNumber-1}" aria-label="left" style="height: 100%">
-                      <span aria-hidden="true"><i class="fa-solid fa-angle-left"></i></span>
+                      <span aria-hidden="true"><%--<i class="fa-solid fa-angle-left"></i>--%>&lt;</span>
                     </a>
                   </li>
                 </c:if>
@@ -286,14 +287,14 @@
                 <c:if test="${pageInfo.rightPageNumber} != ${pageInfo.lastPageNumber/10*10} and ${pageInfo.currentPageNumber != pageInfo.lastPageNumber }">
                   <li class="page-item">
                     <a class="page-link" href="/price/priceList?page=${pageInfo.currentPageNumber+1}" aria-label="last" style="height: 100%">
-                      <span aria-hidden="true"><i class="fa-solid fa-angle-right"></i></span>
+                      <span aria-hidden="true"><%--<i class="fa-solid fa-angle-right"></i>--%>&gt;</span>
                     </a>
                   </li>
                 </c:if>
                 <c:if test="${pageInfo.currentPageNumber != pageInfo.lastPageNumber }">
                   <li class="page-item">
                     <a class="page-link" href="/price/priceList?page=${pageInfo.lastPageNumber}" aria-label="last" style="height:100%;">
-                      <span aria-hidden="true"><i class="fa-solid fa-angles-right"></i></span>
+                      <span aria-hidden="true">&raquo;<%--<i class="fa-solid fa-angles-right"></i>--%></span>
                     </a>
                   </li>
                 </c:if>

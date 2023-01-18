@@ -82,7 +82,7 @@
     <update id="approvalOrder">
         UPDATE order_header
         SET status = "승인완료", approval_date = CURRENT_TIMESTAMP(), comment = #{comment},
-        upduser = "admin", upddate = CURRENT_TIMESTAMP()
+        upduser = #{upduser}, upddate = CURRENT_TIMESTAMP()
         WHERE num = #{num}
     </update>
 
@@ -92,7 +92,7 @@
         SET status = "승인반려", comment = #{comment},
 <!--        approval_date = CURRENT_TIMESTAMP(),-->
         return_date = CURRENT_TIMESTAMP(),
-        upduser = "admin", upddate = CURRENT_TIMESTAMP()
+        upduser = #{upduser}, upddate = CURRENT_TIMESTAMP()
         WHERE num = #{num}
     </update>
 
