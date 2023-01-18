@@ -63,7 +63,7 @@
                             <option value="승인완료">승인완료</option>
                         </select>
                         <br>
-                        <button type="submit" style="width: 100px; height: 40px; position: absolute; right:6%; border-radius: 7px;">조회</button>
+                        <button class="btn btn-dark" type="submit" style="width: 100px; height: 40px; position: absolute; right:6%; border-radius: 7px;">조회</button>
                     </form>
                 </div>
             </div>

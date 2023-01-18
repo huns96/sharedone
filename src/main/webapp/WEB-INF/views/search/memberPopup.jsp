@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>바이어 검색</title>
+    <title>멤버 검색</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
@@ -29,13 +29,13 @@
     </style>
 </head>
 <body>
-<div id="buyerPopup">
-    <h5><b>바이어 목록</b></h5>
-    <form action="/search/buyerPopup" role="search" style="display: flex; margin: 20px 0;">
+<div id="memberPopup">
+    <h5><b>멤버 목록</b></h5>
+    <form action="/search/memberPopup" role="search" style="display: flex; margin: 20px 0;">
         <select name="type" id="searchTypeSelect" class="form-select search-select">
             <%--<option value="all"></option>--%>
-            <option value="buyer_code" ${param.type == 'buyer_code' ? 'selected' : '' }>바이어코드</option>
-            <option selected value="buyer_name" ${param.type == 'buyer_name' ? 'selected' : '' }>바이어명</option>
+            <option value="user_id" ${param.type == 'user_id' ? 'selected' : '' }>멤버코드</option>
+            <option selected value="user_name" ${param.type == 'user_name' ? 'selected' : '' }>멤버명</option>
         </select>
         <input value="${param.value }" id="searchInput" class="form-control search-input" type="text" name="value">
         <div id="buttonDiv">
@@ -44,24 +44,24 @@
         </div>
     </form>
     <div style="height: 250px;">
-        <table class="table" id="buyer-table">
+        <table class="table" id="member-table">
             <thead>
             <tr>
                 <th style="width: 10%"></th>
                 <%--<th>#</th>--%>
-                <th style="width: 30%">바이어코드</th>
-                <th style="width: 30%">바이어명</th>
-                <th style="width: 30%">주소</th>
+                <th style="width: 30%">멤버코드</th>
+                <th style="width: 30%">멤버명</th>
+                <th style="width: 30%">전화번호</th>
             </tr>
             </thead>
             <tbody>
-            <c:forEach items="${buyerList}" var="buyer" varStatus="status">
+            <c:forEach items="${memberList}" var="member" varStatus="status">
                 <tr>
                     <td><input type="checkbox" id="checkbox"></td>
                     <%--<td>${status.count}</td>--%>
-                    <td>${buyer.buyer_code}</td>
-                    <td>${buyer.name}</td>
-                    <td>${buyer.address}</td>
+                    <td>${member.user_id}</td>
+                    <td>${member.name}</td>
+                    <td>${member.phone}</td>
                 </tr>
             </c:forEach>
             </tbody>
@@ -76,7 +76,7 @@
             <nav aria-label="Page navigation example">
                 <ul class="pagination pagination-sm">
                     <li class="page-item">
-                        <c:url value="/search/buyerPopup" var="pageLink">
+                        <c:url value="/search/memberPopup" var="pageLink">
                             <c:param name="type" value="${param.type }" />
                             <c:param name="value" value="${param.value }" />
                         </c:url>
@@ -131,11 +131,11 @@
             const checkbox = $('input[id=checkbox]:checked');
             const tr = checkbox.parent().parent();
             const td = tr.children();
-            const buyerCode = td.eq(1).text();
-            const buyerName = td.eq(2).text();
+            const memberCode = td.eq(1).text();
+            const memberName = td.eq(2).text();
 
-            // orderRegister의 setBuyerInfo()에 값 전달
-            opener.setBuyerInfo(buyerCode, buyerName);
+            // orderRegister의 setMemberInfo()에 값 전달
+            opener.setMemberInfo(memberCode, memberName);
             window.close();
         });
 

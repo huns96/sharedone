@@ -6,6 +6,7 @@ import com.sharedOne.domain.PageInfo;
 import com.sharedOne.service.ApprovalService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +23,7 @@ public class approvalController {
     private ApprovalService approvalService;
 
     @GetMapping("approvalList")
+    @PreAuthorize("hasAnyAuthority('팀장', '관리자')")
     public void list(@RequestParam(name = "page", defaultValue = "1") int page, PageInfo pageInfo, Model model
                     ,@RequestParam(name="t", defaultValue = "all") String type,
                      @RequestParam(name="q", defaultValue = "") String keyword) {

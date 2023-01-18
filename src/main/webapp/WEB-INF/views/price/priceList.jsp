@@ -37,7 +37,7 @@
 <%--  </script>--%>
 <%--</c:if>--%>
 
-<div class="content-wrapper">
+<div class="container-fluid">
   <div class="row flex-nowrap">
     <my:Sidebar></my:Sidebar>
     <c:if test="${not empty message}">
@@ -68,7 +68,7 @@
           </select>
           <input class="form-control" type="search" name="pq" placeholder="제품검색" style="width: 200px; text-align:center">
           <br>
-          <button type="submit" style="width: 100px; height: 40px; position: absolute; right:3%; border-radius: 7px;">조회</button>
+          <button class="btn btn-dark" type="submit" style="width: 100px; height: 40px; position: absolute; right:3%; border-radius: 7px;">조회</button>
         </form>
       </div>
     </div>

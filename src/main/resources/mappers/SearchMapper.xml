@@ -17,18 +17,24 @@
         </if>
     </select>
 
-   <!-- <select id="getItemList" resultType="domain.com.sharedOne.OrderItemDto">
-        SELECT
-            b.buyer_code, b.name, b.address
-        FROM order_item o
-        &lt;!&ndash;WHERE b.delyn = 'N"&ndash;&gt;
-    </select>-->
    <select id="getItemList" resultMap="itemMap">
+        <![CDATA[
         SELECT
-            p.product_code, p.name as 'product_name', p.category_id, pri.currency, pri.price as 'old_price', pri.buyer_code
+            p.product_code, p.name as 'product_name',
+            p.category_id, pri.currency, pri.price as 'old_price', pri.buyer_code,
+            pri.start_date, pri.end_date
         FROM product p
-        LEFT JOIN price pri ON pri.product_code = p.product_code
-        WHERE pri.buyer_code = #{buyer_code};
+            LEFT JOIN price pri ON pri.product_code = p.product_code AND pri.delyn = 'N'
+        WHERE p.delyn = 'N'
+            AND pri.buyer_code = #{buyer_code}
+            AND pri.start_date <= #{request_date} AND pri.end_date >= #{request_date}
+        ]]>
+        <if test="type == 'product_code'">
+            AND p.product_code LIKE #{value}
+        </if>
+       <if test="type == 'product_name'">
+            AND p.name LIKE #{value}
+        </if>
     </select>
 
     <resultMap type="com.sharedOne.domain.OrderItemDto" id="itemMap">
@@ -38,6 +44,20 @@
         <result column="currency" property="currency" />
         <result column="old_price" property="old_price" />
         <result column="buyer_code" property="buyer_code" />
+        <result column="start_date" property="start_date" />
+        <result column="end_date" property="end_date" />
     </resultMap>
 
+    <select id="getMemberList" resultType="com.sharedOne.domain.member.MemberDto">
+        SELECT
+            m.user_id, m.name, m.phone
+        FROM member m
+        WHERE m.delyn = 'N'
+        <if test="type == 'user_id'">
+            AND m.user_id LIKE #{value}
+        </if>
+        <if test="type == 'user_name'">
+            AND m.name LIKE #{value}
+        </if>
+    </select>
 </mapper>

@@ -7,7 +7,7 @@
 </head>
 <body>
 <script type="text/javascript">
-    var message = "${msg}";
+    var message = "${errMsg}";
     var url = "${url}";
     alert(message);
     document.location.href = url;

@@ -36,7 +36,7 @@
     </style>
 </head>
 <body>
-    <div class="container-fluid" style="padding: 0">
+    <div class="container-fluid">
         <div class="row flex-nowrap">
             <my:Sidebar></my:Sidebar>
             <div class="col" style="margin-top: 50px; margin-right: 50px; margin-left: 50px;">

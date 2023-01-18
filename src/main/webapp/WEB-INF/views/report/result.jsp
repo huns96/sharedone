@@ -142,7 +142,7 @@
 <body>
 
 
-<%--<div class="container-fluid">--%>
+<div class="container-fluid">
 <div class="row flex-nowrap">
     <my:Sidebar></my:Sidebar>
     <div class="container-md" style="width: 80%;">
@@ -414,7 +414,7 @@
         </div>
     </div>
 </div>
-
+</div>
 <div class="modal fade" id="searchOrderCodeModal" tabindex="-1"
      aria-labelledby="exampleModalLabel"
      aria-hidden="true">
