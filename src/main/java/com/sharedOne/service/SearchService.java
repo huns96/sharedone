@@ -22,8 +22,8 @@ public class SearchService {
         return searchMapper.getBuyerList(type, "%" + value + "%");
     }
 
-    public Page<OrderItemDto> getItemList(String buyer_code, String request_date) {
-        return searchMapper.getItemList(buyer_code, request_date);
+    public Page<OrderItemDto> getItemList(String buyer_code, String request_date, String type, String value) {
+        return searchMapper.getItemList(buyer_code, request_date, type, "%" + value + "%");
     }
 
     public Page<MemberDto> getMemberList(String type, String value) {
