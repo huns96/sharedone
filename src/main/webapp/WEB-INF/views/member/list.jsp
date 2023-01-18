@@ -25,16 +25,6 @@
             border-radius: 5px;
         }
 
-        .bg {
-            background-color: #e0e0e0;
-        }
-
-        .getAuthoBtn {
-            background-color: #5e5e5e;
-            border-style: none;
-            border-radius: 5px;
-            color: white;
-        }
 
         .modifyBtn {
             background-color: #f39c12;
@@ -53,15 +43,6 @@
             color: white;
             width: 50px;
             height: 25px;
-        }
-
-        .addMemberbtn {
-            background-color: green;
-            border-style: none;
-            border-radius: 5px;
-            color: white;
-            margin-left: 50px;
-            height: 30px;
         }
 
         .dupliCheckBtn {
@@ -94,7 +75,7 @@
             <div class="col page-background" style="margin-left: 40px; margin-right: 40px">
                 <div style="display: flex; justify-content: space-between">
                     <h5 style="margin-left: 10px;">회원 목록</h5>
-                    <button style="margin-right: 30px;" class="addMemberbtn" data-bs-toggle="modal"
+                    <button style="margin-right: 30px;" class="addMemberbtn btn btn-success" data-bs-toggle="modal"
                             data-bs-target="#addMemberModal">회원등록
                     </button>
                 </div>
@@ -122,7 +103,7 @@
                             <td>${mem.auth}</td>
                             <td>
                                 <button onclick="asd('${mem.user_id}','${mem.name}','${mem.phone}','${mem.auth}')"
-                                        class="getAuthoBtn" data-bs-toggle="modal" data-bs-target="#getAuthoModal">권한변경
+                                        class="getAuthoBtn btn btn-secondary" data-bs-toggle="modal" data-bs-target="#getAuthoModal">권한변경
                                 </button>
                                 <button onclick="modi('${mem.user_id}','${mem.name}','${mem.phone}','${mem.password}')"
                                         class="modifyBtn"
