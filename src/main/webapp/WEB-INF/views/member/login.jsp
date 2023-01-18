@@ -42,7 +42,6 @@
                                 </span>
                                 <input type="password" name="password" class="form-control" placeholder="암호">
                             </div>
-
                         <%--<div class="form-check form-switch mb-3">
                             <input class="form-check-input" name="remember-me" type="checkbox" role="switch"
                                    id="flexSwitchCheckChecked" checked>
@@ -57,7 +56,7 @@
         </c:if>
         <c:if test="${login}">
             <img src="${pageContext.request.contextPath}/content/img/bg2.jpg" alt=""
-                 style="width: 1500px; height: 937px; padding: 0">
+                 style="width: 100%; height: 937px; padding: 0">
         </c:if>
     </div>
 </div>
