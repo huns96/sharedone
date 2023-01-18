@@ -9,7 +9,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -37,5 +36,6 @@ public class CustomUserDetailsService  implements UserDetailsService {
         String encodedPw = passwordEncoder.encode(member.getPassword());
         User user = new User(member.getUser_id(), encodedPw, authorityList);
         return user;
+
     }
 }
