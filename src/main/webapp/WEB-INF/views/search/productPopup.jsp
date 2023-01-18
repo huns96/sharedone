@@ -32,11 +32,6 @@
 <body>
 <div id="productPopup">
     <h4><b>상품 목록</b></h4>
-    <%--<div class="row">
-        <input id="buyerCode" type="text" class="form-control" name="buyer_code" />
-        <input id="buyerName" type="text" class="form-control" name="buyer_name" />
-        <input id="orderDate" type="text" class="form-control" name="order_date" />
-    </div>--%>
     <form id="searchFrom" action="/search/productPopup" role="search" style="display: flex; margin: 20px 0;">
         <select name="type" id="searchTypeSelect" class="form-select search-select">
             <%--<option value="all"></option>--%>
@@ -125,11 +120,6 @@
     let requestDate = opener.$("#requestDate").val().replaceAll("-","");*/
 
     $(function() {
-
-        $('form').submit(function(){
-
-        });
-
         // 체크박스 하나만 선택
         $("input[type='checkbox']").click(function() {
             if(this.checked) {
@@ -142,17 +132,6 @@
                 this.checked = false;
             }
         });
-
-        /* 검색 조회 */
-        /*$('#search-btn').click(function() {
-            searchProduct();
-        });*/
-
-        /* 부모창에서 값 가져오기 */
-        $("#buyerCode").val(opener.$("#buyerCode").val());
-        // $("#buyerName").val(opener.$("#buyerName").val());
-        // $("#orderDate").val(opener.$("#orderDate").val());
-        $("#requestDate").val(opener.$("#requestDate").val());
 
         /* 확인 버튼 */
         $('#confirm').click(function() {
@@ -169,35 +148,6 @@
             window.close();
         });
     })
-
-    function formSubmit() {
-        var pw1 = document.getElementById( 'pw1' ).value;
-        var pw2 = document.getElementById( 'pw2' ).value;
-        alert( pw1 + ' vs ' + pw2 );
-    }
-
-    /*function searchProduct() {
-        let type = $('#searchTypeSelect option:selected').val();
-        let value = $('#searchInput').val();
-        console.log(type);
-        console.log(value);
-        $.ajax({
-            type: 'GET',
-            url: '/search/productPopup',
-            data: {
-                "buyer_code": buyerCode,
-                "request_date": requestDate,
-                "type": type,
-                "value": value
-            },
-            dataType : 'json',
-            traditional: true,
-            success: function (result) {
-                console.log(result);
-
-            }
-        });
-    }*/
 
 </script>
 </body>
