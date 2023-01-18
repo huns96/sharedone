@@ -42,7 +42,7 @@
             font-weight: bold;
         }
         .itemtableDiv {
-            height: 250px;
+            height: 240px;
             overflow: auto;
         }
         .fixedHeader {
@@ -237,7 +237,7 @@
                             <table class="table table-hover" id="itemList-table">
                                 <thead>
                                 <tr>
-                                    <%--<th>#</th>--%>
+                                    <th class="fixedHeader">#</th>
                                     <th class="fixedHeader">상품번호</th>
                                     <th class="fixedHeader">상품명</th>
                                     <th class="fixedHeader">수량</th>
@@ -398,7 +398,7 @@
 
                         tbody.append(
                             "<tr>"
-                            /*+ "<td>" + index + "</td>"*/
+                            + "<td>" + index + "</td>"
                             + "<td>" + product_code + "</td>"
                             + "<td>" + product_name + "</td>"
                             + "<td>" + parseInt(quantity).toLocaleString() + "</td>"

@@ -29,6 +29,12 @@
             AND pri.buyer_code = #{buyer_code}
             AND pri.start_date <= #{request_date} AND pri.end_date >= #{request_date}
         ]]>
+        <if test="type == 'product_code'">
+            AND p.product_code LIKE #{value}
+        </if>
+       <if test="type == 'product_name'">
+            AND p.name LIKE #{value}
+        </if>
     </select>
 
     <resultMap type="com.sharedOne.domain.OrderItemDto" id="itemMap">

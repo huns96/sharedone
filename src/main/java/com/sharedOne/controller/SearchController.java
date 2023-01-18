@@ -49,14 +49,14 @@ public class SearchController {
                                @RequestParam(defaultValue = "1")int page,
                                Model model) {
         PageHelper.startPage(page,5);
-        Page<OrderItemDto> list = searchService.getItemList(buyer_code, request_date);
+        Page<OrderItemDto> list = searchService.getItemList(buyer_code, request_date, type, value);
 
         model.addAttribute("pageNum", list.getPageNum());
         model.addAttribute("pageSize", list.getPageSize());
         model.addAttribute("pages", list.getPages());
         model.addAttribute("total",list.getTotal());
         model.addAttribute("itemList", list);
-        //log.info("itemList ========> {}", list);
+        log.info("itemList ========> {}", list);
     }
 
     /* 등록자 , 수정자 검색 */

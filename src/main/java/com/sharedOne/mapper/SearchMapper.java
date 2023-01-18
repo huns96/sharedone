@@ -13,7 +13,7 @@ public interface SearchMapper {
 
     Page<BuyerDto> getBuyerList(String type, String value);
 
-    Page<OrderItemDto> getItemList(String buyer_code, String request_date);
+    Page<OrderItemDto> getItemList(String buyer_code, String request_date, String type, String value);
 
     Page<MemberDto> getMemberList(String type, String value);
 }
