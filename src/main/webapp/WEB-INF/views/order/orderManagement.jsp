@@ -12,14 +12,17 @@
 <%--    <link rel="stylesheet" href="resources/css/plugin/datepicker/bootstrap-datepicker.css">--%>
     <style>
         body { background-color: #e0e0e0; }
-        .container-md { width: 80%; margin: 40px; }
+        .container-md {
+            width: 85%;
+            padding-top: 30px;
+        }
         .page-background {
             background-color: white;
             padding: 10px;
-            margin: 5px 0;
+            margin: 5px;
             border-radius: 5px;
         }
-        #order-list { height: 510px }
+        #order-list { height: 480px }
         #item-list, #commentDiv { height: 350px; }
         h5 {
             font-weight: bold;
@@ -111,8 +114,8 @@
                         </div>
 
                         <div id="buttonDiv">
-                            <button id="reset-btn" class="btn btn-secondary search-btn" type="button">X</button>
-                            <button id="search-btn" class="btn btn-dark search-btn" type="submit" <%--onclick="setSearchValue(${param.orderCode},${param.buyerCode},${param.status},${param.userId})"--%>>조회</button>
+                            <button id="search-btn" class="btn btn-dark search-btn" type="submit">검색</button>
+                            <button id="reset-btn" class="btn btn-secondary search-btn" type="button">초기화</button>
                         </div>
                     </form>
                 </div>
@@ -126,7 +129,7 @@
                         <h5>주문 목록
                         <button id="addNewOrderButton" class="btn btn-success" style="float: right; margin-right: 20px;">새 주문 등록</button>
                         </h5>
-                        <div style="height: 400px;">
+                        <div style="height: 370px;">
                             <table class="table table-hover" id="order-table">
                                 <thead>
                                 <tr>
@@ -140,8 +143,8 @@
                                     <th>상태</th>
                                     <th>등록자</th>
                                     <th>수정자</th>
-                                    <th>수정</th>
-                                    <th>상태변경</th>
+                                    <th style="width: 90px;">수정</th>
+                                    <th style="width: 150px;">상태변경</th>
                                 </tr>
                                 </thead>
                                 <tbody>
