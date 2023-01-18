@@ -192,25 +192,7 @@
                             </tr>
 
                         </table>
-                        <%--                        <b>&nbsp; 조회항목 선택 &nbsp; </b> <br>&nbsp;--%>
-                        <%--                        <input type="checkbox" name="" value="1" id="1" checked>주문코드&nbsp;&nbsp;--%>
-                        <%--                        <input type="checkbox" name="" value="2" id="2">바이어코드&nbsp;&nbsp;--%>
-                        <%--                        <input type="checkbox" name="" value="2" id="3" checked>바이어명&nbsp;&nbsp;--%>
-                        <%--                        <input type="checkbox" name="" value="3" id="4" checked>요청일&nbsp;&nbsp;--%>
-                        <%--                        <input type="checkbox" name="" value="4" id="5" checked>승인여부&nbsp;&nbsp;--%>
-                        <%--                        <input type="checkbox" name="" value="" id="6">승인일&nbsp;&nbsp;--%>
-                        <%--                        <input type="checkbox" name="" value="" id="7">반려일&nbsp;&nbsp;--%>
-                        <%--                        <input type="checkbox" name="" value="" id="8">메모&nbsp;&nbsp;--%>
-                        <%--                        <br>&nbsp;--%>
-                        <%--                        <input type="checkbox" name="" value="" id="9">작성자아이디&nbsp;&nbsp;--%>
-                        <%--                        <input type="checkbox" name="" value="" id="10" checked>작성자명&nbsp;&nbsp;--%>
-                        <%--                        <input type="checkbox" name="" value="" id="11" checked>작성일시&nbsp;&nbsp;--%>
-                        <%--                        <input type="checkbox" name="" value="" id="12">제품코드&nbsp;&nbsp;--%>
-                        <%--                        <input type="checkbox" name="" value="" id="13" checked>제품명&nbsp;&nbsp;--%>
-                        <%--                        <input type="checkbox" name="" value="" id="14" checked>수량&nbsp;&nbsp;--%>
-                        <%--                        <input type="checkbox" name="" value="" id="15" checked>통화&nbsp;&nbsp;--%>
-                        <%--                        <input type="checkbox" name="" value="" id="16" checked>가격&nbsp;&nbsp;--%>
-                        <%--                        <br>--%>
+
                         <hr>
                         <p>&nbsp;&nbsp;&nbsp;총 ${orderCount}건
 
@@ -226,6 +208,7 @@
                             요청일: ${from_request_date}~${to_request_date} &nbsp;&nbsp;/ &nbsp;&nbsp;
                             작성일:${from_add_date}~${to_add_date}</p>
                         <hr>
+<%--                        <div style="overflow: scroll; width: 100%; height: 390px; padding: 10px;">--%>
                         <table style="text-align: center" id="ordersTable" class="table table-hover">
                             <thead>
                             <tr>
@@ -319,6 +302,7 @@
                             </tfoot>
 
                         </table>
+<%--                        </div>--%>
                         <nav class="mt-3" aria-label="Page navigation example">
                             <ul class="pagination justify-content-center">
 
