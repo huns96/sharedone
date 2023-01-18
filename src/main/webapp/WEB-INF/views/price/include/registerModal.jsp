@@ -36,7 +36,7 @@
                   </div>
                     <div class="col-md-6 mb-3">
                         <label class="form-label">바이어명</label>
-                        <input  id="buyerNameInput" class="form-control" required="required" type="text" name="buyer_name" placeholder="바이어 명" <%--data-bs-toggle="modal" data-bs-target="#buyerModal"--%> style="text-align: center; background-color: #e0e0e0">
+                        <input  id="buyerNameInput" class="form-control" required="required" type="text" name="buyer_name" placeholder="바이어 명" <%--data-bs-toggle="modal" data-bs-target="#buyerModal"--%> style="text-align: center; background-color: #e0e0e0" readonly>
                     </div>
                 </div>
                 <div class="mb-3 mx-4 row">
@@ -46,7 +46,7 @@
                     </div>
                     <div class="col-md-6 mb-3">
                         <label class="form-label">제품명</label>
-                        <input class="form-control" id="productNameInput" required="required" type="text" name="product_name" data-bs-toggle="modal" data-bs-target="#productModal" placeholder="제품 명" style="text-align: center">
+                        <input class="form-control" id="productNameInput" required="required" type="text" name="product_name" <%--data-bs-toggle="modal" data-bs-target="#productModal"--%> placeholder="제품 명" style="text-align: center ;background-color: #e0e0e0" readonly>
                     </div>
                 </div>
                   <div class="mb-3 mx-4 row">
