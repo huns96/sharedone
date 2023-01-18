@@ -26,7 +26,7 @@ public class OrderService {
         String orderCode = generateOrderCode(orderDto);
         orderDto.setOrder_code(orderCode); // 주문번호 채번
         log.info("========== [ {}번 주문 등록 ] ===========", orderCode);
-        orderDto.setAdduser("admin"); //[TODO] user 임의로 넣음.. >> 로그인 정보 추가 해야함
+        //orderDto.setAdduser("admin"); //[TODO] user 임의로 넣음.. >> 로그인 정보 추가 해야함
         orderMapper.insertOrder(orderDto);
         return orderCode;
     }
@@ -44,7 +44,7 @@ public class OrderService {
     }
     
     /* 주문 상품 등록 */
-    public int registerOrderItem(String[] addItems, String orderCode) {
+    public int registerOrderItem(String[] addItems, String orderCode, String adduser) {
         List<OrderItemDto> itemList = new ArrayList<>();
         OrderItemDto itemDto = new OrderItemDto();
         if (!addItems[0].contains(",")){
@@ -55,7 +55,7 @@ public class OrderService {
             itemDto.setPrice(Integer.parseInt(list.get(3)));
             itemDto.setTotal_price(Integer.parseInt(list.get(4)));
             itemDto.setOrder_code(orderCode);
-            itemDto.setAdduser("admin"); //[TODO] user 임의로 넣음.. >> 로그인 정보 추가 해야함
+            itemDto.setAdduser(adduser);
             itemList.add(itemDto);
         } else {
             for (int i=0; i<addItems.length; i++) {
@@ -67,7 +67,7 @@ public class OrderService {
                 itemDto.setPrice(Integer.parseInt(list.get(3)));
                 itemDto.setTotal_price(Integer.parseInt(list.get(4)));
                 itemDto.setOrder_code(orderCode);
-                itemDto.setAdduser("admin"); //[TODO] user 임의로 넣음.. >> 로그인 정보 추가 해야함
+                itemDto.setAdduser(adduser);
                 itemList.add(itemDto);
             }
         }
@@ -111,14 +111,13 @@ public class OrderService {
 
     /* 주문 수정 */
     public String modifyOrder(OrderDto orderDto) {
-        orderDto.setUpduser("admin"); //[TODO] user 임의로 넣음.. >> 로그인 정보 추가 해야함
         orderMapper.updateOrder(orderDto);
         log.info("========== [ {}번 주문 수정 ] ===========", orderDto.getOrder_code());
         return orderDto.getOrder_code();
     }
 
     /* 주문 상품 수정 */
-    public int modifyOrderItem(String[] modifyItems, String orderCode) {
+    public int modifyOrderItem(String[] modifyItems, String orderCode, String upduser) {
         List<OrderItemDto> modifyItemList = new ArrayList<>();
         OrderItemDto itemDto = new OrderItemDto();
         if (!modifyItems[0].contains(",")){
@@ -128,7 +127,7 @@ public class OrderService {
             itemDto.setQuantity(Integer.parseInt(list.get(2)));
             itemDto.setPrice(Integer.parseInt(list.get(3)));
             itemDto.setOrder_code(orderCode);
-            itemDto.setUpduser("admin"); //[TODO] user 임의로 넣음.. >> 로그인 정보 추가 해야함
+            itemDto.setUpduser(upduser);
             modifyItemList.add(itemDto);
         } else {
             for (int i=0; i<modifyItems.length; i++) {
@@ -139,7 +138,7 @@ public class OrderService {
                 itemDto.setQuantity(Integer.parseInt(list.get(2)));
                 itemDto.setPrice(Integer.parseInt(list.get(3)));
                 itemDto.setOrder_code(orderCode);
-                itemDto.setUpduser("admin"); //[TODO] user 임의로 넣음.. >> 로그인 정보 추가 해야함
+                itemDto.setUpduser(upduser);
                 modifyItemList.add(itemDto);
             }
         }
@@ -154,14 +153,14 @@ public class OrderService {
     }
 
     /* 주문 상품 삭제 */
-    public int removeOrderItem(String[] removeItems, String orderCode) {
+    public int removeOrderItem(String[] removeItems, String orderCode, String upduser) {
         List<OrderItemDto> removeItemList = new ArrayList<>();
         OrderItemDto itemDto = new OrderItemDto();
         if (!removeItems[0].contains(",")){
             List<String> list = Arrays.asList(removeItems);
             itemDto.setProduct_code(list.get(0));
             itemDto.setOrder_code(orderCode);
-            itemDto.setUpduser("admin"); //[TODO] user 임의로 넣음.. >> 로그인 정보 추가 해야함
+            itemDto.setUpduser(upduser);
             removeItemList.add(itemDto);
         } else {
             for (int i=0; i<removeItems.length; i++) {
@@ -169,7 +168,7 @@ public class OrderService {
                 itemDto = new OrderItemDto();
                 itemDto.setProduct_code(list.get(0));
                 itemDto.setOrder_code(orderCode);
-                itemDto.setUpduser("admin"); //[TODO] user 임의로 넣음.. >> 로그인 정보 추가 해야함
+                itemDto.setUpduser(upduser);
                 removeItemList.add(itemDto);
             }
         }
@@ -184,11 +183,11 @@ public class OrderService {
     }
     
     /* 주문 상태 변경 */
-    public int changeStatus(String orderCode, String status) {
+    public int changeStatus(String orderCode, String status, String upduser) {
         OrderDto orderDto = new OrderDto();
         orderDto.setOrder_code(orderCode);
         orderDto.setStatus(status);
-        orderDto.setUpduser("admin"); //[TODO] user 임의로 넣음.. >> 로그인 정보 추가 해야함
+        orderDto.setUpduser(upduser);
 
         return orderMapper.changeStatus(orderDto);
     }

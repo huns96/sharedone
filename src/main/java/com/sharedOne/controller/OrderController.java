@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -50,15 +51,20 @@ public class OrderController {
     /* 주문 등록 */
     @PostMapping("register")
     @ResponseBody
-    public String register(OrderDto orderDto, RedirectAttributes rttr) {
+    public String register(OrderDto orderDto, RedirectAttributes rttr, Principal principal) {
+        String adduser = principal.getName();
+        orderDto.setAdduser(adduser);
         return orderService.registerOrder(orderDto);
     }
 
     /* 주문 상품 등록 */
     @PostMapping("registerItem")
     @ResponseBody
-    public void register(@RequestParam(value="items") String[] addItems, @RequestParam String orderCode, RedirectAttributes rttr) {
-        int cnt = orderService.registerOrderItem(addItems, orderCode);
+    public void register(@RequestParam(value="items") String[] addItems,
+                         @RequestParam String orderCode,
+                         RedirectAttributes rttr, Principal principal) {
+        String adduser = principal.getName();
+        int cnt = orderService.registerOrderItem(addItems, orderCode, adduser);
 
         if (cnt==1) {
             rttr.addFlashAttribute("message", orderCode + " 주문이 등록되었습니다.");
@@ -96,7 +102,9 @@ public class OrderController {
     /* 주문 수정  */
     @PostMapping("modify")
     @ResponseBody
-    public String modify(OrderDto orderDto, RedirectAttributes rttr) {
+    public String modify(OrderDto orderDto, RedirectAttributes rttr, Principal principal) {
+        String upduser = principal.getName();
+        orderDto.setUpduser(upduser);
         return orderService.modifyOrder(orderDto);
     }
 
@@ -106,28 +114,31 @@ public class OrderController {
     public void modify(@RequestParam(value="addItems", required = false) String[] addItems,
                        @RequestParam(value="removeItems", required = false) String[] removeItems,
                        @RequestParam(value="modifyItems", required = false) String[] modifyItems,
-                       @RequestParam String orderCode, RedirectAttributes rttr) {
+                       @RequestParam String orderCode, RedirectAttributes rttr, Principal principal) {
 
 //        log.info("orderModify addItems ==========> {}", (Object) addItems);
 //        log.info("orderModify removeItems ==========> {}", (Object) removeItems);
 //        log.info("orderModify modifyItems ==========> {}", (Object) modifyItems);
-
+        String upduser = principal.getName();
         if (addItems != null) {
-            orderService.registerOrderItem(addItems, orderCode);
+            orderService.registerOrderItem(addItems, orderCode, upduser);
         }
         if (modifyItems != null) {
-            orderService.modifyOrderItem(modifyItems, orderCode);
+            orderService.modifyOrderItem(modifyItems, orderCode, upduser);
         }
         if (removeItems != null) {
-            orderService.removeOrderItem(removeItems, orderCode);
+            orderService.removeOrderItem(removeItems, orderCode, upduser);
         }
     }
 
     /* 주문 상태 변경 */
     @PostMapping("changeStatus")
     @ResponseBody
-    public void changeStatus(@RequestParam String orderCode, @RequestParam String status, RedirectAttributes rttr) {
-        orderService.changeStatus(orderCode, status);
+    public void changeStatus(@RequestParam String orderCode,
+                             @RequestParam String status,
+                             RedirectAttributes rttr, Principal principal) {
+        String upduser = principal.getName();
+        orderService.changeStatus(orderCode, status, upduser);
     }
 
     /* 주문 삭제 - 승인요청 전 최초 등록일 경우 */
