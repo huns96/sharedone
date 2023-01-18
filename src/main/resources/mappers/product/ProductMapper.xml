@@ -5,7 +5,7 @@
 
 <mapper namespace="com.sharedOne.mapper.ProductMapper">
     <select id="getList" resultType="com.sharedOne.domain.ProductDto">
-        select p.product_code,p.name, p.ea, p.adduser, p.adddate, p.upduser, p.upddate, main.name as 'main_cat',
+        select p.product_code,p.name, p.ea, main.name as 'main_cat',
         mid.name as 'middle_cat',
         sub.name as 'sub_cat'
         from category_main main
@@ -15,7 +15,7 @@
         on main.id = mid.main_id
         and mid.id = sub.middle_id
         where p.category_id = sub.id
-        and p.delyn = 'N' order by p.product_code
+        and p.delyn = 'N'
     </select>
 
     <insert id="insertProduct">
@@ -25,57 +25,6 @@
 
     <update id="deleteProduct">
         UPDATE product SET delyn ='Y' where product_code = #{product_code}
-    </update>
-
-    <select id="selectProductByKeyword" resultType="com.sharedOne.domain.ProductDto">
-        select p.product_code,p.name, p.ea, p.adduser, p.adddate, p.upduser, p.upddate, main.name as 'main_cat',
-        mid.name as 'middle_cat',
-        sub.name as 'sub_cat'
-        from category_main main
-        JOIN category_middle mid
-        JOIN category_sub sub
-        JOIN product p
-        on main.id = mid.main_id
-        and mid.id = sub.middle_id
-        where p.category_id = sub.id
-        and
-        <trim prefixOverrides="OR">
-            <if test="type == 'all'">
-                p.product_code LIKE #{newKeyword} and delyn = 'N'||
-                p.name LIKE #{newKeyword} and delyn = 'N'||
-                p.ea LIKE #{newKeyword} and delyn = 'N'
-            </if>
-
-            <if test="type == 'product_code'">
-                p.product_code LIKE #{newKeyword} and delyn = 'N'
-            </if>
-
-            <if test="type == 'name'">
-                p.name LIKE #{newKeyword} and delyn = 'N'
-            </if>
-        </trim>
-        order by p.product_code
-    </select>
-
-    <select id="selectListByCategory" resultType="com.sharedOne.domain.ProductDto">
-        select p.product_code,p.name, p.ea, p.adduser, p.adddate, p.upduser, p.upddate, main.name as 'main_cat',
-        mid.name as 'middle_cat',
-        sub.name as 'sub_cat'
-        from category_main main
-        JOIN category_middle mid
-        JOIN category_sub sub
-        JOIN product p
-        on main.id = mid.main_id
-        and mid.id = sub.middle_id
-        where p.category_id = sub.id
-        and mid.id= #{category}
-        and p.delyn = 'N'
-        order by p.product_code
-    </select>
-
-    <update id="updateProduct">
-        UPDATE product SET name =#{name}, ea=#{ea},
-        upduser = #{upduser}, upddate = #{upddate} where product_code = #{product_code}
     </update>
 
 </mapper>

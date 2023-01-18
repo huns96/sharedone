@@ -27,41 +27,62 @@
                     aria-label="Close" style="right: 10px"></button>
           </div>
           <div class="modal-body">
-            <form class="registerForm" id="registerForm" action="" method="post" enctype="multipart/form-data" style="margin: auto;  height: 664px;">
+            <form class="registerForm" id="registerForm" action="" method="post" enctype="multipart/form-data" style="margin: auto;  height: 664px;" >
               <div style="margin: 20px;">
-                <div class="mb-3 mx-4">
-                  <div>
+                <div class="mb-3 mx-4 row">
+                  <div class="col-md-6 mb-3">
                     <label class="form-label">바이어코드</label>
-                    <input class="form-control" id="buyerCodeInput" required="required" type="text" name="buyer_code" placeholder="바이어 코드" data-bs-toggle="modal" data-bs-target="#buyerModal" style="text-align: center">
+                    <input class="form-control"  id="buyerCodeInput" required="required" type="text" name="buyer_code" placeholder="바이어 코드" data-bs-toggle="modal" data-bs-target="#buyerModal" style="text-align: center">
                   </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">바이어명</label>
+                        <input  id="buyerNameInput" class="form-control" required="required" type="text" name="buyer_name" placeholder="바이어 명" <%--data-bs-toggle="modal" data-bs-target="#buyerModal"--%> style="text-align: center; background-color: #e0e0e0">
+                    </div>
                 </div>
+                <div class="mb-3 mx-4 row">
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">제품코드</label>
+                      <input class="form-control" id="productCodeInput" required="required" type="text" name="product_code" data-bs-toggle="modal" data-bs-target="#productModal" placeholder="제품 코드" style="text-align: center">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">제품명</label>
+                        <input class="form-control" id="productNameInput" required="required" type="text" name="product_name" data-bs-toggle="modal" data-bs-target="#productModal" placeholder="제품 명" style="text-align: center">
+                    </div>
+                </div>
+                  <div class="mb-3 mx-4 row">
+                      <div class="col">
+                          <label class="form-label">판매가</label>
+                          <input class="form-control" id="priceInput" onkeyup="inputNumberFormat(this);" required="required" type="text" style="text-align: center" placeholder="-">
+                          <input type="hidden" id="price" name="price">
+                      </div>
+                  </div>
+                  <div class="mb-3 mx-4 row">
+                      <div class="col">
+                          <label class="form-label">시작일</label>
+                          <input class="form-control" id="startDateInput" required="required" type="date" name="start_date" style="text-align: center">
+                      </div>
+                  </div>
+                  <div class="mb-3 mx-4 row">
+                      <div class="col">
+                          <label class="form-label">종료일</label>
+                          <input class="form-control" id="endDateInput" required="required" type="date" name="end_date" style="text-align: center">
+                      </div>
+                  </div>
+                  <div class="mb-3 mx-4 row">
+                      <div class="col">
+                          <label class="form-label">화폐단위</label><br>
+                          <select class="form-control" id="currencySelect" type="text" name="currency" style="text-align: center" required="required">
+                              <option value="">화폐 단위를 선택하세요</option>
+                              <option value="원(₩)">원(₩)</option>
+                              <option value="달러($)">달러($)</option>
+                              <option value="앤(¥)">앤(¥)</option>
+                              <option value="위안(元)">위안(元)</option>
+                          </select>
+                      </div>
+                  </div>
+              </div>
                 <div class="mb-3 mx-4">
-                  <label class="form-label">제품코드</label>
-                  <input class="form-control" id="productCodeInput" required="required" type="text" name="product_code" data-bs-toggle="modal" data-bs-target="#productModal" placeholder="제품 코드" style="text-align: center">
-                </div>
-                <div class="mb-3 mx-4">
-                  <label class="form-label">판매가</label>
-                  <input class="form-control" id="priceInput" onkeyup="inputNumberFormat(this);" required="required" type="text" style="text-align: center" placeholder="-">
-                    <input type="hidden" id="price" name="price">
-                </div>
-                <div class="mb-3 mx-4">
-                  <label class="form-label">시작일</label>
-                  <input class="form-control" id="startDateInput" required="required" type="date" name="start_date" style="text-align: center">
-                </div>
-                <div class="mb-3 mx-4">
-                  <label class="form-label">종료일</label>
-                  <input class="form-control" id="endDateInput" required="required" type="date" name="end_date" style="text-align: center">
-                </div>
-                <div class="mb-3 mx-4">
-                  <label class="form-label">화폐단위</label><br>
-                  <select class="form-control" id="currencySelect" type="text" name="currency" style="text-align: center" required="required">
-                    <option value="">화폐 단위를 선택하세요</option>
-                    <option value="원(₩)">원(₩)</option>
-                    <option value="달러($)">달러($)</option>
-                    <option value="앤(¥)">앤(¥)</option>
-                    <option value="위안(元)">위안(元)</option>
-                  </select>
-                </div>
+
                 <input class="form-control" type="hidden" name="adduser" value="user">
 <%--                <input class="btn btn-primary" type="submit" value="등록">--%>
               </div>
@@ -88,6 +109,7 @@
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <script>
     $("#registerConfirmButton").click(function(){
+
         let price = $("#priceInput").val();
         let intPrice = parseInt(price.replace(/,/g,""));
 
@@ -101,6 +123,13 @@
             // var money = '';
             // var money2 = '';
         }
+
+
+        if(document.getElementById('startDateInput').value > document.getElementById('endDateInput').value){
+            alert("종료일이 시작일보다 먼저일 수 없습니다.")
+            return false;
+        }
+
 
 
     })

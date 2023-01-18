@@ -5,7 +5,7 @@
 
 <mapper namespace="com.sharedOne.mapper.BuyerMapper">
     <select id="selectBuyers" resultType="com.sharedOne.domain.BuyerDto">
-        SELECT * from buyer where delyn = 'N' order by buyer_code
+        SELECT * from buyer where delyn = 'N'
     </select>
 
     <insert id="insertBuyer">
@@ -42,7 +42,6 @@
                 name LIKE #{newKeyword} and delyn = 'N'
             </if>
         </trim>
-        order by buyer_code
     </select>
 
 </mapper>

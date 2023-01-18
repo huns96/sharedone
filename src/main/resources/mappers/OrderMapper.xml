@@ -6,17 +6,17 @@
 <mapper namespace="com.sharedOne.mapper.OrderMapper">
     <insert id="insertOrder">
         INSERT INTO order_header (
-            order_code, buyer_code, order_date, request_date, status, memo, addUser
+        order_code, buyer_code, order_date, request_date, status, memo, addUser
         ) VALUES (
-            #{order_code}, #{buyer_code}, #{order_date}, #{request_date}, #{status}, #{memo}, #{adduser}
+        #{order_code}, #{buyer_code}, #{order_date}, #{request_date}, #{status}, #{memo}, #{adduser}
         )
     </insert>
 
     <insert id="insertOrderItem">
         INSERT INTO order_item (
-            order_code, product_code, quantity, currency, price, addUser
+        order_code, product_code, quantity, currency, price, addUser
         ) VALUES (
-            #{order_code}, #{product_code}, #{quantity}, '원', #{price}, #{adduser}
+        #{order_code}, #{product_code}, #{quantity}, '원', #{price}, #{adduser}
         )
     </insert>
 
@@ -81,10 +81,10 @@
 
     <select id="getOrder" resultType="com.sharedOne.domain.OrderDto">
         SELECT
-            o.order_code, o.buyer_code, b.name as buyer_name,
-            o.order_date, o.request_date, o.approval_date, o.return_date,
-            o.status, o.memo, o.comment,
-            o.adduser, o.adddate, IFNULL(o.upduser,'-'), IFNULL(o.upddate,'-')
+        o.order_code, o.buyer_code, b.name as buyer_name,
+        o.order_date, o.request_date, o.approval_date, o.return_date,
+        o.status, o.memo, o.comment,
+        o.adduser, o.adddate, IFNULL(o.upduser,'-'), IFNULL(o.upddate,'-')
         FROM order_header o LEFT JOIN buyer b ON o.buyer_code = b.buyer_code
         WHERE o.delyn = 'N'
         AND o.order_code = #{order_code}
@@ -93,14 +93,14 @@
     <update id="updateOrder">
         UPDATE order_header
         SET status = #{status}, request_date = #{request_date}, memo = #{memo},
-            upduser = #{upduser}, upddate = CURRENT_TIMESTAMP()
+        upduser = #{upduser}, upddate = CURRENT_TIMESTAMP()
         WHERE order_code = #{order_code}
     </update>
 
     <update id="updateOrderItem">
         UPDATE order_item
         SET quantity = #{quantity}, price = #{price},
-            upduser = #{upduser}, upddate = CURRENT_TIMESTAMP()
+        upduser = #{upduser}, upddate = CURRENT_TIMESTAMP()
         WHERE order_code = #{order_code}
         AND product_code = #{product_code}
     </update>
