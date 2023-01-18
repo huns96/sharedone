@@ -167,8 +167,8 @@
                                 <b>&nbsp; 조회항목 선택 &nbsp; </b>&nbsp;
                             </tr>
                             <tr>
-                                <td>&nbsp;&nbsp;<input type="checkbox" name="" value="1" id="1" checked>주문번호&nbsp;&nbsp;</td>
-                                <td><input type="checkbox" name="" value="2" id="2">바이어코드</td>
+                                <td>&nbsp;&nbsp;<input type="checkbox" name="" value="1" id="1" autocomplete="on" checked>주문번호&nbsp;&nbsp;</td>
+                                <td><input type="checkbox" name="" value="2" id="2" autocomplete="on">바이어코드</td>
                                 <td><input type="checkbox" name="" value="2" id="3" checked>바이어명</td>
                                 <td><input type="checkbox" name="" value="3" id="4" checked>요청일&nbsp;&nbsp;</td>
                                 <td><input type="checkbox" name="" value="4" id="5" checked>승인여부&nbsp;&nbsp;</td>

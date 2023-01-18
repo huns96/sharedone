@@ -44,7 +44,10 @@
                 <if test="product_code != null and product_code!=''">
                     and i.product_code=#{product_code}
                 </if>
+                <if test="true">
                 and h.delyn='N'
+                and i.delyn='N'
+                </if>
             </trim>
         </where>
         ORDER BY h.adddate DESC
@@ -88,6 +91,8 @@
                 <if test="product_code != null and product_code!=''">
                     and i.product_code=#{product_code}
                 </if>
+                and h.delyn='N'
+                and i.delyn='N'
             </trim>
         </where>
         GROUP BY ${sumCondition}
@@ -130,6 +135,8 @@
                 <if test="product_code != null and product_code!=''">
                     and i.product_code=#{product_code}
                 </if>
+                and h.delyn='N'
+                and i.delyn='N'
             </trim>
         </where>
     </select>
@@ -169,6 +176,8 @@
                 <if test="product_code != null and product_code!=''">
                     and i.product_code=#{product_code}
                 </if>
+                and h.delyn='N'
+                and i.delyn='N'
             </trim>
         </where>
         GROUP BY ${sumCondition}
@@ -180,7 +189,9 @@
         SELECT
         sum(quantity) sumQuantity,sum(price) sumPrice
         FROM
-        order_header h left join order_item i on h.order_code=i.order_code
+        order_header h
+        left join order_item i
+        on h.order_code=i.order_code
         <where>
             <!--<trim prefix="WHERE" prefixOverrides="and">-->
             <trim prefixOverrides="and">
@@ -207,9 +218,30 @@
                 <if test="product_code != null and product_code!=''">
                     and i.product_code=#{product_code}
                 </if>
+                and h.delyn='N'
+                and i.delyn='N'
             </trim>
         </where>
     </select>
+
+
+
+    <select id="getProducts" resultType="com.sharedOne.domain.ProductDto">
+        SELECT
+        p.product_code, p.name
+        FROM product p
+        WHERE p.delyn = 'N'
+        <if test="type == 'product_code'">
+            AND p.product_code LIKE #{value}
+        </if>
+        <if test="type == 'product_name'">
+            AND p.name LIKE #{value}
+        </if>
+    </select>
+
+
+
+<!-- ============================================ -->
 
 
     <select id="getOrderCodes" resultType="com.sharedOne.domain.report.OrderDto">
@@ -248,18 +280,7 @@
     </select>
 
 
-    <select id="getProducts" resultType="com.sharedOne.domain.ProductDto">
-        SELECT
-        p.product_code, p.name
-        FROM product p
-        WHERE p.delyn = 'N'
-        <if test="type == 'product_code'">
-            AND p.product_code LIKE #{value}
-        </if>
-        <if test="type == 'product_name'">
-            AND p.name LIKE #{value}
-        </if>
-    </select>
+
 
 
 </mapper>
