@@ -20,7 +20,7 @@
 
         .page-background {
             background-color: white;
-            padding: 10px;
+            padding: 10px 0px 10px 0px;
             margin: 5px;
             border-radius: 5px;
         }
@@ -55,14 +55,14 @@
             height: 25px;
         }
 
-        .addMemberbtn {
+        /*.addMemberbtn {
             background-color: green;
             border-style: none;
             border-radius: 5px;
             color: white;
             margin-left: 50px;
             height: 30px;
-        }
+        }*/
 
         .dupliCheckBtn {
             background-color: #6c757d;
@@ -85,27 +85,28 @@
         <my:Sidebar></my:Sidebar>
 
         <div class="col">
-            <div class="search page-background">
+            <div class="search page-background mb-5" >
                 <form action="/member/list" method="get" style="margin: 0;">
-                <input class="form-control" type="text" name="q" value="${param.q}" style="width: 200px; display: inline;" placeholder="통합검색">
+                <input class="form-control" type="text" name="q" value="${param.q}" style="width: 200px; display: inline; margin-left: 16px;" placeholder="통합검색">
                 <button class="btn btn-dark" style="margin-bottom: 4px;">검색</button>
                 </form>
             </div>
             <div class="col page-background" style="margin-left: 40px; margin-right: 40px">
-                <div style="display: flex; justify-content: space-between">
-                    <h5 style="margin-left: 10px;">회원 목록</h5>
-                    <button style="margin-right: 30px;" class="addMemberbtn" data-bs-toggle="modal"
+                <div style="display: flex; margin-bottom: 10px; justify-content: space-between">
+                    <h4 style="margin-left: 10px; font-weight: bold;">회원 목록</h4>
+                    <button style="margin-right: 30px;" class="addMemberbtn btn btn-success" data-bs-toggle="modal"
                             data-bs-target="#addMemberModal">회원등록
                     </button>
                 </div>
-                <table class="table" style="text-align: center; table-layout: fixed;">
+                <table class="table table-hover" style="text-align: center; table-layout: fixed;">
                     <thead>
-                    <tr>
+                    <tr style="background-color: #E0E0E0">
                         <th>이름</th>
                         <th>아이디</th>
                         <th>연락처</th>
                         <th>등록일</th>
                         <th>권한</th>
+                        <th></th>
 
                     </tr>
                     </thead>
@@ -137,9 +138,7 @@
                     </c:forEach>
                     </tbody>
                 </table>
-            </div>
-
-            <div class="row justify-content-center">
+            <div class="row justify-content-center" style="margin-left: 110px;">
                 <div class="col-3">
                     <nav aria-label="Page navigation example">
                         <ul class="pagination">
@@ -164,6 +163,8 @@
                     </nav>
                 </div>
             </div>
+            </div>
+
         </div>
     </div>
 </div>

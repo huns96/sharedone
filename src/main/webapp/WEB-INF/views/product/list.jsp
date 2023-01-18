@@ -44,8 +44,8 @@
 <div class="container-fluid">
   <div class="row flex-nowrap">
     <my:Sidebar></my:Sidebar>
-    <div class="col py-3" style="">
-      <div class="p-3 mb-3" style="background-color: white; border-radius: 5px">
+    <div class="col" style="">
+      <div class="p-3 mb-3" style="background-color: white; margin: 40px 40px 0px 40px; border-radius: 5px">
         <table style="align-content: end;">
           <tr>
             <td style="float:end;">
@@ -87,7 +87,7 @@
           </tr>
         </table>
       </div>
-      <div style="background-color: white; border-radius: 5px">
+      <div style="background-color: white; margin: 40px 40px 0px 40px; border-radius: 5px">
         <div class="row p-2 justify-content-between">
           <div class="col-4 mt-3"><h4 style="font-weight: bold;">제품 목록</h4></div>
           <div class="col-2 mt-3" style="text-align: right;">
@@ -210,6 +210,31 @@
           </c:forEach>
           </tbody>
         </table>
+        <!-- Pagination -->
+        <div class="row justify-content-center" style="margin-left: 110px;">
+          <div class="col-3">
+            <nav aria-label="Page navigation example">
+              <ul class="pagination">
+                <li class="page-item">
+                  <c:url value="/product/list" var="pageLink"></c:url>
+                  <a class="page-link" href="${pageLink }?page=1" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
+                <c:forEach begin="1" end="${pages }" varStatus="status" var="pageNumb">
+                  <li class="page-item ${pageNum == pageNumb ? "active" : ""}">
+                    <a class="page-link" href="${pageLink }?page=${pageNumb}">${pageNumb }</a>
+                  </li>
+                </c:forEach>
+                <li class="page-item">
+                  <a class="page-link" href="${pageLink }?page=${pages}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
         <!-- 수정 모달 -->
         <div class="modal fade" id="modifyModal" tabindex="-1" aria-labelledby="modalModify" aria-hidden="true">
           <div class="modal-dialog">
@@ -250,31 +275,7 @@
       </div>
 
       </div>
-      <!-- Pagination -->
-      <div class="row justify-content-center">
-        <div class="col-3">
-          <nav aria-label="Page navigation example">
-            <ul class="pagination">
-              <li class="page-item">
-                <c:url value="/product/list" var="pageLink"></c:url>
-                <a class="page-link" href="${pageLink }?page=1" aria-label="Previous">
-                  <span aria-hidden="true">&laquo;</span>
-                </a>
-              </li>
-              <c:forEach begin="1" end="${pages }" varStatus="status" var="pageNumb">
-                <li class="page-item ${pageNum == pageNumb ? "active" : ""}">
-                  <a class="page-link" href="${pageLink }?page=${pageNumb}">${pageNumb }</a>
-                </li>
-              </c:forEach>
-              <li class="page-item">
-                <a class="page-link" href="${pageLink }?page=${pages}" aria-label="Next">
-                  <span aria-hidden="true">&raquo;</span>
-                </a>
-              </li>
-            </ul>
-          </nav>
-        </div>
-      </div>
+
     </div>
   </div>
 </div>
@@ -423,9 +424,6 @@
       alert("제품명 입력");
     }if(productEa2.value ===''){
       alert("단위 입력");
-    }
-    if(sel1.value ==='' || sel2.value ==='' || sel3.value ===''){
-      alert("카테고리 입력");
     }
     else{
       document.querySelector("#modifyForm").submit()

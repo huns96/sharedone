@@ -18,10 +18,10 @@ public class BuyerDto {
     private String delyn;
     private String adduser;
 
-    private Timestamp adddate;
+    private LocalDate adddate;
     private String upduser;
 
-    private Timestamp upddate;
+    private LocalDate upddate;
 
 
 

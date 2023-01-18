@@ -6,12 +6,16 @@ import com.sharedOne.service.BuyerService;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.Principal;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Random;
 
@@ -23,6 +27,7 @@ public class BuyerController {
     private BuyerService buyerService;
 
     @GetMapping("list")
+    @PreAuthorize("hasAnyAuthority('팀원', '팀장', '관리자')")
     public String list(Model model, @RequestParam(defaultValue = "1")int page){
         PageHelper.startPage(page,10);
         Page<BuyerDto> buyerList = buyerService.getBuyers();
@@ -38,6 +43,7 @@ public class BuyerController {
     }
 
     @GetMapping("listSearch")
+    @PreAuthorize("hasAnyAuthority('팀원', '팀장', '관리자')")
     public String listSearch(Model model, @RequestParam(defaultValue = "1")int page,
             @RequestParam(name ="search", defaultValue = "all")String type,
                              @RequestParam(name ="keyword", defaultValue = "")String keyword){
@@ -59,7 +65,9 @@ public class BuyerController {
     }
 
     @PostMapping("register")
-    public String register(BuyerDto buyer, RedirectAttributes redirectAttributes){
+    public String register(BuyerDto buyer, RedirectAttributes redirectAttributes, Principal principal){
+        String user_id = principal.getName();
+        System.out.println("아이디" + user_id);
         String buyer_code ="";
         buyer_code+= buyer.getCountry().substring(0,2).toUpperCase();
         Random random = new Random();
@@ -68,7 +76,7 @@ public class BuyerController {
         buyer_code +=strNum;
         System.out.println(buyer_code); // buyer_code 만듬
         buyer.setBuyer_code(buyer_code);
-        buyer.setAdduser("admin");
+        buyer.setAdduser(user_id);
         System.out.println("this is buyer" + buyer);
 
         int insertBuyer = buyerService.insertBuyer(buyer);
@@ -83,9 +91,10 @@ public class BuyerController {
     }
 
     @PostMapping("modify")
-    public String modify(BuyerDto buyer,RedirectAttributes redirectAttributes){
-        buyer.setUpduser("admin");
-        Timestamp now = new Timestamp(System.currentTimeMillis());
+    public String modify(BuyerDto buyer,RedirectAttributes redirectAttributes, Principal principal) {
+        String user_id = principal.getName();
+        buyer.setUpduser(user_id);
+        LocalDate now = LocalDate.now();
         buyer.setUpddate(now);
 //        System.out.println(buyer);
         int updateBuyer = buyerService.updateBuyer(buyer);
