@@ -1,5 +1,6 @@
 package com.sharedOne.mapper;
 
+import com.github.pagehelper.Page;
 import com.sharedOne.domain.BuyerDto;
 import com.sharedOne.domain.PriceDto;
 import com.sharedOne.domain.ProductDto;
@@ -42,4 +43,6 @@ public interface PriceMapper {
     void removePrices(PriceDto priceDto, int num);
 
     int buyerCountAll(String keyword, String type);
+
+    Page<ProductDto> getProductList(String type, String value);
 }

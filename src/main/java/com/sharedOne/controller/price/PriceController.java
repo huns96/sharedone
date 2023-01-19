@@ -1,4 +1,4 @@
-package com.sharedOne.controller;
+package com.sharedOne.controller.price;
 
 import com.sharedOne.domain.BuyerDto;
 import com.sharedOne.domain.PageInfo;
@@ -6,6 +6,7 @@ import com.sharedOne.domain.PriceDto;
 import com.sharedOne.domain.ProductDto;
 import com.sharedOne.service.PriceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -126,6 +127,7 @@ public class PriceController {
     }
 
     @GetMapping("priceList")
+    @PreAuthorize("hasAnyAuthority('관리자', '팀장', '팀원')")
 //    @RequestMapping(value = "list", produces="application/json;charset=utf-8")
     public List<PriceDto> list(@RequestParam(name = "page", defaultValue = "1") int page,
                                PageInfo pageInfo,

@@ -145,14 +145,9 @@
 <div class="container-fluid">
     <div class="row flex-nowrap">
         <my:Sidebar></my:Sidebar>
-        <div class="container-md" style="width: 80%;">
+        <div class="col" style="width: 80%; margin-right: 40px; margin-left: 40px; margin-top: 40px;">
             <%--        <h3><a href="result">Report</a></h3>--%>
             <%--        <p style="display: none">리포트</p>--%>
-            <div class="row">
-                <div class="col">
-                    &nbsp;
-                </div>
-            </div>
             <my:reportSearch></my:reportSearch>
 
             <div class="row">
@@ -215,7 +210,7 @@
                             <%--                        <div style="overflow: scroll; width: 100%; height: 390px; padding: 10px;">--%>
                             <table style="text-align: center" id="ordersTable" class="table table-hover">
                                 <thead>
-                                <tr>
+                                <tr style="border-bottom: black; background-color: #e0e0e0;">
                                     <%--                            <th></th>--%>
                                     <th id="order_code">&nbsp;주문번호</th>
                                     <th style="display: none" id="buyer_code">바이어 코드</th>

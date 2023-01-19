@@ -22,7 +22,7 @@
         }
         #item-button {
             padding-top: 32px;
-            padding-left: 70px;
+            padding-left: 50px;
         }
         #tableDiv { margin: 10px; }
     </style>

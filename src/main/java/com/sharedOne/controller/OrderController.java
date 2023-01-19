@@ -7,6 +7,7 @@ import com.sharedOne.domain.OrderItemDto;
 import com.sharedOne.service.OrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +26,7 @@ public class OrderController {
 
     /* 주문 관리 (메인) - 주문 리스트 조회 */
     @GetMapping("orderManagement")
+    @PreAuthorize("hasAnyAuthority('관리자', '팀장', '팀원')")
     public void management(@RequestParam(required = false) String orderCode,
                            @RequestParam(required = false) String buyerCode,
                            @RequestParam(required = false) String status,

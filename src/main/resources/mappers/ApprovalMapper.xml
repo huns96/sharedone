@@ -26,6 +26,7 @@
         <if test="userId != null and userId !=''">
             AND (o.adduser = #{userId} OR o.upduser = #{userId})
         </if>
+        ORDER BY IFNULL(o.upddate, o.adddate) DESC, o.adddate DESC, o.order_code
     </select>
 
     <select id="listItem" resultMap="itemMap">
@@ -41,9 +42,10 @@
             LEFT JOIN buyer b ON b.buyer_code = o.buyer_code
             LEFT JOIN product p ON p.product_code = i.product_code
             LEFT JOIN price pri ON pri.product_code = i.product_code and pri.buyer_code = o.buyer_code
-        WHERE i.delyn = 'N' AND p.delyn = 'N'
+        WHERE i.delyn = 'N'
             AND i.order_code = #{orderCode}
             AND pri.start_date <= #{requestDate} AND pri.end_date >= #{requestDate}
+        ORDER BY IFNULL(i.upddate, i.adddate) DESC, i.adddate DESC, i.order_code
         ]]>
     </select>
 

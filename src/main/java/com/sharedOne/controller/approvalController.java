@@ -8,6 +8,7 @@ import com.sharedOne.domain.PageInfo;
 import com.sharedOne.service.ApprovalService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +26,7 @@ public class approvalController {
     private ApprovalService approvalService;
 
     @GetMapping("approvalList")
+    @PreAuthorize("hasAnyAuthority('관리자', '팀장', '팀장')")
     public void list(@RequestParam(required = false) String orderCode,
                      @RequestParam(required = false) String buyerCode,
                      @RequestParam(required = false) String status,

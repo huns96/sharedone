@@ -7,6 +7,7 @@ import com.sharedOne.domain.report.*;
 import com.sharedOne.mapper.report.ReportMapper;
 import com.sharedOne.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +32,7 @@ public class ReportController {
 
 
     @GetMapping("work")
+    @PreAuthorize("hasAnyAuthority('관리자', '팀장', '팀원')")
     public String reportMain(Model model, PageInfo pageInfo, OrderDto searchOrders,
                              @RequestParam(name = "page", defaultValue = "1") int page,
                              @RequestParam(name = "records", defaultValue = "10") int records) {

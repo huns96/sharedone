@@ -48,7 +48,7 @@
         .fixedHeader {
             position: sticky;
             top: 0;
-            background-color: white !important;;
+            background-color: white /*!important;*/;
         }
 
         #search { height: 60px; }
@@ -128,7 +128,7 @@
                             <div style="height: 400px;">
                                 <table class="table table-hover" id="order-table">
                                     <thead>
-                                    <tr>
+                                    <tr style="border-bottom: black; background-color: #e0e0e0;">
                                         <%--                                        <th>#</th>--%>
                                         <th>주문번호</th>
                                         <th>바이어명</th>
@@ -295,7 +295,7 @@
                             <div class="itemtableDiv">
                                 <table class="table table-hover" id="itemList-table">
                                     <thead>
-                                    <tr>
+                                    <tr style="background-color: #e0e0e0; border-bottom: black;">
                                         <th class="fixedHeader">#</th>
                                         <th class="fixedHeader">상품번호</th>
                                         <th class="fixedHeader">상품명</th>

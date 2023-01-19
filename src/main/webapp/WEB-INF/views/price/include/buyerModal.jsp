@@ -28,15 +28,15 @@
                 aria-label="Close" style="right: 10px"></button>
       </div>
       <div class="modal-body" style="float: left">
-<%--        <form action="">--%>
-<%--          <select name="" id="">--%>
-<%--            <option value=""></option>--%>
-<%--          </select>--%>
-<%--          <div class="search">--%>
-<%--            <input type="text">--%>
-<%--            <img src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png" alt="">--%>
-<%--          </div>--%>
-<%--        </form>--%>
+        <%--        <form action="">--%>
+        <%--          <select name="" id="">--%>
+        <%--            <option value=""></option>--%>
+        <%--          </select>--%>
+        <%--          <div class="search">--%>
+        <%--            <input type="text">--%>
+        <%--            <img src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png" alt="">--%>
+        <%--          </div>--%>
+        <%--        </form>--%>
 
         <form class="d-flex" role="search" action="">
           <select name="t" id="t" class="form-select" style="width: 160px ; font-size: 12px ">
@@ -44,34 +44,34 @@
             <option value="name" ${param.t == 'name' ? 'selected' : ''}>바이어명</option>
           </select>
           <input value="${param.q }" class="form-control me-2" name="keyword" id="keyword" type="search" placeholder="Search" aria-label="Search" name="q" style="font-size: 14px;" >
-          <button class="btn btn-outline-success" id="select" type="button" data-bs-toggle="modal" data-bs-target="#buyer_code_search">
+          <button class="btn btn-outline-success" id="select" type="button" <%--data-bs-toggle="modal" data-bs-target="#buyer_code_search"--%>>
             <i class="fa-solid fa-magnifying-glass"></i>
           </button>
         </form>
-  <table class="table table-hover" id="buyerList">
-    <thead>
-    <tr>
-      <th>#</th>
-      <th>바이어코드</th>
-      <th>바이어명</th>
-    </tr>
-    </thead>
-    <tbody>
-    <c:forEach items="${buyers}" var="buyer" varStatus="status">
-      <tr>
-        <td>${status.count}</td>
-        <td>${buyer.buyer_code}</td>
-        <td>${buyer.name}</td>
-<%--        <td>${buyer.address}</td>--%>
-<%--        <td>${buyer.license}</td>--%>
-<%--        <td>${buyer.contact}</td>--%>
-<%--        <td>${buyer.adduser}</td>--%>
-<%--        <td>${buyer.upduser}</td>--%>
-      </tr>
-    </c:forEach>
-    </tbody>
-  </table>
-  </form>
+        <table class="table table-hover" id="buyerList">
+          <thead>
+          <tr>
+            <th>#</th>
+            <th>바이어코드</th>
+            <th>바이어명</th>
+          </tr>
+          </thead>
+          <tbody>
+          <c:forEach items="${buyers}" var="buyer" varStatus="status">
+            <tr>
+              <td>${status.count}</td>
+              <td>${buyer.buyer_code}</td>
+              <td>${buyer.name}</td>
+                <%--        <td>${buyer.address}</td>--%>
+                <%--        <td>${buyer.license}</td>--%>
+                <%--        <td>${buyer.contact}</td>--%>
+                <%--        <td>${buyer.adduser}</td>--%>
+                <%--        <td>${buyer.upduser}</td>--%>
+            </tr>
+          </c:forEach>
+          </tbody>
+        </table>
+        </form>
 
       </div>
       <div class="modal-footer">
@@ -105,17 +105,17 @@
         <%--          </div>--%>
         <%--        </form>--%>
 
-<%--        <form class="d-flex" role="search" action="">
-          <select name="t" class="form-select" style="width: 160px ; font-size: 12px " id="t">
-            <option value="buyer_code" ${param.t == 'buyer_code' ? 'selected' : ''}>바이어코드</option>
-            <option value="buyer_name" ${param.t == 'buyer_name' ? 'selected' : ''}>바이어명</option>
-          </select>
-          <input value="${param.q }" class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="q" style="font-size: 14px;" >
-          <button id="select" class="btn btn-outline-success" &lt;%&ndash;type="submit"&ndash;%&gt; type="button" data-bs-toggle="modal"
-                   &lt;%&ndash;data-bs-target=<c:if test=" ${t} == buyer_code">"#reroadbuyerModal"</c:if>&ndash;%&gt;>
-            <i class="fa-solid fa-magnifying-glass"></i>
-          </button>
-        </form>--%>
+        <%--        <form class="d-flex" role="search" action="">
+                  <select name="t" class="form-select" style="width: 160px ; font-size: 12px " id="t">
+                    <option value="buyer_code" ${param.t == 'buyer_code' ? 'selected' : ''}>바이어코드</option>
+                    <option value="buyer_name" ${param.t == 'buyer_name' ? 'selected' : ''}>바이어명</option>
+                  </select>
+                  <input value="${param.q }" class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="q" style="font-size: 14px;" >
+                  <button id="select" class="btn btn-outline-success" &lt;%&ndash;type="submit"&ndash;%&gt; type="button" data-bs-toggle="modal"
+                           &lt;%&ndash;data-bs-target=<c:if test=" ${t} == buyer_code">"#reroadbuyerModal"</c:if>&ndash;%&gt;>
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                  </button>
+                </form>--%>
         <table class="table table-hover" id="buyerCodeList">
           <thead>
           <tr>
@@ -246,6 +246,8 @@
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <script>
 
+
+
   const ctx = "${pageContext.request.contextPath}";
 
   document.querySelector("#select").addEventListener("click", function(){
@@ -253,20 +255,20 @@
 
     const q = document.getElementById("keyword").value;
 
-        $.ajax({
-          type: 'get',
-          url: '/price/priceList',
-          data: {"t" : t, "q" : q},
-          dataType: 'json',
-          traditional: true,
-          success: function (result) {
-            console.log(result);
-          }
-        });
+    $.ajax({
+      type: 'get',
+      url: '/price/priceList',
+      data: {"t" : t, "q" : q},
+      dataType: 'json',
+      traditional: true,
+      success: function (result) {
+        console.log(result);
+      }
+    });
 
-  document.querySelector("#select").setAttribute("data-bs-target", "#"+t+"_search");
+    document.querySelector("#select").setAttribute("data-bs-target", "#"+t+"_search");
 
-});
+  });
 
 
 

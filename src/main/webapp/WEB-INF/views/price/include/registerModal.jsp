@@ -32,7 +32,7 @@
                         <div class="mb-3 mx-4 row">
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">바이어코드</label>
-                                <input class="form-control"  id="buyerCodeInput" required="required" type="text" name="buyer_code" placeholder="바이어 코드" data-bs-toggle="modal" data-bs-target="#buyerModal" style="text-align: center">
+                                <input class="form-control"  id="buyerCodeInput" required="required" type="text" name="buyer_code" placeholder="바이어 코드" <%--data-bs-toggle="modal" data-bs-target="#buyerModal"--%> onclick="buyerPopup()" style="text-align: center">
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">바이어명</label>
@@ -42,7 +42,7 @@
                         <div class="mb-3 mx-4 row">
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">제품코드</label>
-                                <input class="form-control" id="productCodeInput" required="required" type="text" name="product_code" data-bs-toggle="modal" data-bs-target="#productModal" placeholder="제품 코드" style="text-align: center">
+                                <input class="form-control" id="productCodeInput" required="required" type="text" name="product_code" <%--data-bs-toggle="modal" data-bs-target="#productModal"--%> onclick="productPopup()" placeholder="제품 코드" style="text-align: center">
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">제품명</label>
@@ -108,6 +108,27 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <script>
+
+    function buyerPopup() {
+        let url = "/price/sub/buyerPopup";
+        let popupWidth = 600;
+        let popupHeight = 500;
+        let popupX = (window.screen.width / 2) - (popupWidth / 2);
+        let popupY= (window.screen.height / 2) - (popupHeight / 2);
+        let popupOption = 'status=no, height=' + popupHeight  + ', width=' + popupWidth  + ', left='+ popupX + ', top='+ popupY;
+        window.open(url,"",popupOption);
+    }
+
+    function productPopup() {
+        let url = "/price/sub/productPopup";
+        let popupWidth = 600;
+        let popupHeight = 500;
+        let popupX = (window.screen.width / 2) - (popupWidth / 2);
+        let popupY= (window.screen.height / 2) - (popupHeight / 2);
+        let popupOption = 'status=no, height=' + popupHeight  + ', width=' + popupWidth  + ', left='+ popupX + ', top='+ popupY;
+        window.open(url,"",popupOption);
+    }
+
     $("#registerConfirmButton").click(function(){
 
         let price = $("#priceInput").val();
