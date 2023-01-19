@@ -40,6 +40,7 @@
         <if test="userId != null and userId !=''">
             AND (o.adduser = #{userId} OR o.upduser = #{userId})
         </if>
+        ORDER BY IFNULL(o.upddate, o.adddate) DESC, o.adddate DESC, o.order_code
     </select>
 
     <select id="listItem" resultMap="itemMap">
@@ -58,6 +59,7 @@
         WHERE i.delyn = 'N' AND p.delyn = 'N'
             AND i.order_code = #{orderCode}
             AND pri.start_date <= #{requestDate} AND pri.end_date >= #{requestDate}
+        ORDER BY IFNULL(i.upddate, i.adddate) DESC, i.adddate DESC, i.order_code
         ]]>
     </select>
 
