@@ -145,14 +145,10 @@
 <div class="container-fluid">
 <div class="row flex-nowrap">
     <my:Sidebar></my:Sidebar>
+    <div class="col"  style="width: 80%; margin-left: 40px; margin-top: 40px; margin-right: 40px;>
     <div class="container-md" style="width: 80%;">
         <%--        <h3><a href="result">Report</a></h3>--%>
         <%--        <p style="display: none">리포트</p>--%>
-        <div class="row">
-            <div class="col">
-                &nbsp;
-            </div>
-        </div>
         <my:reportSearch></my:reportSearch>
 
         <div class="row">
@@ -413,6 +409,7 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 </div>
 <div class="modal fade" id="searchOrderCodeModal" tabindex="-1"
