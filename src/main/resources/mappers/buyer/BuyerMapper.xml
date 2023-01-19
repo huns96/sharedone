@@ -43,7 +43,6 @@
             </if>
         </trim>
         order by adddate DESC, buyer_code
-
     </select>
 
 </mapper>
