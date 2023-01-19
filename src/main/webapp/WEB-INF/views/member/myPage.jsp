@@ -42,7 +42,7 @@
             <div class="col" style="margin-top: 40px; margin-right: 40px; margin-left: 40px;">
                 <div class="page-background">
                     <div style="display: flex; justify-content: space-between">
-                    <h4 style="font-weight: bold; margin-left: 10px; margin-top: 5px;">회원정보 수정</h4>
+                    <h4 style="font-weight: bold; margin-left: 10px; margin-top: 5px;">회원정보 수정11</h4>
                         <div style="text-align: right;">
                             <input id="myPageModiBtn" class="btn btn-warning" type= "button" value="수정"/>
                         </div>
