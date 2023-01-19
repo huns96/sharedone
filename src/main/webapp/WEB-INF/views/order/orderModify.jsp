@@ -225,7 +225,7 @@
         window.open(url,"",popupOption);
     }
     // 상품 정보 추가
-    window.setItemInfo = function (itemCode, itemName, category, price) {
+    window.setItemInfo = function (itemCode, itemName, /*category,*/ price) {
         $('#productCode').val(itemCode);
         $('#productName').val(itemName);
         // $('#newCategory').val(category);
