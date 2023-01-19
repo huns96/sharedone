@@ -34,7 +34,6 @@ public class ReportController {
     public String reportMain(Model model, PageInfo pageInfo, OrderDto searchOrders,
                              @RequestParam(name = "page", defaultValue = "1") int page,
                              @RequestParam(name = "records", defaultValue = "10") int records) {
-        System.out.println(searchOrders + "searchOrders");
 
         String order_code = searchOrders.getOrder_code();
         String buyer_code = searchOrders.getBuyer_code();
@@ -55,16 +54,43 @@ public class ReportController {
                     ((from_add_date.equals("") & !to_add_date.equals(""))
                             | (!from_add_date.equals("") & to_add_date.equals("")))) {
 
+
                 model.addAttribute("message", "날짜 입력이 잘못 되었습니다");
                 model.addAttribute("searchOrders", searchOrders);
+
                 return "/report/result";
             }
+            if (!from_request_date.equals("") & !to_request_date.equals("")) {
+                int fr = Integer.parseInt(from_request_date.replace("-", ""));
+                int tr = Integer.parseInt(to_request_date.replace("-", ""));
+                System.out.println(fr + "  **************  " + tr);
+                if (fr > tr) {
+                    System.out.println(fr > tr);
+                    System.out.println("**************");
+                    model.addAttribute("message", "요청일의 시작일이 종료일보다 큽니다");
+                    model.addAttribute("searchOrders", searchOrders);
+                    return "/report/result";
+                }
+            }
+            if (!from_add_date.equals("") & !to_add_date.equals("")) {
+
+                int fa = Integer.parseInt(from_add_date.replace("-", ""));
+                int ta = Integer.parseInt(to_add_date.replace("-", ""));
+                System.out.println(fa > ta);
+                System.out.println(fa + "=================" + ta);
+                if (fa > ta) {
+                    model.addAttribute("message", "작성일의 시작일이 종료일보다 큽니다");
+                    model.addAttribute("searchOrders", searchOrders);
+                    return "/report/result";
+                }
+            }
+
         }
 
+        //-----------------합계 리포트----------------------
         if (sumCondition != null)
             if (!sumCondition.equals("")) {
-                System.out.println(searchOrders.getComment() + "섬레졀트 작업시작");
-                List<OrderGroupDto> orderGroups = reportService.getOrderGroups(model, searchOrders);
+                List<OrderGroupDto> orderGroups = reportService.getOrderGroups(model, searchOrders,pageInfo, page, records);
 
                 SumDto sums = reportService.getSums(searchOrders);
                 int countAll = reportMapper.groupContAll(searchOrders);
@@ -84,9 +110,8 @@ public class ReportController {
             }
 
 
-        //---------------------------------------------------------------------
+        //------------------아이템라인별 리포트---------------------
 
-        System.out.println("레졀트 작업시작");
         if (order_code == null & buyer_code == null & adduser == null & from_add_date == null & to_add_date == null) {
             status = " ";
         }
@@ -104,7 +129,7 @@ public class ReportController {
         model.addAttribute("from_request_date", from_request_date);
         model.addAttribute("to_request_date", to_request_date);
         model.addAttribute("searchOrders", searchOrders);
-        System.out.println(searchOrders.getBuyer_name()+"fjlee");
+        System.out.println(searchOrders.getBuyer_name() + "fjlee");
 
         return "/report/result";
     }
@@ -141,20 +166,17 @@ public class ReportController {
     @GetMapping("productPopup")
     public void getBuyerInfo(@RequestParam(required = false) String type,
                              @RequestParam(required = false) String value,
-                             @RequestParam(defaultValue = "1")int page,
+                             @RequestParam(defaultValue = "1") int page,
                              Model model) {
-        PageHelper.startPage(page,5);
+        PageHelper.startPage(page, 5);
         Page<ProductDto> list = reportService.getProducts(type, value);
 
         model.addAttribute("pageNum", list.getPageNum());
         model.addAttribute("pageSize", list.getPageSize());
         model.addAttribute("pages", list.getPages());
-        model.addAttribute("total",list.getTotal());
+        model.addAttribute("total", list.getTotal());
         model.addAttribute("products", list);
     }
-
-
-
 
 
     @ResponseBody
@@ -170,8 +192,6 @@ public class ReportController {
         System.out.println(map + "map");
         return orderCodes;
     }
-
-
 
 
     @GetMapping("order-itme")

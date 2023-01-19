@@ -8,17 +8,6 @@ import java.sql.Timestamp;
 @Data
 public class OrderDto {
 
-//                             @RequestParam(required = false) String order_code,
-//                             @RequestParam(required = false) String buyer_code,
-//                             @RequestParam(required = false) String status,
-//                             @RequestParam(required = false) String adduser,
-//                             @RequestParam(required = false) String from_request_date,
-//                             @RequestParam(required = false) String to_request_date,
-//                             @RequestParam(required = false) String from_add_date,
-//                             @RequestParam(required = false) String to_add_date,
-//                             @RequestParam(required = false) String product_code,
-//                             @RequestParam(required = false, defaultValue = "i.num") String sumCondition,
-
     //-------search---------------
     private int offset;
     private int records;
@@ -27,6 +16,7 @@ public class OrderDto {
     private String from_add_date;
     private String to_add_date;
     private String sumCondition;
+    private String tmp_to_add_date;  // +" 23:59:59"
     //-------order_header--------
     private String order_code;
     private String buyer_code;

@@ -1,3 +1,4 @@
+<%@ tag import="java.util.Date" %>
 <%@ tag language="java" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
@@ -72,7 +73,7 @@
                     <span class="ms d-none d-sm-inline" style="color: red; font-size: 20px;">리포트</span> </a>
             </li>
             <li class="w-100">
-                <a href='/report/work?order_code=""' class="nav-link"> <span class="d-none d-sm-inline name" style="align-items: center; color: aliceblue;">리포트</span></a>
+                <a href='/report/work?from_request_date=2022-07-20&to_request_date=2023-07-19' class="nav-link"> <span class="d-none d-sm-inline name" style="align-items: center; color: aliceblue;">리포트</span></a>
             </li>
         </ul>
     </div>

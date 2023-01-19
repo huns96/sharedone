@@ -19,22 +19,15 @@ public class ReportService {
 
     public List<OrderDto> getOrders(OrderDto searchOrders, PageInfo pageInfo, int page,int records) {
         System.out.println("서비스겟오더스" + searchOrders.getOrder_code());
-//        Map<String, Object> map = new HashMap<String, Object>();
-//        map.put("order_code", order_code);
-//        map.put("buyer_code", buyer_code);
-//        map.put("status", status);
-//        map.put("adduser", adduser);
-//        map.put("from_add_date", from_add_date);
-//        map.put("to_add_date", to_add_date);
-//        return reportMapper.selectOrders(map);
 
-
+        searchOrders.setTmp_to_add_date(searchOrders.getTo_add_date()+" 23:59:59");
+//        to_add_date=to_add_date+" 23:59:59";
 
         searchOrders.setOffset((page - 1) * records);
         searchOrders.setRecords(records);
 
 
-        int countAll = reportMapper.countAll(searchOrders);// SELECT Count(*) FROM Board
+        int countAll = reportMapper.countAll(searchOrders);
         searchOrders.setCountAll(countAll);
 
         System.out.println(countAll + "countAll결과");
@@ -70,27 +63,49 @@ public class ReportService {
         return reportMapper.getOrders(searchOrders);
     }
 
-    public List<String> searchOrderCode(String order_code_part) {
-        System.out.println(order_code_part + "서비스오더코드파트");
-
-        String orderCodePart = "%" + order_code_part + "%";
-        System.out.println(orderCodePart + "1231");
-
-        System.out.println(reportMapper.searchOrderCode(orderCodePart) + "서치오더코드매퍼결과");
-        return reportMapper.searchOrderCode(orderCodePart);
-    }
-
-
-    public List<OrderItemDto> getOrderItems(String product_code) {
-
-        return reportMapper.getOrderItems(product_code);
-    }
 
 
 
-    public List<OrderGroupDto> getOrderGroups(Model model, OrderDto searchOrders) {
-        List<OrderGroupDto> orderGroups = reportMapper.selectOrderGroups(searchOrders);
+    public List<OrderGroupDto> getOrderGroups(Model model, OrderDto searchOrders,PageInfo pageInfo, int page, int records) {
+        searchOrders.setTmp_to_add_date(searchOrders.getTo_add_date()+" 23:59:59");
         String sumCondition = searchOrders.getSumCondition();
+
+
+        searchOrders.setOffset((page - 1) * records);
+        searchOrders.setRecords(records);
+
+
+        int countAll = reportMapper.groupContAll(searchOrders); //그룹카운트
+        searchOrders.setCountAll(countAll);
+
+
+        int lastPage = (countAll - 1) / records + 1;
+
+        int leftPageNumber = (page - 1) / 10 * 10 + 1;
+        int rightPageNumber = leftPageNumber + 9;
+        rightPageNumber = Math.min(rightPageNumber, lastPage);
+
+        // 이전버튼 유무
+        boolean hasPrevButton = page > 10;
+        // 다음버튼 유무
+        boolean hasNextButton = page <= ((lastPage - 1) / 10 * 10);
+
+        // 이전버튼 눌렀을 때 가는 페이지 번호
+        int jumpPrevPageNumber = (page - 1) / 10 * 10 - 9;
+        int jumpNextPageNumber = (page - 1) / 10 * 10 + 11;
+
+        pageInfo.setHasPrevButton(hasPrevButton);
+        pageInfo.setHasNextButton(hasNextButton);
+        pageInfo.setJumpPrevPageNumber(jumpPrevPageNumber);
+        pageInfo.setJumpNextPageNumber(jumpNextPageNumber);
+        pageInfo.setCurrentPageNumber(page);
+        pageInfo.setLeftPageNumber(leftPageNumber);
+        pageInfo.setRightPageNumber(rightPageNumber);
+        pageInfo.setLastPageNumber(lastPage);
+
+
+        List<OrderGroupDto> orderGroups = reportMapper.selectOrderGroups(searchOrders);
+
 
         if (sumCondition.equals(("year(h.request_date)"))) {
             model.addAttribute("groupName", "년도");
@@ -150,5 +165,21 @@ public class ReportService {
 
 
 
+
+
+    public List<String> searchOrderCode(String order_code_part) {
+        System.out.println(order_code_part + "서비스오더코드파트");
+
+        String orderCodePart = "%" + order_code_part + "%";
+
+        System.out.println(reportMapper.searchOrderCode(orderCodePart) + "서치오더코드매퍼결과");
+        return reportMapper.searchOrderCode(orderCodePart);
+    }
+
+
+    public List<OrderItemDto> getOrderItems(String product_code) {
+
+        return reportMapper.getOrderItems(product_code);
+    }
 
 }

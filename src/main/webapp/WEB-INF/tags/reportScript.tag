@@ -94,7 +94,7 @@
         $('#setProductCode').val(productCode);
         $('#setProductName').val(productName);
     }
-    window.setAdduser = function (adduserId, adduserName) {
+    window.setMemberInfo = function (adduserId, adduserName) {
         $('#setAdduserId').val(adduserId);
         $('#setAdduserName').val(adduserName);
     }
