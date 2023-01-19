@@ -39,12 +39,15 @@
                     and h.request_date BETWEEN #{from_request_date} AND #{to_request_date}
                 </if>
                 <if test="from_add_date != null and from_add_date!='' and to_add_date != null and to_add_date!=''">
-                    and h.adddate BETWEEN #{from_add_date} AND #{to_add_date}
+                    and h.adddate BETWEEN #{from_add_date} AND #{tmp_to_add_date}
                 </if>
                 <if test="product_code != null and product_code!=''">
                     and i.product_code=#{product_code}
                 </if>
-                and h.delyn='N'
+                <if test="true">
+                    and h.delyn='N'
+                    and i.delyn='N'
+                </if>
             </trim>
         </where>
         ORDER BY h.adddate DESC
@@ -83,16 +86,18 @@
                     and h.request_date BETWEEN #{from_request_date} AND #{to_request_date}
                 </if>
                 <if test="from_add_date != null and from_add_date!='' and to_add_date != null and to_add_date!=''">
-                    and h.adddate BETWEEN #{from_add_date} AND #{to_add_date}
+                    and h.adddate BETWEEN #{from_add_date} AND #{tmp_to_add_date}
                 </if>
                 <if test="product_code != null and product_code!=''">
                     and i.product_code=#{product_code}
                 </if>
+                and h.delyn='N'
+                and i.delyn='N'
             </trim>
         </where>
         GROUP BY ${sumCondition}
         ORDER BY h.adddate DESC
-        <!--        LIMIT #{offset}, #{records}-->
+        LIMIT #{offset}, #{records}
     </select>
 
 
@@ -130,6 +135,8 @@
                 <if test="product_code != null and product_code!=''">
                     and i.product_code=#{product_code}
                 </if>
+                and h.delyn='N'
+                and i.delyn='N'
             </trim>
         </where>
     </select>
@@ -169,6 +176,8 @@
                 <if test="product_code != null and product_code!=''">
                     and i.product_code=#{product_code}
                 </if>
+                and h.delyn='N'
+                and i.delyn='N'
             </trim>
         </where>
         GROUP BY ${sumCondition}
@@ -180,7 +189,9 @@
         SELECT
         sum(quantity) sumQuantity,sum(price) sumPrice
         FROM
-        order_header h left join order_item i on h.order_code=i.order_code
+        order_header h
+        left join order_item i
+        on h.order_code=i.order_code
         <where>
             <!--<trim prefix="WHERE" prefixOverrides="and">-->
             <trim prefixOverrides="and">
@@ -207,9 +218,28 @@
                 <if test="product_code != null and product_code!=''">
                     and i.product_code=#{product_code}
                 </if>
+                and h.delyn='N'
+                and i.delyn='N'
             </trim>
         </where>
     </select>
+
+
+    <select id="getProducts" resultType="com.sharedOne.domain.ProductDto">
+        SELECT
+        p.product_code, p.name
+        FROM product p
+        WHERE p.delyn = 'N'
+        <if test="type == 'product_code'">
+            AND p.product_code LIKE #{value}
+        </if>
+        <if test="type == 'product_name'">
+            AND p.name LIKE #{value}
+        </if>
+    </select>
+
+
+    <!-- ============================================ -->
 
 
     <select id="getOrderCodes" resultType="com.sharedOne.domain.report.OrderDto">
@@ -221,15 +251,15 @@
         <!--        order_code like #{order_code_part}-->
     </select>
 
-<!--    <select id="getProducts" resultType="com.sharedOne.domain.ProductDto">-->
-<!--        SELECT-->
-<!--        product_code,-->
-<!--        name-->
-<!--        FROM-->
-<!--        product-->
-<!--        &lt;!&ndash;        WHERE&ndash;&gt;-->
-<!--        &lt;!&ndash;        order_code like #{order_code_part}&ndash;&gt;-->
-<!--    </select>-->
+    <!--    <select id="getProducts" resultType="com.sharedOne.domain.ProductDto">-->
+    <!--        SELECT-->
+    <!--        product_code,-->
+    <!--        name-->
+    <!--        FROM-->
+    <!--        product-->
+    <!--        &lt;!&ndash;        WHERE&ndash;&gt;-->
+    <!--        &lt;!&ndash;        order_code like #{order_code_part}&ndash;&gt;-->
+    <!--    </select>-->
 
 
     <select id="searchOrderCode" resultType="String">
@@ -245,20 +275,6 @@
         *
         FROM
         order_item where order_code=#{order_code}
-    </select>
-
-
-    <select id="getProducts" resultType="com.sharedOne.domain.ProductDto">
-        SELECT
-        p.product_code, p.name
-        FROM product p
-        WHERE p.delyn = 'N'
-        <if test="type == 'product_code'">
-            AND p.product_code LIKE #{value}
-        </if>
-        <if test="type == 'product_name'">
-            AND p.name LIKE #{value}
-        </if>
     </select>
 
 

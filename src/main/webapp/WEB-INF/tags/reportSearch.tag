@@ -6,6 +6,7 @@
 <div class="row">
     <div class="col">
         <div id="search" class="page-background" style="height: 211px">
+            <div style="margin-left: 44px; margin-right: 44px">
             <form action="work">
                 <div class="input-group">
                     <label class="form-control" style="  text-align:center">주문번호</label>
@@ -31,6 +32,7 @@
                 <div class="input-group">
                     <label class="form-control" style="  text-align:center">작성자</label>
                     <input id="setAdduserName" type="text" value="${searchOrders.adduser_name}" size="10" class="form-control"
+                           name="adduser_name"
                            placeholder=""/>
                     <input id="setAdduserId" type="hidden" value="${searchOrders.adduser}" size="10" class="form-control"
                            name="adduser"
@@ -61,7 +63,8 @@
                            placeholder=""/>
                 </div>
                 <div class="input-group">
-                    <label class="form-control" style="  text-align:center">제품</label>
+                    <label class="form-control" style="
+                      text-align:center">제품</label>
                     <input id="setProductName" value="${searchOrders.product_name}" type="text" size="10"
                            class="form-control"
                            name="product_name"
@@ -100,7 +103,7 @@
 
                 <br><br><br><br><br>
                 <hr>
-                <div>
+                <div style="font-size: 19px;  ">
                     <b>&nbsp; 합계조건 &nbsp; </b>
                     <input type="radio" name="sumCondition" id="" value="" checked/> 선택안함
                     <input type="radio" name="sumCondition" id="sumCondition_year" value="year(h.request_date)"/> 년별
@@ -121,7 +124,7 @@
                 </div>
 
             </form>
-
+            </div>
         </div>
     </div>
 </div>
