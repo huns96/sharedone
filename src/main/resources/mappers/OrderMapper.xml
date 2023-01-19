@@ -26,8 +26,8 @@
             o.order_date, o.request_date, o.approval_date, o.return_date,
             o.status, o.memo, o.comment,
             o.delyn, o.adduser, o.adddate, o.upduser, o.upddate
-        FROM order_header o LEFT JOIN buyer b ON o.buyer_code = b.buyer_code AND b.delyn = 'N'
-        WHERE o.delyn = 'N'
+        FROM order_header o LEFT JOIN buyer b ON o.buyer_code = b.buyer_code
+        WHERE o.delyn = 'N' AND b.delyn = 'N'
         <if test="orderCode != null and orderCode !=''">
             AND o.order_code like #{orderCode}
         </if>
@@ -40,6 +40,7 @@
         <if test="userId != null and userId !=''">
             AND (o.adduser = #{userId} OR o.upduser = #{userId})
         </if>
+        ORDER BY IFNULL(o.upddate, o.adddate) DESC, o.adddate DESC, o.order_code
     </select>
 
     <select id="listItem" resultMap="itemMap">
@@ -54,10 +55,11 @@
             LEFT JOIN order_header o ON o.order_code = i.order_code
             LEFT JOIN buyer b ON b.buyer_code = o.buyer_code
             LEFT JOIN product p ON p.product_code = i.product_code
-            LEFT JOIN price pri ON pri.product_code = i.product_code and pri.buyer_code = o.buyer_code AND pri.delyn = 'N'
-        WHERE p.delyn = 'N'
+            LEFT JOIN price pri ON pri.product_code = i.product_code and pri.buyer_code = o.buyer_code
+        WHERE i.delyn = 'N' AND p.delyn = 'N'
             AND i.order_code = #{orderCode}
             AND pri.start_date <= #{requestDate} AND pri.end_date >= #{requestDate}
+        ORDER BY IFNULL(i.upddate, i.adddate) DESC, i.adddate DESC, i.order_code
         ]]>
     </select>
 
