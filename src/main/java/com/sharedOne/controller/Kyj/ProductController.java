@@ -10,6 +10,7 @@ import com.sharedOne.service.ProductService;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.CachingUserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,7 +18,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
+import java.security.Principal;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.*;
 
 @Controller
@@ -34,6 +37,7 @@ public class ProductController {
 
 
     @GetMapping("list")
+    @PreAuthorize("hasAnyAuthority('팀원', '팀장', '관리자')")
     public String list(Model model, @RequestParam(defaultValue = "1")int page) {
 
         PageHelper.startPage(page, 10);
@@ -85,6 +89,7 @@ public class ProductController {
     }
 
     @GetMapping("listSearch")
+    @PreAuthorize("hasAnyAuthority('팀원', '팀장', '관리자')")
     public String listSearch(Model model, @RequestParam(defaultValue = "1")int page,
                              @RequestParam(name="search",defaultValue = "all")String type,
                              @RequestParam(name="keyword",defaultValue = "")String keyword
@@ -109,6 +114,7 @@ public class ProductController {
 
 
     @GetMapping("listSearchCategory")
+    @PreAuthorize("hasAnyAuthority('팀원', '팀장', '관리자')")
     public String listSearch(Model model, @RequestParam(defaultValue = "1")int page,
                              @RequestParam(name="categoryId", defaultValue = "")String categoryId){
        // System.out.println("THIS IS CATEGORYID" + categoryId); // middle category
@@ -135,7 +141,8 @@ public class ProductController {
     }
 
     @PostMapping("register")
-    public String register(String name, String ea, int category,int category_id,RedirectAttributes rttr) {
+    public String register(String name, String ea, int category, int category_id, RedirectAttributes rttr, Principal principal) {
+        String user_id = principal.getName();
         System.out.println("name" + name);
         System.out.println("ea" + ea);
         System.out.println("category" + category);
@@ -155,7 +162,7 @@ public class ProductController {
         Random random = new Random();
         int num = random.nextInt(10000);
         String strNum = String.format("%04d", num);
-        String adduser = "admin";
+        String adduser = user_id;
         product_code += strNum;
         System.out.println("this is product_code" + product_code);
         ProductDto temp = new ProductDto();
@@ -163,7 +170,7 @@ public class ProductController {
         temp.setName(name);
         temp.setEa(ea);
         temp.setCategory_id(category_id);
-        temp.setAdduser("admin");
+        temp.setAdduser(user_id);
 //        System.out.println(temp);
 
 
@@ -238,10 +245,11 @@ public class ProductController {
     }
 
     @PostMapping("modify")
-    public String modify(ProductDto product,RedirectAttributes rttr){
+    public String modify(ProductDto product,RedirectAttributes rttr, Principal principal) {
+        String user_id = principal.getName();
         System.out.println("product" + product);
-        product.setUpduser("admin");
-        Timestamp now = new Timestamp(System.currentTimeMillis());
+        product.setUpduser(user_id);
+        LocalDate now = LocalDate.now();
         product.setUpddate(now);
         int updateProduct = productService.updateProduct(product);
         if(updateProduct ==1){

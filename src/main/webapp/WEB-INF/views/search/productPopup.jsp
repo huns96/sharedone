@@ -53,10 +53,10 @@
             <tr>
                 <th style="width: 10%"></th>
                 <%--<th>#</th>--%>
-                <th style="width: 20%">상품코드</th>
-                <th style="width: 20%">상품명</th>
-                <th style="width: 20%">카테고리</th>
-                <th style="width: 20%">단가</th>
+                <th style="width: 30%">상품코드</th>
+                <th style="width: 30%">상품명</th>
+                <%--<th style="width: 20%">카테고리</th>--%>
+                <th style="width: 30%">단가</th>
             </tr>
             </thead>
             <tbody>
@@ -66,7 +66,7 @@
                         <%--<td>${status.count}</td>--%>
                     <td>${item.product_code}</td>
                     <td>${item.product_name}</td>
-                    <td>${item.category_id}</td>
+                    <%--<td>${item.category_id}</td>--%>
                     <%--<td>${item.old_price}</td>--%>
                     <td><fmt:formatNumber value="${item.old_price}" pattern="#,###"/>
                 </tr>
@@ -140,11 +140,11 @@
             const td = tr.children();
             const itemCode = td.eq(1).text();
             const itemName = td.eq(2).text();
-            const category = td.eq(3).text();
-            const price = td.eq(4).text();
+            /*const category = td.eq(3).text();*/
+            const price = td.eq(3).text();
 
             // orderRegister의 setItemInfo()에 값 전달
-            opener.setItemInfo(itemCode, itemName, category, price.replace(/[^\d]+/g, ""));
+            opener.setItemInfo(itemCode, itemName, /*category,*/ price.replace(/[^\d]+/g, ""));
             window.close();
         });
     })

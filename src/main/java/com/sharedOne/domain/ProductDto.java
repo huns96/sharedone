@@ -4,6 +4,7 @@ import lombok.Data;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 
 @Data
 public class ProductDto {
@@ -13,9 +14,9 @@ public class ProductDto {
     private int category_id;
     private String delyn;
     private String adduser;
-    private Timestamp adddate;
+    private LocalDate adddate;
     private String upduser;
-    private Timestamp upddate;
+    private LocalDate upddate;
 
     private String main_cat;
     private String middle_cat;
