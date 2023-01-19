@@ -11,7 +11,7 @@
 
 <html>
 <head>
-    <title>Buyer</title>
+    <title>Title</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.0-beta3/css/bootstrap.min.css" integrity="sha512-N415hCJJdJx+1UBfULt+i+ihvOn42V/kOjOpp1UTh4CZ70Hx5bDlKryWaqEKfY/8EYOu/C2MuyaluJryK1Lb5Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.0-beta3/js/bootstrap.min.js" integrity="sha512-mp3VeMpuFKbgxm/XMUU4QQUcJX4AZfV5esgX72JQr7H7zWusV6lLP1S78wZnX2z9dwvywil1VHkHZAqfGOW7Nw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -19,12 +19,12 @@
 </head>
 <style>
     body{
-        background-color: #e0e0e0;
+        background-color: lightgray;
     }
 
     tr > .table-head{
         text-align: center;
-        background-color:#e0e0e0;
+        background-color:lightgray;
     }
 
     tbody .row-head{
@@ -35,12 +35,11 @@
     tr > .td-body{
         text-align: center;
     }
-
 </style>
 <body>
 <c:if test="${not empty message }">
-    <div class="alert alert-success" id="messageModal" role="alert">
-           <h4 class="alert-heading" style="text-align: center"> ${message } </h4>
+    <div class="alert alert-success" id="messageModal">
+            ${message }
     </div>
 </c:if>
 <div class="container-fluid">
@@ -51,16 +50,16 @@
                 <table style="  align-content: end;">
                     <tr>
                         <td style="float: end;">
-                            <form action="${pageContext.request.contextPath}/buyer/listSearch" method="get" class="d-flex" style="height: 40px">
-                                <select name="search" id="" class="form-select" style="width: 200px">
+                            <form action="${pageContext.request.contextPath}/buyer/listSearch" method="get">
+                                <select name="search" id="">
                                     <option value="all">통합검색</option>
-                                    <option value="buyer_code" <c:if test="${type == 'buyer_code'}">selected</c:if> >바이어 코드</option>
-                                    <option value="name" <c:if test="${type == 'name'}">selected</c:if> >이름</option>
+                                    <option value="buyer_code">바이어 코드</option>
+                                    <option value="name">이름</option>
                                 </select>
 
-                                <input type="text" placeholder="search" name="keyword" class="form-control" value="${keyword}">
-                                <button class="btn btn-dark" style="width: 100px; margin-right: 5px">검색</button>
-                                <a type="button" class="btn btn-dark" style="width: 140px" href="/buyer/list">초기화</a>
+                                <input type="text" placeholder="search" name="keyword">
+                                <button>전송</button>
+                                <button onclick="location.replace(`${pageContext.request.contextPath}/buyer/list`)">초기화</button>
                             </form>
                         </td>
                     </tr>
@@ -81,33 +80,13 @@
 
 
 
+
             <div style="background-color: white; border-radius: 5px; margin: 40px 40px 0px 40px;" class="mb-5">
                 <div class="row p-2 justify-content-between">
-                    <div class="col-4 mt-3 mb-1"><h4 style="font-weight: bold;">바이어 목록</h4></div>
+                    <div class="col-4 mt-3"><h5 style="font-weight: bold;">바이어 목록</h5></div>
                     <div class="col-2 mt-3" style="text-align: right;">
-                        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#registerModal">등록</button>
-                        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" id="deleteCheck">삭제</button>
-                    </div>
-                </div>
-
-
-                <!-- remove modal -->
-                <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h1 class="modal-title fs-5">삭제 확인</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                삭제하시겠습니까?
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-                                <button class="btn btn-danger" onclick="deleteCheck()">확인</button>
-                            </div>
-
-                        </div>
+                        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#registerModal">등록</button>
+                        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="deleteCheck()" id="deleteCheck">삭제</button>
                     </div>
                 </div>
 
@@ -124,42 +103,33 @@
                                 <form action="${pageContext.request.contextPath}/buyer/register" method="post" id="registerForm">
                                     <div class="mb-3">
                                         <label class="col-form-label">바이어 명:</label>
-                                        <input type="text" class="form-control" name="name" required id="name" placeholder="한글/영문">
+                                        <input type="text" class="form-control" name="name" required id="name">
                                     </div>
 
                                     <div class="mb-3">
                                         <label class="col-form-label">바이어 주소:</label>
-                                        <input type="text" class="form-control" name="address" required id="address" placeholder="한글/영문">
+                                        <input type="text" class="form-control" name="address" required id="address">
                                     </div>
 
                                     <div class="mb-3">
                                         <label class="col-form-label">바이어 국적:</label>
-                                        <select name="country" id="country" class="form-select">
-                                            <option selected="selected" value="" disabled>SELECTED</option>
-                                            <option value="AU">Australia</option>
-                                            <option value="CA">Canada</option>
-                                            <option value="EN">England</option>
-                                            <option value="KO">Korea</option>
-                                            <option value="FR">France</option>
-                                            <option value="GE">Germany</option>
-                                        </select>
-<%--                                        <input type="text" class="form-control" name="country" required id="country">--%>
+                                        <input type="text" class="form-control" name="country" required id="country">
                                     </div>
 
                                     <div class="mb-3">
                                         <label class="col-form-label">사업자 번호:</label>
-                                        <input type="text" class="form-control" name="license" required id="license" placeholder="사업자번호 ex)111-22-33333">
+                                        <input type="number" class="form-control" name="license" required id="license">
                                     </div>
 
                                     <div class="mb-3">
-                                        <label class="col-form-label">전화 번호:</label>
-                                        <input type="text" class="form-control" name="contact" required id="contact" placeholder="전화번호 ex)02-123-4567">
+                                        <label class="col-form-label">CONTACT?:</label>
+                                        <input type="text" class="form-control" name="contact" required id="contact">
                                     </div>
 
                                 </form>
                             </div>
                             <div class="modal-footer">
-                                <button id="registerConfirm" type="submit" class="btn btn-success" onclick="registerBuyer()">등록</button>
+                                <button id="registerConfirm" type="submit" class="btn btn-primary" onclick="registerBuyer()">등록</button>
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
                             </div>
                         </div>
@@ -167,28 +137,28 @@
                 </div>
 
                 <!-- deleteModal -->
-<%--                <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">--%>
-<%--                    <div class="modal-dialog">--%>
-<%--                        <div class="modal-content">--%>
-<%--                            <div class="modal-header">--%>
-<%--                                <h1 class="modal-title fs-5" id="exampleModalLabel">삭제하시겠습니까?</h1>--%>
-<%--                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>--%>
-<%--                            </div>--%>
-<%--                            <div class="modal-body">--%>
+                <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">삭제하시겠습니까?</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
 
-<%--                            </div>--%>
-<%--                            <div class="modal-footer">--%>
-<%--                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>--%>
-<%--                                <button type="button" class="btn btn-primary">Save changes</button>--%>
-<%--                            </div>--%>
-<%--                        </div>--%>
-<%--                    </div>--%>
-<%--                </div>--%>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
 
 
                 <div>
-                    <table class="table table-hover">
+                    <table class="table table-bordered border border-5">
                         <thead><!-- table 기호에 맞게 -->
                         <tr> <!-- 데이터 받으면 그때 for문 -->
                             <th scope="col" class="table-head">전체<input class="form-check-input" id="buyerAll" type="checkbox" name="buyerCodeAll" style="margin-left: 5px" onclick="checkAll(this)"></th>
@@ -197,7 +167,7 @@
                             <th scope="col" class="table-head">주소</th>
                             <th scope="col" class="table-head">국적</th>
                             <th scope="col" class="table-head">사업자번호</th>
-                            <th scope="col" class="table-head">전화번호</th>
+                            <th scope="col" class="table-head">CONTACT</th>
                             <th scope="col" class="table-head">작성자</th>
                             <th scope="col" class="table-head">작성일</th>
                             <th scope="col" class="table-head">수정자</th>
@@ -229,8 +199,7 @@
                                 <td class="td-body">${item.upddate}</td>
                                 <td>
                                     <div class="d-flex justify-content-center" style="margin: 0;">
-                                        <button class="btn btn-warning btn-sm" style="color: white;" id=`modify${item.buyer_code}` data-buyer-code="${item.buyer_code}" data-buyer-country="${item.country}"
-                                                data-buyer-name="${item.name}" data-buyer-address="${item.address}" data-buyer-license="${item.license}" data-buyer-contact="${item.contact}" data-bs-toggle="modal" data-bs-target="#modifyModal">수정</button>
+                                        <button class="btn btn-warning btn-sm" style="color: white;" id=`modify${item.buyer_code}` data-buyer-code="${item.buyer_code}" data-buyer-country="${item.country}" data-bs-toggle="modal" data-bs-target="#modifyModal">수정</button>
                                     </div>
                                 </td>
                             </tr>
@@ -272,16 +241,16 @@
                                 </div>
                                 <div class="modal-body">
                                     <form action="${pageContext.request.contextPath}/buyer/modify" method="post" id="modifyForm">
-                                        <label for="" class="col-form-label">바이어코드:</label>
+                                        <label for="" class="col-form-label">코드번호:</label>
                                         <input type="text" class="form-control" value="" readonly="readonly" style="background-color: lightgrey;" required="required">
                                         <input type="hidden" class="form-control" name="buyer_code" value="" required="required" id="buyerCode">
                                         <div class="mb-3">
                                             <label for="" class="col-form-label">이름:</label>
-                                            <input type="text" class="form-control" name="name" required="required" id="buyerName" placeholder="한글/영문">
+                                            <input type="text" class="form-control" name="name" required="required" id="buyerName">
                                         </div>
                                         <div class="mb-3">
                                             <label for="" class="col-form-label">주소:</label>
-                                            <input type="text" class="form-control" name="address" required="required" id="buyerAddress" placeholder="한글/영문">
+                                            <input type="text" class="form-control" name="address" required="required" id="buyerAddress">
                                         </div>
                                         <div class="mb-3">
                                             <label for="" class="col-form-label">국적:</label>
@@ -289,12 +258,12 @@
                                             <input type="hidden" class="form-control" name="country" required="required" id="buyerCountry">
                                         </div>
                                         <div class="mb-3">
-                                            <label for="" class="col-form-label">사업자번호:</label>
-                                            <input type="text" class="form-control" name="license" required="required" id="buyerLicense" placeholder="사업자번호(정확히)">
+                                            <label for="" class="col-form-label">license:</label>
+                                            <input type="text" class="form-control" name="license" required="required" id="buyerLicense">
                                         </div>
                                         <div class="mb-3">
-                                            <label for="" class="col-form-label">전화번호:</label>
-                                            <input type="text" class="form-control" name="contact" required="required" id="buyerContact" placeholder="전화번호(정확히)">
+                                            <label for="" class="col-form-label">contact:</label>
+                                            <input type="text" class="form-control" name="contact" required="required" id="buyerContact">
                                         </div>
                                     </form>
 
@@ -332,46 +301,18 @@
 
 
 
+
+
         setTimeout(function(){
             if("${message}" != "")
             document.querySelector("#messageModal").style.display='none';
         },2000);
 
-
-        function telValidator(args) {
-
-            if (/^[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}/.test(args)) {
-                return true;
-            }
-            // alert(msg);
-            return false;
-        }
-
-        function licenseValidator(args){
-            if(/^[0-9]{3}-[0-9]{2}-[0-9]{5}$/.test(args)){
-                return true;
-            }
-            return false;
-        }
-
     function registerBuyer(){
             this.event.preventDefault();
-            if(name.value ===''){
-                alert("아이디 입력");
-            }
-            if(address.value===''){
-                alert("주소 입력")
-            }
-            if(country.value ==='' || country.value.length<2){
-                alert("나라 입력")
-            }
-            if(!licenseValidator(license.value)){
-                alert("사업자 번호 확인")
-            }
-            if(!telValidator(contact.value)){
-                alert("전화번호 확인")
-            }
-            else{
+            if(name.value ==='' || address.value ==='' || (country.value ==='' || country.value.length<2) || license.value ===''|| contact.value ===''){
+                alert("유효성 검사 해야됨 국적 영어 넣고!!");
+            }else{
                 document.querySelector("#registerForm").submit();
             }
     }
@@ -393,14 +334,12 @@
             checked.forEach((e) =>{
                 checkedList.push(e.value);
             })
-            // 삭제 하시겠습니까? 모달 띠우고 확인 누르면 삭제쿼리 실행.
+            alert(checkedList); // 삭제 하시겠습니까? 모달 띠우고 확인 누르면 삭제쿼리 실행.
             executeDelete(checkedList);
             checkedList =[];
         }
         else{
-            $('#deleteModal').hide();
-            alert("바이어 선택");
-            location.reload();
+            alert("아무것도 선택 안됐음");
         }
         // checked.forEach((e) =>{
         //     alert(e.value);
@@ -460,45 +399,25 @@
             const button = event.relatedTarget
             const recipient = button.getAttribute('data-buyer-code')
             const buyerCountry = button.getAttribute('data-buyer-country');
-            const buyerCode = button.getAttribute('data-buyer-code');
-            const buyerName = button.getAttribute('data-buyer-name');
-            const buyerAddress = button.getAttribute('data-buyer-address');
-            const buyerLicense = button.getAttribute('data-buyer-license');
-            const buyerContact = button.getAttribute('data-buyer-contact');
             const modalBodyInput = exampleModal.querySelector('.modal-body input')
             const modalbuyerInput = exampleModal.querySelector('.modal-body .country')
             modalBodyInput.value = recipient
             modalbuyerInput.value = buyerCountry
-            document.querySelector("#buyerCode").value = buyerCode;
+            document.querySelector("#buyerCode").value = recipient;
             document.querySelector("#buyerCountry").value = buyerCountry;
-            document.querySelector("#buyerName").value = buyerName;
-            document.querySelector("#buyerAddress").value = buyerAddress;
-            document.querySelector("#buyerLicense").value = buyerLicense;
-            document.querySelector("#buyerContact").value = buyerContact;
         });
 
         function submitModifyForm(){
             this.event.preventDefault();
-            if(buyerName.value ===''){
-                alert("아이디 확인");
-            }
-            if(buyerAddress.value ===''){
-                alert("주소 확인");
-            }
-            if(!licenseValidator(buyerLicense.value)){
-                alert("사업자 번호 확인")
-            }
-            if(!telValidator(buyerContact.value)){
-                alert("전화 번호 확인")
-            }
-
-            else{
+            if(buyerName.value ==='' || buyerAddress.value ==='' || buyerLicense.value ===''|| buyerContact.value ===''){
+                alert("유효성 검사 해야됨 국적 영어 넣고!!");
+            }else{
                 document.querySelector("#modifyForm").submit()
                     .then(
+
                     );
             }
         }
-
     </script>
 </body>
 </html>

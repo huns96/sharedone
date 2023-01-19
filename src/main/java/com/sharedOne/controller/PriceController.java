@@ -32,6 +32,7 @@ public class PriceController {
         int num = priceDto.getNum();
         System.out.print("num:::::::"+num);
         int checkPrice = priceService.dateCheck(priceDto);
+//        int checkDate = priceService.checkDate(priceDto);
         System.out.print(checkPrice);
 
         if (checkPrice > 0) {
@@ -40,6 +41,14 @@ public class PriceController {
 
             return "redirect:/price/priceList";
         }
+
+//        if (checkDate > 0) {
+//            rttr.addFlashAttribute("message", "시작일을 종료일 이전으로 작성해야합니다.");
+//            System.out.print("등록 실패");
+//
+//            return "redirect:/price/priceList";
+//        }
+
         int check = priceService.modify(priceDto);
         if (check ==1) {
             rttr.addFlashAttribute("message", "수정완료하였습니다.");

@@ -36,8 +36,8 @@
     </style>
 </head>
 <body>
-    <div class="container-fluid">
-        <div class="row flex-nowrap">
+    <div class="container-fluid" style="padding: 0">
+        <div style="display: flex">
             <my:Sidebar></my:Sidebar>
             <div class="col" style="margin-top: 40px; margin-right: 40px; margin-left: 40px;">
                 <div class="page-background">
@@ -77,25 +77,5 @@
             </div>
         </div>
     </div>
-    <script
-            src="https://code.jquery.com/jquery-3.6.3.js"
-            integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
-            crossorigin="anonymous"></script>
-
-    <script>
-         $('#myPageModiBtn').click(function (){
-            const form = document.forms.myPageModiForm
-            if  ($('#myId').val() == "" ||
-                ($('#myName').val() == "" ||
-                ($('#myPassword').val() == "" ||
-                ($('#myPhone').val() == "")))) {
-                alert("입력되지 않은 정보가 있습니다.")
-            } else{
-                form.submit();
-            }
-        });
-
-
-    </script>
 </body>
 </html>

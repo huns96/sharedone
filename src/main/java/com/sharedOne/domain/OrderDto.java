@@ -23,7 +23,7 @@ public class OrderDto {
     private String memo; // 주문 메모
 
     private String comment;
-    
+
     private String delyn; //삭제 여부
     private String adduser; // 등록자
     private Timestamp adddate; // 등록일
