@@ -23,13 +23,12 @@
         <my:Sidebar></my:Sidebar>
         <sec:authorize access="isAuthenticated()" var="login"></sec:authorize>
         <c:if test="${not login}">
-        <div class="container" style="margin-top: 200px; margin-left: 400px; width: 1000px;">
-            <div class="row">
-                <div class="col-5">
-                    <h1><i class="fa-solid fa-umbrella"></i></h1>
-
-                    <form method="post">
-
+        <div style="background-image: url(${pageContext.request.contextPath}/content/img/bg.jpg); width: 100%; background-size: contain">
+        <div class="container">
+            <div>
+                <div class="col-12" style="text-align: center; width: 30%; margin: 350px auto 0;">
+                    <div></div>
+                        <form method="post">
                         <div class="input-group mb-3">
 					<span class="input-group-text">
 						<i class="fa-solid fa-user"></i>
@@ -62,6 +61,7 @@
             <img src="${pageContext.request.contextPath}/content/img/bg2.jpg" alt="" style="width: 1500px; height: 937px; padding: 0">
         </c:if>
     </div>
+        </div>
 </div>
 <script
         src="https://code.jquery.com/jquery-3.6.3.js"

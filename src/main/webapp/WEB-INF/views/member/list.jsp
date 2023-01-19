@@ -20,29 +20,19 @@
 
         .page-background {
             background-color: white;
-            padding: 10px;
+            padding: 10px 0px 10px 0px;
             margin: 5px;
             border-radius: 5px;
         }
 
 
         .modifyBtn {
-            background-color: #f39c12;
-            border-style: none;
-            border-radius: 5px;
-            color: white;
-            width: 50px;
-            height: 25px;
-            text-align: center;
+            width: 60px;
         }
 
         .deleteBtn {
-            background-color: #ff3e51;
-            border-style: none;
-            border-radius: 5px;
-            color: white;
-            width: 50px;
-            height: 25px;
+            width: 60px;
+
         }
 
         .dupliCheckBtn {
@@ -53,9 +43,18 @@
         }
 
         .search {
-            margin-left: 40px;
-            margin-top: 40px;
-            margin-right: 40px;
+            margin: 40px 40px 10px;
+        }
+
+        .getAuthoBtn{
+            width: 90px;
+        }
+
+        .tableName {
+            margin-left: 10px;
+            font-weight: bold;
+            margin-bottom: 0px;
+            margin-top: 5px;
         }
 
     </style>
@@ -66,27 +65,28 @@
         <my:Sidebar></my:Sidebar>
 
         <div class="col">
-            <div class="search page-background">
+            <div class="search page-background" >
                 <form action="/member/list" method="get" style="margin: 0;">
-                <input class="form-control" type="text" name="q" value="${param.q}" style="width: 200px; display: inline;" placeholder="통합검색">
+                <input class="form-control" type="text" name="q" value="${param.q}" style="width: 200px; display: inline; margin-left: 16px;" placeholder="통합검색">
                 <button class="btn btn-dark" style="margin-bottom: 4px;">검색</button>
                 </form>
             </div>
             <div class="col page-background" style="margin-left: 40px; margin-right: 40px">
                 <div style="display: flex; justify-content: space-between">
-                    <h5 style="margin-left: 10px;">회원 목록</h5>
-                    <button style="margin-right: 30px;" class="addMemberbtn btn btn-success" data-bs-toggle="modal"
+                    <h4 class="tableName">회원 목록</h4>
+                    <button style="margin-right: 30px; margin-bottom: 10px;" class="addMemberbtn btn btn-success" data-bs-toggle="modal"
                             data-bs-target="#addMemberModal">회원등록
                     </button>
                 </div>
-                <table class="table" style="text-align: center; table-layout: fixed;">
+                <table class="table table-hover" style="text-align: center; table-layout: fixed;">
                     <thead>
-                    <tr>
+                    <tr style="background-color:  #cdcccc;">
                         <th>이름</th>
                         <th>아이디</th>
                         <th>연락처</th>
                         <th>등록일</th>
-                        <th>권한</th>
+                        <th width="10%">권한</th>
+                        <th></th>
 
                     </tr>
                     </thead>
@@ -95,7 +95,7 @@
 
                         <div hidden="hidden" id="pwpw">${mem.password}</div>
 
-                        <tr>
+                        <tr style="vertical-align: middle;">
                             <td>${mem.name}</td>
                             <td>${mem.user_id}</td>
                             <td>${mem.phone}</td>
@@ -106,10 +106,10 @@
                                         class="getAuthoBtn btn btn-secondary" data-bs-toggle="modal" data-bs-target="#getAuthoModal">권한변경
                                 </button>
                                 <button onclick="modi('${mem.user_id}','${mem.name}','${mem.phone}','${mem.password}')"
-                                        class="modifyBtn"
+                                        class="modifyBtn btn btn-warning"
                                         data-bs-toggle="modal" data-bs-target="#modifyModal">수정
                                 </button>
-                                <button onclick="dele('${mem.user_id}')" class="deleteBtn" data-bs-toggle="modal"
+                                <button onclick="dele('${mem.user_id}')" class="deleteBtn btn btn-danger" data-bs-toggle="modal"
                                         data-bs-target="#deleteModal">삭제
                                 </button>
                             </td>
@@ -118,9 +118,7 @@
                     </c:forEach>
                     </tbody>
                 </table>
-            </div>
-
-            <div class="row justify-content-center">
+            <div class="row justify-content-center" style="margin-left: 110px;">
                 <div class="col-3">
                     <nav aria-label="Page navigation example">
                         <ul class="pagination">
@@ -145,6 +143,8 @@
                     </nav>
                 </div>
             </div>
+            </div>
+
         </div>
     </div>
 </div>

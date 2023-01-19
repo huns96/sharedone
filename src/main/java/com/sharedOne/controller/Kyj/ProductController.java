@@ -1,17 +1,26 @@
 package com.sharedOne.controller.Kyj;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.sharedOne.domain.CategoryDto;
 import com.sharedOne.domain.ProductDto;
+import com.sharedOne.security.CustomUserDetailsService;
 import com.sharedOne.service.CategoryService;
 import com.sharedOne.service.ProductService;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.CachingUserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
+import java.security.Principal;
+import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.*;
 
 @Controller
@@ -25,13 +34,21 @@ public class ProductController {
     @Autowired
     private CategoryService categoryService;
 
+
+
     @GetMapping("list")
-    public String list(Model model) {
+    @PreAuthorize("hasAnyAuthority('팀원', '팀장', '관리자')")
+    public String list(Model model, @RequestParam(defaultValue = "1")int page) {
 
-        List<ProductDto> productDtos = productService.getList();
+        PageHelper.startPage(page, 10);
+        Page<ProductDto> productDtos = productService.getList();
 
-       // System.out.println(productDtos);
-        model.addAttribute("products", productDtos);
+        model.addAttribute("pageNum", productDtos.getPageNum());
+        model.addAttribute("pageSize", productDtos.getPageSize());
+        model.addAttribute("pages", productDtos.getPages());
+        model.addAttribute("total",productDtos.getTotal());
+        model.addAttribute("products", productDtos.getResult());
+
         return "product/list";
     }
 
@@ -71,18 +88,71 @@ public class ProductController {
 
     }
 
+    @GetMapping("listSearch")
+    @PreAuthorize("hasAnyAuthority('팀원', '팀장', '관리자')")
+    public String listSearch(Model model, @RequestParam(defaultValue = "1")int page,
+                             @RequestParam(name="search",defaultValue = "all")String type,
+                             @RequestParam(name="keyword",defaultValue = "")String keyword
+                             ){
+
+        PageHelper.startPage(page, 10);
+        System.out.println("this is type: " +type);
+        String newKeyword = "%"+keyword+"%";
+        Page<ProductDto> productDtos = productService.getProductByKeword(type,newKeyword);
+        model.addAttribute("pageNum", productDtos.getPageNum());
+        model.addAttribute("pageSize", productDtos.getPageSize());
+        model.addAttribute("pages", productDtos.getPages());
+        model.addAttribute("total",productDtos.getTotal());
+        model.addAttribute("products", productDtos.getResult());
+
+        model.addAttribute("type",type);
+        model.addAttribute("keyword",keyword);
+
+        return "product/list";
+    }
+
+
+
+    @GetMapping("listSearchCategory")
+    @PreAuthorize("hasAnyAuthority('팀원', '팀장', '관리자')")
+    public String listSearch(Model model, @RequestParam(defaultValue = "1")int page,
+                             @RequestParam(name="categoryId", defaultValue = "")String categoryId){
+       // System.out.println("THIS IS CATEGORYID" + categoryId); // middle category
+        PageHelper.startPage(page, 10);
+
+        if(categoryId.equals("")){
+            Page<ProductDto> products = productService.getList();
+            model.addAttribute("pageNum", products.getPageNum());
+            model.addAttribute("pageSize", products.getPageSize());
+            model.addAttribute("pages", products.getPages());
+            model.addAttribute("total",products.getTotal());
+            model.addAttribute("products", products);
+        }else {
+            int category = Integer.parseInt(categoryId);
+            Page<ProductDto> products = productService.getListByCategory(category);
+            model.addAttribute("pageNum", products.getPageNum());
+            model.addAttribute("pageSize", products.getPageSize());
+            model.addAttribute("pages", products.getPages());
+            model.addAttribute("total",products.getTotal());
+            model.addAttribute("products", products);
+        }
+
+        return "product/list";
+    }
+
     @PostMapping("register")
-    public String register(String name, String ea, int category,int category_id) {
+    public String register(String name, String ea, int category, int category_id, RedirectAttributes rttr, Principal principal) {
+        String user_id = principal.getName();
         System.out.println("name" + name);
         System.out.println("ea" + ea);
         System.out.println("category" + category);
         System.out.println("category_id" + category_id);
         String product_code = "";
-        if (category == 88) {
+        if (category == 1) {
             product_code = "MO";
-        } else if (category == 89) {
-            product_code = "TV";
-        } else if (category == 90) {
+        } else if (category == 2) {
+            product_code = "PC";
+        } else if (category == 3) {
             product_code = "HO";
         } //category_id = integer
 
@@ -92,7 +162,7 @@ public class ProductController {
         Random random = new Random();
         int num = random.nextInt(10000);
         String strNum = String.format("%04d", num);
-        String adduser = "admin";
+        String adduser = user_id;
         product_code += strNum;
         System.out.println("this is product_code" + product_code);
         ProductDto temp = new ProductDto();
@@ -100,7 +170,7 @@ public class ProductController {
         temp.setName(name);
         temp.setEa(ea);
         temp.setCategory_id(category_id);
-        temp.setAdduser("admin");
+        temp.setAdduser(user_id);
 //        System.out.println(temp);
 
 
@@ -108,7 +178,11 @@ public class ProductController {
         int insertProduct =
                productService.insertProduct(product_code, name, ea, category_id, adduser);
 
-        System.out.println(insertProduct);
+        if(insertProduct ==1){
+            rttr.addFlashAttribute("message","등록 완료");
+        }else{
+            rttr.addFlashAttribute("message","등록 실패");
+        }
 
 
         return "redirect:/product/list";
@@ -162,11 +236,29 @@ public class ProductController {
             }
 
             if(number == cnt){
-                System.out.println("삭제 완료요");
+                System.out.println("삭제 완료");
             }else{
                 System.out.println("삭제 안됨");
             }
             return "redirect:/product/list";
         }
     }
+
+    @PostMapping("modify")
+    public String modify(ProductDto product,RedirectAttributes rttr, Principal principal) {
+        String user_id = principal.getName();
+        System.out.println("product" + product);
+        product.setUpduser(user_id);
+        LocalDate now = LocalDate.now();
+        product.setUpddate(now);
+        int updateProduct = productService.updateProduct(product);
+        if(updateProduct ==1){
+            rttr.addFlashAttribute("message", "수정 완료");
+        }else{
+            rttr.addFlashAttribute("message","수정 실패");
+        }
+
+        return "redirect:/product/list";
+    }
+
 }

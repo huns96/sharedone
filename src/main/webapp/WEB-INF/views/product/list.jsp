@@ -22,12 +22,84 @@
 <div class="container-fluid">
   <div class="row flex-nowrap">
     <my:Sidebar></my:Sidebar>
+    <div class="col" style="">
+      <div class="p-3 mb-3" style="background-color: white; margin: 40px 40px 0px 40px; border-radius: 5px">
+        <table style="align-content: end;">
+          <tr>
+            <td style="float:end;">
+              <form class="d-flex" action="${pageContext.request.contextPath}/product/listSearch" style="height: 40px" method="get"> <!--action="{pageContext.request.contextPath}/product/listSearch"  -->
+                <select name="search" id="optionId" class="form-select" style="width: 210px">
+<%--                  <option value="all">통합검색</option>--%>
+                  <option value="product_code" <c:if test="${type == 'product_code'}">selected</c:if> >제품 코드</option>
+                  <option value="name"<c:if test="${type == 'name'}">selected</c:if> >이름</option>
+                </select>
+
+                <input type="text" placeholder="search" name="keyword" class="form-control" id="searchId" value="${keyword}">
+                <button class="btn btn-dark" style="width: 100px; margin-right: 5px">검색</button>
+                <a type="button" class="btn btn-dark" style="width: 140px" href="/product/list">초기화</a>
+              </form>
+              </td>
+          </tr>
+          <tr>
+            <td>
+              <form action="${pageContext.request.contextPath}/product/listSearchCategory" method="get" class="d-flex" style="height: 40px">
+                <select class="form-select" name="categoryId">
+                  <option disabled="disabled" selected="selected">Select</option>
+                    <optgroup label="모바일">
+                    <option value="1">스마트폰</option>
+                    <option value="2">태블릿</option>
+                  </optgroup>
+                  </optgroup>
+                  <optgroup label="PC">
+                    <option value="3">데스크탑</option>
+                    <option value="4">노트북</option>
+                  </optgroup>
+                  <optgroup label="가전">
+                    <option value="5">냉장고</option>
+                    <option value="6">세탁기</option>
+                  </optgroup>
+                </select>
+                <button class="btn btn-dark" style="width: 100px">검색</button>
+              </form>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div style="background-color: white; margin: 40px 40px 0px 40px; border-radius: 5px">
+        <div class="row p-2 justify-content-between">
+          <div class="col-4 mt-3"><h4 style="font-weight: bold;">제품 목록</h4></div>
+          <div class="col-2 mt-3" style="text-align: right;">
+            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#registerModal">등록</button>
+            <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" id="deleteCheck">삭제</button>
+          </div>
+        </div>
+      <!-- remove modal -->
+        <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5">삭제 확인</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                  삭제하시겠습니까?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                <button class="btn btn-danger" onclick="deleteCheck()">확인</button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
     <div class="col py-3 mt-5" style="margin: 60px;">
       <h1 style="margin-bottom: 50px;">제품 리스트</h1>
       <div class="col-2 mt-3" style="text-align: right;">
         <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#registerModal">등록</button>
         <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="deleteCheck()" id="deleteCheck">삭제</button>
       </div>
+
 
       <!-- register Modal -->
       <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -139,6 +211,32 @@
           </c:forEach>
           </tbody>
         </table>
+        <!-- Pagination -->
+        <div class="row justify-content-center" style="margin-left: 110px;">
+          <div class="col-3">
+            <nav aria-label="Page navigation example">
+              <ul class="pagination">
+                <li class="page-item">
+                  <c:url value="/product/list" var="pageLink"></c:url>
+                  <a class="page-link" href="${pageLink }?page=1" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
+                <c:forEach begin="1" end="${pages }" varStatus="status" var="pageNumb">
+                  <li class="page-item ${pageNum == pageNumb ? "active" : ""}">
+                    <a class="page-link" href="${pageLink }?page=${pageNumb}">${pageNumb }</a>
+                  </li>
+                </c:forEach>
+                <li class="page-item">
+                  <a class="page-link" href="${pageLink }?page=${pages}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+        <!-- 수정 모달 -->
         <div class="modal fade" id="modifyModal" tabindex="-1" aria-labelledby="modalModify" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
@@ -175,6 +273,7 @@
           </div>
         </div>
 
+      </div>
       </div>
     </div>
   </div>
@@ -289,9 +388,12 @@
 
   function submitModifyForm(){
     this.event.preventDefault();
-    if(productName2.value ==='' || productEa2.value ==='' || category2.value ===''){
-      alert("유효성 검사 해야됨");
-    }else{
+    if(productName2.value ===''){
+      alert("제품명 입력");
+    }if(productEa2.value ===''){
+      alert("단위 입력");
+    }
+    else{
       document.querySelector("#modifyForm").submit()
               .then(
 
