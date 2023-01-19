@@ -80,7 +80,7 @@
                 </div>
                 <table class="table table-hover" style="text-align: center; table-layout: fixed;">
                     <thead>
-                    <tr style="background-color:  #cdcccc;">
+                    <tr style="background-color:  #e0e0e0; border-bottom: black;">
                         <th>이름</th>
                         <th>아이디</th>
                         <th>연락처</th>

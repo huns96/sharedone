@@ -81,7 +81,7 @@
 
 
 
-            <div style="background-color: white; border-radius: 5px; margin: 40px 40px 0px 40px;" class="mb-5">
+            <div style="background-color: white; border-radius: 5px; margin: 0px 40px 0px 40px;" class="mb-5">
                 <div class="row p-2 justify-content-between">
                     <div class="col-4 mt-3 mb-1"><h4 style="font-weight: bold;">바이어 목록</h4></div>
                     <div class="col-2 mt-3" style="text-align: right;">

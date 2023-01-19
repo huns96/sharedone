@@ -87,7 +87,7 @@
           </tr>
         </table>
       </div>
-      <div style="background-color: white; margin: 40px 40px 0px 40px; border-radius: 5px">
+      <div style="background-color: white; margin: 0px 40px 0px 40px; border-radius: 5px">
         <div class="row p-2 justify-content-between">
           <div class="col-4 mt-3"><h4 style="font-weight: bold;">제품 목록</h4></div>
           <div class="col-2 mt-3" style="text-align: right;">
