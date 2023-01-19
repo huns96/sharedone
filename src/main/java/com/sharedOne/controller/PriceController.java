@@ -13,7 +13,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -81,7 +81,7 @@ public class PriceController {
 
 
     @PutMapping("priceList")
-    public String modify(PriceDto price, RedirectAttributes rttr){
+    public String modify(PriceDto price, RedirectAttributes rttr, Principal principal){
         int checkPrice = priceService.dateCheck(price);
         System.out.print(checkPrice);
 
@@ -142,7 +142,7 @@ public class PriceController {
 
         List<PriceDto> list = priceService.listPrice(page, pageInfo, buyerType, buyerKeyword, productType, productKeyword);
 
-        List<BuyerDto> buyerList = priceService.searchBuyer(type, keyword);
+        List<BuyerDto> buyerList = priceService.searchBuyer(type, keyword, page, pageInfo);
 
         List<BuyerDto> buyerCodeSearchList = priceService.codeSearchBuyer(keyword);
         List<BuyerDto> buyerNameSearchList = priceService.nameSearchBuyer(keyword);
@@ -153,7 +153,7 @@ public class PriceController {
         model.addAttribute("buyerCodeSearch", buyerCodeSearchList);
         model.addAttribute("buyerNameSearch", buyerNameSearchList);
 
-        List<ProductDto> productList = priceService.searchProduct(type, keyword);
+        List<ProductDto> productList = priceService.searchProduct(type, keyword, page, pageInfo);
 
         List<ProductDto> productCodeSearchList = priceService.codeSearchProduct(keyword);
         List<ProductDto> productNameSearchList = priceService.nameSearchProduct(keyword);
@@ -177,26 +177,32 @@ public class PriceController {
     }
 
     @GetMapping("buyer")
-    public void buyerList(@RequestParam(name="t", defaultValue = "all") String type,
-                     @RequestParam(name="q", defaultValue = "") String keyword,
-                     Model model) {
+    public void buyerList(
+            @RequestParam(name = "page", defaultValue = "1") int page,
+            PageInfo pageInfo,
+            @RequestParam(name="t", defaultValue = "all") String type,
+            @RequestParam(name="q", defaultValue = "") String keyword,
+            Model model) {
 
 
 
-        List<BuyerDto> buyerList = priceService.searchBuyer(type, keyword);
+        List<BuyerDto> buyerList = priceService.searchBuyer(type, keyword, page, pageInfo);
 
         model.addAttribute("buyers", buyerList);
 
     }
 
     @GetMapping("product")
-    public void productList(@RequestParam(name="t", defaultValue = "all") String type,
-                     @RequestParam(name="q", defaultValue = "") String keyword,
-                     Model model) {
+    public void productList(
+            @RequestParam(name = "page", defaultValue = "1") int page,
+            PageInfo pageInfo,
+            @RequestParam(name="t", defaultValue = "all") String type,
+            @RequestParam(name="q", defaultValue = "") String keyword,
+            Model model) {
 
 
 
-        List<ProductDto> productList = priceService.searchProduct(type, keyword);
+        List<ProductDto> productList = priceService.searchProduct(type, keyword, page, pageInfo);
 
         model.addAttribute("products", productList);
 
