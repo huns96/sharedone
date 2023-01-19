@@ -1,17 +1,19 @@
 package com.sharedOne.controller;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.sharedOne.domain.OrderDto;
 import com.sharedOne.domain.OrderItemDto;
 import com.sharedOne.domain.PageInfo;
 import com.sharedOne.service.ApprovalService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -23,24 +25,41 @@ public class approvalController {
     private ApprovalService approvalService;
 
     @GetMapping("approvalList")
-    @PreAuthorize("hasAnyAuthority('팀장', '관리자')")
-    public void list(@RequestParam(name = "page", defaultValue = "1") int page, PageInfo pageInfo, Model model
-                    ,@RequestParam(name="t", defaultValue = "all") String type,
-                     @RequestParam(name="q", defaultValue = "") String keyword) {
-        List<OrderDto> list = approvalService.approvalList(page, pageInfo, type, keyword);
+    public void list(@RequestParam(required = false) String orderCode,
+                     @RequestParam(required = false) String buyerCode,
+                     @RequestParam(required = false) String status,
+                     @RequestParam(required = false) String userId,
+                     @RequestParam(defaultValue = "1")int page,
+                     Model model) {
+
+        PageHelper.startPage(page,7);
+        Page<OrderDto> list = approvalService.approvalList(orderCode, buyerCode, status, userId);
+
+        model.addAttribute("pageNum", list.getPageNum());
+        model.addAttribute("pageSize", list.getPageSize());
+        model.addAttribute("pages", list.getPages());
+        model.addAttribute("total",list.getTotal());
         model.addAttribute("approvalList", list);
 
-
-        log.info("orderList ========> {}", list);
+//        List<OrderDto> list = (page, pageInfo, type, keyword);
+//        model.addAttribute("approvalList", list);
     }
 
 
     @RequestMapping("itemList")
     @ResponseBody
-    public List<OrderItemDto> itemList(@RequestParam String orderCode) {
-        List<OrderItemDto> itemList = approvalService.getItemList(orderCode);
-        log.info("itemList ========> {}", itemList);
-        return itemList;
+    public Page<OrderItemDto> itemList(@RequestParam String orderCode,
+                                       @RequestParam String requestDate,
+                                       @RequestParam(defaultValue = "1")int page,
+                                       Model model) {
+        //PageHelper.startPage(page,4);
+        Page<OrderItemDto> list = approvalService.getItemList(orderCode, requestDate);
+        //log.info("list itemDto ===============> {}", list);
+        model.addAttribute("pageNum_item", list.getPageNum());
+        model.addAttribute("pageSize_item", list.getPageSize());
+        model.addAttribute("pages_item", list.getPages());
+        model.addAttribute("total_item",list.getTotal());
+        return list;
     }
 
 //    @GetMapping("approvalModify")
@@ -51,7 +70,9 @@ public class approvalController {
 //    }
 
     @PostMapping("approvalModify")
-    public String approval(OrderDto orderDto, RedirectAttributes rttr) {
+    public String approval(OrderDto orderDto, RedirectAttributes rttr, Principal principal) {
+        String upduser = principal.getName();
+        orderDto.setUpduser(upduser);
 
         int num = orderDto.getNum();
         System.out.print("num:::::::"+num+"::::::::::");
@@ -68,7 +89,9 @@ public class approvalController {
 
 
     @PostMapping("returnModify")
-    public String returnModify(OrderDto orderDto, RedirectAttributes rttr) {
+    public String returnModify(OrderDto orderDto, RedirectAttributes rttr, Principal principal) {
+        String upduser = principal.getName();
+        orderDto.setUpduser(upduser);
 
         int num = orderDto.getNum();
         System.out.print("num:::::::"+num+"::::::::::");

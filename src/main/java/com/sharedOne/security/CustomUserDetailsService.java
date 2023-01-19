@@ -1,6 +1,8 @@
 package com.sharedOne.security;
 
 import com.sharedOne.domain.member.MemberDto;
+import com.sharedOne.domain.member.MemberDto;
+import com.sharedOne.mapper.member.MemberMapper;
 import com.sharedOne.mapper.member.MemberMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -11,10 +13,12 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+
+import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
+@Component
 public class CustomUserDetailsService  implements UserDetailsService {
     @Autowired
     private PasswordEncoder passwordEncoder;

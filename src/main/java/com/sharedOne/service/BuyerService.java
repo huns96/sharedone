@@ -29,7 +29,7 @@ public class BuyerService {
         return buyerMapper.deleteBuyer(buyer_code);
     }
 
-    public Page<BuyerDto> getBuyersByKeyword(String type, String newKeyword) {
+    public List<BuyerDto> getBuyersByKeyword(String type, String newKeyword) {
         return buyerMapper.selectBuyersByKeyword(type, newKeyword);
     }
 }
