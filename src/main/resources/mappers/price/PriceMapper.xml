@@ -5,6 +5,18 @@
 
 <mapper namespace="com.sharedOne.mapper.PriceMapper">
 
+    <select id="getProductList" resultType="com.sharedOne.domain.ProductDto">
+        SELECT
+        product_code, name
+        FROM product
+        WHERE delyn = 'N'
+        <if test="type == 'product_code'">
+            AND product_code LIKE #{value}
+        </if>
+        <if test="type == 'product_name'">
+            AND name LIKE #{value}
+        </if>
+    </select>
 
 
     <select id="nameSearchProduct" resultType="com.sharedOne.domain.ProductDto">
@@ -60,6 +72,7 @@
                 OR name LIKE #{keyword}
             </if>
         </trim>);
+<!--        LIMIT #{offset}, #{records};-->
 
 
     </select>
@@ -69,6 +82,16 @@
             product_code,
             name
         FROM product
+        WHERE delyn="N" AND
+        (<trim prefixOverrides="OR">
+        <if test="type == 'all' or type == 'product_code'">
+            OR product_code LIKE #{keyword}
+        </if>
+        <if test="type == 'all' or type == 'name'">
+            OR name LIKE #{keyword}
+        </if>
+    </trim>);
+<!--        LIMIT #{offset}, #{records};-->
 
     </select>
 
@@ -111,9 +134,23 @@
 
     <select id="countAll" resultType="int">
         SELECT COUNT(*)
-        FROM price
+        FROM price LEFT JOIN buyer ON price.buyer_code = buyer.buyer_code
+        LEFT JOIN product ON price.product_code = product.product_code
+        WHERE price.delyn="N" AND buyer.delyn="N" AND product.delyn="N"
+    </select>
+
+    <select id="buyerCountAll" resultType="int">
+        SELECT COUNT(*)
+        FROM buyer
         WHERE delyn="N";
     </select>
+
+    <select id="productCountAll" resultType="int">
+        SELECT COUNT(*)
+        FROM product
+        WHERE delyn="N";
+    </select>
+
 
     <select id="findPriceByNum" resultType="com.sharedOne.domain.PriceDto">
         SELECT
@@ -155,7 +192,8 @@
         product.name product_name
         FROM price LEFT JOIN buyer ON price.buyer_code = buyer.buyer_code
         LEFT JOIN product ON price.product_code = product.product_code
-        WHERE price.delyn="N" AND
+        WHERE price.delyn="N"  AND buyer.delyn="N" AND product.delyn="N"
+        AND
         (<trim prefixOverrides="OR">
             <if test="buyerType == 'all' or buyerType == 'buyer_code'">
                 OR price.buyer_code LIKE #{buyerKeyword}
@@ -173,6 +211,7 @@
                 OR product.name LIKE #{productKeyword}
             </if>
         </trim>)
+        ORDER BY IFNULL(price.upddate, price.adddate) DESC, adddate DESC
         LIMIT #{offset}, #{records};
     </select>
 

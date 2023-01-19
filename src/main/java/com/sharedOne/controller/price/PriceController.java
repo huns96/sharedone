@@ -1,4 +1,4 @@
-package com.sharedOne.controller;
+package com.sharedOne.controller.price;
 
 import com.sharedOne.domain.BuyerDto;
 import com.sharedOne.domain.PageInfo;

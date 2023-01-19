@@ -44,7 +44,7 @@
             <option value="name" ${param.t == 'name' ? 'selected' : ''}>제품명</option>
           </select>
           <input value="${param.q }" class="form-control me-3" type="search" placeholder="Search" aria-label="Search" name="q" style="font-size: 14px;" >
-          <button class="btn btn-outline-success" id="select" type="button" data-bs-toggle="modal" data-bs-target="#product_code_search">
+          <button class="btn btn-outline-success" id="select" type="button" <%--data-bs-toggle="modal" data-bs-target="#product_code_search"--%>>
             <i class="fa-solid fa-magnifying-glass"></i>
           </button>
         </form>

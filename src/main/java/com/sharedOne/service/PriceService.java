@@ -1,5 +1,6 @@
 package com.sharedOne.service;
 
+import com.github.pagehelper.Page;
 import com.sharedOne.domain.BuyerDto;
 import com.sharedOne.domain.PageInfo;
 import com.sharedOne.domain.PriceDto;
@@ -120,5 +121,9 @@ public class PriceService {
 
     public List<ProductDto> nameSearchProduct(String keyword) {
         return mapper.nameSearchProduct("%" + keyword + "%");
+    }
+
+    public Page<ProductDto> getProductList(String type, String value) {
+        return mapper.getProductList(type, "%" + value + "%");
     }
 }

@@ -26,6 +26,7 @@
         <if test="userId != null and userId !=''">
             AND (o.adduser = #{userId} OR o.upduser = #{userId})
         </if>
+        ORDER BY IFNULL(o.upddate, o.adddate) DESC, o.adddate DESC, o.order_code
     </select>
 
     <select id="listItem" resultMap="itemMap">
