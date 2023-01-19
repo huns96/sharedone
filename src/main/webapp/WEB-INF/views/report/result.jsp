@@ -145,7 +145,7 @@
 <div class="container-fluid">
 <div class="row flex-nowrap">
     <my:Sidebar></my:Sidebar>
-    <div class="col"  style="width: 80%; margin-left: 40px; margin-top: 40px; margin-right: 40px;>
+    <div class="col"  style="width: 80%; margin-left: 40px; margin-top: 40px; margin-right: 40px; padding: 0;>
     <div class="container-md" style="width: 80%;">
         <%--        <h3><a href="result">Report</a></h3>--%>
         <%--        <p style="display: none">리포트</p>--%>

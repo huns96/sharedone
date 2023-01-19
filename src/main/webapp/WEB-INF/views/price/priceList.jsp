@@ -115,7 +115,7 @@
         <br>
         <table class="table table-hover mt-3" id="deviceTable">
           <thead>
-          <tr style="text-align: center">
+          <tr style="text-align: center; background-color: #e0e0e0; border-bottom: black">
             <th><%--No.--%></th>
             <th>바이어코드</th>
             <th>바이어명</th>
