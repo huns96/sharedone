@@ -79,11 +79,30 @@ public class PriceService {
             return mapper.dateCheck(price);
     }
 
-    public List<BuyerDto> searchBuyer(String type, String keyword) {
-        return mapper.listBuyer(type, "%" + keyword + "%");
+    public List<BuyerDto> searchBuyer(String type, String keyword, int page, PageInfo pageInfo) {
+        int records = 10;
+        int offset = (page - 1) * records;
+
+//        int countAll = mapper.buyerCountAll("%"+keyword+"%");
+//
+//        int lastPage = (countAll - 1) / records + 1;
+//
+//        int leftPageNumber = (page - 1) / 10 * 10 + 1;
+//        int rightPageNumber = leftPageNumber + 9;
+//        int currentPageNumber = page;
+//        rightPageNumber = Math.min(rightPageNumber, lastPage);
+//        boolean hasNextPageNumber = page <= ((lastPage-1)/10*10);
+//
+//        pageInfo.setCountAll(countAll);
+//        pageInfo.setHasNextPageNumber(hasNextPageNumber);
+//        pageInfo.setCurrentPageNumber(currentPageNumber);
+//        pageInfo.setLeftPageNumber(leftPageNumber);
+//        pageInfo.setRightPageNumber(rightPageNumber);
+//        pageInfo.setLastPageNumber(lastPage);
+        return mapper.listBuyer( type, "%" + keyword + "%");
     }
 
-    public List<ProductDto> searchProduct(String type, String keyword) {
+    public List<ProductDto> searchProduct(String type, String keyword, int page, PageInfo pageInfo) {
         return mapper.listProduct(type, "%" + keyword + "%");
     }
 

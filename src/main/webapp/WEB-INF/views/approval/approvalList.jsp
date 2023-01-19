@@ -241,6 +241,7 @@
 
 
                                         </td>
+                                        <td style="display:none;">${order.memo}</td>
                                     </tr>
                                 </c:forEach>
                                 </tbody>
@@ -339,7 +340,7 @@
         itemListByOrderCode(orderCode, requestDate.replaceAll("-", ""));
 
         // 승인/반려 메모
-        let memo = td.eq(11).text();
+        let memo = td.eq(10).text();
         $('#memo').empty();
         $('#memo').append(memo);
 

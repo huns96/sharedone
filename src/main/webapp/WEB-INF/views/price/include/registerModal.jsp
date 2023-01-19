@@ -59,13 +59,13 @@
                   <div class="mb-3 mx-4 row">
                       <div class="col">
                           <label class="form-label">시작일</label>
-                          <input class="form-control" id="startDateInput" required="required" type="date" name="start_date" style="text-align: center">
+                          <input class="form-control datepicker" id="startDateInput" required="required" type="date" name="start_date" style="text-align: center">
                       </div>
                   </div>
                   <div class="mb-3 mx-4 row">
                       <div class="col">
                           <label class="form-label">종료일</label>
-                          <input class="form-control" id="endDateInput" required="required" type="date" name="end_date" style="text-align: center">
+                          <input class="form-control datepicker" id="endDateInput" required="required" type="date" name="end_date" style="text-align: center">
                       </div>
                   </div>
                   <div class="mb-3 mx-4 row">
