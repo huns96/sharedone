@@ -12,7 +12,8 @@
 <head>
   <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0">
   <title>Title</title>
-  <link rel="stylesheet" type="text/css" media="screen" href="../css/price.css">
+  <link rel="stylesheet" type="text/css" media="screen" href="${pageContext.request.contextPath}/content/css/date.css">
+  <link rel="stylesheet" type="text/css" media="screen" href="${pageContext.request.contextPath}/content/css/price.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" integrity="sha512-aOG0c6nPNzGk+5zjwyJaoRUgCdOrfSDhmMID2u4+OIslr0GjpLKo7Xm0Ao3xmpM4T8AmIouRkqwj1nrdVsLKEQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -23,6 +24,10 @@
       margin: 5px;
       border-radius: 5px;
     }
+
+    input[type="date"]::-webkit-calendar-picker-indicator { display: none; -webkit-appearance: none; appearance: none; }
+
+
 
   </style>
 </head>
@@ -49,7 +54,7 @@
       </script>
     </c:if>
 
-    <div class="container-md" style="width: 80%">
+    <div class="container-md" style="width: 85%; padding-top: 30px;">
       <div class="page-header">
 <%--        <h1 class="page-title"> Price </h1>--%>
   <div class="row">
@@ -58,16 +63,16 @@
         <form action="" role="search" style="display: flex; height: 40px" >
           <label class="form-label" style="width: 70px;  margin-top:8px; text-align:center">바이어</label>
           <select name="bt" id="bt" class="form-select" style="width: 130px; vertical-align:bottom" aria-label="Disabled select example">
-            <option value="buyer_code">바이어코드</option>
-            <option value="buyer_name">바이어명</option>
+            <option value="buyer_code" ${param.bt == 'buyer_code' ? 'selected' : ''}>바이어코드</option>
+            <option value="buyer_name" ${param.bt == 'buyer_name' ? 'selected' : ''}>바이어명</option>
           </select>
-          <input class="form-control" type="search" id="bq" name="bq" placeholder="바이어검색" style="width: 200px; text-align:center">
+          <input class="form-control" type="search" id="bq" name="bq" placeholder="바이어검색" value="${param.bq}" style="width: 200px; text-align:center">
           <label class="form-label" style="width: 70px;  margin-top:8px; text-align:center">제품</label>
           <select name="pt" id="pt" class="form-select" style="width: 130px; vertical-align:bottom" aria-label="Disabled select example">
-            <option value="product_code">제품코드</option>
-            <option value="product_name">제품명</option>
+            <option value="product_code" ${param.pt == 'product_code' ? 'selected' : ''}>제품코드</option>
+            <option value="product_name" ${param.pt == 'product_name' ? 'selected' : ''}>제품명</option>
           </select>
-          <input class="form-control" type="search" id="pq" name="pq" placeholder="제품검색" style="width: 200px; text-align:center">
+          <input class="form-control" type="search" id="pq" name="pq" value="${param.pq}" placeholder="제품검색" style="width: 200px; text-align:center">
           <br>
           <button id="search-btn" class="btn btn-dark" type="submit" style="width: 100px; height: 40px; margin-left:40px;border-radius: 7px;">검색</button>
           <button id="reset-btn" class="btn btn-secondary search-btn" type="button" style="margin-left:10px;">초기화</button>
@@ -197,12 +202,12 @@
                             <div class="mb-3 mx-4">
                               <label class="form-label">시작일</label>
 <%--                              <input type="hidden" id="oldStart${status.count}" value="${price.start_date}">--%>
-                              <input class="form-control" <%--class="datepicker"--%> type="date" name="start_date" id="start_date${status.count}" value="${price.start_date}"  style="text-align: center" required="required" onchange="startDate('${status.count}')">
+                              <input class="form-control datepicker" <%--class="datepicker"--%> type="date" name="start_date" id="start_date${status.count}" value="${price.start_date}"  style="text-align: center" required="required" onchange="startDate('${status.count}')">
                             </div>
                             <div class="mb-3 mx-4">
                               <label class="form-label">종료일</label>
 <%--                              <input type="hidden" id="oldEnd${status.count}" value="${price.end_date}">--%>
-                              <input class="form-control" type="date" name="end_date" id="end_date${status.count}" value="${price.end_date}"  style="text-align: center" required="required" onchange="endDate('${status.count}')">
+                              <input class="form-control datepicker" type="date" name="end_date" id="end_date${status.count}" value="${price.end_date}"  style="text-align: center" required="required" onchange="endDate('${status.count}')">
                             </div>
                             <div class="mb-3 mx-4">
                               <label class="form-label">화폐단위</label><br>
@@ -332,6 +337,15 @@
 
 
 <script>
+
+  $(function() {
+    $( ".datepicker" ).datepicker();
+  });
+
+  $(".datepicker").datepicker({
+    dateFormat: "yy-mm-dd",
+    minDate: 0
+  });
 
   /* 검색 초기화 */
   $('#reset-btn').click(function() {
@@ -503,7 +517,7 @@
     document.getElementById(i).innerText=money2;
     // var money = '';
     // var money2 = '';
-  }
+  }355-15-59645
 
   // $(function(){
   // $('.datepicker').datepicker();

@@ -40,4 +40,6 @@ public interface PriceMapper {
     List<ProductDto> nameSearchProduct(String keyword);
 
     void removePrices(PriceDto priceDto, int num);
+
+    int buyerCountAll(String keyword, String type);
 }
