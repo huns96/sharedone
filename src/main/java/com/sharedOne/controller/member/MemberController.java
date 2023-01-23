@@ -68,6 +68,11 @@ public class MemberController {
         return "redirect:/member/list";
     }
 
+    @GetMapping("addMembers")
+    public void addMembers(){
+
+    }
+
     @PostMapping("deleteMember")
     @Transactional
     public String deleteMember(String user_id, Principal principal) {
