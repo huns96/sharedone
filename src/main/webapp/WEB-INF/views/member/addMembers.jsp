@@ -65,7 +65,6 @@
                 <th width="15%">아이디</th>
                 <th width="20%">비밀번호</th>
                 <th width="20%">연락처</th>
-                <th width="10%">수정</th>
                 <th width="10%">삭제</th>
             </tr>
         </thead>
@@ -73,7 +72,7 @@
     </table>
 
     <button class="btn btn-secondary" onclick="window.close()">취소</button>
-    <button onclick="insertAddList()" class="btn btn-success">등록</button>
+    <button onclick="addNewMember()" class="btn btn-success">등록</button>
 </div>
 <script
         src="https://code.jquery.com/jquery-3.6.3.js"
@@ -122,16 +121,16 @@
         } else {
             button.setAttribute('disabled', "");
         }
-    };
+    }
 
     /*input의 값들을 List로 만듦*/
     function addListItem(){
         let name = $('#nnName').val();
-        let id = $('#nnId').val();
+        let user_id = $('#nnId').val();
         let password = $('#nnPassword').val();
         let phone = $('#nnPhone').val();
 
-        const itemList = [name, id, password, phone];
+        const itemList = [name, user_id, password, phone];
         memberItemList.push(itemList);
         insertAddList(itemList, memberItemList)
 
@@ -139,7 +138,7 @@
     /*만들어진 List를 불러와서 tbody에 입력*/
     function insertAddList(itemList, memberItemList) {
         let tbody = $('#addMemberTable tbody');
-        /*tbody.append("");*/
+        tbody.append("");
         tbody.append(
             "<tr>"
             + "<td >" + memberItemList.length + "</td>"
@@ -148,40 +147,47 @@
             + "<td>" + itemList[2] + "</td>"
             + "<td>" + itemList[3] + "</td>"
             + "<td width='10%'>"
-            +    "<button type='button' class='btn btn-outline-warning btn-sm' onclick='modifyItem(" + memberItemList.length + ")'>수정</button>"
-            + "</td>"
-            + "<td width='10%'>"
             +    "<button type='button' class='btn btn-outline-danger btn-sm' onclick='removeItem(" + memberItemList.length + ")'>삭제</button>"
             + "</td>"
             + "</tr>"
         );
     }
 
-    /*function addNewMember() {
-        let queryString = $(".memberInfo").serialize();
+    /*추가 회원 목록 삭제되고 남은 목록 출력*/
+    function getItemList(memberItemList) {
+        let tbody = $('#addMemberTable tbody');
+        tbody.empty(); //초기화
+        for (var i = 0; i < memberItemList.length; i++) {
+            let index = i + 1;
+        tbody.append(
+            "<tr>"
+            + "<td>" + index + "</td>"
+            + "<td>" + memberItemList[i][0] + "</td>"
+            + "<td>" + memberItemList[i][1] + "</td>"
+            + "<td>" + memberItemList[i][2] + "</td>"
+            + "<td>" + memberItemList[i][3] + "</td>"
+            + "<td width='10%'>"
+            +    "<button type='button' class='btn btn-outline-danger btn-sm' onclick='removeItem(" + memberItemList.length + ")'>삭제</button>"
+            + "</td>"
+            + "</tr>"
+        );
+    }}
+
+    /*추가 할 회원 목록에서 삭제*/
+    function removeItem(index) {
+        memberItemList.splice(index-1, 1);
+        getItemList(memberItemList);
+    }
+
+    function addNewMember() {
+        let memberData = memberItemList.serialize();
         $.ajax({
             type: 'POST',
-            url: '/member/register',
-            data: queryString,
-            success: function (data) {
-                //console.log(data);
-                var objParams = {
-                    "items" : orderItemList,
-                    "orderCode" : data
-                };
-                $.ajax({
-                    type: 'POST',
-                    url: '/member/registerItem',
-                    data: objParams,
-                    dataType : 'json',
-                    traditional: true,
-                    success: function (result) {
-                        console.log(result);
-
-                    }
-                });
-            }
-        });*/
+            url: '/member/addMember',
+            data: memberData,
+        });
+            console.log(memberData);
+    }
 
 </script>
 </body>
