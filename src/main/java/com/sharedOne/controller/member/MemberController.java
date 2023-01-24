@@ -6,11 +6,8 @@ import com.sharedOne.domain.member.MemberDto;
 import com.sharedOne.service.MemberService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.WebAttributes;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -20,6 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -62,9 +60,14 @@ public class MemberController {
 
     @PostMapping("addMember")
     @Transactional
-    public String addMember(MemberDto memberDto, String user_id) {
-        memberService.insertMember(memberDto);
-        memberService.insertAutho(user_id);
+    //public String addMember(MemberDto memberDto, String user_id) {
+    public String addMember(List<String> addMemList) {
+        for (int i = 0; i < addMemList.size(); i++){
+            System.out.println("목록" + addMemList.get(0));
+            System.out.println("목록" + addMemList.get(1));
+        }
+        //memberService.insertMember(memberDto);
+        //memberService.insertAutho(user_id);
         return "redirect:/member/list";
     }
 

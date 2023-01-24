@@ -36,7 +36,7 @@
 </head>
 <body>
 <div style="margin-left: 20px; margin-top: 20px;">
-    <form action="/member/addMember" method="post" id="memberInsertForm">
+    <form>
         <span>회원명</span>
         <input style="margin-bottom: 15px;" class="form-control inputInfo" type="text" name="name" id="nnName">
 
@@ -53,26 +53,26 @@
         <span>연락처</span>
         <input style="margin-bottom: 15px;" class="form-control inputInfo" type="text" name="phone" id="nnPhone">
 
-    </form>
-    <button id="addListBtn" class="btn btn-primary" disabled>추가</button>
-    <hr>
-    <div style="margin-top: 15px; font-weight: bold;"> - 등록할 회원 목록 -</div>
-    <table class="table" id="addMemberTable" style="text-align: center;">
-        <thead>
-            <tr>
-                <th width="10%">#</th>
-                <th width="15%">회원명</th>
-                <th width="15%">아이디</th>
-                <th width="20%">비밀번호</th>
-                <th width="20%">연락처</th>
-                <th width="10%">삭제</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
 
+        <button id="addListBtn" type="button" class="btn btn-primary" disabled>추가</button>
+        <hr>
+        <div style="margin-top: 15px; font-weight: bold;"> - 등록할 회원 목록 -</div>
+        <table class="table" id="addMemberTable" style="text-align: center;">
+            <thead>
+                <tr>
+                    <th width="10%">#</th>
+                    <th width="15%">회원명</th>
+                    <th width="15%">아이디</th>
+                    <th width="20%">비밀번호</th>
+                    <th width="20%">연락처</th>
+                    <th width="10%">삭제</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+    </table>
+    </form>
     <button class="btn btn-secondary" onclick="window.close()">취소</button>
-    <button onclick="addNewMember()" class="btn btn-success">등록</button>
+    <button onclick="addNewMember()" type="button" class="btn btn-success">등록</button>
 </div>
 <script
         src="https://code.jquery.com/jquery-3.6.3.js"
@@ -133,8 +133,8 @@
         const itemList = [name, user_id, password, phone];
         memberItemList.push(itemList);
         insertAddList(itemList, memberItemList)
+    };
 
-    }
     /*만들어진 List를 불러와서 tbody에 입력*/
     function insertAddList(itemList, memberItemList) {
         let tbody = $('#addMemberTable tbody');
@@ -170,24 +170,27 @@
             +    "<button type='button' class='btn btn-outline-danger btn-sm' onclick='removeItem(" + memberItemList.length + ")'>삭제</button>"
             + "</td>"
             + "</tr>"
-        );
-    }}
+            );
+        }
+    }
 
     /*추가 할 회원 목록에서 삭제*/
     function removeItem(index) {
         memberItemList.splice(index-1, 1);
         getItemList(memberItemList);
-    }
+    };
 
     function addNewMember() {
-        let memberData = memberItemList.serialize();
+        //let memberData = memberItemList.serialize();
         $.ajax({
             type: 'POST',
             url: '/member/addMember',
-            data: memberData,
-        });
-            console.log(memberData);
-    }
+            data: memberItemList,
+            success: function (data) {
+            }
+        })
+        console.log(memberItemList)
+    };
 
 </script>
 </body>
