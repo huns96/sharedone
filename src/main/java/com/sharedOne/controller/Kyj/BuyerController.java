@@ -16,6 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.security.Principal;
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -65,8 +66,8 @@ public class BuyerController {
     }
 
     @PostMapping("register")
-    public String register(BuyerDto buyer, RedirectAttributes redirectAttributes, Principal principal){
-        String user_id = principal.getName();
+    public String register(@RequestParam(value = "param")String[] itemList, RedirectAttributes redirectAttributes, Principal principal){
+        /*String user_id = principal.getName();
         System.out.println("아이디" + user_id);
         String buyer_code ="";
         buyer_code+= buyer.getCountry().substring(0,2).toUpperCase();
@@ -85,9 +86,19 @@ public class BuyerController {
             redirectAttributes.addFlashAttribute("message","등록 완료");
         }else{
             redirectAttributes.addFlashAttribute("message","등록 실패");
-        }
+        }*/
+
+
+        System.out.println(";;;;;;"+Arrays.toString(itemList));
+        String user_id = principal.getName();
+        buyerService.insertBuyer2(itemList, user_id);
 
         return "redirect:/buyer/list";
+    }
+
+    @GetMapping("registerBuyer")
+    public void registerBuyer(){
+
     }
 
     @PostMapping("modify")

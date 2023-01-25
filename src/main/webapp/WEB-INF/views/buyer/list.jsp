@@ -85,7 +85,7 @@
                 <div class="row p-2 justify-content-between">
                     <div class="col-4 mt-3 mb-1"><h4 style="font-weight: bold;">바이어 목록</h4></div>
                     <div class="col-2 mt-3" style="text-align: right;">
-                        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#registerModal">등록</button>
+                        <button onclick="regiBuyer()" class="btn btn-success" <%--data-bs-toggle="modal" data-bs-target="#registerModal"--%>>등록</button>
                         <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" id="deleteCheck">삭제</button>
                     </div>
                 </div>
@@ -113,7 +113,7 @@
 
 
                 <!-- Register Modal -->
-                <div class="modal" id="registerModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <%--<div class="modal" id="registerModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -143,7 +143,7 @@
                                             <option value="FR">France</option>
                                             <option value="GE">Germany</option>
                                         </select>
-<%--                                        <input type="text" class="form-control" name="country" required id="country">--%>
+&lt;%&ndash;                                        <input type="text" class="form-control" name="country" required id="country">&ndash;%&gt;
                                     </div>
 
                                     <div class="mb-3">
@@ -164,7 +164,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>--%>
 
                 <!-- deleteModal -->
 <%--                <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">--%>
@@ -497,6 +497,16 @@
                     .then(
                     );
             }
+        }
+
+        function regiBuyer(){
+            let url = "/buyer/registerBuyer";
+            let popupWidth = 700;
+            let popupHeight = 800;
+            let popupX = (window.screen.width / 2) - (popupWidth / 2);
+            let popupY= (window.screen.height / 2) - (popupHeight / 2);
+            let popupOption = 'status=no, height=' + popupHeight  + ', width=' + popupWidth  + ', left='+ popupX + ', top='+ popupY;
+            window.open(url,"",popupOption);
         }
 
     </script>
