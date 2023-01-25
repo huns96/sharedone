@@ -35,13 +35,6 @@
 
         }
 
-        .dupliCheckBtn {
-            background-color: #6c757d;
-            border-style: none;
-            border-radius: 8px;
-            color: white;
-        }
-
         .search {
             margin: 40px 40px 10px;
         }
@@ -74,8 +67,8 @@
             <div class="col page-background" style="margin-left: 40px; margin-right: 40px">
                 <div style="display: flex; justify-content: space-between">
                     <h4 class="tableName">회원 목록</h4>
-                    <button style="margin-right: 30px; margin-bottom: 10px;" class="addMemberbtn btn btn-success" data-bs-toggle="modal"
-                            data-bs-target="#addMemberModal">회원등록
+                    <button style="margin-right: 30px; margin-bottom: 10px;" class="addMemberbtn btn btn-success">
+                        회원등록
                     </button>
                 </div>
                 <table class="table table-hover" style="text-align: center; table-layout: fixed;">
@@ -149,7 +142,7 @@
     </div>
 </div>
 
-<!-- 회원 등록 Modal -->
+<%--<!-- 회원 등록 Modal -->
 <div class="modal fade" id="addMemberModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -199,7 +192,7 @@
             </div>
         </div>
     </div>
-</div>
+</div>--%>
 
 
 <!-- 권한 부여 Modal -->
@@ -336,18 +329,8 @@
     const ctx = "${pageContext.request.contextPath}";
     let availableId = false;
 
-    document.querySelector(".memberInsertBtn").addEventListener("click", function () {
-        const memInsertForm = document.forms.memberInsertForm;
-        if ($('#nnName').val() == "" ||
-            ($('#nnId').val() == "" ||
-                ($('#nnPassword').val() == "" ||
-                    ($('#nnPhone').val() == "")))) {
-            alert("입력되지 않은 정보가 있습니다.")
-        } else {
-            memInsertForm.submit();
-        }
-    });
 
+    /*권한 변경시 기존 데이터 불러옴*/
     function asd(id, name, phone, auth) {
         $('#copyId').text(id);
         $('#copyName').text(name);
@@ -355,10 +338,12 @@
         $('#copyAutho').text(auth);
     }
 
+    /*권한을 변경할 user_id 값을 form에 채움*/
     $('#authoChangeBtn').click(function () {
         $('#userIdInput').val($('#copyId').text());
     })
 
+    /*권한 추가시 유효성 검사*/
     const result = '${result}';
     if (result == "success") {
         alert("권한이 추가되었습니다.")
@@ -366,21 +351,21 @@
         alert("이미 존재하는 권한입니다.")
     } else if (result == "error") {
         alert("알 수 없는 에러")
-    }
-    ;
+    };
 
+    /*권한을 삭제할 user_id 값을 form에 채움*/
     $('#authoDeleteBtn').click(function () {
         $('#userIdInput').val($('#copyId').text());
     })
 
+    /*권한이 하나만 남았을 때 삭제 불가하도록 유효성 검사*/
     const authMessage = '${authMustHaveOne}';
     if (authMessage == 1) {
         alert("1개 남은 권한은 삭제가 불가합니다")
     } else {
+    };
 
-    }
-    ;
-
+    /*권한 삭제시 유효성 검사*/
     const deleteResult = '${deleteResult}';
     if (deleteResult == "success") {
         alert("권한이 삭제되었습니다.")
@@ -388,9 +373,9 @@
         alert("존재하지 않는 권한입니다")
     } else if (deleteResult == "error") {
         alert("알 수 없는 에러")
-    }
-    ;
+    };
 
+    /*회원정보 수정시 기존 정보 불러옴*/
     function modi(id, name, phone, password) {
         $('#modiId').val(id);
         $('#modiName').val(name);
@@ -398,6 +383,7 @@
         $('#modiPassword').val(password);
     }
 
+    /*회원정보 수정시 빈칸이 있는지 확인*/
     $('#modiBtn').click(function () {
         if ($('#modiId').val() == "" ||
             ($('#modiName').val() == "" ||
@@ -406,40 +392,28 @@
             alert("입력되지 않은 정보가 있습니다.")
         } else {
             $('#modiForm').submit();
-        }
+        }})
 
-    })
-
+    /*회원 삭제시 form에 해당 user_id 값 채움*/
     function dele(id) {
         $('#deleId').val(id);
     }
 
+    /*모달에서 삭제버튼 클릭시 삭제 form 전송*/
     $('#delBtn').click(function () {
         $('#delForm').submit();
     })
 
-    function enableSubmitButton() {
-        const button = $('.memberInsertBtn');
-        if (availableId == true) {
-            button.removeAttr('disabled');
-        } else {
-            button.setAttribute('disabled', "");
-        }
-    }
 
-    $('.dupliCheckBtn').click(function () {
-        availableId = false;
-        const userId = $('#nnId').val();
-        fetch("/member/existId/" + userId)
-            .then(res => res.json())
-            .then(data => {
-                $('#dupliMessage').text(data.message);
-                if (data.status == "not exist") {
-                    availableId = true;
-                    enableSubmitButton();
-
-                }
-            });
+    /*회원등록 버튼 클릭시 팝업창*/
+    $('.addMemberbtn').click(function() {
+        let url = "/member/addMembers";
+        let popupWidth = 800;
+        let popupHeight = 800;
+        let popupX = (window.screen.width / 2) - (popupWidth / 2);
+        let popupY= (window.screen.height / 2) - (popupHeight / 2);
+        let popupOption = 'status=no, height=' + popupHeight  + ', width=' + popupWidth  + ', left='+ popupX + ', top='+ popupY;
+        window.open(url,"",popupOption);
     });
 
 
