@@ -17,10 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("member")
@@ -59,11 +56,14 @@ public class MemberController {
     }
 
     @PostMapping("addMember")
+    @ResponseBody
     @Transactional
     //public String addMember(MemberDto memberDto, String user_id) {
-    public String addMember(@RequestParam(value = "param") String[] addMemList) {
-        memberService.insertMember(addMemList);
-        //memberService.insertAutho(user_id);
+    public String addMember(@RequestParam(value = "param") String[] addMemList, Principal principal) {
+        System.out.println(Arrays.toString(addMemList));
+        String user_id = principal.getName();
+        memberService.insertMember(addMemList, user_id);
+        //memberService.insertAutho();
         return "redirect:/member/list";
     }
 

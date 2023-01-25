@@ -189,7 +189,11 @@
             type: 'POST',
             url: '/member/addMember',
             data: objParams,
+            traditional: true,
+            data_type : 'JSON',
             success: function (data) {
+                opener.parent.location.reload();
+                window.close()
             }
         })
         console.log(memberItemList)

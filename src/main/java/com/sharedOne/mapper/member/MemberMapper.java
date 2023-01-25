@@ -8,7 +8,7 @@ import java.util.List;
 @Mapper
 public interface MemberMapper {
     Page<MemberDto> memberList(String keyword);
-    int insertMember(MemberDto memberDto);
+    int insertMember(MemberDto item);
 
     int insertAutho(String user_id);
 
