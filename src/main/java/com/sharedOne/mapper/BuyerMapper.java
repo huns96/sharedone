@@ -17,4 +17,6 @@ public interface BuyerMapper {
     int deleteBuyer(String buyer_code);
 
     Page<BuyerDto> selectBuyersByKeyword(String type, String newKeyword);
+
+    int insertBuyer2(BuyerDto buyer);
 }
