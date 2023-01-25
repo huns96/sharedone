@@ -18,8 +18,9 @@ public class MemberService {
         return memberMapper.memberList("%" + keyword + "%");
     }
 
-    public void insertMember(MemberDto memberDto) {
-        memberMapper.insertMember(memberDto);
+    public void insertMember(addMemList) {
+
+        memberMapper.insertMember();
     }
 
     public void insertAutho(String user_id) {

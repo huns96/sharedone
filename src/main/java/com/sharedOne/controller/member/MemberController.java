@@ -61,12 +61,8 @@ public class MemberController {
     @PostMapping("addMember")
     @Transactional
     //public String addMember(MemberDto memberDto, String user_id) {
-    public String addMember(List<String> addMemList) {
-        for (int i = 0; i < addMemList.size(); i++){
-            System.out.println("목록" + addMemList.get(0));
-            System.out.println("목록" + addMemList.get(1));
-        }
-        //memberService.insertMember(memberDto);
+    public String addMember(@RequestParam(value = "param") String[] addMemList) {
+        memberService.insertMember(addMemList);
         //memberService.insertAutho(user_id);
         return "redirect:/member/list";
     }

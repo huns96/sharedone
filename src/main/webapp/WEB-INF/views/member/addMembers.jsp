@@ -1,11 +1,6 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: hs
-  Date: 2023-01-23
-  Time: 오후 2:04
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>회원등록</title>
@@ -73,6 +68,13 @@
     </form>
     <button class="btn btn-secondary" onclick="window.close()">취소</button>
     <button onclick="addNewMember()" type="button" class="btn btn-success">등록</button>
+
+    <form action="/member/addMember" method="post" hidden="hidden">
+        <input id="addInputName" type="text" name="name">
+        <input id="addInputId" type="text" name="user_id">
+        <input id="addInputPw" type="password" name="password">
+        <input id="addInputPhone" type="text" name="phone">
+    </form>
 </div>
 <script
         src="https://code.jquery.com/jquery-3.6.3.js"
@@ -182,10 +184,11 @@
 
     function addNewMember() {
         //let memberData = memberItemList.serialize();
+        var objParams = {"param" : memberItemList};
         $.ajax({
             type: 'POST',
             url: '/member/addMember',
-            data: memberItemList,
+            data: objParams,
             success: function (data) {
             }
         })
