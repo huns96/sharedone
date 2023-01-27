@@ -173,6 +173,49 @@
         WHERE price.num = #{num};
     </select>
 
+    <select id="getPriceInfo" resultType="com.sharedOne.domain.PriceDto">
+        SELECT
+        price.num,
+        price.buyer_code,
+        price.product_code,
+        price.price,
+        price.currency,
+        price.start_date,
+        price.end_date,
+        price.delyn,
+        price.adduser,
+        price.adddate,
+        price.upduser,
+        price.upddate,
+        buyer.name buyer_name,
+        product.name product_name
+        FROM price LEFT JOIN buyer ON price.buyer_code = buyer.buyer_code
+        LEFT JOIN product ON price.product_code = product.product_code
+        WHERE price.num=#{num} AND price.delyn="N"
+        ORDER BY price.num;
+    </select>
+
+    <select id="gerItemList" resultType="com.sharedOne.domain.PriceDto">
+        SELECT
+        price.num,
+        price.buyer_code,
+        price.product_code,
+        price.price,
+        price.currency,
+        price.start_date,
+        price.end_date,
+        price.delyn,
+        price.adduser,
+        price.adddate,
+        price.upduser,
+        price.upddate,
+        buyer.name buyer_name,
+        product.name product_name
+        FROM price LEFT JOIN buyer ON price.buyer_code = buyer.buyer_code
+        LEFT JOIN product ON price.product_code = product.product_code
+        WHERE price.buyer_code = #{buyer_code} AND price.start_date = #{start_date} AND price.end_date = #{end_date} AND price.delyn="N"
+        ORDER BY price.num;
+    </select>
 
     <select id="listPrice" resultType="com.sharedOne.domain.PriceDto">
         SELECT

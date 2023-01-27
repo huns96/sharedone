@@ -76,54 +76,36 @@ public class PriceService {
     }
 
 
-    public int dateCheck(PriceDto price) {
-        return mapper.dateCheck(price);
-    }
+
 
     public List<BuyerDto> searchBuyer(String type, String keyword, int page, PageInfo pageInfo) {
         int records = 10;
         int offset = (page - 1) * records;
 
-//        int countAll = mapper.buyerCountAll("%"+keyword+"%");
-//
-//        int lastPage = (countAll - 1) / records + 1;
-//
-//        int leftPageNumber = (page - 1) / 10 * 10 + 1;
-//        int rightPageNumber = leftPageNumber + 9;
-//        int currentPageNumber = page;
-//        rightPageNumber = Math.min(rightPageNumber, lastPage);
-//        boolean hasNextPageNumber = page <= ((lastPage-1)/10*10);
-//
-//        pageInfo.setCountAll(countAll);
-//        pageInfo.setHasNextPageNumber(hasNextPageNumber);
-//        pageInfo.setCurrentPageNumber(currentPageNumber);
-//        pageInfo.setLeftPageNumber(leftPageNumber);
-//        pageInfo.setRightPageNumber(rightPageNumber);
-//        pageInfo.setLastPageNumber(lastPage);
         return mapper.listBuyer( type, "%" + keyword + "%");
     }
 
     public List<ProductDto> searchProduct(String type, String keyword, int page, PageInfo pageInfo) {
         return mapper.listProduct(type, "%" + keyword + "%");
     }
-
-    public List<BuyerDto> codeSearchBuyer(String keyword) {
-        return mapper.codeSearchBuyer("%" + keyword + "%");
-    }
-
-    public List<BuyerDto> nameSearchBuyer(String keyword) {
-        return mapper.nameSearchBuyer("%" + keyword + "%");
-    }
-
-    public List<ProductDto> codeSearchProduct(String keyword) {
-        return mapper.codeSearchProduct("%" + keyword + "%");
-    }
-
-    public List<ProductDto> nameSearchProduct(String keyword) {
-        return mapper.nameSearchProduct("%" + keyword + "%");
-    }
-
     public Page<ProductDto> getProductList(String type, String value) {
         return mapper.getProductList(type, "%" + value + "%");
     }
+
+    public int dateCheck(PriceDto price) {
+        return mapper.dateCheck(price);
+    }
+
+    public PriceDto getPriceInfo(String num) {
+        return mapper.getPriceInfo(num);
+    }
+
+    public List<PriceDto> getItemList(PriceDto priceDto) {
+        return  mapper.gerItemList(priceDto);
+    }
+
+
+//    public int dateCheck(int num, String buyer_code, String product_code, Date start_date, Date end_date) {
+//        return mapper.dateCheck(num, buyer_code, product_code, start_date, end_date);
+//    }
 }

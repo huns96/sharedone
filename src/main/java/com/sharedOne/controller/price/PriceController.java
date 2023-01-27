@@ -24,23 +24,24 @@ public class PriceController {
     @Autowired(required=false)
     private PriceService priceService;
 
+    @ResponseBody
     @PostMapping("modify")
     public String updatePrice(
-            @Validated PriceDto priceDto,
+            @Validated @RequestBody PriceDto priceDto,
             BindingResult bindingResult,
             RedirectAttributes rttr) {
 
         int num = priceDto.getNum();
         System.out.print("num:::::::"+num);
-        int checkPrice = priceService.dateCheck(priceDto);
-        System.out.print(checkPrice);
-
-        if (checkPrice > 0) {
-            rttr.addFlashAttribute("message", "기간이 중복되었습니다.");
-            System.out.print("등록 실패");
-
-            return "redirect:/price/priceList";
-        }
+//        int checkPrice = priceService.dateCheck(priceDto);
+//        System.out.print(checkPrice);
+//
+//        if (checkPrice > 0) {
+//            rttr.addFlashAttribute("message", "기간이 중복되었습니다.");
+//            System.out.print("등록 실패");
+//
+//            return "redirect:/price/priceList";
+//        }
         int check = priceService.modify(priceDto);
         if (check ==1) {
             rttr.addFlashAttribute("message", "수정완료하였습니다.");
@@ -48,6 +49,13 @@ public class PriceController {
             rttr.addFlashAttribute("message", "수정실패하였습니다.");
         }
 
+    @GetMapping("modifyPopup")
+    public void modify(String num, Model model) {
+        PriceDto priceDto = priceService.getPriceInfo(num);
+        List<PriceDto> list = priceService.getItemList(priceDto);
+        model.addAttribute("price", priceDto);
+        model.addAttribute("itemList", list);
+    }
 
         return "redirect:/price/priceList";
 
