@@ -44,5 +44,11 @@ public interface PriceMapper {
     PriceDto getPriceInfo(String num);
 
     List<PriceDto> gerItemList(PriceDto priceDto);
+
+//    PriceDto addPrice(String[] addItems, String upduser);
+//
+//    PriceDto modifyPrice(String[] modifyItems, String upduser);
+//
+//    PriceDto removePrice(String[] removeItems, String upduser);
 //    int dateCheck(String buyer_code, String product_code, Date start_date, Date end_date);
 }

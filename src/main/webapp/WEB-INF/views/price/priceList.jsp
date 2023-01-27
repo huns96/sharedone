@@ -87,7 +87,7 @@
       <div class="card-body page-background " style="height: 85%;">
         <h4 style="position: relative; top: 4%; margin-left: 20px ;font-weight: bold; ">판매가
           <div class="btn-group" style="position: absolute; right: 10px;">
-            <button class="btn btn-success btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#registerModal" style="border-radius: 7px; margin-right: 4px">등록 </button>
+            <button class="btn btn-success btn-sm" type="button" <%--data-bs-toggle="modal" data-bs-target="#registerModal"--%> style="border-radius: 7px; margin-right: 4px" onclick="registerPopup()">등록 </button>
             <button class="btn btn-danger btn-sm" type="button"data-bs-toggle="modal" data-bs-target="#removeModal" id="delete" style="border-radius: 7px">삭제</button>
             <div class="modal fade" id="removeModal" tabindex="-1" aria-hidden="true">
               <div class="modal-dialog">
@@ -116,7 +116,7 @@
         <table class="table table-hover mt-3" id="deviceTable">
           <thead>
           <tr style="background-color: #e0e0e0; border-bottom: black; text-align: center">
-            <th><%--No.--%></th>
+            <th>전체<input class="form-check-input" id="priceAll" type="checkbox" name="priceAll" style="margin-left: 5px" onclick="checkAll(this)"></th>
             <th>바이어코드</th>
             <th>바이어명</th>
             <th>제품코드</th>
@@ -339,6 +339,27 @@
 
 <script>
 
+
+  function registerPopup() {
+    let url = "/price/registerPopup";
+    let popupWidth = 800;
+    let popupHeight = 800;
+    let popupX = (window.screen.width / 2) - (popupWidth / 2);
+    let popupY= (window.screen.height / 2) - (popupHeight / 2);
+    let popupOption = 'status=no, height=' + popupHeight  + ', width=' + popupWidth  + ', left='+ popupX + ', top='+ popupY;
+    window.open(url,"",popupOption);
+  }
+
+  function modifyPopup(num) {
+    let url = "/price/modifyPopup?num="+num;
+    let popupWidth = 800;
+    let popupHeight = 800;
+    let popupX = (window.screen.width / 2) - (popupWidth / 2);
+    let popupY= (window.screen.height / 2) - (popupHeight / 2);
+    let popupOption = 'status=no, height=' + popupHeight  + ', width=' + popupWidth  + ', left='+ popupX + ', top='+ popupY;
+    window.open(url,"",popupOption);
+  }
+
   $(function() {
     $( ".datepicker" ).datepicker();
   });
@@ -358,6 +379,17 @@
 
 
 
+  function checkAll(selectAll){
+    const priceAll = document.querySelector("#priceAll");
+    const checkboxes = document.getElementsByName('checkPrices');
+
+    priceAll.toggleAttribute("checked");
+    checkboxes.forEach((checkbox) =>{
+      checkbox.setAttribute("checked","checked");
+      checkbox.checked = selectAll.checked;
+    })
+  }
+
   //  $("#modifyConfirmButton").click(function(){
   //  let price = $("#price").val();
   //let intPrice = parseInt(price.replace(/,/g,""));
@@ -374,16 +406,6 @@
       document.getElementById('start_date'+s).value = null;
       return false;
     }
-  }
-
-  function modifyPopup(num) {
-    let url = "/price/modifyPopup?num="+num;
-    let popupWidth = 800;
-    let popupHeight = 800;
-    let popupX = (window.screen.width / 2) - (popupWidth / 2);
-    let popupY= (window.screen.height / 2) - (popupHeight / 2);
-    let popupOption = 'status=no, height=' + popupHeight  + ', width=' + popupWidth  + ', left='+ popupX + ', top='+ popupY;
-    window.open(url,"",popupOption);
   }
 
   function endDate(e) {

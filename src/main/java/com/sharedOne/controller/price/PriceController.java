@@ -256,6 +256,24 @@ public class PriceController {
 
     }
 
+    @ResponseBody
+    @PostMapping("add")
+    public Map<String, Object> add(@RequestBody PriceDto price, RedirectAttributes rttr, Principal principal){
+        String adduser = principal.getName();
+        price.setAdduser(adduser);
+        String upduser = principal.getName();
+        price.setUpduser(upduser);
+
+
+        Map<String,Object> map = new HashMap<>();
+        priceService.register(price);
+
+
+
+        return map;
+
+    }
+
     //        int check = priceService.register(price);
 //        if (check ==1) {
 ////            rttr.addFlashAttribute("message", "등록완료하였습니다.");
