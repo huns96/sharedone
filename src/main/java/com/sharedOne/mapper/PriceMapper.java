@@ -6,7 +6,6 @@ import com.sharedOne.domain.PriceDto;
 import com.sharedOne.domain.ProductDto;
 import org.apache.ibatis.annotations.Mapper;
 
-import java.sql.Date;
 import java.util.List;
 
 @Mapper
