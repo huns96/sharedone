@@ -40,7 +40,7 @@
         <div class="mb-3 mx-4 row">
             <div class="col-md-6 mb-3">
                 <label class="form-label">바이어코드</label>
-                <input class="form-control"  id="buyerCodeInput" required="required" type="text" name="buyer_code" placeholder="바이어 코드" <%--data-bs-toggle="modal" data-bs-target="#buyerModal"--%>value="${price.buyer_code}" onclick="window.buyerPopup()" style="text-align: center">
+                <input class="form-control"  id="buyerCodeInput" required="required" type="text" name="buyer_code" placeholder="바이어 코드" <%--data-bs-toggle="modal" data-bs-target="#buyerModal"--%>value="${price.buyer_code}" disabled style="text-align: center; background-color:#e0e0e0 ">
             </div>
             <div class="col-md-6 mb-3">
                 <label class="form-label">바이어명</label>
@@ -404,7 +404,6 @@
 
                         console.log(add);
 
-
                         $.ajax({
                             url : "/price/add",
                             type : "post",
@@ -567,7 +566,6 @@
             }
             productListInPopup(productList, productPriceList);
 
-            // 바이어, 납품요청일 수정 불가
             $('#buyerPopup').attr('style','background-color: #e0e0e0');
             /*$('#startDateInput').datepicker('disable').removeAttr('disabled')
             $('#endDateInput').datepicker('disable').removeAttr('disabled')

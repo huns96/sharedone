@@ -60,7 +60,7 @@
         UPDATE price
         SET
         delyn = "Y",
-        upduser = "user"
+        upduser = #{upduser}
         WHERE
         num = #{num};
     </update>
@@ -69,7 +69,7 @@
         UPDATE price
         SET
         delyn = "Y",
-        upduser = "user"
+        upduser = #{upduser}
         WHERE
         num = #{num};
     </update>
@@ -178,8 +178,8 @@
     </select>
 
     <insert id="insert">
-        INSERT INTO price (buyer_code, product_code, price, start_date, end_date, currency, adduser)
-        VALUES (#{buyer_code}, #{product_code}, #{price}, #{start_date} , #{end_date}, #{currency}, #{adduser})
+        INSERT INTO price (buyer_code, product_code, price, start_date, end_date, currency, adduser, upduser)
+        VALUES (#{buyer_code}, #{product_code}, #{price}, #{start_date} , #{end_date}, #{currency}, #{adduser}, #{upduser})
     </insert>
 
 

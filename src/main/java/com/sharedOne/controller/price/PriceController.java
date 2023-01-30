@@ -264,6 +264,7 @@ public class PriceController {
         String upduser = principal.getName();
         price.setUpduser(upduser);
 
+    System.out.println("price:::::::::"+price);
 
         Map<String,Object> map = new HashMap<>();
         priceService.register(price);
