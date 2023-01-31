@@ -33,10 +33,9 @@ public class PriceController {
         model.addAttribute("itemList", list);
     }
 
-    @ResponseBody
     @PostMapping("modify")
     public String updatePrice(
-            @Validated @RequestBody PriceDto priceDto,
+            @Validated PriceDto priceDto,
             BindingResult bindingResult,
             RedirectAttributes rttr,
             Principal principal) {
