@@ -49,18 +49,6 @@
         </div>
         <div class="mb-3 mx-4 row">
             <div class="col">
-                <label class="form-label">시작일</label>
-                <input class="form-control datepicker" id="startDateInput" required="required" type="date" name="start_date" onchange="startDate()" value="${price.start_date}" onchange="startDate()" style="text-align: center">
-            </div>
-        </div>
-        <div class="mb-3 mx-4 row">
-            <div class="col">
-                <label class="form-label">종료일</label>
-                <input class="form-control datepicker" id="endDateInput" required="required" type="date" name="end_date" onchange="endDate()" value="${price.end_date}" style="text-align: center">
-            </div>
-        </div>
-        <div class="mb-3 mx-4 row">
-            <div class="col">
                 <label class="form-label">화폐단위</label><br>
                 <select class="form-control" id="currencySelect" type="text" name="currency" value="${price.currency}" style="text-align: center" required="required">
                     <option value="">화폐 단위를 선택하세요</option>
@@ -85,6 +73,18 @@
             </div>
         </div>
         <div class="mb-3 mx-4 row">
+            <div class="col">
+                <label class="form-label">시작일</label>
+                <input class="form-control datepicker" id="startDateInput" required="required" type="date" name="start_date" onchange="startDate()" value="${price.start_date}" onchange="startDate()" style="text-align: center">
+            </div>
+        </div>
+        <div class="mb-3 mx-4 row">
+            <div class="col">
+                <label class="form-label">종료일</label>
+                <input class="form-control datepicker" id="endDateInput" required="required" type="date" name="end_date" onchange="endDate()" value="${price.end_date}" style="text-align: center">
+            </div>
+        </div>
+        <div class="mb-3 mx-4 row">
             <div class="col-md-8 mb-3">
                 <label class="form-label">판매가</label>
                 <input class="form-control" id="priceInput" onkeyup="inputNumberFormat(this);" required="required" type="text" style="text-align: center" placeholder="-">
@@ -104,6 +104,8 @@
                     <th>제품번호</th>
                     <th>제품명</th>
                     <th>가격</th>
+                    <th>시작일</th>
+                    <th>종료일</th>
                     <th style="width:207px"></th>
                 </tr>
                 </thead>
@@ -115,6 +117,8 @@
                         <td>${item.product_name}</td>
 <%--                        <td content="priceToString(${item.price})"></td>--%>
                         <td id="prices${status.count}"><fmt:formatNumber value="${item.price}" pattern="#,###"/></td>
+                        <td id="start${status.count}">${item.start_date}</td>
+                        <td id="end${status.count}">${item.end_date}</td>
                         <td style='width:160px;' class='btn-group'>
                             <button type='button' class='btn btn-outline-warning btn-sm' style='border-radius: 7px; margin-right: 4px' onclick="modifyPrice(${status.count})">수정</button>
                             <button type='button' class='btn btn-outline-danger btn-sm' style='border-radius: 7px; margin-right: 4px' onclick="removePrice(${status.count})">삭제</button>
@@ -280,6 +284,8 @@
     list.push("${item.product_name}");
     list.push("${item.price}");
     list.push("${item.num}")
+    list.push("${item.start_date}")
+    list.push("${item.end_date}")
     oldPriceList.push(list);
     productPriceList.push(list);
     </c:forEach>
@@ -306,10 +312,10 @@
         $('#buyerCodeInput').attr('style','background-color: #e0e0e0; text-align : center');
         // $('#buyerCodeInput').attr('disabled','disabled');
         let startDate = $.trim($('#startDateInput').val());
-        $('#startDateInput').attr('style','background-color: #e0e0e0; text-align : center');
+        // $('#startDateInput').attr('style','background-color: #e0e0e0; text-align : center');
         // $('#startDateInput').attr('disabled','disabled');
         let endDate = $.trim($('#endDateInput').val());
-        $('#endDateInput').attr('style','background-color: #e0e0e0; text-align : center');
+        // $('#endDateInput').attr('style','background-color: #e0e0e0; text-align : center');
         // $('#startDateInput').attr('disabled','disabled');
         let currency = $.trim($('#currencySelect').val());
         $('#currencySelect').attr('style','background-color: #e0e0e0; text-align : center');
@@ -320,19 +326,61 @@
 
 
 
-        if (buyerCode !== "" && startDate !== "" && endDate !== "" && currency != "") {
-            if (productCode != "" /*&& productName != ""*/ && price != "") {
-                    addProduct();
+        if (buyerCode !== "" && currency != "") {
+            if (productCode != "" /*&& productName != ""*/ && price != "" && startDate !== "" && endDate !== "") {
+
+                const num = document.querySelector("#num").value;
+                const buyer_code = document.querySelector("#buyerCodeInput").value;
+                const product_code = document.querySelector("#productCodeInput").value;
+                const start_date = document.querySelector("#startDateInput").value;
+                const end_date = document.querySelector("#endDateInput").value;
+
+                const data = {
+                    "num" : num,
+                    "buyer_code" : buyer_code,
+                    "product_code" : product_code,
+                    "start_date" : start_date,
+                    "end_date" : end_date
+                };
+
+                $.ajax({
+                    url : "/price/dateCheck",
+                    type : "post",
+                    data : JSON.stringify(data),
+                    dataType : 'json',
+                    contentType: "application/json",
+                    success : function(data) {
+                        if(data.check == "fail"){
+                            if(/*$('#cnt').length &&*/ !modifyFlag){
+                                alert(data.message);
+                                document.querySelector("#startDateInput").value = null;
+                                document.querySelector("#endDateInput").value = null;
+                            } else {
+                                addProduct();
+                                modifyFlag = false;
+                            }
+                        }
+                        else{
+                            addProduct();
+                            modifyFlag = false;
+                        }
+                        console.log(data);
+                    },
+                    error : function() {
+                        alert("error");
+                    }
+                });
+
             }
+
             if (productCode == "" /*|| productName == ""*/)  productPopup();
+            if (endDate == "") $('#endDateInput').focus();
+            if (startDate == "") $('#startDateInput').focus();
             if (price == "") $('#priceInput').focus();
 
         }
-        modifyFlag = false;
         if (buyerCode == "")  buyerPopup();
         if (currency == "") $('#currencySelect').focus();
-        if (endDate == "") $('#endDateInput').focus();
-        if (startDate == "") $('#startDateInput').focus();
 
     });
 
@@ -344,9 +392,10 @@
     /* 가격 수정 전송 버튼 */
     $('#modifySubmitButton').click(function() {
         let buyerCode = $.trim($('#buyerCodeInput').val());
+        let currency = $.trim($('#currencySelect').val());
+
         let startDate = $.trim($('#startDateInput').val());
         let endDate = $.trim($('#endDateInput').val());
-        let currency = $.trim($('#currencySelect').val());
 
         let productCode = $.trim($('#productCodeInput').val());
         /*let productName = $.trim($('#productNameInput').val());*/
@@ -356,7 +405,9 @@
         var productCodeId;
         var priceId;
         var numId;
-        if (buyerCode !== "" && startDate !== "" && endDate !== "" && currency != "") {
+        var startId;
+        var endId;
+        if (buyerCode !== ""/* && startDate !== "" && endDate !== "" */&& currency != "") {
             console.log(productPriceList.length);
             alert(removeList);
             const remove = {"removePrices" : removeList};
@@ -366,13 +417,20 @@
                     url : "/price/delete",
                     type : "post",
                     // data : {"removePrices" : removeList},
-                    data : JSON.stringify({"removePrices" : removeList}),
+                    data : JSON.stringify(remove),
                     // dataType : 'json',
                     contentType: "application/json",
                     traditional: true,
                     success : function(result) {
                         alert(JSON.stringify(remove));
-                        console.log(result);
+                        if (result) {
+                            // data 전달
+                            alert(result);
+                        } else {
+                            alert("Not Result");
+                        }
+
+
                     },
                     error: function( request, status, error){
                         alert(JSON.stringify(remove));
@@ -387,6 +445,8 @@
                     productCodeId = "product" + i;
                     priceId = "prices" + i;
                     numId = "num" + i;
+                    startId = "start" + i;
+                    endId = "end" + i;
                     // let price = parseInt(document.getElementById(priceId).innerText.replace(/,/g,""))
                     // console.log(price);
                     // document.querySelector("#productCodeInput").value = document.getElementById(productCodeId).innerText;
@@ -395,9 +455,12 @@
                     // document.querySelector("#price").value = price;
 
                     const buyer_code = document.getElementById("buyerCodeInput").value;
-                    const start_date = document.getElementById("startDateInput").value;
-                    const end_date = document.getElementById("endDateInput").value;
+                    // const start_date = document.getElementById("startDateInput").value;
+                    // const end_date = document.getElementById("endDateInput").value;
                     const currency = document.getElementById("currencySelect").value;
+
+                    const start_date = document.getElementById(startId).innerText;
+                    const end_date = document.getElementById(endId).innerText;
 
                     const product_code = document.getElementById(productCodeId).innerText;
                     const price = parseInt(document.getElementById(priceId).innerText.replace(/,/g,""))
@@ -495,10 +558,13 @@
     // }
 
     // 제품 정보 추가
-    window.setProductInfo = function (productCode, productName,/* category,*/ price) {
+    window.setProductInfo = function (productCode, productName, price, num, startDate, endDate) {
         $('#productCodeInput').val(productCode);
         $('#productNameInput').val(productName);
         $('#priceInput').val(price);
+        $('#num').val(num);
+        $('#startDateInput').val(startDate);
+        $('#endDateInput').val(endDate);
     }
 
 
@@ -510,6 +576,8 @@
         // let price = $('#priceInput').val();
         let price = parseInt($('#priceInput').val().replace(/,/g,""));
         let num = $('#num').val();
+        let startDate = $('#startDateInput').val();
+        let endDate = $('#endDateInput').val();
 
         // 제품 수정인 경우 해당 제품 삭제 후 변경사항 추가
         if (modifyFlag) {
@@ -526,7 +594,7 @@
             }
         }
         if (dupli == false) {
-            const productList = [productCode, productName, price, num];
+            const productList = [productCode, productName, price, num, startDate, endDate];
             productPriceList.push(productList);
             let existListflag = "false";
             for (var i = 0; i<oldPriceList.length; i++) {
@@ -585,7 +653,11 @@
         } else {
             alert("제품번호 " + productCode + "가 중복됩니다.");
         }
-        resetPriceInfo();
+        $('#productPopup').removeAttr('style','pointer-events:none;');
+        $('#productCodeInput').val("");
+        $('#productNameInput').val("");
+        $('#priceInput').val("");
+        $('#num').val("");
     }
 
     /* 제품 가격 리스트 추가 */
@@ -601,6 +673,8 @@
             + "<td>" + productList[1] + "</td>"
             + "<td id='prices"+num+"'>" + priceToString(productList[2]) + "</td>"
             + "<td hidden id='num"+num+"'>"+productList[3]+"</td>"
+            + "<td id='start"+num+"'>" + productList[4] + "</td>"
+            + "<td id='end"+num+"'>" + productList[5] + "</td>"
             + "<td style='width:160px;' class='btn-group'>"
             +    "<button type='button' class='btn btn-outline-warning btn-sm' style='border-radius: 7px; margin-right: 4px' onclick='modifyPrice(" + num + ")'>수정</button>"
             +    "<button type='button' class='btn btn-outline-danger btn-sm' style='border-radius: 7px;' onclick='removePrice(" + num + ")'>삭제</button>"
@@ -628,6 +702,8 @@
                 + "<td>" + productPriceList[i][1] + "</td>"
                 + "<td id='prices"+index+"'>" + priceToString(productPriceList[i][2]) + "</td>"
                 + "<td hidden id='num"+index+"'>"+productPriceList[i][3]+"</td>"
+                + "<td id='start"+index+"'>" + productPriceList[i][4] + "</td>"
+                + "<td id='end"+index+"'>" + productPriceList[i][5] + "</td>"
                 + "<td style='width: 160px;' class='btn-group'>"
                 +    "<button type='button' class='btn btn-outline-warning btn-sm' style='border-radius: 7px; margin-right: 4px' onclick='modifyPrice(" + index + ")'>수정</button>"
                 +    "<button type='button' class='btn btn-outline-danger btn-sm' style='border-radius: 7px; margin-right: 4px' onclick='removePrice(" + index + ")'>삭제</button>"
@@ -642,7 +718,7 @@
 
     /* 제품 삭제 */
     function removePrice(index) {
-        let nums = productPriceList[index-1][3];
+        let nums = parseInt(productPriceList[index-1][3]);
         removeList.push(nums);
 
         // 상품 삭제일 경우에는 addItemList와 modifyItemList에서 삭제
@@ -698,6 +774,8 @@
         $('#productNameInput').val(list[1]);
         $('#priceInput').val(priceToString(list[2]));
         $('#num').val(list[3]);
+        $('#startDateInput').val(list[4]);
+        $('#endDateInput').val(list[5]);
 
         $('#productPopup').attr('style','background-color: #e0e0e0');
         modifyIndex = index;
@@ -715,6 +793,8 @@
         $('#productNameInput').val("");
         $('#priceInput').val("");
         $('#num').val("");
+        $('#startDateInput').val("");
+        $('#endDateInput').val("");
     }
 
     // })

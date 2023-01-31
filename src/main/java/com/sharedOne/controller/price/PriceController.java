@@ -102,7 +102,7 @@ public class PriceController {
     @PostMapping("delete")
     public void delete(
             @Validated @RequestBody PriceDto priceDto,
-            @RequestParam(name = "removePrices", required = false) String[] removePrices,
+            @RequestParam(name = "removePrices", required = false) int[] removePrices,
             Principal principal,
             RedirectAttributes rttr
     ){
@@ -111,20 +111,21 @@ public class PriceController {
         String upduser = principal.getName();
         priceDto.setUpduser(upduser);
 
-//        if (removePrices != null){
-//            System.out.println("deletePricesNum : exist" );
-//            System.out.println("deletePricesNum : exist" + removePrices );
-//            for (int num : removePrices) {
-//                System.out.println("deletePricesNum :" +num);
-//            }
-//        }
-//
-//        if (removePrices == null){
-//            System.out.println("deletePricesNum : no" );
-//        }
-//
-//        System.out.print("remove:::"+priceDto);
-//        priceService.delete(priceDto,removePrices);
+        if (removePrices != null){
+            System.out.println("deletePricesNum : exist" );
+            System.out.println("deletePricesNum : exist" + removePrices );
+            for (int num : removePrices) {
+                System.out.println("deletePricesNum :" +num);
+            }
+        }
+
+        if (removePrices == null){
+            System.out.println("deletePricesNum : no" );
+        }
+
+        System.out.print("remove:::"+priceDto);
+
+        priceService.delete(priceDto,removePrices);
 
     }
 

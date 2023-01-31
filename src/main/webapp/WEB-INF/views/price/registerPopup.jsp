@@ -301,9 +301,8 @@
                             if(data.check == "fail"){
                                 if($('#cnt').length){
                                     alert(data.message);
-                                    document.querySelector("#productCodeInput").value = null;
-                                    document.querySelector("#productNameInput").value = null;
-                                    document.querySelector("#priceInput").value = null;
+                                    document.querySelector("#startDateInput").value = null;
+                                    document.querySelector("#endDateInput").value = null;
                                 } else {
                                     document.querySelector("#startDateInput").value = null;
                                     $('#startDateInput').attr('style', 'text-align : center');
