@@ -210,7 +210,7 @@
         product.name product_name
         FROM price LEFT JOIN buyer ON price.buyer_code = buyer.buyer_code
         LEFT JOIN product ON price.product_code = product.product_code
-        WHERE price.num=#{num} AND price.delyn="N"
+        WHERE price.num=#{num} AND price.delyn="N" AND buyer.delyn="N" AND product.delyn="N"
         ORDER BY price.num;
     </select>
 
@@ -232,7 +232,7 @@
         product.name product_name
         FROM price LEFT JOIN buyer ON price.buyer_code = buyer.buyer_code
         LEFT JOIN product ON price.product_code = product.product_code
-        WHERE price.buyer_code = #{buyer_code} AND price.start_date = #{start_date} AND price.end_date = #{end_date} AND price.delyn="N"
+        WHERE price.buyer_code = #{buyer_code} AND price.start_date = #{start_date} AND price.end_date = #{end_date} AND price.delyn="N" AND buyer.delyn="N" AND product.delyn="N"
         ORDER BY price.num;
     </select>
 

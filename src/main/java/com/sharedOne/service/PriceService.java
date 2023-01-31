@@ -67,10 +67,23 @@ public class PriceService {
     }
 
     public void remove(PriceDto priceDto, List<Integer> removePrices) {
+        String upduser = priceDto.getUpduser();
         if (removePrices != null)
             for (int num : removePrices) {
+                System.out.print("removes::::"+upduser);
+                mapper.removePrices(priceDto, upduser, num);
 
-                mapper.removePrices(priceDto, num);
+            };
+
+        mapper.remove(priceDto);
+    }
+
+    public void delete(PriceDto priceDto, int[] removePrices) {
+        String upduser = priceDto.getUpduser();
+        if (removePrices != null)
+            for (int num : removePrices) {
+                System.out.print("removes::::"+upduser);
+                mapper.removePrices(priceDto, upduser, num);
 
             };
 
@@ -105,6 +118,8 @@ public class PriceService {
     public List<PriceDto> getItemList(PriceDto priceDto) {
         return  mapper.gerItemList(priceDto);
     }
+
+
 
 //    public PriceDto addPrice(String[] addItems, String upduser) {
 //

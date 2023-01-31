@@ -88,8 +88,8 @@
             <div class="col-md-8 mb-3">
                 <label class="form-label">판매가</label>
                 <input class="form-control" id="priceInput" onkeyup="inputNumberFormat(this);" required="required" type="text" style="text-align: center" placeholder="-">
-                <input type="hidden" id="price" name="price">
             </div>
+            <input hidden type="number" id="num" name="num">
             <div id="item-button" class="col-md-4 mb-3" style="position: absolute; right: 20px">
                 <label class="form-label"></label>
                 <button type="button" id="resetProductButton" class="btn btn-secondary">초기화</button>
@@ -117,9 +117,9 @@
                         <td id="prices${status.count}"><fmt:formatNumber value="${item.price}" pattern="#,###"/></td>
                         <td style='width:160px;' class='btn-group'>
                             <button type='button' class='btn btn-outline-warning btn-sm' style='border-radius: 7px; margin-right: 4px' onclick="modifyPrice(${status.count})">수정</button>
-<%--                            <button type='button' class='btn btn-outline-danger btn-sm' style='border-radius: 7px; margin-right: 4px' onclick="remove(${item.num})">삭제</button>--%>
+                            <button type='button' class='btn btn-outline-danger btn-sm' style='border-radius: 7px; margin-right: 4px' onclick="removePrice(${status.count})">삭제</button>
                         </td>
-                        <input hidden type="text" id="num${status.count}" value="${item.num}">
+                        <td hidden id="num${status.count}">${item.num}</td>
                     </tr>
                 </c:forEach>
                 </tbody>
@@ -279,6 +279,7 @@
     list.push("${item.product_code}");
     list.push("${item.product_name}");
     list.push("${item.price}");
+    list.push("${item.num}")
     oldPriceList.push(list);
     productPriceList.push(list);
     </c:forEach>
@@ -318,6 +319,7 @@
         let price = $.trim($('#priceInput').val());
 
 
+
         if (buyerCode !== "" && startDate !== "" && endDate !== "" && currency != "") {
             if (productCode != "" /*&& productName != ""*/ && price != "") {
                     addProduct();
@@ -326,6 +328,7 @@
             if (price == "") $('#priceInput').focus();
 
         }
+        modifyFlag = false;
         if (buyerCode == "")  buyerPopup();
         if (currency == "") $('#currencySelect').focus();
         if (endDate == "") $('#endDateInput').focus();
@@ -355,19 +358,27 @@
         var numId;
         if (buyerCode !== "" && startDate !== "" && endDate !== "" && currency != "") {
             console.log(productPriceList.length);
+            alert(removeList);
             const remove = {"removePrices" : removeList};
+            console.log(removeList);
+            console.log("remove"+remove);
                 $.ajax({
-                    url : "/price/remove",
+                    url : "/price/delete",
                     type : "post",
-                    data : JSON.stringify(remove),
-                    dataType : 'json',
+                    // data : {"removePrices" : removeList},
+                    data : JSON.stringify({"removePrices" : removeList}),
+                    // dataType : 'json',
                     contentType: "application/json",
-                    success : function(data) {
-                        alert(data);
-                        console.log(data);
+                    traditional: true,
+                    success : function(result) {
+                        alert(JSON.stringify(remove));
+                        console.log(result);
                     },
-                    error : (error) => {
-                        console.log(JSON.stringify(error));
+                    error: function( request, status, error){
+                        alert(JSON.stringify(remove));
+                        console.log(remove);
+                        alert("status : " + request.status + ", message : " + request.responseText + ", error : " + error);
+
                     }
                 });
 
@@ -390,9 +401,9 @@
 
                     const product_code = document.getElementById(productCodeId).innerText;
                     const price = parseInt(document.getElementById(priceId).innerText.replace(/,/g,""))
+                    // const num = document.getElementById(numId).value;
 
-                    if (document.getElementById(numId) == null/* || document.getElementById(numId)==""*/){
-
+                    if (document.getElementById(numId).innerText == ""){
                         const add = {
                             "buyer_code" : buyer_code,
                             "product_code" : product_code,
@@ -418,7 +429,7 @@
                             }
                         });
                     } else {
-                        const num = document.getElementById(numId).value;
+                        const num = document.getElementById(numId).innerText;
                         const data = {
                             "num" : num,
                             "buyer_code" : buyer_code,
@@ -457,12 +468,17 @@
                     // document.querySelector("#modifyForm").submit();
                     // alert(i);
                 }
-                opener.parent.location.reload();
-                window.close();
+
                 // document.querySelector("#modifyForm").submit();
             }
             // if (productCode == "" /*|| productName == ""*/)  productPopup();
             // if (price == "") $('#priceInput').focus();
+            setTimeout(function () {
+                opener.parent.location.reload();
+                window.close();
+            }, 1000);
+            // opener.parent.location.reload();
+            // window.close();
         }
         if (buyerCode == "")  buyerPopup();
         if (currency == "") $('#currencySelect').focus();
@@ -493,11 +509,7 @@
         let productName = $('#productNameInput').val();
         // let price = $('#priceInput').val();
         let price = parseInt($('#priceInput').val().replace(/,/g,""));
-
-        let startDate = $('#startDateInput').val();
-        let endDate = $('#endDateInput').val();
-        let currency = $('#currencySelect').val();
-
+        let num = $('#num').val();
 
         // 제품 수정인 경우 해당 제품 삭제 후 변경사항 추가
         if (modifyFlag) {
@@ -514,7 +526,7 @@
             }
         }
         if (dupli == false) {
-            const productList = [productCode, productName, price, startDate, endDate, currency];
+            const productList = [productCode, productName, price, num];
             productPriceList.push(productList);
             let existListflag = "false";
             for (var i = 0; i<oldPriceList.length; i++) {
@@ -580,6 +592,7 @@
     function productListInPopup(productList, productPriceList) {
         let tbody = $('#newPrice-table tbody');
         var num = productPriceList.length;
+
         tbody.append("");
         tbody.append(
             "<tr>"
@@ -587,9 +600,10 @@
             + "<td id='product"+num+"'>" + productList[0] + "</td>"
             + "<td>" + productList[1] + "</td>"
             + "<td id='prices"+num+"'>" + priceToString(productList[2]) + "</td>"
+            + "<td hidden id='num"+num+"'>"+productList[3]+"</td>"
             + "<td style='width:160px;' class='btn-group'>"
-            +    "<button type='button' class='btn btn-outline-warning btn-sm' style='border-radius: 7px; margin-right: 4px' onclick='modifyPrice(" + productPriceList.length + ")'>수정</button>"
-            // +    "<button type='button' class='btn btn-outline-danger btn-sm' style='border-radius: 7px;' onclick='removePrice(" + productPriceList.length + ")'>삭제</button>"
+            +    "<button type='button' class='btn btn-outline-warning btn-sm' style='border-radius: 7px; margin-right: 4px' onclick='modifyPrice(" + num + ")'>수정</button>"
+            +    "<button type='button' class='btn btn-outline-danger btn-sm' style='border-radius: 7px;' onclick='removePrice(" + num + ")'>삭제</button>"
             + "</td>"
             + "</tr>"
         );
@@ -601,59 +615,35 @@
     /* 제품 가격 리스트 조회 */
     function getProductList(productPriceList) {
         let tbody = $('#newPrice-table tbody');
-        var num = productPriceList.length;
+
         tbody.empty(); //초기화
         tbody.append("");
+        console.log(productPriceList);
         for (var i = 0; i < productPriceList.length; i++) {
             let index = i + 1;
             tbody.append(
                 "<tr>"
                 + "<td id='cnt'>" + index + "</td>"
-                + "<td id='product"+num+"'>" + productPriceList[i][0] + "</td>"
+                + "<td id='product"+index+"'>" + productPriceList[i][0] + "</td>"
                 + "<td>" + productPriceList[i][1] + "</td>"
-                + "<td id='prices"+num+"'>" + priceToString(productPriceList[i][2]) + "</td>"
+                + "<td id='prices"+index+"'>" + priceToString(productPriceList[i][2]) + "</td>"
+                + "<td hidden id='num"+index+"'>"+productPriceList[i][3]+"</td>"
                 + "<td style='width: 160px;' class='btn-group'>"
-                +    "<button type='button' class='btn btn-outline-warning btn-sm' style='border-radius: 7px; margin-right: 4px' onclick='modifyPrice(" + productPriceList.length + ")'>수정</button>"
-                // +    "<button type='button' class='btn btn-outline-danger btn-sm' style='border-radius: 7px; margin-right: 4px' onclick='removePrice(" + productPriceList.length + ")'>삭제</button>"
+                +    "<button type='button' class='btn btn-outline-warning btn-sm' style='border-radius: 7px; margin-right: 4px' onclick='modifyPrice(" + index + ")'>수정</button>"
+                +    "<button type='button' class='btn btn-outline-danger btn-sm' style='border-radius: 7px; margin-right: 4px' onclick='removePrice(" + index + ")'>삭제</button>"
                 + "</td>"
                 + "</tr>"
             );
         }
     }
 
-    /* 제품 가격 리스트 조회 */
-    function getProductList(productPriceList) {
-        let tbody = $('#newPrice-table tbody');
-        var num = productPriceList.length;
-        tbody.empty(); //초기화
-        tbody.append("");
-        for (var i = 0; i < productPriceList.length; i++) {
-            let index = i + 1;
-            tbody.append(
-                "<tr>"
-                + "<td id='cnt'>" + index + "</td>"
-                + "<td id='product"+num+"'>" + productPriceList[i][0] + "</td>"
-                + "<td>" + productPriceList[i][1] + "</td>"
-                + "<td id='prices"+num+"'>" + priceToString(productPriceList[i][2]) + "</td>"
-                + "<td style='width: 160px;' class='btn-group'>"
-                +    "<button type='button' class='btn btn-outline-warning btn-sm' style='border-radius: 7px; margin-right: 4px' onclick='modifyPrice(" + productPriceList.length + ")'>수정</button>"
-                // +    "<button type='button' class='btn btn-outline-danger btn-sm' style='border-radius: 7px; margin-right: 4px' onclick='removePrice(" + productPriceList.length + ")'>삭제</button>"
-                + "</td>"
-                + "</tr>"
-            );
-        }
-    }
+
 
 
     /* 제품 삭제 */
     function removePrice(index) {
-        let removeList = productPriceList[index-1];
-        for (var i = 0; i<productPriceList.length; i++) {
-            if (productPriceList[i][0] == removeList[0]) {
-                removeItemList.push(removeList); // 삭제한 상품 리스트
-                break;
-            }
-        }
+        let nums = productPriceList[index-1][3];
+        removeList.push(nums);
 
         // 상품 삭제일 경우에는 addItemList와 modifyItemList에서 삭제
         for (var i = 0; i<addItemList.length; i++) {
@@ -671,7 +661,8 @@
 
         productPriceList.splice(index-1, 1);
         getProductList(productPriceList);
-        console.log(removeItemList);
+        console.log("removeButton:"+removeList);
+        console.log("removeButton2"+productPriceList);
     }
 
     /* 제품 삭제 */
@@ -694,7 +685,7 @@
 
         productPriceList.splice(productPriceList.length-1, 1);
         getProductList(productPriceList);
-        alert(removeList);
+        // alert(removeList);
     }
 
 
@@ -702,9 +693,12 @@
     function modifyPrice(index) {
         index = index-1;
         let list = productPriceList[index];
+
         $('#productCodeInput').val(list[0]);
         $('#productNameInput').val(list[1]);
         $('#priceInput').val(priceToString(list[2]));
+        $('#num').val(list[3]);
+
         $('#productPopup').attr('style','background-color: #e0e0e0');
         modifyIndex = index;
         modifyFlag = true;
@@ -720,6 +714,7 @@
         $('#productCodeInput').val("");
         $('#productNameInput').val("");
         $('#priceInput').val("");
+        $('#num').val("");
     }
 
     // })

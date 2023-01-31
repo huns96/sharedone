@@ -72,9 +72,12 @@ public class PriceController {
     public String deletePrice(
             @Validated PriceDto priceDto,
             @RequestParam(name = "removePrices", required = false) List<Integer> removePrices,
-            BindingResult bindingResult,
+            Principal principal,
             RedirectAttributes rttr
     ){
+
+        String upduser = principal.getName();
+        priceDto.setUpduser(upduser);
 
         if (removePrices != null){
             System.out.println("deletePricesNum : exist" );
@@ -87,10 +90,42 @@ public class PriceController {
         if (removePrices == null){
             System.out.println("deletePricesNum : no" );
         }
+
+        System.out.print("remove:::"+priceDto);
         priceService.remove(priceDto,removePrices);
 
 
         return "redirect:/price/priceList";
+    }
+
+    @ResponseBody
+    @PostMapping("delete")
+    public void delete(
+            @Validated @RequestBody PriceDto priceDto,
+            @RequestParam(name = "removePrices", required = false) String[] removePrices,
+            Principal principal,
+            RedirectAttributes rttr
+    ){
+
+        System.out.print(removePrices);
+        String upduser = principal.getName();
+        priceDto.setUpduser(upduser);
+
+//        if (removePrices != null){
+//            System.out.println("deletePricesNum : exist" );
+//            System.out.println("deletePricesNum : exist" + removePrices );
+//            for (int num : removePrices) {
+//                System.out.println("deletePricesNum :" +num);
+//            }
+//        }
+//
+//        if (removePrices == null){
+//            System.out.println("deletePricesNum : no" );
+//        }
+//
+//        System.out.print("remove:::"+priceDto);
+//        priceService.delete(priceDto,removePrices);
+
     }
 
 
