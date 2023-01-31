@@ -106,6 +106,19 @@ public class PriceService {
         return  mapper.gerItemList(priceDto);
     }
 
+//    public PriceDto addPrice(String[] addItems, String upduser) {
+//
+//        return mapper.addPrice(addItems, upduser);
+//    }
+//
+//    public PriceDto modifyPrice(String[] modifyItems, String upduser) {
+//        return mapper.modifyPrice(modifyItems, upduser);
+//    }
+//
+//    public PriceDto removePrice(String[] removeItems, String upduser) {
+//        return mapper.removePrice(removeItems, upduser);
+//    }
+
 
 //    public int dateCheck(int num, String buyer_code, String product_code, Date start_date, Date end_date) {
 //        return mapper.dateCheck(num, buyer_code, product_code, start_date, end_date);

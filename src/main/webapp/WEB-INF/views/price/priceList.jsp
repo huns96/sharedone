@@ -87,7 +87,7 @@
       <div class="card-body page-background " style="height: 85%;">
         <h4 style="position: relative; top: 4%; margin-left: 20px ;font-weight: bold; ">판매가
           <div class="btn-group" style="position: absolute; right: 10px;">
-            <button class="btn btn-success btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#registerModal" style="border-radius: 7px; margin-right: 4px">등록 </button>
+            <button class="btn btn-success btn-sm" type="button" <%--data-bs-toggle="modal" data-bs-target="#registerModal"--%> style="border-radius: 7px; margin-right: 4px" onclick="registerPopup()">등록 </button>
             <button class="btn btn-danger btn-sm" type="button"data-bs-toggle="modal" data-bs-target="#removeModal" id="delete" style="border-radius: 7px">삭제</button>
             <div class="modal fade" id="removeModal" tabindex="-1" aria-hidden="true">
               <div class="modal-dialog">
@@ -116,7 +116,7 @@
         <table class="table table-hover mt-3" id="deviceTable">
           <thead>
           <tr style="background-color: #e0e0e0; border-bottom: black; text-align: center">
-            <th><%--No.--%></th>
+            <th>전체<input class="form-check-input" id="priceAll" type="checkbox" name="priceAll" style="margin-left: 5px" onclick="checkAll(this)"></th>
             <th>바이어코드</th>
             <th>바이어명</th>
             <th>제품코드</th>
@@ -149,96 +149,95 @@
               <td>${price.upduser}</td>
                 <%--              <td>${price.upddate}</td>--%>
               <td>
-                <span style="text-decoration: underline;" id="modify" class="modify" type="button" value="${price.num}" data-bs-toggle="modal" data-bs-target="#modifyModal${price.num}" onclick="modifyPopup(${price.num})">수정</span>
-<%--                <span style="text-decoration: underline;" id="modify" class="modify" type="button" value="${price.num}" data-bs-toggle="modal" data-bs-target="#modifyModal${price.num}" onclick="myFunction('price${status.count}')">수정</span>--%>
-<%--                <div class="modal fade" id="modifyModal${price.num}" tabindex="-1" aria-hidden="true">--%>
-<%--                  <div class="modal-dialog modal-xl" role="document">--%>
-<%--                    <div class="modal-content">--%>
+                <span style="text-decoration: underline;" id="modify" class="modify" type="button" value="${price.num}" data-bs-toggle="modal" data-bs-target="#modifyModal${price.num}" onclick="myFunction('price${status.count}')">수정</span>
+                <div class="modal fade" id="modifyModal${price.num}" tabindex="-1" aria-hidden="true">
+                  <div class="modal-dialog modal-xl" role="document">
+                    <div class="modal-content">
 
-<%--                      <div class="modal-header">--%>
-<%--                        <h1 class="modal-title fs-5" style="left: 10px">판매가 수정</h1>--%>
-<%--                        <button type="button" class="btn-close" data-bs-dismiss="modal"--%>
-<%--                                aria-label="Close" style="right: 10px"></button>--%>
-<%--                      </div>--%>
-<%--                      <div class="modal-body">--%>
-<%--                        <form class="modifyForm" id="modifyForm" action="/price/modify" method="post" enctype="multipart/form-data" style="margin: auto;  height: 664px;">--%>
-<%--                          <div style="margin: 20px;">--%>
-<%--                            <div class="mb-3 mx-4 row">--%>
-<%--                              <div class="col-md-6 mb-3">--%>
-<%--                                <label class="form-label">바이어코드</label>--%>
-<%--                                <input class="form-control" type="text" name="buyer_code" &lt;%&ndash;data-bs-toggle="modal" data-bs-target="#buyerModal" &ndash;%&gt; value="${price.buyer_code}" style="text-align: center; background-color: #e0e0e0" readonly>--%>
-<%--                                  &lt;%&ndash;                                    <i class="fa-solid fa-magnifying-glass" type="button" style="position: absolute; top: 62%; right: 1%" data-bs-toggle="modal" data-bs-target="#buyerModal"></i>&ndash;%&gt;--%>
-<%--                              </div>--%>
-<%--                              <div class="col-md-6 mb-3">--%>
-<%--                                <label class="form-label">바이어명</label>--%>
-<%--                                <input class="form-control" type="text" name="buyer_name" &lt;%&ndash;data-bs-toggle="modal" data-bs-target="#buyerModal" &ndash;%&gt; value="${price.buyer_name}" style="text-align: center; background-color: #e0e0e0" readonly>--%>
-<%--                                  &lt;%&ndash;                                    <i class="fa-solid fa-magnifying-glass" type="button" style="position: absolute; top: 62%; right: 1%" data-bs-toggle="modal" data-bs-target="#buyerModal"></i>&ndash;%&gt;--%>
-<%--                              </div>--%>
-<%--                            </div>--%>
-<%--                              &lt;%&ndash;                            <div class="mb-3 mx-4" style="position: relative">&ndash;%&gt;--%>
-<%--                              &lt;%&ndash;                              <label class="form-label">바이어코드</label>&ndash;%&gt;--%>
-<%--                              &lt;%&ndash;                              <input class="form-control" type="text" id="buyer_code" name="buyer_code" data-bs-toggle="modal" data-bs-target="#buyerModal" value="${price.buyer_code}" required="required" placeholder="바이어 코드" style="text-align: center">&ndash;%&gt;--%>
-<%--                              &lt;%&ndash;                              <i class="fa-solid fa-magnifying-glass" type="button" style="position: absolute; top: 62%; right: 1%" data-bs-toggle="modal" data-bs-target="#buyerModal"></i>&ndash;%&gt;--%>
-<%--                              &lt;%&ndash;                            </div>&ndash;%&gt;--%>
-<%--                              &lt;%&ndash;                            <div class="mb-3 mx-4">&ndash;%&gt;--%>
-<%--                              &lt;%&ndash;                              <label class="form-label">제품코드</label>&ndash;%&gt;--%>
-<%--                              &lt;%&ndash;                              <input class="form-control" type="text" id="product_code" name="product_code" value="${price.product_code}" data-bs-toggle="modal" data-bs-target="#productModal" required="required" placeholder="제품 코드" style="text-align: center">&ndash;%&gt;--%>
-<%--                              &lt;%&ndash;                            </div>&ndash;%&gt;--%>
-<%--                            <div class="mb-3 mx-4 row">--%>
-<%--                              <div class="col-md-6 mb-3">--%>
-<%--                                <label class="form-label">제품코드</label>--%>
-<%--                                <input class="form-control" type="text" name="product_code" &lt;%&ndash;data-bs-toggle="modal" data-bs-target="#productModal"&ndash;%&gt; value="${price.product_code}" style="text-align: center; background-color: #e0e0e0" readonly>--%>
-<%--                                  &lt;%&ndash;                              <i class="fa-solid fa-magnifying-glass" type="button" style="position: absolute; top: 62%; right: 1%" data-bs-toggle="modal" data-bs-target="#productModal"></i>&ndash;%&gt;--%>
-<%--                              </div>--%>
-<%--                              <div class="col-md-6 mb-3">--%>
-<%--                                <label class="form-label">제품명</label>--%>
-<%--                                <input class="form-control" type="text" name="product_name" &lt;%&ndash;data-bs-toggle="modal" data-bs-target="#productModal"&ndash;%&gt; value="${price.product_name}" style="text-align: center; background-color: #e0e0e0" readonly>--%>
-<%--                                  &lt;%&ndash;                              <i class="fa-solid fa-magnifying-glass" type="button" style="position: absolute; top: 62%; right: 1%" data-bs-toggle="modal" data-bs-target="#productModal"></i>&ndash;%&gt;--%>
-<%--                              </div>--%>
-<%--                            </div>--%>
-<%--                            <div class="mb-3 mx-4">--%>
-<%--                              <label class="form-label">판매가</label>--%>
-<%--                              <input class="form-control" onkeyup="inputNumberFormat(this);" type="text" name="price" id="price${status.count}" value="${price.price}" style="text-align: center" required="required">--%>
-<%--                            </div>--%>
-<%--                            <div class="mb-3 mx-4">--%>
-<%--                              <label class="form-label">시작일</label>--%>
-<%--                                &lt;%&ndash;                              <input type="hidden" id="oldStart${status.count}" value="${price.start_date}">&ndash;%&gt;--%>
-<%--                              <input class="form-control datepicker" &lt;%&ndash;class="datepicker"&ndash;%&gt; type="date" name="start_date" id="start_date${status.count}" value="${price.start_date}"  style="text-align: center" required="required" onchange="startDate('${status.count}')">--%>
-<%--                            </div>--%>
-<%--                            <div class="mb-3 mx-4">--%>
-<%--                              <label class="form-label">종료일</label>--%>
-<%--                                &lt;%&ndash;                              <input type="hidden" id="oldEnd${status.count}" value="${price.end_date}">&ndash;%&gt;--%>
-<%--                              <input class="form-control datepicker" type="date" name="end_date" id="end_date${status.count}" value="${price.end_date}"  style="text-align: center" required="required" onchange="endDate('${status.count}')">--%>
-<%--                            </div>--%>
-<%--                            <div class="mb-3 mx-4">--%>
-<%--                              <label class="form-label">화폐단위</label><br>--%>
-<%--                              <select class="form-control" type="text" name="currency" id="currency" value="${price.currency}" style="text-align: center" required="required">--%>
-<%--                                <option value="">화폐 단위를 선택하세요</option>--%>
-<%--                                <option value="원(₩)" <c:if test="${price.currency == '원(₩)' }">selected="selected"</c:if>>원(₩)</option>--%>
-<%--                                <option value="달러($)"<c:if test="${price.currency == '달러($)' }">selected="selected"</c:if>>달러($)</option>--%>
-<%--                                <option value="앤(¥)"<c:if test="${price.currency == '앤(¥)' }">selected="selected"</c:if>>앤(¥)</option>--%>
-<%--                                <option value="위안(元)"<c:if test="${price.currency == '위안(元)' }">selected="selected"</c:if>>위안(元)</option>--%>
-<%--                              </select>--%>
-<%--                            </div>--%>
-<%--                            <input class="form-control" type="hidden" name="num" id="num" value="${price.num}">--%>
-<%--                          </div>--%>
-<%--                      </div>--%>
+                      <div class="modal-header">
+                        <h1 class="modal-title fs-5" style="left: 10px">판매가 수정</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close" style="right: 10px"></button>
+                      </div>
+                      <div class="modal-body">
+                        <form class="modifyForm" id="modifyForm" action="/price/modify" method="post" enctype="multipart/form-data" style="margin: auto;  height: 664px;">
+                          <div style="margin: 20px;">
+                            <div class="mb-3 mx-4 row">
+                              <div class="col-md-6 mb-3">
+                                <label class="form-label">바이어코드</label>
+                                <input class="form-control" type="text" name="buyer_code" <%--data-bs-toggle="modal" data-bs-target="#buyerModal" --%> value="${price.buyer_code}" style="text-align: center; background-color: #e0e0e0" readonly>
+                                  <%--                                    <i class="fa-solid fa-magnifying-glass" type="button" style="position: absolute; top: 62%; right: 1%" data-bs-toggle="modal" data-bs-target="#buyerModal"></i>--%>
+                              </div>
+                              <div class="col-md-6 mb-3">
+                                <label class="form-label">바이어명</label>
+                                <input class="form-control" type="text" name="buyer_name" <%--data-bs-toggle="modal" data-bs-target="#buyerModal" --%> value="${price.buyer_name}" style="text-align: center; background-color: #e0e0e0" readonly>
+                                  <%--                                    <i class="fa-solid fa-magnifying-glass" type="button" style="position: absolute; top: 62%; right: 1%" data-bs-toggle="modal" data-bs-target="#buyerModal"></i>--%>
+                              </div>
+                            </div>
+                              <%--                            <div class="mb-3 mx-4" style="position: relative">--%>
+                              <%--                              <label class="form-label">바이어코드</label>--%>
+                              <%--                              <input class="form-control" type="text" id="buyer_code" name="buyer_code" data-bs-toggle="modal" data-bs-target="#buyerModal" value="${price.buyer_code}" required="required" placeholder="바이어 코드" style="text-align: center">--%>
+                              <%--                              <i class="fa-solid fa-magnifying-glass" type="button" style="position: absolute; top: 62%; right: 1%" data-bs-toggle="modal" data-bs-target="#buyerModal"></i>--%>
+                              <%--                            </div>--%>
+                              <%--                            <div class="mb-3 mx-4">--%>
+                              <%--                              <label class="form-label">제품코드</label>--%>
+                              <%--                              <input class="form-control" type="text" id="product_code" name="product_code" value="${price.product_code}" data-bs-toggle="modal" data-bs-target="#productModal" required="required" placeholder="제품 코드" style="text-align: center">--%>
+                              <%--                            </div>--%>
+                            <div class="mb-3 mx-4 row">
+                              <div class="col-md-6 mb-3">
+                                <label class="form-label">제품코드</label>
+                                <input class="form-control" type="text" name="product_code" <%--data-bs-toggle="modal" data-bs-target="#productModal"--%> value="${price.product_code}" style="text-align: center; background-color: #e0e0e0" readonly>
+                                  <%--                              <i class="fa-solid fa-magnifying-glass" type="button" style="position: absolute; top: 62%; right: 1%" data-bs-toggle="modal" data-bs-target="#productModal"></i>--%>
+                              </div>
+                              <div class="col-md-6 mb-3">
+                                <label class="form-label">제품명</label>
+                                <input class="form-control" type="text" name="product_name" <%--data-bs-toggle="modal" data-bs-target="#productModal"--%> value="${price.product_name}" style="text-align: center; background-color: #e0e0e0" readonly>
+                                  <%--                              <i class="fa-solid fa-magnifying-glass" type="button" style="position: absolute; top: 62%; right: 1%" data-bs-toggle="modal" data-bs-target="#productModal"></i>--%>
+                              </div>
+                            </div>
+                            <div class="mb-3 mx-4">
+                              <label class="form-label">판매가</label>
+                              <input class="form-control" onkeyup="inputNumberFormat(this);" type="text" name="price" id="price${status.count}" value="${price.price}" style="text-align: center" required="required">
+                            </div>
+                            <div class="mb-3 mx-4">
+                              <label class="form-label">시작일</label>
+                                <%--                              <input type="hidden" id="oldStart${status.count}" value="${price.start_date}">--%>
+                              <input class="form-control datepicker" <%--class="datepicker"--%> type="date" name="start_date" id="start_date${status.count}" value="${price.start_date}"  style="text-align: center" required="required" onchange="startDate('${status.count}')">
+                            </div>
+                            <div class="mb-3 mx-4">
+                              <label class="form-label">종료일</label>
+                                <%--                              <input type="hidden" id="oldEnd${status.count}" value="${price.end_date}">--%>
+                              <input class="form-control datepicker" type="date" name="end_date" id="end_date${status.count}" value="${price.end_date}"  style="text-align: center" required="required" onchange="endDate('${status.count}')">
+                            </div>
+                            <div class="mb-3 mx-4">
+                              <label class="form-label">화폐단위</label><br>
+                              <select class="form-control" type="text" name="currency" id="currency" value="${price.currency}" style="text-align: center" required="required">
+                                <option value="">화폐 단위를 선택하세요</option>
+                                <option value="원(₩)" <c:if test="${price.currency == '원(₩)' }">selected="selected"</c:if>>원(₩)</option>
+                                <option value="달러($)"<c:if test="${price.currency == '달러($)' }">selected="selected"</c:if>>달러($)</option>
+                                <option value="앤(¥)"<c:if test="${price.currency == '앤(¥)' }">selected="selected"</c:if>>앤(¥)</option>
+                                <option value="위안(元)"<c:if test="${price.currency == '위안(元)' }">selected="selected"</c:if>>위안(元)</option>
+                              </select>
+                            </div>
+                            <input class="form-control" type="hidden" name="num" id="num" value="${price.num}">
+                          </div>
+                      </div>
 
-<%--                      <div class="modal-footer">--%>
-<%--                        <button id="modifyConfirmButton" onclick="myFunction2('price${status.count}')"--%>
-<%--                                class="btn btn-primary" type="submit">수정</button>--%>
-<%--                        <button type="button" class="btn btn-secondary"--%>
-<%--                                data-bs-dismiss="modal">취소</button>--%>
-<%--                      </div>--%>
-<%--                      </form>--%>
-
+                      <div class="modal-footer">
+                        <button id="modifyConfirmButton" onclick="myFunction2('price${status.count}')"
+                                class="btn btn-primary" type="submit">수정</button>
+                        <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">취소</button>
+                      </div>
+                      </form>
 
 
 
 
-<%--                    </div>--%>
-<%--                  </div>--%>
-<%--                </div>--%>
+
+                    </div>
+                  </div>
+                </div>
                 <span style="text-decoration: underline;" type="button"data-bs-toggle="modal" data-bs-target="#removeModal${price.num}" value="${price.num}">삭제</span>
                 <!-- remove Modal -->
                 <div class="modal fade" id="removeModal${price.num}" tabindex="-1" aria-hidden="true">
@@ -339,6 +338,27 @@
 
 <script>
 
+
+  function registerPopup() {
+    let url = "/price/registerPopup";
+    let popupWidth = 800;
+    let popupHeight = 800;
+    let popupX = (window.screen.width / 2) - (popupWidth / 2);
+    let popupY= (window.screen.height / 2) - (popupHeight / 2);
+    let popupOption = 'status=no, height=' + popupHeight  + ', width=' + popupWidth  + ', left='+ popupX + ', top='+ popupY;
+    window.open(url,"",popupOption);
+  }
+
+  function modifyPopup(num) {
+    let url = "/price/modifyPopup?num="+num;
+    let popupWidth = 800;
+    let popupHeight = 800;
+    let popupX = (window.screen.width / 2) - (popupWidth / 2);
+    let popupY= (window.screen.height / 2) - (popupHeight / 2);
+    let popupOption = 'status=no, height=' + popupHeight  + ', width=' + popupWidth  + ', left='+ popupX + ', top='+ popupY;
+    window.open(url,"",popupOption);
+  }
+
   $(function() {
     $( ".datepicker" ).datepicker();
   });
@@ -358,6 +378,17 @@
 
 
 
+  function checkAll(selectAll){
+    const priceAll = document.querySelector("#priceAll");
+    const checkboxes = document.getElementsByName('checkPrices');
+
+    priceAll.toggleAttribute("checked");
+    checkboxes.forEach((checkbox) =>{
+      checkbox.setAttribute("checked","checked");
+      checkbox.checked = selectAll.checked;
+    })
+  }
+
   //  $("#modifyConfirmButton").click(function(){
   //  let price = $("#price").val();
   //let intPrice = parseInt(price.replace(/,/g,""));
@@ -374,16 +405,6 @@
       document.getElementById('start_date'+s).value = null;
       return false;
     }
-  }
-
-  function modifyPopup(num) {
-    let url = "/price/modifyPopup?num="+num;
-    let popupWidth = 800;
-    let popupHeight = 800;
-    let popupX = (window.screen.width / 2) - (popupWidth / 2);
-    let popupY= (window.screen.height / 2) - (popupHeight / 2);
-    let popupOption = 'status=no, height=' + popupHeight  + ', width=' + popupWidth  + ', left='+ popupX + ', top='+ popupY;
-    window.open(url,"",popupOption);
   }
 
   function endDate(e) {

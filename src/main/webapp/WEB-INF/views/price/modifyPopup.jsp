@@ -117,7 +117,7 @@
                         <td id="prices${status.count}"><fmt:formatNumber value="${item.price}" pattern="#,###"/></td>
                         <td style='width:160px;' class='btn-group'>
                             <button type='button' class='btn btn-outline-warning btn-sm' style='border-radius: 7px; margin-right: 4px' onclick="modifyPrice(${status.count})">수정</button>
-                            <button type='button' class='btn btn-outline-danger btn-sm' style='border-radius: 7px; margin-right: 4px' onclick="removePrice(${status.count})">삭제</button>
+<%--                            <button type='button' class='btn btn-outline-danger btn-sm' style='border-radius: 7px; margin-right: 4px' onclick="remove(${item.num})">삭제</button>--%>
                         </td>
                         <input hidden type="text" id="num${status.count}" value="${item.num}">
                     </tr>
@@ -285,6 +285,7 @@
     let addItemList = []; // 추가된 상품 리스트
     let removeItemList = []; // 삭제된 상품 리스트
     let modifyItemList = []; // 수정된 상품 리스트
+    let removeList = [];
     let modifyFlag = false;
     let modifyIndex; // 수정할 제품의 index
 
@@ -354,6 +355,22 @@
         var numId;
         if (buyerCode !== "" && startDate !== "" && endDate !== "" && currency != "") {
             console.log(productPriceList.length);
+            const remove = {"removePrices" : removeList};
+                $.ajax({
+                    url : "/price/remove",
+                    type : "post",
+                    data : JSON.stringify(remove),
+                    dataType : 'json',
+                    contentType: "application/json",
+                    success : function(data) {
+                        alert(data);
+                        console.log(data);
+                    },
+                    error : (error) => {
+                        console.log(JSON.stringify(error));
+                    }
+                });
+
             if ($('#cnt').length) {
                 for(let i=1; i<=productPriceList.length; i++){
                     productCodeId = "product" + i;
@@ -371,39 +388,71 @@
                     const end_date = document.getElementById("endDateInput").value;
                     const currency = document.getElementById("currencySelect").value;
 
-                    const num = document.getElementById(numId).value;
-
-
                     const product_code = document.getElementById(productCodeId).innerText;
                     const price = parseInt(document.getElementById(priceId).innerText.replace(/,/g,""))
 
+                    if (document.getElementById(numId) == null/* || document.getElementById(numId)==""*/){
 
-                    const data = {
-                        "num" : num,
-                        "buyer_code" : buyer_code,
-                        "product_code" : product_code,
-                        "start_date" : start_date,
-                        "end_date" : end_date,
-                        "currency" : currency,
-                        "price" : price
-                    };
+                        const add = {
+                            "buyer_code" : buyer_code,
+                            "product_code" : product_code,
+                            "start_date" : start_date,
+                            "end_date" : end_date,
+                            "currency" : currency,
+                            "price" : price
+                        };
 
-                    console.log(data);
+                        console.log(add);
 
 
-                    $.ajax({
-                        url : "/price/modify",
-                        type : "post",
-                        data : JSON.stringify(data),
-                        dataType : 'json',
-                        contentType: "application/json",
-                        success : function(data) {
-                            console.log(data);
-                        },
-                        error : (error) => {
-                            console.log(JSON.stringify(error));
-                        }
-                    });
+                        $.ajax({
+                            url : "/price/add",
+                            type : "post",
+                            data : JSON.stringify(add),
+                            dataType : 'json',
+                            contentType: "application/json",
+                            success : function(add) {
+                                console.log(add);
+                            },
+                            error : (error) => {
+                                console.log(JSON.stringify(error));
+                            }
+                        });
+                    } else {
+                        const num = document.getElementById(numId).value;
+                        const data = {
+                            "num" : num,
+                            "buyer_code" : buyer_code,
+                            "product_code" : product_code,
+                            "start_date" : start_date,
+                            "end_date" : end_date,
+                            "currency" : currency,
+                            "price" : price
+                        };
+
+                        console.log(data);
+
+
+                        $.ajax({
+                            url : "/price/modify",
+                            type : "post",
+                            data : JSON.stringify(data),
+                            dataType : 'json',
+                            contentType: "application/json",
+                            success : function(data) {
+                                console.log(data);
+                            },
+                            error : (error) => {
+                                console.log(JSON.stringify(error));
+                            }
+                        });
+
+
+                    }
+
+
+
+
 
 
                     // document.querySelector("#modifyForm").submit();
@@ -446,6 +495,11 @@
         // let price = $('#priceInput').val();
         let price = parseInt($('#priceInput').val().replace(/,/g,""));
 
+        let startDate = $('#startDateInput').val();
+        let endDate = $('#endDateInput').val();
+        let currency = $('#currencySelect').val();
+
+
         // 제품 수정인 경우 해당 제품 삭제 후 변경사항 추가
         if (modifyFlag) {
             productPriceList.splice(modifyIndex,1);
@@ -461,7 +515,7 @@
             }
         }
         if (dupli == false) {
-            const productList = [productCode, productName, price];
+            const productList = [productCode, productName, price, startDate, endDate, currency];
             productPriceList.push(productList);
             let existListflag = "false";
             for (var i = 0; i<oldPriceList.length; i++) {
@@ -537,7 +591,7 @@
             + "<td id='prices"+num+"'>" + priceToString(productList[2]) + "</td>"
             + "<td style='width:160px;' class='btn-group'>"
             +    "<button type='button' class='btn btn-outline-warning btn-sm' style='border-radius: 7px; margin-right: 4px' onclick='modifyPrice(" + productPriceList.length + ")'>수정</button>"
-            +    "<button type='button' class='btn btn-outline-danger btn-sm' style='border-radius: 7px;' onclick='removePrice(" + productPriceList.length + ")'>삭제</button>"
+            // +    "<button type='button' class='btn btn-outline-danger btn-sm' style='border-radius: 7px;' onclick='removePrice(" + productPriceList.length + ")'>삭제</button>"
             + "</td>"
             + "</tr>"
         );
@@ -562,7 +616,30 @@
                 + "<td id='prices"+num+"'>" + priceToString(productPriceList[i][2]) + "</td>"
                 + "<td style='width: 160px;' class='btn-group'>"
                 +    "<button type='button' class='btn btn-outline-warning btn-sm' style='border-radius: 7px; margin-right: 4px' onclick='modifyPrice(" + productPriceList.length + ")'>수정</button>"
-                +    "<button type='button' class='btn btn-outline-danger btn-sm' style='border-radius: 7px; margin-right: 4px' onclick='removePrice(" + productPriceList.length + ")'>삭제</button>"
+                // +    "<button type='button' class='btn btn-outline-danger btn-sm' style='border-radius: 7px; margin-right: 4px' onclick='removePrice(" + productPriceList.length + ")'>삭제</button>"
+                + "</td>"
+                + "</tr>"
+            );
+        }
+    }
+
+    /* 제품 가격 리스트 조회 */
+    function getProductList(productPriceList) {
+        let tbody = $('#newPrice-table tbody');
+        var num = productPriceList.length;
+        tbody.empty(); //초기화
+        tbody.append("");
+        for (var i = 0; i < productPriceList.length; i++) {
+            let index = i + 1;
+            tbody.append(
+                "<tr>"
+                + "<td id='cnt'>" + index + "</td>"
+                + "<td id='product"+num+"'>" + productPriceList[i][0] + "</td>"
+                + "<td>" + productPriceList[i][1] + "</td>"
+                + "<td id='prices"+num+"'>" + priceToString(productPriceList[i][2]) + "</td>"
+                + "<td style='width: 160px;' class='btn-group'>"
+                +    "<button type='button' class='btn btn-outline-warning btn-sm' style='border-radius: 7px; margin-right: 4px' onclick='modifyPrice(" + productPriceList.length + ")'>수정</button>"
+                // +    "<button type='button' class='btn btn-outline-danger btn-sm' style='border-radius: 7px; margin-right: 4px' onclick='removePrice(" + productPriceList.length + ")'>삭제</button>"
                 + "</td>"
                 + "</tr>"
             );
@@ -596,7 +673,32 @@
 
         productPriceList.splice(index-1, 1);
         getProductList(productPriceList);
+        console.log(removeItemList);
     }
+
+    /* 제품 삭제 */
+    function remove(num) {
+        removeList.push(num);
+
+        // 상품 삭제일 경우에는 addItemList와 modifyItemList에서 삭제
+        for (var i = 0; i<addItemList.length; i++) {
+            if (addItemList[i][0] == removeList[0]) {
+                addItemList.splice(i, 1);
+                break;
+            }
+        }
+        for (var i = 0; i<modifyItemList.length; i++) {
+            if (modifyItemList[i][0] == removeList[0]) {
+                modifyItemList.splice(i, 1);
+                break;
+            }
+        }
+
+        productPriceList.splice(productPriceList.length-1, 1);
+        getProductList(productPriceList);
+        alert(removeList);
+    }
+
 
     /* 제품 수정 정보 가져오기*/
     function modifyPrice(index) {
