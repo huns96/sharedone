@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>가격 등록</title>
+    <title>판매가 등록</title>
     <link rel="stylesheet" type="text/css" media="screen" href="${pageContext.request.contextPath}/content/css/date.css">
     <link rel="stylesheet" type="text/css" media="screen" href="${pageContext.request.contextPath}/content/css/price.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
@@ -31,7 +31,7 @@
 </head>
 <body>
 <header>
-    <h4><b>가격 등록</b></h4>
+    <h4><b>판매가 등록</b></h4>
 </header>
 
 <form class="registerForm" id="registerForm" action="/price/register" method="post" enctype="multipart/form-data" style="margin: auto;  height: 664px;" >
@@ -44,18 +44,6 @@
             <div class="col-md-6 mb-3">
                 <label class="form-label">바이어명</label>
                 <input  id="buyerNameInput" class="form-control" required="required" type="text" name="buyer_name" placeholder="바이어 명"<%--data-bs-toggle="modal" data-bs-target="#buyerModal"--%> style="text-align: center; background-color: #e0e0e0" readonly>
-            </div>
-        </div>
-        <div class="mb-3 mx-4 row">
-            <div class="col">
-                <label class="form-label">시작일</label>
-                <input class="form-control datepicker" id="startDateInput" required="required" type="date" name="start_date" onchange="startDate()" value="0" style="text-align: center">
-            </div>
-        </div>
-        <div class="mb-3 mx-4 row">
-            <div class="col">
-                <label class="form-label">종료일</label>
-                <input class="form-control datepicker" id="endDateInput" required="required" type="date" name="end_date" onchange="endDate()" value="0" style="text-align: center">
             </div>
         </div>
         <div class="mb-3 mx-4 row">
@@ -73,6 +61,8 @@
         <br>
         <hr>
         <br>
+        <h5 style="font-weight:550; color:rgba(0,0,0,0.83); margin-left: 20px">- 바이어 제품별 판매가 등록 -</h5>
+        <br>
         <div class="mb-3 mx-4 row">
             <div class="col-md-6 mb-3">
                 <label class="form-label">제품코드</label>
@@ -84,15 +74,27 @@
             </div>
         </div>
         <div class="mb-3 mx-4 row">
+            <div class="col">
+                <label class="form-label">시작일</label>
+                <input class="form-control datepicker" id="startDateInput" required="required" type="date" name="start_date" onchange="startDate()" value="0" style="text-align: center">
+            </div>
+        </div>
+        <div class="mb-3 mx-4 row">
+            <div class="col">
+                <label class="form-label">종료일</label>
+                <input class="form-control datepicker" id="endDateInput" required="required" type="date" name="end_date" onchange="endDate()" value="0" style="text-align: center">
+            </div>
+        </div>
+        <div class="mb-3 mx-4 row">
             <div class="col-md-8 mb-3">
                 <label class="form-label">판매가</label>
                 <input class="form-control" id="priceInput" onkeyup="inputNumberFormat(this);" required="required" type="text" style="text-align: center" placeholder="-">
                 <input type="hidden" id="price" name="price">
             </div>
-            <div id="item-button" class="col-md-4 mb-3" style="position: absolute; right: 20px">
+            <div id="item-button" class="col-md-4 mb-3" style="position: absolute; right: 50px">
                 <label class="form-label"></label>
                 <button type="button" id="resetProductButton" class="btn btn-secondary">초기화</button>
-                <button type="button" id="addNewProductButton" class="btn btn-success">제품가격추가</button>
+                <button type="button" id="addNewProductButton" class="btn btn-success">제품판매가추가</button>
             </div>
         </div>
         <div id="tableDiv" class="row" style="float: contour">
@@ -103,6 +105,8 @@
                     <th>제품번호</th>
                     <th>제품명</th>
                     <th>가격</th>
+                    <th>시작일</th>
+                    <th>종료일</th>
                     <th style="width:207px"></th>
                 </tr>
                 </thead>
@@ -117,8 +121,8 @@
         <%--                <input class="btn btn-primary" type="submit" value="등록">--%>
     </div>
 
-    <footer style="float: right; justify-content: flex-end; position: relative; bottom: 10px; right: 32px">
-        <button type="button" id="registerSubmitButton" class="btn btn-primary">가격등록</button>
+    <footer style="float: right; justify-content: flex-end; margin-top:30px; position: relative; bottom: 10px; right: 32px">
+        <button type="button" id="registerSubmitButton" class="btn btn-primary">판매가 등록</button>
         <button type="button" class="btn btn-secondary" onclick="window.close();">취소</button>
     </footer>
 </form>
@@ -240,185 +244,194 @@
     //
     //
 
-    function buyerPopup() {
-        let url = "/price/sub/buyerPopup";
-        let popupWidth = 600;
-        let popupHeight = 500;
-        let popupX = (window.screen.width / 2) - (popupWidth / 2);
-        let popupY= (window.screen.height / 2) - (popupHeight / 2);
-        let popupOption = 'status=no, height=' + popupHeight  + ', width=' + popupWidth  + ', left='+ popupX + ', top='+ popupY;
-        window.open(url,"",popupOption);
-    }
-
-
-    <%--const ctx = "${pageContext.request.contextPath}";--%>
-
-    /* 제품 가격 추가 버튼 */
-    $('#addNewProductButton').click(function() {
-        let buyerCode = $.trim($('#buyerCodeInput').val());
-        $('#buyerCodeInput').attr('style','background-color: #e0e0e0; text-align : center');
-        // $('#buyerCodeInput').attr('disabled','disabled');
-        let startDate = $.trim($('#startDateInput').val());
-        $('#startDateInput').attr('style','background-color: #e0e0e0; text-align : center');
-        // $('#startDateInput').attr('disabled','disabled');
-        let endDate = $.trim($('#endDateInput').val());
-        $('#endDateInput').attr('style','background-color: #e0e0e0; text-align : center');
-        // $('#startDateInput').attr('disabled','disabled');
-        let currency = $.trim($('#currencySelect').val());
-        $('#currencySelect').attr('style','background-color: #e0e0e0; text-align : center');
-
-        let productCode = $.trim($('#productCodeInput').val());
-        /*let productName = $.trim($('#productNameInput').val());*/
-        let price = $.trim($('#priceInput').val());
-
-
-        if (buyerCode !== "" && startDate !== "" && endDate !== "" && currency != "") {
-            if (productCode != "" /*&& productName != ""*/ && price != "") {
-
-                const num = -1;
-                const buyer_code = document.querySelector("#buyerCodeInput").value;
-                const product_code = document.querySelector("#productCodeInput").value;
-                const start_date = document.querySelector("#startDateInput").value;
-                const end_date = document.querySelector("#endDateInput").value;
-
-                const data = {
-                    "num" : num,
-                    "buyer_code" : buyer_code,
-                    "product_code" : product_code,
-                    "start_date" : start_date,
-                    "end_date" : end_date
-                };
-
-                $.ajax({
-                    url : "/price/dateCheck",
-                    type : "post",
-                    data : JSON.stringify(data),
-                    dataType : 'json',
-                    contentType: "application/json",
-                    success : function(data) {
-                        if(data.check == "fail"){
-                            if($('#cnt').length){
-                                alert(data.message);
-                                document.querySelector("#productCodeInput").value = null;
-                                document.querySelector("#productNameInput").value = null;
-                                document.querySelector("#priceInput").value = null;
-                            } else {
-                                document.querySelector("#startDateInput").value = null;
-                                $('#startDateInput').attr('style', 'text-align : center');
-                                document.querySelector("#endDateInput").value = null;
-                                $('#endDateInput').attr('style', 'text-align : center');
-                                alert(data.message);
-                            }
-                        }
-                        else{
-                            addProduct();
-                        }
-                        console.log(data);
-                    },
-                    error : function() {
-                        alert("error");
-                    }
-                });
-
-
-                console.log(data);
-
-            }
-            if (productCode == "" /*|| productName == ""*/)  productPopup();
-            if (price == "") $('#priceInput').focus();
-
+        function buyerPopup() {
+            let url = "/price/sub/buyerPopup";
+            let popupWidth = 600;
+            let popupHeight = 500;
+            let popupX = (window.screen.width / 2) - (popupWidth / 2);
+            let popupY= (window.screen.height / 2) - (popupHeight / 2);
+            let popupOption = 'status=no, height=' + popupHeight  + ', width=' + popupWidth  + ', left='+ popupX + ', top='+ popupY;
+            window.open(url,"",popupOption);
         }
-        if (buyerCode == "")  buyerPopup();
-        if (currency == "") $('#currencySelect').focus();
-        if (endDate == "") $('#endDateInput').focus();
-        if (startDate == "") $('#startDateInput').focus();
-
-    });
-
-    /* 제품 가격 초기화 버튼 */
-    $('#resetProductButton').click(function() {
-        resetPriceInfo();
-    });
-
-    /* 가격 등록 전송 버튼 */
-    $('#registerSubmitButton').click(function() {
-        let buyerCode = $.trim($('#buyerCodeInput').val());
-        let startDate = $.trim($('#startDateInput').val());
-        let endDate = $.trim($('#endDateInput').val());
-        let currency = $.trim($('#currencySelect').val());
-
-        let productCode = $.trim($('#productCodeInput').val());
-        /*let productName = $.trim($('#productNameInput').val());*/
-        let price = $.trim($('#price').val());
 
 
-        var productCodeId;
-        var priceId;
-        if (buyerCode !== "" && startDate !== "" && endDate !== "" && currency != "") {
-            console.log(productPriceList.length);
-            if ($('#cnt').length) {
-                for(let i=1; i<=productPriceList.length; i++){
-                    productCodeId = "product" + i;
-                    priceId = "prices" + i;
-                    // let price = parseInt(document.getElementById(priceId).innerText.replace(/,/g,""))
-                    // console.log(price);
-                    // document.querySelector("#productCodeInput").value = document.getElementById(productCodeId).innerText;
-                    //
-                    // console.log(document.querySelector("#price"));
-                    // document.querySelector("#price").value = price;
-                    const buyer_code = document.getElementById("buyerCodeInput").value;
-                    const start_date = document.getElementById("startDateInput").value;
-                    const end_date = document.getElementById("endDateInput").value;
-                    const currency = document.getElementById("currencySelect").value;
+        <%--const ctx = "${pageContext.request.contextPath}";--%>
+
+        /* 제품 가격 추가 버튼 */
+        $('#addNewProductButton').click(function() {
+            let buyerCode = $.trim($('#buyerCodeInput').val());
+            $('#buyerCodeInput').attr('style','background-color: #e0e0e0; text-align : center');
+            // $('#buyerCodeInput').attr('disabled','disabled');
+            let startDate = $.trim($('#startDateInput').val());
+            // $('#startDateInput').attr('style','background-color: #e0e0e0; text-align : center');
+            // $('#startDateInput').attr('disabled','disabled');
+            let endDate = $.trim($('#endDateInput').val());
+            // $('#endDateInput').attr('style','background-color: #e0e0e0; text-align : center');
+            // $('#startDateInput').attr('disabled','disabled');
+            let currency = $.trim($('#currencySelect').val());
+            $('#currencySelect').attr('style','background-color: #e0e0e0; text-align : center');
+
+            let productCode = $.trim($('#productCodeInput').val());
+            /*let productName = $.trim($('#productNameInput').val());*/
+            let price = $.trim($('#priceInput').val());
 
 
-                    const product_code = document.getElementById(productCodeId).innerText;
-                    const price = parseInt(document.getElementById(priceId).innerText.replace(/,/g,""))
+            if (buyerCode !== "" && currency != "") {
+                if (productCode != "" /*&& productName != ""*/ && price != "" && startDate !== "" && endDate !== "") {
 
+                    const num = -1;
+                    const buyer_code = document.querySelector("#buyerCodeInput").value;
+                    const product_code = document.querySelector("#productCodeInput").value;
+                    const start_date = document.querySelector("#startDateInput").value;
+                    const end_date = document.querySelector("#endDateInput").value;
 
                     const data = {
+                        "num" : num,
                         "buyer_code" : buyer_code,
                         "product_code" : product_code,
                         "start_date" : start_date,
-                        "end_date" : end_date,
-                        "currency" : currency,
-                        "price" : price
+                        "end_date" : end_date
                     };
 
-                    console.log(data);
-
-
                     $.ajax({
-                        url : "/price/register",
+                        url : "/price/dateCheck",
                         type : "post",
                         data : JSON.stringify(data),
                         dataType : 'json',
                         contentType: "application/json",
                         success : function(data) {
+                            if(data.check == "fail"){
+                                if($('#cnt').length){
+                                    alert(data.message);
+                                    document.querySelector("#startDateInput").value = null;
+                                    document.querySelector("#endDateInput").value = null;
+                                } else {
+                                    document.querySelector("#startDateInput").value = null;
+                                    $('#startDateInput').attr('style', 'text-align : center');
+                                    document.querySelector("#endDateInput").value = null;
+                                    $('#endDateInput').attr('style', 'text-align : center');
+                                    alert(data.message);
+                                }
+                            }
+                            else{
+                                addProduct();
+                            }
                             console.log(data);
                         },
-                        error : (error) => {
-                            console.log(JSON.stringify(error));
+                        error : function() {
+                            alert("error");
                         }
                     });
 
 
-                    // document.querySelector("#registerForm").submit();
-                    // alert(i);
-                }
-                opener.parent.location.reload();
-                window.close();
-                // document.querySelector("#registerForm").submit();
-            }
-            // if (productCode == "" /*|| productName == ""*/)  productPopup();
-            // if (price == "") $('#priceInput').focus();
-        }
-        if (buyerCode == "")  buyerPopup();
-        if (currency == "") $('#currencySelect').focus();
-        if (endDate == "") $('#endDateInput').focus();
-        if (startDate == "") $('#startDateInput').focus();
+                    console.log(data);
 
-    });
+                }
+                if (productCode == "" /*|| productName == ""*/)  productPopup();
+                if (price == "") $('#priceInput').focus();
+                if (endDate == "") $('#endDateInput').focus();
+                if (startDate == "") $('#startDateInput').focus();
+
+            }
+            if (buyerCode == "")  buyerPopup();
+            if (currency == "") $('#currencySelect').focus();
+
+
+        });
+
+        /* 제품 가격 초기화 버튼 */
+        $('#resetProductButton').click(function() {
+            resetPriceInfo();
+        });
+
+        /* 가격 등록 전송 버튼 */
+        $('#registerSubmitButton').click(function() {
+            let buyerCode = $.trim($('#buyerCodeInput').val());
+            let startDate = $.trim($('#startDateInput').val());
+            let endDate = $.trim($('#endDateInput').val());
+            let currency = $.trim($('#currencySelect').val());
+
+            let productCode = $.trim($('#productCodeInput').val());
+            /*let productName = $.trim($('#productNameInput').val());*/
+            let price = $.trim($('#price').val());
+
+
+            var productCodeId;
+            var priceId;
+            var startDateId;
+            var endDateId;
+            if (buyerCode !== "" && startDate !== "" && endDate !== "" && currency != "") {
+                console.log(productPriceList.length);
+                if ($('#cnt').length) {
+                    for(let i=1; i<=productPriceList.length; i++){
+                        productCodeId = "product" + i;
+                        priceId = "prices" + i;
+                        startDateId = "start" + i;
+                        endDateId = "end" +i;
+                        // let price = parseInt(document.getElementById(priceId).innerText.replace(/,/g,""))
+                        // console.log(price);
+                        // document.querySelector("#productCodeInput").value = document.getElementById(productCodeId).innerText;
+                        //
+                        // console.log(document.querySelector("#price"));
+                        // document.querySelector("#price").value = price;
+                        const buyer_code = document.getElementById("buyerCodeInput").value;
+                        // const start_date = document.getElementById("startDateInput").value;
+                        // const end_date = document.getElementById("endDateInput").value;
+                        const currency = document.getElementById("currencySelect").value;
+
+
+                        const product_code = document.getElementById(productCodeId).innerText;
+                        const price = parseInt(document.getElementById(priceId).innerText.replace(/,/g,""))
+                        const start_date = document.getElementById(startDateId).innerText;
+                        const end_date = document.getElementById(endDateId).innerText;
+
+
+                        const data = {
+                            "buyer_code" : buyer_code,
+                            "product_code" : product_code,
+                            "start_date" : start_date,
+                            "end_date" : end_date,
+                            "currency" : currency,
+                            "price" : price
+                        };
+
+                        console.log(data);
+
+
+                        $.ajax({
+                            url : "/price/register",
+                            type : "post",
+                            data : JSON.stringify(data),
+                            dataType : 'json',
+                            contentType: "application/json",
+                            success : function(data) {
+                                console.log(data);
+                            },
+                            error : (error) => {
+                                console.log(JSON.stringify(error));
+                            }
+                        });
+
+
+                        // document.querySelector("#registerForm").submit();
+                        // alert(i);
+                    }
+                    setTimeout(function () {
+                        alert("등록이 완료되었습니다");
+                        opener.parent.location.reload();
+                        window.close();
+                    }, 100);
+                    // document.querySelector("#registerForm").submit();
+                }
+                // if (productCode == "" /*|| productName == ""*/)  productPopup();
+                // if (price == "") $('#priceInput').focus();
+            }
+            if (buyerCode == "")  buyerPopup();
+            if (currency == "") $('#currencySelect').focus();
+            if (endDate == "") $('#endDateInput').focus();
+            if (startDate == "") $('#startDateInput').focus();
+
+        });
 
     //
     // // 바이어 정보 추가
@@ -428,10 +441,13 @@
     // }
 
     // 제품 정보 추가
-    window.setProductInfo = function (productCode, productName,/* category,*/ price) {
+    window.setProductInfo = function (productCode, productName,/* category,*/ price, startDate, endDate) {
         $('#productCodeInput').val(productCode);
         $('#productNameInput').val(productName);
         $('#priceInput').val(price);
+        $('#startDateInput').val(startDate);
+        $('#endDateInput').val(endDate);
+
     }
 
 
@@ -442,6 +458,9 @@
         let productName = $('#productNameInput').val();
         // let price = $('#priceInput').val();
         let price = parseInt($('#priceInput').val().replace(/,/g,""));
+
+        let startDate = $('#startDateInput').val();
+        let endDate = $('#endDateInput').val();
 
         // 제품 수정인 경우 해당 제품 삭제 후 변경사항 추가
         if (modifyFlag) {
@@ -458,7 +477,7 @@
             }
         }
         if (dupli == false) {
-            const productList = [productCode, productName, price];
+            const productList = [productCode, productName, price, startDate, endDate];
             productPriceList.push(productList);
             productListInPopup(productList, productPriceList);
 
@@ -484,6 +503,8 @@
             + "<td id='product"+num+"'>" + productList[0] + "</td>"
             + "<td>" + productList[1] + "</td>"
             + "<td id='prices"+num+"'>" + priceToString(productList[2]) + "</td>"
+            + "<td id='start"+num+"'>" + productList[3] + "</td>"
+            + "<td id='end"+num+"'>" + productList[4] + "</td>"
             + "<td style='width:160px;' class='btn-group'>"
             +    "<button type='button' class='btn btn-outline-warning btn-sm' style='border-radius: 7px; margin-right: 4px' onclick='modifyPrice(" + productPriceList.length + ")'>수정</button>"
             +    "<button type='button' class='btn btn-outline-danger btn-sm' style='border-radius: 7px;' onclick='removePrice(" + productPriceList.length + ")'>삭제</button>"
@@ -509,6 +530,8 @@
                 + "<td id='product"+num+"'>" + productPriceList[i][0] + "</td>"
                 + "<td>" + productPriceList[i][1] + "</td>"
                 + "<td id='prices"+num+"'>" + priceToString(productPriceList[i][2]) + "</td>"
+                + "<td id='start"+num+"'>" + productPriceList[i][3] + "</td>"
+                + "<td id='end"+num+"'>" + productPriceList[i][4] + "</td>"
                 + "<td style='width: 160px;' class='btn-group'>"
                 +    "<button type='button' class='btn btn-outline-warning btn-sm' style='border-radius: 7px; margin-right: 4px' onclick='modifyPrice(" + productPriceList.length + ")'>수정</button>"
                 +    "<button type='button' class='btn btn-outline-danger btn-sm' style='border-radius: 7px; margin-right: 4px' onclick='removePrice(" + productPriceList.length + ")'>삭제</button>"
@@ -532,6 +555,8 @@
         $('#productCodeInput').val(list[0]);
         $('#productNameInput').val(list[1]);
         $('#priceInput').val(priceToString(list[2]));
+        $('#startDateInput').val(list[3]);
+        $('#endDateInput').val(list[4]);
         $('#productPopup').attr('style','background-color: #e0e0e0');
         modifyIndex = index;
         modifyFlag = true;
@@ -541,7 +566,7 @@
 
 
 
-    /* 제품입력창 초기화 */
+        /* 제품입력창 초기화 */
     function resetPriceInfo() {
         $('#productPopup').removeAttr('style','pointer-events:none;');
         $('#productCodeInput').val("");

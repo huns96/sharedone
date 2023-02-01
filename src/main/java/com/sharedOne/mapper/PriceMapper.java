@@ -33,7 +33,7 @@ public interface PriceMapper {
     List<ProductDto> listProduct(String type, String keyword);
 
 
-    void removePrices(PriceDto priceDto, int num);
+    void removePrices(PriceDto priceDto, String upduser, int num);
 
     int buyerCountAll(String keyword, String type);
 
