@@ -101,8 +101,8 @@ public class PriceController {
     @ResponseBody
     @PostMapping("delete")
     public void delete(
-            @Validated @RequestBody PriceDto priceDto,
-            @RequestParam(name = "removePrices", required = false) int[] removePrices,
+            @RequestParam(name = "removePrices", required = false) List<Integer> removePrices,
+            PriceDto priceDto,
             Principal principal,
             RedirectAttributes rttr
     ){
@@ -125,7 +125,7 @@ public class PriceController {
 
         System.out.print("remove:::"+priceDto);
 
-        priceService.delete(priceDto,removePrices);
+        priceService.remove(priceDto,removePrices);
 
     }
 

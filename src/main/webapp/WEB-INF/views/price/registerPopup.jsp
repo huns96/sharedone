@@ -414,8 +414,11 @@
                         // document.querySelector("#registerForm").submit();
                         // alert(i);
                     }
-                    opener.parent.location.reload();
-                    window.close();
+                    setTimeout(function () {
+                        alert("등록이 완료되었습니다");
+                        opener.parent.location.reload();
+                        window.close();
+                    }, 100);
                     // document.querySelector("#registerForm").submit();
                 }
                 // if (productCode == "" /*|| productName == ""*/)  productPopup();

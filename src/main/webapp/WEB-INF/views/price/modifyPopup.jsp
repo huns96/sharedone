@@ -96,6 +96,7 @@
                 <button type="button" id="addNewProductButton" class="btn btn-success">제품가격추가</button>
             </div>
         </div>
+        <input id="removeNum" type="hidden" name="removePrices">
         <div id="tableDiv" class="row" style="float: contour">
             <table class="table table-hover" id="newPrice-table" style="text-align:center">
                 <thead>
@@ -409,7 +410,9 @@
         var endId;
         if (buyerCode !== ""/* && startDate !== "" && endDate !== "" */&& currency != "") {
             console.log(productPriceList.length);
-            alert(removeList);
+            $("#removeNum").val(removeList);
+            let removePrices = $('#removeNum').val();
+            alert(removePrices + " = removePrices");
             const remove = {"removePrices" : removeList};
             console.log(removeList);
             console.log("remove"+remove);
@@ -417,19 +420,12 @@
                     url : "/price/delete",
                     type : "post",
                     // data : {"removePrices" : removeList},
-                    data : JSON.stringify(remove),
+                    data : remove,
                     // dataType : 'json',
-                    contentType: "application/json",
+                    // contentType: "application/json",
                     traditional: true,
                     success : function(result) {
-                        alert(JSON.stringify(remove));
-                        if (result) {
-                            // data 전달
-                            alert(result);
-                        } else {
-                            alert("Not Result");
-                        }
-
+                        console.log(result);
 
                     },
                     error: function( request, status, error){
@@ -484,8 +480,9 @@
                             data : JSON.stringify(add),
                             dataType : 'json',
                             contentType: "application/json",
-                            success : function(add) {
-                                console.log(add);
+                            success : function(result) {
+                                console.log(result);
+
                             },
                             error : (error) => {
                                 console.log(JSON.stringify(error));
@@ -512,8 +509,8 @@
                             data : JSON.stringify(data),
                             dataType : 'json',
                             contentType: "application/json",
-                            success : function(data) {
-                                console.log(data);
+                            success : function(result) {
+                                console.log(result);
                             },
                             error : (error) => {
                                 console.log(JSON.stringify(error));
@@ -537,9 +534,10 @@
             // if (productCode == "" /*|| productName == ""*/)  productPopup();
             // if (price == "") $('#priceInput').focus();
             setTimeout(function () {
+                alert("수정이 완료되었습니다");
                 opener.parent.location.reload();
                 window.close();
-            }, 1000);
+            }, 100);
             // opener.parent.location.reload();
             // window.close();
         }
