@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>가격 등록</title>
+    <title>판매가 등록</title>
     <link rel="stylesheet" type="text/css" media="screen" href="${pageContext.request.contextPath}/content/css/date.css">
     <link rel="stylesheet" type="text/css" media="screen" href="${pageContext.request.contextPath}/content/css/price.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
@@ -31,7 +31,7 @@
 </head>
 <body>
 <header>
-    <h4><b>가격 등록</b></h4>
+    <h4><b>판매가 등록</b></h4>
 </header>
 
 <form class="registerForm" id="registerForm" action="/price/register" method="post" enctype="multipart/form-data" style="margin: auto;  height: 664px;" >
@@ -61,6 +61,8 @@
         <br>
         <hr>
         <br>
+        <h5 style="font-weight:550; color:rgba(0,0,0,0.83); margin-left: 20px">- 바이어 제품별 판매가 등록 -</h5>
+        <br>
         <div class="mb-3 mx-4 row">
             <div class="col-md-6 mb-3">
                 <label class="form-label">제품코드</label>
@@ -89,10 +91,10 @@
                 <input class="form-control" id="priceInput" onkeyup="inputNumberFormat(this);" required="required" type="text" style="text-align: center" placeholder="-">
                 <input type="hidden" id="price" name="price">
             </div>
-            <div id="item-button" class="col-md-4 mb-3" style="position: absolute; right: 20px">
+            <div id="item-button" class="col-md-4 mb-3" style="position: absolute; right: 50px">
                 <label class="form-label"></label>
                 <button type="button" id="resetProductButton" class="btn btn-secondary">초기화</button>
-                <button type="button" id="addNewProductButton" class="btn btn-success">제품가격추가</button>
+                <button type="button" id="addNewProductButton" class="btn btn-success">제품판매가추가</button>
             </div>
         </div>
         <div id="tableDiv" class="row" style="float: contour">
@@ -119,8 +121,8 @@
         <%--                <input class="btn btn-primary" type="submit" value="등록">--%>
     </div>
 
-    <footer style="float: right; justify-content: flex-end; position: relative; bottom: 10px; right: 32px">
-        <button type="button" id="registerSubmitButton" class="btn btn-primary">가격등록</button>
+    <footer style="float: right; justify-content: flex-end; margin-top:30px; position: relative; bottom: 10px; right: 32px">
+        <button type="button" id="registerSubmitButton" class="btn btn-primary">판매가 등록</button>
         <button type="button" class="btn btn-secondary" onclick="window.close();">취소</button>
     </footer>
 </form>

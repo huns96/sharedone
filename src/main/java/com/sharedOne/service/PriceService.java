@@ -78,19 +78,6 @@ public class PriceService {
         mapper.remove(priceDto);
     }
 
-    public void delete(PriceDto priceDto, int[] removePrices) {
-        String upduser = priceDto.getUpduser();
-        if (removePrices != null)
-            for (int num : removePrices) {
-                System.out.print("removes::::"+upduser);
-                mapper.removePrices(priceDto, upduser, num);
-
-            };
-
-        mapper.remove(priceDto);
-    }
-
-
 
 
     public List<BuyerDto> searchBuyer(String type, String keyword, int page, PageInfo pageInfo) {
