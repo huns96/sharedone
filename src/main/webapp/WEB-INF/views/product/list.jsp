@@ -58,7 +58,7 @@
 
                 <input type="text" placeholder="search" name="keyword" class="form-control" id="searchId" value="${keyword}">
                 <button class="btn btn-dark" style="width: 100px; margin-right: 5px">검색</button>
-                <a type="button" class="btn btn-dark" style="width: 140px" href="/product/list">초기화</a>
+                <a type="button" class="btn btn-dark" style="width: 140px" href="${pageContext.request.contextPath}/product/list">초기화</a>
               </form>
               </td>
           </tr>

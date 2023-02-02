@@ -295,7 +295,7 @@
                                     </c:if>
 
                                     <c:if test="${pageInfo.hasPrevButton }">
-                                        <c:url value="${pageContext.request.contextPath}/report/work" var="listLink">
+                                        <c:url value="/report/work" var="listLink">
                                             <c:param name="page" value="${pageInfo.jumpPrevPageNumber }"></c:param>
                                         </c:url>
                                         <li class="page-item">
@@ -308,7 +308,7 @@
 
                                     <c:forEach begin="${pageInfo.leftPageNumber }" end="${pageInfo.rightPageNumber }"
                                                var="pageNumber">
-                                        <c:url value="${pageContext.request.contextPath}/report/work" var="listLink">
+                                        <c:url value="/report/work" var="listLink">
                                             <c:param name="order_code" value="${param.order_code }"/>
                                             <c:param name="buyer_code" value="${param.buyer_code }"/>
                                             <c:param name="status" value="${param.status }"/>
@@ -503,7 +503,7 @@
     });
 
     function productPopup() {
-        let url = "/report/productPopup";
+        let url = "${pageContext.request.contextPath}/report/productPopup";
         let popupWidth = 600;
         let popupHeight = 500;
         let popupX = (window.screen.width / 2) - (popupWidth / 2);
@@ -514,7 +514,7 @@
 
 
     function buyerPopup() {
-        let url = "/search/buyerPopup";
+        let url = "${pageContext.request.contextPath}/search/buyerPopup";
         let popupWidth = 600;
         let popupHeight = 500;
         let popupX = (window.screen.width / 2) - (popupWidth / 2);
@@ -524,7 +524,7 @@
     }
 
     function memberPopup() {
-        let url = "/search/memberPopup";
+        let url = "${pageContext.request.contextPath}/search/memberPopup";
         let popupWidth = 600;
         let popupHeight = 500;
         let popupX = (window.screen.width / 2) - (popupWidth / 2);
