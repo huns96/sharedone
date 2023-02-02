@@ -38,30 +38,14 @@
             height: 40%;
         }
 
-        .bottom {
-            height: 40%;
-        }
-
         h4 {
             font-weight: bold;
             margin-left: 20px;
         }
 
-        .search-label {
-            width: 90px;
-        }
-
-        .search-input {
-            width: 120px;
-        }
-
         .search-btn {
             width: 80px;
             float: right;
-        }
-
-        .btn-outline-secondary {
-
         }
 
         tr > .table-head {
@@ -77,23 +61,9 @@
             text-align: center;
         }
 
-        /*body { background-color: #e0e0e0; }*/
-        /*.page-background {*/
-        /*    background-color: white;*/
-        /*    padding: 10px;*/
-        /*    margin: 5px;*/
-        /*    border-radius: 5px;*/
-        /*}*/
-
         .hidden_col {
             display: none
         }
-
-        /*tfoot .my_table tfoot {padding-top:17px;padding-bottom:12px;word-spacing:9px;text-align:center;}*/
-        /*.my_table tfoot a:link {font-size:12px;color:#4F5B65;}*/
-        /*.my_table tfoot a:visited {font-size:12px;color:#4F5B65;}*/
-        /*.my_table tfoot a:active {font-size:12px;color:#4F5B65;}*/
-        /*.my_table tfoot a:hover {font-size:12px;color:#FA3333;}*/
 
         a {
             text-decoration: none;
@@ -112,7 +82,6 @@
             float: left;
             margin-right: 13px;
             margin-top: 6px;
-
         }
 
         #inputLabel {
@@ -146,8 +115,7 @@
     <div class="row flex-nowrap">
         <my:Sidebar></my:Sidebar>
         <div class="col" style="width: 80%; margin-right: 40px; margin-left: 40px; margin-top: 40px;">
-            <%--        <h3><a href="result">Report</a></h3>--%>
-            <%--        <p style="display: none">리포트</p>--%>
+
             <my:reportSearch></my:reportSearch>
 
             <div class="row">
@@ -156,10 +124,6 @@
                         <div id="order-list" class="page-background">
 
                             <table style="text-align: left">
-
-                                <%--<tr><td><b>&nbsp; 조회항목 선택 &nbsp; </b> <br>&nbsp;</td></tr>--%>
-
-
 
                                 <tr>
                                     <td><b>&nbsp; 조회항목 선택 &nbsp; </b>&nbsp;</td>
@@ -182,7 +146,7 @@
                                     <td><input type="checkbox" name="" value="" id="12">수정자아이디</td>
                                     <td><input type="checkbox" name="" value="" id="13">수정자명&nbsp;&nbsp;</td>
                                     <td><input type="checkbox" name="" value="" id="14">수정일시&nbsp;&nbsp;</td>
-                                    <td><input type="checkbox" name="" value="" id="15">전달사항&nbsp;&nbsp;</td>
+                                    <td><input type="checkbox" name="" value="" id="15">승인/반려 메모&nbsp;&nbsp;</td>
                                     <td><input type="checkbox" name="" value="" id="16">제품코드&nbsp;&nbsp;</td>
                                     <td><input type="checkbox" name="" value="" id="17" checked>제품명&nbsp;&nbsp;</td>
                                     <td><input type="checkbox" name="" value="" id="18" checked>수량&nbsp;&nbsp;</td>
@@ -226,7 +190,7 @@
                                     <th style="display: none">수정자 아이디</th>
                                     <th style="display: none">수정자명</th>
                                     <th style="display: none">수정일시</th>
-                                    <th style="display: none">전달사항</th>
+                                    <th style="display: none">승인/반려 메모</th>
                                     <th id="product_code" style="display: none">제품 코드</th>
                                     <th>제품명</th>
                                     <th id="quantity">수량</th>
@@ -459,17 +423,206 @@
         </div>
     </div>
 </div>
-<my:reportScript></my:reportScript>
 <script>
 
-    function searchOrders(){
-        let listLink ="${listLink}"
+
+    $(document).ready(function () {
+        /* 탭 클릭 */
+        $('.anchor_tab li a').on('click', function () {
+            var anchorId = $(this).attr('data-anchor');
+            // 스크롤 이동
+            scroll_to_anchor_tab(anchorId);
+        });
+    });
+
+    // 탭 이동 - 부드러운 스크롤
+    function scroll_to_anchor_tab(anchor_id, speed) {
+        if (!speed) var speed = 'slow';
+        var a_tag = $("#" + anchor_id);
+        if (a_tag.length > 0) {
+            $('html, body').animate({
+                scrollTop: a_tag.offset().top - $('').height() - $('').height() // 상단에 특정 위치를 제외하고 스크롤할때 해당 이름 작성
+            }, speed);
+        }
+    }
+
+
+    $(document).ready(function () {
+        let sumCondition = '${searchOrders.sumCondition}';
+        let radioId
+        let status = '${searchOrders.status}'
+        if (sumCondition === 'year(h.request_date)') {
+            radioId = 'sumCondition_year'
+        }
+        if (sumCondition === 'quarter(h.request_date)') {
+            radioId = 'sumCondition_quarter'
+        }
+        if (sumCondition === 'month(h.request_date)') {
+            radioId = 'sumCondition_month'
+        }
+        if (sumCondition === 'week(h.request_date)') {
+            radioId = 'sumCondition_week'
+        }
+        if (sumCondition === 'b.name') {
+            radioId = 'sumCondition_buyer'
+        }
+        if (sumCondition === 'addm.name') {
+            radioId = 'sumCondition_addm'
+        }
+        if (sumCondition === 'h.status') {
+            radioId = 'sumCondition_status'
+        }
+        $('#' + radioId).prop("checked", true);
+        console.log(radioId + ' : radioId')
+    })
+
+
+    window.setBuyerInfo = function (buyerCode, buyerName) {
+        $('#setBuyerCode').val(buyerCode);
+        $('#setBuyerName').val(buyerName);
+    }
+
+    window.setProduct = function (productCode, productName) {
+        $('#setProductCode').val(productCode);
+        $('#setProductName').val(productName);
+    }
+    window.setMemberInfo = function (adduserId, adduserName) {
+        $('#setAdduserId').val(adduserId);
+        $('#setAdduserName').val(adduserName);
+    }
+
+    $('#buyerPopupButton').click(function () {
+        buyerPopup();
+    });
+
+    $('#productPopupButton').click(function () {
+        productPopup();
+    });
+    $('#memberPopupButton').click(function () {
+        memberPopup();
+    });
+
+    function productPopup() {
+        let url = "/report/productPopup";
+        let popupWidth = 600;
+        let popupHeight = 500;
+        let popupX = (window.screen.width / 2) - (popupWidth / 2);
+        let popupY = (window.screen.height / 2) - (popupHeight / 2);
+        let popupOption = 'status=no, height=' + popupHeight + ', width=' + popupWidth + ', left=' + popupX + ', top=' + popupY;
+        window.open(url, "", popupOption);
+    }
+
+
+    function buyerPopup() {
+        let url = "/search/buyerPopup";
+        let popupWidth = 600;
+        let popupHeight = 500;
+        let popupX = (window.screen.width / 2) - (popupWidth / 2);
+        let popupY = (window.screen.height / 2) - (popupHeight / 2);
+        let popupOption = 'status=no, height=' + popupHeight + ', width=' + popupWidth + ', left=' + popupX + ', top=' + popupY;
+        window.open(url, "", popupOption);
+    }
+
+    function memberPopup() {
+        let url = "/search/memberPopup";
+        let popupWidth = 600;
+        let popupHeight = 500;
+        let popupX = (window.screen.width / 2) - (popupWidth / 2);
+        let popupY = (window.screen.height / 2) - (popupHeight / 2);
+        let popupOption = 'status=no, height=' + popupHeight + ', width=' + popupWidth + ', left=' + popupX + ', top=' + popupY;
+        window.open(url, "", popupOption);
+    }
+
+
+    if ('${message}' != '')
+        alert('${message}');
+
+
+    $(document).ready(function () {
+        for (var i = 1; i < 21; i++) {
+            $('#' + i).change(function () {
+                $('#ordersTable td:nth-child(' + this.id + '),th:nth-child(' + this.id + ')').toggle();
+            })
+        }
+    })
+
+
+    $(document).ready(function () {
+        $('#ordersTable th').each(function (column) {
+            $(this).click(function () {
+                if ($(this).is('.asc')) {
+                    $(this).removeClass('asc');
+                    $(this).addClass('desc');
+                    sortdir = -1;
+
+                } else {
+                    $(this).addClass('asc');
+                    $(this).removeClass('desc');
+                    sortdir = 1;
+                }
+
+                $(this).siblings().removeClass('asc');
+                $(this).siblings().removeClass('desc');
+
+                var rec = $('#ordersTable').find('tbody>tr').get();
+                console.log(rec)
+                console.log()
+                rec.sort(function (a, b) {
+                    var val1 = $(a).children('td').eq(column).text().toUpperCase();
+                    var val2 = $(b).children('td').eq(column).text().toUpperCase();
+                    return (val1 < val2) ? -sortdir : (val1 > val2) ? sortdir : 0;
+                });
+
+                $.each(rec, function (index, row) {
+                    $('#ordersTable tbody ').append(row);
+                });
+            });
+        });
+    });
+
+
+    function searchOrderCode() {
+        console.log("jsp 서치오더코드")
+        // const boardId = document.querySelector("#boardId").value;
+        const partOfOrderCode = document.querySelector("#inputOrderCode").value;
+        console.log(partOfOrderCode)
+
+        // console.log(data) 인풋데이터 받아짐
+        fetch("${pageContext.request.contextPath}/report/search/order_code", {
+            method: "post",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(partOfOrderCode)
+        })
+            .then(res => res.json())
+            .then(
+                function (변수2) {
+                    console.log(변수2);
+                    for (const i of 변수2) {
+                        console.log(i)
+                        const orderCodesData = `<input type="checkbox" name="order_code" value="\${i}">`
+                        console.log(orderCodesData)
+                        document.querySelector("#orderCodes").innerHTML = orderCodesData;
+                    }
+                })
+    }
+
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+        crossorigin="anonymous"></script>
+<script>
+
+    function searchOrders() {
+        let listLink = "${listLink}"
         fetch(listLink, {
-            method:"post",
-        }).then(response  => {
+            method: "post",
+        }).then(response => {
             return response.json();
 
-        }).then(data=>{
+        }).then(data => {
 
         })
     }
