@@ -208,7 +208,7 @@
 
         /* 바이어 검색 팝업창 */
         function buyerPopup() {
-            let url = "/search/buyerPopup";
+            let url = "${pageContext.request.contextPath}/search/buyerPopup";
             let popupWidth = 600;
             let popupHeight = 500;
             let popupX = (window.screen.width / 2) - (popupWidth / 2);
@@ -225,7 +225,7 @@
         /* 상품 검색 팝업창 */
         function itemPopup() {
             resetItemInfo();
-            let url = "/search/productPopup?buyer_code=" + $('#buyerCode').val()
+            let url = "${pageContext.request.contextPath}/search/productPopup?buyer_code=" + $('#buyerCode').val()
                         + "&request_date=" + $('#requestDate').val();
             let popupWidth = 600;
             let popupHeight = 500;
@@ -361,7 +361,7 @@
             let queryString = $(".orderInfo").serialize();
             $.ajax({
                 type: 'POST',
-                url: '/order/register',
+                url: '${pageContext.request.contextPath}/order/register',
                 data: queryString,
                 success: function (data) {
                     //console.log(data);
@@ -371,7 +371,7 @@
                     };
                     $.ajax({
                         type: 'POST',
-                        url: '/order/registerItem',
+                        url: '${pageContext.request.contextPath}/order/registerItem',
                         data: objParams,
                         dataType : 'json',
                         traditional: true,

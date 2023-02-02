@@ -185,7 +185,7 @@
     });
 
     function buyerPopup() {
-        let url = "/price/sub/buyerPopup";
+        let url = "${pageContext.request.contextPath}/price/sub/buyerPopup";
         let popupWidth = 600;
         let popupHeight = 500;
         let popupX = (window.screen.width / 2) - (popupWidth / 2);
@@ -195,7 +195,7 @@
     }
 
     function productPopup() {
-        let url = "/price/sub/productPopup";
+        let url = "${pageContext.request.contextPath}/price/sub/productPopup";
         let popupWidth = 600;
         let popupHeight = 500;
         let popupX = (window.screen.width / 2) - (popupWidth / 2);
@@ -241,7 +241,7 @@
     //
 
     function buyerPopup() {
-        let url = "/price/sub/buyerPopup";
+        let url = "${pageContext.request.contextPath}/price/sub/buyerPopup";
         let popupWidth = 600;
         let popupHeight = 500;
         let popupX = (window.screen.width / 2) - (popupWidth / 2);
@@ -290,7 +290,7 @@
                 };
 
                 $.ajax({
-                    url : "/price/dateCheck",
+                    url : "${pageContext.request.contextPath}/price/dateCheck",
                     type : "post",
                     data : JSON.stringify(data),
                     dataType : 'json',
@@ -389,7 +389,7 @@
 
 
                     $.ajax({
-                        url : "/price/register",
+                        url : "${pageContext.request.contextPath}/price/register",
                         type : "post",
                         data : JSON.stringify(data),
                         dataType : 'json',

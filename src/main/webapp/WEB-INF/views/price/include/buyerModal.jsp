@@ -257,7 +257,7 @@
 
     $.ajax({
       type: 'get',
-      url: '/price/priceList',
+      url: '${pageContext.request.contextPath}/price/priceList',
       data: {"t" : t, "q" : q},
       dataType: 'json',
       traditional: true,

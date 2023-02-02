@@ -59,7 +59,7 @@
 
         <div class="col">
             <div class="search page-background" >
-                <form action="/member/list" method="get" style="margin: 0;">
+                <form action="${pageContext.request.contextPath}/member/list" method="get" style="margin: 0;">
                 <input class="form-control" type="text" name="q" value="${param.q}" style="width: 200px; display: inline; margin-left: 16px;" placeholder="통합검색">
                 <button class="btn btn-dark" style="margin-bottom: 4px;">검색</button>
                 </form>
@@ -116,7 +116,7 @@
                     <nav aria-label="Page navigation example">
                         <ul class="pagination">
                             <li class="page-item">
-                                <c:url value="/member/list" var="pageLink"></c:url>
+                                <c:url value="${pageContext.request.contextPath}/member/list" var="pageLink"></c:url>
                                 <a class="page-link" href="${pageLink }?page=1&q=${param.q}" aria-label="Previous">
                                     <span aria-hidden="true">&laquo;</span>
                                 </a>
@@ -234,9 +234,9 @@
                 <br>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
                 <input id="authoChangeBtn" type="submit" class="btn btn-primary" value="권한추가"
-                       formaction="/member/setAutho"></input>
+                       formaction="${pageContext.request.contextPath}/member/setAutho"></input>
                 <input id="authoDeleteBtn" type="submit" class="btn btn-danger" value="권한삭제"
-                       formaction="/member/deleteAutho"></input>
+                       formaction="${pageContext.request.contextPath}/member/deleteAutho"></input>
                 </form>
             </div>
         </div>
@@ -252,7 +252,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="/member/modifyMember" method="post" id="modiForm">
+                <form action="${pageContext.request.contextPath}/member/modifyMember" method="post" id="modiForm">
                     <table class="table">
                         <thead>
                         <tr>
@@ -306,7 +306,7 @@
             </div>
             <div class="modal-body">
                 회원 정보를 삭제하시겠습니까?
-                <form action="/member/deleteMember" method="post" id="delForm">
+                <form action="${pageContext.request.contextPath}/member/deleteMember" method="post" id="delForm">
                     <input id="deleId" type="hidden" name="user_id">
                 </form>
             </div>
@@ -407,7 +407,7 @@
 
     /*회원등록 버튼 클릭시 팝업창*/
     $('.addMemberbtn').click(function() {
-        let url = "/member/addMembers";
+        let url = "${pageContext.request.contextPath}/member/addMembers";
         let popupWidth = 800;
         let popupHeight = 800;
         let popupX = (window.screen.width / 2) - (popupWidth / 2);

@@ -215,7 +215,7 @@
     /* 상품 검색 팝업창 */
     function itemPopup() {
         resetItemInfo();
-        let url = "/search/productPopup?buyer_code=" + $('#buyerCode').val()
+        let url = "${pageContext.request.contextPath}/search/productPopup?buyer_code=" + $('#buyerCode').val()
             + "&request_date=" + $('#requestDate').val().replaceAll("-", "");
         let popupWidth = 600;
         let popupHeight = 500;
@@ -430,7 +430,7 @@
         console.log(modifyItemList);*/
         $.ajax({
             type: 'POST',
-            url: '/order/modify',
+            url: '${pageContext.request.contextPath}/order/modify',
             data: queryString,
             success: function (data) {
                 console.log(data);
@@ -442,7 +442,7 @@
                 };
                 $.ajax({
                     type: 'POST',
-                    url: '/order/modifyItem',
+                    url: '${pageContext.request.contextPath}/order/modifyItem',
                     data: objParams,
                     dataType : 'json',
                     traditional: true,

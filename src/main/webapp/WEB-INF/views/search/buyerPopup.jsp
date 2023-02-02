@@ -31,7 +31,7 @@
 <body>
 <div id="buyerPopup">
     <h5><b>바이어 목록</b></h5>
-    <form action="/search/buyerPopup" role="search" style="display: flex; margin: 20px 0;">
+    <form action="${pageContext.request.contextPath}/search/buyerPopup" role="search" style="display: flex; margin: 20px 0;">
         <select name="type" id="searchTypeSelect" class="form-select search-select">
             <%--<option value="all"></option>--%>
             <option value="buyer_code" ${param.type == 'buyer_code' ? 'selected' : '' }>바이어코드</option>
@@ -76,7 +76,7 @@
             <nav aria-label="Page navigation example">
                 <ul class="pagination pagination-sm">
                     <li class="page-item">
-                        <c:url value="/search/buyerPopup" var="pageLink">
+                        <c:url value="${pageContext.request.contextPath}/search/buyerPopup" var="pageLink">
                             <c:param name="type" value="${param.type }" />
                             <c:param name="value" value="${param.value }" />
                         </c:url>

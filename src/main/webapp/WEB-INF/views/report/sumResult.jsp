@@ -250,7 +250,7 @@
 
                                 <%-- 맨앞 버튼은 1페이지가 아니면 존재함 --%>
                                 <c:if test="${pageInfo.currentPageNumber ne 1 }">
-                                    <c:url value="/report/work" var="listLink">
+                                    <c:url value="${pageContext.request.contextPath}/report/work" var="listLink">
                                         <c:param name="page" value="1"/>
                                         <c:param name="order_code" value="${param.order_code }"/>
                                         <c:param name="buyer_code" value="${param.buyer_code }"/>
@@ -274,7 +274,7 @@
                                 </c:if>
 
                                 <c:if test="${pageInfo.hasPrevButton }">
-                                    <c:url value="/report/work" var="listLink">
+                                    <c:url value="${pageContext.request.contextPath}/report/work" var="listLink">
                                         <c:param name="page" value="${pageInfo.jumpPrevPageNumber }"></c:param>
                                     </c:url>
                                     <li class="page-item">
@@ -287,7 +287,7 @@
 
                                 <c:forEach begin="${pageInfo.leftPageNumber }" end="${pageInfo.rightPageNumber }"
                                            var="pageNumber">
-                                    <c:url value="/report/work" var="listLink">
+                                    <c:url value="${pageContext.request.contextPath}/report/work" var="listLink">
                                         <c:param name="order_code" value="${param.order_code }"/>
                                         <c:param name="buyer_code" value="${param.buyer_code }"/>
                                         <c:param name="status" value="${param.status }"/>
@@ -314,7 +314,7 @@
                                 </c:forEach>
 
                                 <c:if test="${pageInfo.hasNextButton }">
-                                    <c:url value="/report/work" var="listLink">
+                                    <c:url value="${pageContext.request.contextPath}/report/work" var="listLink">
                                         <c:param name="page" value="${pageInfo.jumpNextPageNumber }"></c:param>
                                         <c:param name="order_code" value="${param.order_code }"/>
                                         <c:param name="buyer_code" value="${param.buyer_code }"/>
@@ -338,7 +338,7 @@
 
 
                                 <c:if test="${pageInfo.currentPageNumber ne pageInfo.lastPageNumber }">
-                                    <c:url value="/report/work" var="listLink">
+                                    <c:url value="${pageContext.request.contextPath}/report/work" var="listLink">
                                         <c:param value="${pageInfo.lastPageNumber }" name="page"/>
                                         <c:param name="order_code" value="${param.order_code }"/>
                                         <c:param name="buyer_code" value="${param.buyer_code }"/>

@@ -119,7 +119,7 @@
         var objParams = {"param" : buyerItemList};
         $.ajax({
             type: 'POST',
-            url: '/buyer/register',
+            url: '${pageContext.request.contextPath}/buyer/register',
             data: objParams,
             traditional: true,
             data_type : 'JSON',

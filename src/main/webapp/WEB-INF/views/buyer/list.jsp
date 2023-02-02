@@ -60,7 +60,7 @@
 
                                 <input type="text" placeholder="search" name="keyword" class="form-control" value="${keyword}">
                                 <button class="btn btn-dark" style="width: 100px; margin-right: 5px">검색</button>
-                                <a type="button" class="btn btn-dark" style="width: 140px" href="/buyer/list">초기화</a>
+                                <a type="button" class="btn btn-dark" style="width: 140px" href="${pageContext.request.contextPath}/buyer/list">초기화</a>
                             </form>
                         </td>
                     </tr>
@@ -243,7 +243,7 @@
                             <nav aria-label="Page navigation example">
                                 <ul class="pagination">
                                     <li class="page-item">
-                                        <c:url value="/buyer/list" var="pageLink"></c:url>
+                                        <c:url value="${pageContext.request.contextPath}/buyer/list" var="pageLink"></c:url>
                                         <a class="page-link" href="${pageLink }?page=1" aria-label="Previous">
                                             <span aria-hidden="true">&laquo;</span>
                                         </a>
@@ -267,7 +267,7 @@
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h1 class="modal-title fs-5" id="modalModify">}정보 수정</h1>
+                                    <h1 class="modal-title fs-5" id="modalModify">정보 수정</h1>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
@@ -500,7 +500,7 @@
         }
 
         function regiBuyer(){
-            let url = "/buyer/registerBuyer";
+            let url = "${pageContext.request.contextPath}/buyer/registerBuyer";
             let popupWidth = 700;
             let popupHeight = 800;
             let popupX = (window.screen.width / 2) - (popupWidth / 2);

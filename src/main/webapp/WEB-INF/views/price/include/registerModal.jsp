@@ -110,7 +110,7 @@
 <script>
 
     function buyerPopup() {
-        let url = "/price/sub/buyerPopup";
+        let url = "${pageContext.request.contextPath}/price/sub/buyerPopup";
         let popupWidth = 600;
         let popupHeight = 500;
         let popupX = (window.screen.width / 2) - (popupWidth / 2);
@@ -120,7 +120,7 @@
     }
 
     function productPopup() {
-        let url = "/price/sub/productPopup";
+        let url = "${pageContext.request.contextPath}/price/sub/productPopup";
         let popupWidth = 600;
         let popupHeight = 500;
         let popupX = (window.screen.width / 2) - (popupWidth / 2);

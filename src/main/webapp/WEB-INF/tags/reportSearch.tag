@@ -117,7 +117,7 @@
                     <%--                    <input type="radio" name="sumCondition" value="category" /> 카테고리별--%>
 
                     <input class="btn btn-dark" type="submit" value="조회" style="float:right;margin-right: 98px">
-                    <a href="/report/work?order_code=%22%22" class="btn btn-secondary search-btn"
+                    <a href="${pageContext.request.contextPath}/report/work?order_code=%22%22" class="btn btn-secondary search-btn"
                        style="margin-right: 8px"> 초기화</a>
                     <br> &nbsp;
 

@@ -31,7 +31,7 @@
 <body>
 <div id="memberPopup">
     <h5><b>멤버 목록</b></h5>
-    <form action="/search/memberPopup" role="search" style="display: flex; margin: 20px 0;">
+    <form action="${pageContext.request.contextPath}/search/memberPopup" role="search" style="display: flex; margin: 20px 0;">
         <select name="type" id="searchTypeSelect" class="form-select search-select">
             <%--<option value="all"></option>--%>
             <option value="user_id" ${param.type == 'user_id' ? 'selected' : '' }>멤버코드</option>
@@ -76,7 +76,7 @@
             <nav aria-label="Page navigation example">
                 <ul class="pagination pagination-sm">
                     <li class="page-item">
-                        <c:url value="/search/memberPopup" var="pageLink">
+                        <c:url value="${pageContext.request.contextPath}/search/memberPopup" var="pageLink">
                             <c:param name="type" value="${param.type }" />
                             <c:param name="value" value="${param.value }" />
                         </c:url>

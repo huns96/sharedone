@@ -52,6 +52,12 @@
                             <button class="btn btn-primary" type="submit">로그인</button>
                         </div>
                     </form>
+                    <div style="color: white; font-size: 20px;">
+                        <span>팀장 ID : member001</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>팀장 PWD : 123</span>
+                    </div>
+                    <div style="color: white; font-size: 20px;">
+                        <span>팀원 ID : member002</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>팀원 PWD : 123</span>
+                    </div>
                 </div>
             </div>
         </c:if>

@@ -32,7 +32,7 @@
 <body>
 <div id="productPopup">
     <h4><b>상품 목록</b></h4>
-    <form id="searchFrom" action="/search/productPopup" role="search" style="display: flex; margin: 20px 0;">
+    <form id="searchFrom" action="${pageContext.request.contextPath}/search/productPopup" role="search" style="display: flex; margin: 20px 0;">
         <select name="type" id="searchTypeSelect" class="form-select search-select">
             <%--<option value="all"></option>--%>
             <option value="product_code" ${param.type == 'product_code' ? 'selected' : '' }>상품코드</option>
@@ -83,7 +83,7 @@
             <nav aria-label="Page navigation example">
                 <ul class="pagination pagination-sm">
                     <li class="page-item">
-                        <c:url value="/search/productPopup" var="pageLink">
+                        <c:url value="${pageContext.request.contextPath}/search/productPopup" var="pageLink">
                             <c:param name="buyer_code" value="${param.buyer_code }" />
                             <c:param name="request_date" value="${param.request_date }" />
                             <c:param name="type" value="${param.type }" />

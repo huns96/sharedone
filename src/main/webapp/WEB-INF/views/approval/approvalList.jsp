@@ -80,7 +80,7 @@
             <div class="row">
                 <div class="col">
                     <div id="search" class="page-background">
-                        <form action="/approval/approvalList" role="search" style="display: flex;" >
+                        <form action="${pageContext.request.contextPath}/approval/approvalList" role="search" style="display: flex;" >
                             <label class="form-label search-label">주문번호</label>
                             <input id="orderCode" class="form-control search-input" type="text" name="orderCode" value="${param.orderCode}">
 
@@ -199,7 +199,7 @@
                                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                             </div>
                                                             <div class="modal-body">
-                                                                <form id="returnForm" action="/approval/returnModify" method="post">
+                                                                <form id="returnForm" action="${pageContext.request.contextPath}/approval/returnModify" method="post">
                                                                     <input type="hidden" name="num" value="${order.num}">
                                                                     <label class="form-label">반려사유</label>
                                                                     <textarea rows="5" class="form-control" name="comment"></textarea>
@@ -222,7 +222,7 @@
                                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                             </div>
                                                             <div class="modal-body">
-                                                                <form id="approvalForm" action="/approval/approvalModify" method="post">
+                                                                <form id="approvalForm" action="${pageContext.request.contextPath}/approval/approvalModify" method="post">
                                                                     <input type="hidden" name="num" value="${order.num}">
                                                                     <label class="form-label">승인 Comment</label>
                                                                     <br>
@@ -257,7 +257,7 @@
                                     <nav aria-label="Page navigation example">
                                         <ul class="pagination pagination-sm">
                                             <li class="page-item">
-                                                <c:url value="/approval/approvalList" var="pageLink">
+                                                <c:url value="${pageContext.request.contextPath}/approval/approvalList" var="pageLink">
                                                     <c:param name="orderCode" value="${param.orderCode }" />
                                                     <c:param name="buyerCode" value="${param.buyerCode }" />
                                                     <c:param name="status" value="${param.status }" />
@@ -368,7 +368,7 @@
         setTimeout(function () {
             $.ajax({
                 type: 'POST',
-                url: '/approval/itemList',
+                url: '${pageContext.request.contextPath}/approval/itemList',
                 data: {
                     "orderCode": orderCode,
                     "requestDate": requestDate

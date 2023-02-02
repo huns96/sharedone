@@ -88,7 +88,7 @@
         <div class="row">
             <div class="col">
                 <div id="search" class="page-background">
-                    <form action="/order/orderManagement" role="search" style="display: flex;" >
+                    <form action="${pageContext.request.contextPath}/order/orderManagement" role="search" style="display: flex;" >
                         <label class="form-label search-label">주문번호</label>
                         <input id="orderCode" class="form-control search-input" type="text" name="orderCode" value="${param.orderCode}">
 
@@ -206,7 +206,7 @@
                                 <nav aria-label="Page navigation example">
                                     <ul class="pagination pagination-sm">
                                         <li class="page-item">
-                                            <c:url value="/order/orderManagement" var="pageLink">
+                                            <c:url value="${pageContext.request.contextPath}/order/orderManagement" var="pageLink">
                                                 <c:param name="orderCode" value="${param.orderCode }" />
                                                 <c:param name="buyerCode" value="${param.buyerCode }" />
                                                 <c:param name="status" value="${param.status }" />
@@ -375,7 +375,7 @@
         setTimeout(function () {
             $.ajax({
                 type: 'POST',
-                url: '/order/itemList',
+                url: '${pageContext.request.contextPath}/order/itemList',
                 data: {
                     "orderCode": orderCode,
                     "requestDate": requestDate
@@ -430,7 +430,7 @@
 
     /* 바이어 검색 팝업창 */
     function buyerPopup() {
-        let url = "/search/buyerPopup";
+        let url = "${pageContext.request.contextPath}/search/buyerPopup";
         let popupWidth = 600;
         let popupHeight = 500;
         let popupX = (window.screen.width / 2) - (popupWidth / 2);
@@ -446,7 +446,7 @@
 
     /* 멤버 검색 팝업창 */
     function memberPopup() {
-        let url = "/search/memberPopup";
+        let url = "${pageContext.request.contextPath}/search/memberPopup";
         let popupWidth = 600;
         let popupHeight = 500;
         let popupX = (window.screen.width / 2) - (popupWidth / 2);
@@ -464,7 +464,7 @@
 
     /* 새 주문 등록 팝업창 */
     function newOrderPopup() {
-        let url = "/order/orderRegister";
+        let url = "${pageContext.request.contextPath}/order/orderRegister";
         let popupWidth = 800;
         let popupHeight = 800;
         let popupX = (window.screen.width / 2) - (popupWidth / 2);
@@ -475,7 +475,7 @@
 
     /* 주문 수정 팝업창 */
     function modifyOrderPopup(orderCode, requestDate) {
-        let url = "/order/orderModify?orderCode=" + orderCode + "&&requestDate=" + requestDate.replaceAll("-","");
+        let url = "${pageContext.request.contextPath}/order/orderModify?orderCode=" + orderCode + "&&requestDate=" + requestDate.replaceAll("-","");
         let popupWidth = 800;
         let popupHeight = 800;
         let popupX = (window.screen.width / 2) - (popupWidth / 2);
@@ -500,7 +500,7 @@
     function changeStatus() {
         $.ajax({
             type: 'POST',
-            url: '/order/changeStatus',
+            url: '${pageContext.request.contextPath}/order/changeStatus',
             data: {
                 "status": newStatusValue,
                 "orderCode": orderCodeValue

@@ -8,7 +8,7 @@
 <body>
 <script type="text/javascript">
     var message = "${errMsg}";
-    var url = "${url}";
+    var url = `${pageContext.request.contextPath}` + `${url}`;
     alert(message);
     document.location.href = url;
 </script>

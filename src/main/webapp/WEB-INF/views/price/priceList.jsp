@@ -248,7 +248,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
                       <div class="modal-body">
-                        <form id="removeForm" action="/price/remove" method="post">
+                        <form id="removeForm" action="${pageContext.request.contextPath}/price/remove" method="post">
                           <input type="hidden" name="num" value="${price.num}">
                           삭제하시겠습니까?
                       </div>
@@ -272,33 +272,33 @@
               <ul class="pagination justify-content-center">
                 <c:if test="${pageInfo.currentPageNumber != 1 }">
                   <li class="page-item">
-                    <a class="page-link" href="/price/priceList?page=1" aria-label="first" style="height:100%;">
+                    <a class="page-link" href="${pageContext.request.contextPath}/price/priceList?page=1" aria-label="first" style="height:100%;">
                       <span aria-hidden="true"><%--<i class="fa-solid fa-angles-left"></i>--%>&laquo;</span>
                     </a>
                   </li>
                 </c:if>
                 <c:if test="${pageInfo.leftPageNumber != 1 }">
                   <li class="page-item">
-                    <a class="page-link" href="/price/priceList?page=${pageInfo.currentPageNumber-1}" aria-label="left" style="height: 100%">
+                    <a class="page-link" href="${pageContext.request.contextPath}/price/priceList?page=${pageInfo.currentPageNumber-1}" aria-label="left" style="height: 100%">
                       <span aria-hidden="true"><%--<i class="fa-solid fa-angle-left"></i>--%>&lt;</span>
                     </a>
                   </li>
                 </c:if>
                 <c:forEach begin="${pageInfo.leftPageNumber}" end="${pageInfo.rightPageNumber }" var="pageNumber">
                   <li class="page-item ${pageInfo.currentPageNumber eq pageNumber ? 'active' : '' }">
-                    <a class="page-link" href="/price/priceList?page=${pageNumber}" >${pageNumber }</a>
+                    <a class="page-link" href="${pageContext.request.contextPath}/price/priceList?page=${pageNumber}" >${pageNumber }</a>
                   </li>
                 </c:forEach>
                 <c:if test="${pageInfo.rightPageNumber} != ${pageInfo.lastPageNumber/10*10} and ${pageInfo.currentPageNumber != pageInfo.lastPageNumber }">
                   <li class="page-item">
-                    <a class="page-link" href="/price/priceList?page=${pageInfo.currentPageNumber+1}" aria-label="last" style="height: 100%">
+                    <a class="page-link" href="${pageContext.request.contextPath}/price/priceList?page=${pageInfo.currentPageNumber+1}" aria-label="last" style="height: 100%">
                       <span aria-hidden="true"><%--<i class="fa-solid fa-angle-right"></i>--%>&gt;</span>
                     </a>
                   </li>
                 </c:if>
                 <c:if test="${pageInfo.currentPageNumber != pageInfo.lastPageNumber }">
                   <li class="page-item">
-                    <a class="page-link" href="/price/priceList?page=${pageInfo.lastPageNumber}" aria-label="last" style="height:100%;">
+                    <a class="page-link" href="${pageContext.request.contextPath}/price/priceList?page=${pageInfo.lastPageNumber}" aria-label="last" style="height:100%;">
                       <span aria-hidden="true">&raquo;<%--<i class="fa-solid fa-angles-right"></i>--%></span>
                     </a>
                   </li>
@@ -340,7 +340,7 @@
 
 
   function registerPopup() {
-    let url = "/price/registerPopup";
+    let url = "${pageContext.request.contextPath}/price/registerPopup";
     let popupWidth = 800;
     let popupHeight = 800;
     let popupX = (window.screen.width / 2) - (popupWidth / 2);
@@ -350,7 +350,7 @@
   }
 
   function modifyPopup(num) {
-    let url = "/price/modifyPopup?num="+num;
+    let url = "${pageContext.request.contextPath}/price/modifyPopup?num="+num;
     let popupWidth = 800;
     let popupHeight = 800;
     let popupX = (window.screen.width / 2) - (popupWidth / 2);

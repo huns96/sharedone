@@ -115,7 +115,7 @@
     });
 
     function productPopup() {
-        let url = "/report/productPopup";
+        let url = "${pageContext.request.contextPath}/report/productPopup";
         let popupWidth = 600;
         let popupHeight = 500;
         let popupX = (window.screen.width / 2) - (popupWidth / 2);
@@ -135,7 +135,7 @@
     // }
 
     function buyerPopup() {
-        let url = "/search/buyerPopup";
+        let url = "${pageContext.request.contextPath}/search/buyerPopup";
         let popupWidth = 600;
         let popupHeight = 500;
         let popupX = (window.screen.width / 2) - (popupWidth / 2);
@@ -144,7 +144,7 @@
         window.open(url, "", popupOption);
     }
     function memberPopup() {
-        let url = "/search/memberPopup";
+        let url = "${pageContext.request.contextPath}/search/memberPopup";
         let popupWidth = 600;
         let popupHeight = 500;
         let popupX = (window.screen.width / 2) - (popupWidth / 2);

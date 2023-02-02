@@ -69,7 +69,7 @@
     <button class="btn btn-secondary" onclick="window.close()">취소</button>
     <button onclick="addNewMember()" type="button" class="btn btn-success">등록</button>
 
-    <form action="/member/addMember" method="post" hidden="hidden">
+    <form action="${pageContext.request.contextPath}/member/addMember" method="post" hidden="hidden">
         <input id="addInputName" type="text" name="name">
         <input id="addInputId" type="text" name="user_id">
         <input id="addInputPw" type="password" name="password">
@@ -92,7 +92,7 @@
     $('.dupliCheckBtn').click(function () {
         availableId = false;
         const userId = $('#nnId').val();
-        fetch("/member/existId/" + userId)
+        fetch("${pageContext.request.contextPath}/member/existId/" + userId)
             .then(res => res.json())
             .then(data => {
                 $('#dupliMessage').text(data.message);
@@ -187,7 +187,7 @@
         var objParams = {"param" : memberItemList};
         $.ajax({
             type: 'POST',
-            url: '/member/addMember',
+            url: '${pageContext.request.contextPath}/member/addMember',
             data: objParams,
             traditional: true,
             data_type : 'JSON',
