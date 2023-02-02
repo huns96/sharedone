@@ -33,9 +33,10 @@ public class PriceController {
         model.addAttribute("itemList", list);
     }
 
+    @ResponseBody
     @PostMapping("modify")
     public String updatePrice(
-            @Validated PriceDto priceDto,
+            @Validated @RequestBody PriceDto priceDto,
             BindingResult bindingResult,
             RedirectAttributes rttr,
             Principal principal) {
@@ -71,9 +72,12 @@ public class PriceController {
     public String deletePrice(
             @Validated PriceDto priceDto,
             @RequestParam(name = "removePrices", required = false) List<Integer> removePrices,
-            BindingResult bindingResult,
+            Principal principal,
             RedirectAttributes rttr
     ){
+
+        String upduser = principal.getName();
+        priceDto.setUpduser(upduser);
 
         if (removePrices != null){
             System.out.println("deletePricesNum : exist" );
@@ -86,10 +90,43 @@ public class PriceController {
         if (removePrices == null){
             System.out.println("deletePricesNum : no" );
         }
+
+        System.out.print("remove:::"+priceDto);
         priceService.remove(priceDto,removePrices);
 
 
         return "redirect:/price/priceList";
+    }
+
+    @ResponseBody
+    @PostMapping("delete")
+    public void delete(
+            @RequestParam(name = "removePrices", required = false) List<Integer> removePrices,
+            PriceDto priceDto,
+            Principal principal,
+            RedirectAttributes rttr
+    ){
+
+        System.out.print(removePrices);
+        String upduser = principal.getName();
+        priceDto.setUpduser(upduser);
+
+        if (removePrices != null){
+            System.out.println("deletePricesNum : exist" );
+            System.out.println("deletePricesNum : exist" + removePrices );
+            for (int num : removePrices) {
+                System.out.println("deletePricesNum :" +num);
+            }
+        }
+
+        if (removePrices == null){
+            System.out.println("deletePricesNum : no" );
+        }
+
+        System.out.print("remove:::"+priceDto);
+
+        priceService.remove(priceDto,removePrices);
+
     }
 
 
@@ -263,6 +300,7 @@ public class PriceController {
         String upduser = principal.getName();
         price.setUpduser(upduser);
 
+        System.out.println("price:::::::::"+price);
 
         Map<String,Object> map = new HashMap<>();
         priceService.register(price);
@@ -314,5 +352,4 @@ public class PriceController {
 
 
 }
-
 
