@@ -12,7 +12,7 @@
     alert(message);
     document.location.href = url;
 
-    
+
 </script>
 </body>
 </html>

@@ -243,7 +243,7 @@
                             <nav aria-label="Page navigation example">
                                 <ul class="pagination">
                                     <li class="page-item">
-                                        <c:url value="${pageContext.request.contextPath}/buyer/list" var="pageLink"></c:url>
+                                        <c:url value="/buyer/list" var="pageLink"></c:url>
                                         <a class="page-link" href="${pageLink }?page=1" aria-label="Previous">
                                             <span aria-hidden="true">&laquo;</span>
                                         </a>

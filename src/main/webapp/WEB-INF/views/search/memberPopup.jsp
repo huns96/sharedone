@@ -76,7 +76,7 @@
             <nav aria-label="Page navigation example">
                 <ul class="pagination pagination-sm">
                     <li class="page-item">
-                        <c:url value="${pageContext.request.contextPath}/search/memberPopup" var="pageLink">
+                        <c:url value="/search/memberPopup" var="pageLink">
                             <c:param name="type" value="${param.type }" />
                             <c:param name="value" value="${param.value }" />
                         </c:url>

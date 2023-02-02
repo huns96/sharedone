@@ -108,6 +108,13 @@ public class MemberController {
         return "redirect:/member/list";
     }
 
+    @PostMapping("modifyMyPage")
+    public String modifyMyPage(String user_id, String name, String password, String phone, Principal principal) {
+        String upduser = principal.getName();
+        memberService.modifyMember(user_id, name, password, phone, upduser);
+        return "redirect:/member/myPage";
+    }
+
     @GetMapping("myPage")
     public String myPage(Model model, Principal principal, SecurityContextHolder sch) {
         /*String user_id = principal.getName();*/

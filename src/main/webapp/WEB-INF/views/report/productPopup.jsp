@@ -76,7 +76,7 @@
             <nav aria-label="Page navigation example">
                 <ul class="pagination pagination-sm">
                     <li class="page-item">
-                        <c:url value="${pageContext.request.contextPath}/report/productPopup" var="pageLink"></c:url>
+                        <c:url value="/report/productPopup" var="pageLink"></c:url>
                         <a class="page-link" href="${pageLink}?page=1" aria-label="Previous">
                             <span aria-hidden="true">&laquo;</span>
                         </a>

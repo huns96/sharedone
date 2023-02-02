@@ -83,7 +83,7 @@
             <nav aria-label="Page navigation example">
                 <ul class="pagination pagination-sm">
                     <li class="page-item">
-                        <c:url value="${pageContext.request.contextPath}/search/productPopup" var="pageLink">
+                        <c:url value="/search/productPopup" var="pageLink">
                             <c:param name="buyer_code" value="${param.buyer_code }" />
                             <c:param name="request_date" value="${param.request_date }" />
                             <c:param name="type" value="${param.type }" />

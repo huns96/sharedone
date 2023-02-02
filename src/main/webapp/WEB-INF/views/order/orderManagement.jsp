@@ -206,7 +206,7 @@
                                 <nav aria-label="Page navigation example">
                                     <ul class="pagination pagination-sm">
                                         <li class="page-item">
-                                            <c:url value="${pageContext.request.contextPath}/order/orderManagement" var="pageLink">
+                                            <c:url value="/order/orderManagement" var="pageLink">
                                                 <c:param name="orderCode" value="${param.orderCode }" />
                                                 <c:param name="buyerCode" value="${param.buyerCode }" />
                                                 <c:param name="status" value="${param.status }" />

@@ -47,7 +47,7 @@
                             <input id="myPageModiBtn" class="btn btn-warning" type= "button" value="수정"/>
                         </div>
                     </div>
-                    <form action="${pageContext.request.contextPath}/member/modifyMember" method="post" id="myPageModiForm">
+                    <form action="${pageContext.request.contextPath}/member/modifyMyPage" method="post" id="myPageModiForm">
                         <table class="table table-bordered" style="vertical-align: middle;">
                             <tbody>
                                 <tr>
@@ -90,9 +90,11 @@
                 ($('#myPassword').val() == "" ||
                 ($('#myPhone').val() == "")))) {
                 alert("입력되지 않은 정보가 있습니다.")
-            } else{
+            } else {
                 form.submit();
+                alert("수정이 완료되었습니다");
             }
+
         });
 
 
