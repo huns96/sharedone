@@ -26,8 +26,6 @@ public class ReportController {
 
     @GetMapping("result")
     public void reportMain(@RequestParam(defaultValue = "1") int page) {
-
-//        return "forward:/report/result";
     }
 
 
@@ -37,32 +35,27 @@ public class ReportController {
                              @RequestParam(name = "page", defaultValue = "1") int page,
                              @RequestParam(name = "records", defaultValue = "10") int records) {
 
-        String order_code = searchOrders.getOrder_code();
-        String buyer_code = searchOrders.getBuyer_code();
-        String adduser = searchOrders.getAdduser();
-        String status = searchOrders.getStatus();
         String from_request_date = searchOrders.getFrom_request_date();
         String to_request_date = searchOrders.getTo_request_date();
         String from_add_date = searchOrders.getFrom_add_date();
         String to_add_date = searchOrders.getTo_add_date();
         String sumCondition = searchOrders.getSumCondition();
 
-
-        if (from_request_date != null & to_request_date != null &
-                from_add_date != null & to_add_date != null) {
-            if ((from_request_date.equals("") & !to_request_date.equals("")
-                    | (!from_request_date.equals("") & to_request_date.equals("")))
-                    |
-                    ((from_add_date.equals("") & !to_add_date.equals(""))
-                            | (!from_add_date.equals("") & to_add_date.equals("")))) {
-
+        if (from_request_date != null && to_request_date != null &&
+                from_add_date != null && to_add_date != null) {
+            if ((from_request_date.equals("") && !to_request_date.equals("")
+                    || (!from_request_date.equals("") && to_request_date.equals("")))
+                    ||
+                    ((from_add_date.equals("") && !to_add_date.equals(""))
+                            || (!from_add_date.equals("") && to_add_date.equals("")))) {
 
                 model.addAttribute("message", "날짜 입력이 잘못 되었습니다");
                 model.addAttribute("searchOrders", searchOrders);
 
                 return "/report/result";
             }
-            if (!from_request_date.equals("") & !to_request_date.equals("")) {
+
+            if (!from_request_date.equals("") && !to_request_date.equals("")) {
                 int fr = Integer.parseInt(from_request_date.replace("-", ""));
                 int tr = Integer.parseInt(to_request_date.replace("-", ""));
                 System.out.println(fr + "  **************  " + tr);
@@ -74,8 +67,7 @@ public class ReportController {
                     return "/report/result";
                 }
             }
-            if (!from_add_date.equals("") & !to_add_date.equals("")) {
-
+            if (!from_add_date.equals("") && !to_add_date.equals("")) {
                 int fa = Integer.parseInt(from_add_date.replace("-", ""));
                 int ta = Integer.parseInt(to_add_date.replace("-", ""));
                 System.out.println(fa > ta);
@@ -86,7 +78,6 @@ public class ReportController {
                     return "/report/result";
                 }
             }
-
         }
 
         //-----------------합계 리포트----------------------
@@ -97,12 +88,11 @@ public class ReportController {
                 SumDto sums = reportService.getSums(searchOrders);
                 int countAll = reportMapper.groupContAll(searchOrders);
 
-
                 model.addAttribute("orderGroups", orderGroups);
                 model.addAttribute("sums", sums);
                 model.addAttribute("orderGroupCount", countAll);
                 model.addAttribute("from_add_date", from_add_date);
-//            if(!from_add_date.equals("")&from_add_date!=null){
+//            if(!from_add_date.equals("")&&from_add_date!=null){
                 model.addAttribute("to_add_date", to_add_date);
 //            }
                 model.addAttribute("from_request_date", from_request_date);
@@ -114,9 +104,7 @@ public class ReportController {
 
         //------------------아이템라인별 리포트---------------------
 
-        if (order_code == null & buyer_code == null & adduser == null & from_add_date == null & to_add_date == null) {
-            status = " ";
-        }
+
         List<OrderDto> orders = reportService.getOrders(searchOrders, pageInfo, page, records);
 
         SumDto sums = reportService.getSums(searchOrders);
@@ -131,18 +119,12 @@ public class ReportController {
         model.addAttribute("from_request_date", from_request_date);
         model.addAttribute("to_request_date", to_request_date);
         model.addAttribute("searchOrders", searchOrders);
-        System.out.println(searchOrders.getBuyer_name() + "fjlee");
 
         return "/report/result";
     }
 
-
     @GetMapping("graph")
     public void apiTest() {
-    }
-
-    @GetMapping("mainTest")
-    public void mainTest() {
     }
 
     @GetMapping("orderPopup")

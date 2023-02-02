@@ -130,7 +130,7 @@
                     and h.request_date BETWEEN #{from_request_date} AND #{to_request_date}
                 </if>
                 <if test="from_add_date != null and from_add_date!='' and to_add_date != null and to_add_date!=''">
-                    and h.adddate BETWEEN #{from_add_date} AND #{to_add_date}
+                    and h.adddate BETWEEN #{from_add_date} AND #{tmp_to_add_date}
                 </if>
                 <if test="product_code != null and product_code!=''">
                     and i.product_code=#{product_code}
@@ -171,7 +171,7 @@
                     and h.request_date BETWEEN #{from_request_date} AND #{to_request_date}
                 </if>
                 <if test="from_add_date != null and from_add_date!='' and to_add_date != null and to_add_date!=''">
-                    and h.adddate BETWEEN #{from_add_date} AND #{to_add_date}
+                    and h.adddate BETWEEN #{from_add_date} AND #{tmp_to_add_date}
                 </if>
                 <if test="product_code != null and product_code!=''">
                     and i.product_code=#{product_code}
@@ -213,7 +213,7 @@
                     and h.request_date BETWEEN #{from_request_date} AND #{to_request_date}
                 </if>
                 <if test="from_add_date != null and from_add_date!='' and to_add_date != null and to_add_date!=''">
-                    and h.adddate BETWEEN #{from_add_date} AND #{to_add_date}
+                    and h.adddate BETWEEN #{from_add_date} AND #{tmp_to_add_date}
                 </if>
                 <if test="product_code != null and product_code!=''">
                     and i.product_code=#{product_code}
@@ -251,15 +251,6 @@
         <!--        order_code like #{order_code_part}-->
     </select>
 
-    <!--    <select id="getProducts" resultType="com.sharedOne.domain.ProductDto">-->
-    <!--        SELECT-->
-    <!--        product_code,-->
-    <!--        name-->
-    <!--        FROM-->
-    <!--        product-->
-    <!--        &lt;!&ndash;        WHERE&ndash;&gt;-->
-    <!--        &lt;!&ndash;        order_code like #{order_code_part}&ndash;&gt;-->
-    <!--    </select>-->
 
 
     <select id="searchOrderCode" resultType="String">

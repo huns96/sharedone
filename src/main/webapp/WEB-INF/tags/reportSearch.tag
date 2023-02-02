@@ -5,7 +5,9 @@
 
 <div class="row">
     <div class="col">
-        <div id="search" class="page-background" style="height: 211px">
+        <div id="search" class="page-background container-fluid"
+<%--             style="height: 211px"--%>
+        >
             <div style="margin-left: 44px; margin-right: 44px">
             <form action="work">
                 <div class="input-group">
@@ -23,7 +25,7 @@
                     <input id="setBuyerName" value="${searchOrders.buyer_name}" type="text" size="10"
                            class="form-control"
                            name="buyer_name"
-                           placeholder=""/>
+                           placeholder="검색해주세요" readonly/>
                     <input id="setBuyerCode" class="form-control search-input" type="hidden" name="buyer_code"
                            value="${searchOrders.buyer_code}">
                     <a id="buyerPopupButton" class="btn btn-outline-secondary">검색</a>
@@ -33,7 +35,7 @@
                     <label class="form-control" style="  text-align:center">작성자</label>
                     <input id="setAdduserName" type="text" value="${searchOrders.adduser_name}" size="10" class="form-control"
                            name="adduser_name"
-                           placeholder=""/>
+                           placeholder="검색해주세요" readonly/>
                     <input id="setAdduserId" type="hidden" value="${searchOrders.adduser}" size="10" class="form-control"
                            name="adduser"
                            placeholder=""/>
@@ -68,11 +70,11 @@
                     <input id="setProductName" value="${searchOrders.product_name}" type="text" size="10"
                            class="form-control"
                            name="product_name"
-                           placeholder=""/>
+                           placeholder="검색해주세요" readonly/>
                     <input id="setProductCode" type="hidden" value="${searchOrders.product_code}" type="text" size="10"
                            class="form-control"
                            name="product_code"
-                           placeholder=""/>
+                           placeholder="" />
                     <a id="productPopupButton" class="btn btn-outline-secondary">검색</a>
                 </div>
 
