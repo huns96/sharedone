@@ -95,7 +95,7 @@
             <div id="item-button" class="col-md-4 mb-3" style="position: absolute; right: 50px">
                 <label class="form-label"></label>
                 <button type="button" id="resetProductButton" class="btn btn-secondary">초기화</button>
-                <button type="button" id="addNewProductButton" class="btn btn-success">제품 판매가 추가</button>
+                <button type="button" id="addNewProductButton" class="btn btn-success">제품판매가추가</button>
             </div>
         </div>
         <input id="removeNum" type="hidden" name="removePrices">
