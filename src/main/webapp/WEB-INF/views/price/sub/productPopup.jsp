@@ -31,7 +31,7 @@
 <body>
 <div id="memberPopup">
     <h5><b>제품 목록</b></h5>
-    <form action="/price/sub/productPopup" role="search" style="display: flex; margin: 20px 0;">
+    <form action="${pageContext.request.contextPath}/price/sub/productPopup" role="search" style="display: flex; margin: 20px 0;">
         <select name="type" id="searchTypeSelect" class="form-select search-select">
             <%--<option value="all"></option>--%>
             <option value="product_code" ${param.type == 'product_code' ? 'selected' : '' }>제품코드</option>

@@ -86,14 +86,13 @@
                     <tbody>
                     <c:forEach items="${memberList}" var="mem" varStatus="sts">
 
-                        <div hidden="hidden" id="pwpw">${mem.password}</div>
-
                         <tr style="vertical-align: middle;">
                             <td>${mem.name}</td>
                             <td>${mem.user_id}</td>
                             <td>${mem.phone}</td>
                             <td>${mem.adddate}</td>
                             <td>${mem.auth}</td>
+                            <td style="display: none">${mem.password}</td>
                             <td>
                                 <button onclick="asd('${mem.user_id}','${mem.name}','${mem.phone}','${mem.auth}')"
                                         class="getAuthoBtn btn btn-secondary" data-bs-toggle="modal" data-bs-target="#getAuthoModal">권한변경

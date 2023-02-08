@@ -31,7 +31,7 @@
 <body>
 <div id="buyerPopup">
     <h5><b>바이어 목록</b></h5>
-    <form action="/price/sub/buyerPopup" role="search" style="display: flex; margin: 20px 0;">
+    <form action="${pageContext.request.contextPath}/price/sub/buyerPopup" role="search" style="display: flex; margin: 20px 0;">
         <select name="type" id="searchTypeSelect" class="form-select search-select">
             <%--<option value="all"></option>--%>
             <option value="buyer_code" ${param.type == 'buyer_code' ? 'selected' : '' }>바이어코드</option>
