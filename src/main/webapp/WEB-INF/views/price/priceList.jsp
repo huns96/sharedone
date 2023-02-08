@@ -342,8 +342,8 @@
 
   function registerPopup() {
     let url = "${pageContext.request.contextPath}/price/registerPopup";
-    let popupWidth = 800;
-    let popupHeight = 800;
+    let popupWidth = 830;
+    let popupHeight = 830;
     let popupX = (window.screen.width / 2) - (popupWidth / 2);
     let popupY= (window.screen.height / 2) - (popupHeight / 2);
     let popupOption = 'status=no, height=' + popupHeight  + ', width=' + popupWidth  + ', left='+ popupX + ', top='+ popupY;
@@ -352,8 +352,8 @@
 
   function modifyPopup(num) {
     let url = "${pageContext.request.contextPath}/price/modifyPopup?num="+num;
-    let popupWidth = 800;
-    let popupHeight = 800;
+    let popupWidth = 830;
+    let popupHeight = 830;
     let popupX = (window.screen.width / 2) - (popupWidth / 2);
     let popupY= (window.screen.height / 2) - (popupHeight / 2);
     let popupOption = 'status=no, height=' + popupHeight  + ', width=' + popupWidth  + ', left='+ popupX + ', top='+ popupY;

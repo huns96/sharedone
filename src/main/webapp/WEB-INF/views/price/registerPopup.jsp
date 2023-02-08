@@ -259,6 +259,7 @@
 
     /* 제품 가격 추가 버튼 */
     $('#addNewProductButton').click(function() {
+
         let buyerCode = $.trim($('#buyerCodeInput').val());
         $('#buyerCodeInput').attr('style','background-color: #e0e0e0; text-align : center');
         // $('#buyerCodeInput').attr('disabled','disabled');
@@ -553,6 +554,7 @@
 
     /* 제품 수정 정보 가져오기*/
     function modifyPrice(index) {
+        $('#addNewProductButton').text('제품판매가수정');
         index = index-1;
         let list = productPriceList[index];
         $('#productCodeInput').val(list[0]);
